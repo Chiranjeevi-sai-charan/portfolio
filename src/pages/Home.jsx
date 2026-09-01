@@ -86,7 +86,7 @@ export default function Home() {
       </section>
 
       <footer className={styles.footer}>
-        <span>© {new Date().getFullYear()} Your Name</span>
+        <span>© {new Date().getFullYear()} Chiranjeevi Sai Charan</span>
         <span>Built with React, Motion &amp; Lenis</span>
       </footer>
     </>

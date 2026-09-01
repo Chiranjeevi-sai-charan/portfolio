@@ -14,7 +14,7 @@ export default function Nav() {
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
-      <Link to="/" className={styles.brand}>Your Name</Link>
+      <Link to="/" className={styles.brand}>Chiranjeevi Sai Charan</Link>
       <div className={styles.links}>
         <a href="/#work">Work</a>
         <a href="/#about">About</a>
