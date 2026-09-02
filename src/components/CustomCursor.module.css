@@ -1,27 +1,24 @@
-.hand {
+.arrow,
+.ring {
   position: fixed;
   z-index: 9999;
   pointer-events: none;
-  transform: translate(-8px, -6px);
-  filter: drop-shadow(0 6px 10px rgba(18, 20, 28, 0.25));
-  transition: filter 0.2s var(--ease-out);
+  transform: translate(0, 0);
 }
 
-.finger {
-  transform-origin: 30px 32px;
-  transition: transform 0.2s var(--ease-out);
+.arrow {
+  filter: drop-shadow(0 2px 4px rgba(10, 10, 10, 0.25));
 }
 
-.pointing .finger {
-  transform: translateY(-4px) scaleY(1.08);
-}
-
-.pointing {
-  filter: drop-shadow(0 8px 14px rgba(18, 20, 28, 0.32));
+.ring {
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  transform: translate(-50%, -50%);
 }
 
 @media (pointer: coarse) {
-  .hand {
+  .arrow,
+  .ring {
     display: none;
   }
 }

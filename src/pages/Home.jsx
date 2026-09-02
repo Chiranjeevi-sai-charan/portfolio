@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import Parallax from "../components/Parallax";
 import AchievementCard from "../components/AchievementCard";
+import profilePic from "../assets/Profile Pic.jpg";
+import achievementPic from "../assets/Achievement.jpg";
 import styles from "./Home.module.css";
 
 const CASE_STUDIES = [
@@ -31,13 +33,6 @@ const STACK = [
   "Design Systems", "Claude", "ChatGPT",
 ];
 
-// Cycles through the tag palette in tokens.css so each chip/card gets
-// a different accent, Coolors-card style, without hardcoding colors here.
-const tagVars = (i) => {
-  const n = (i % 8) + 1;
-  return { "--tag-bg": `var(--tag-${n}-bg)`, "--tag-fg": `var(--tag-${n}-fg)` };
-};
-
 export default function Home() {
   return (
     <>
@@ -47,13 +42,18 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
-          <h1 className={styles.heroTitle}>
-            I design the UX layer of enterprise AI.
-            <svg className={styles.underline} viewBox="0 0 300 20" aria-hidden="true">
-              <path d="M2 14 C 80 4, 220 4, 298 14" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
-            </svg>
-          </h1>
+          <div className={styles.heroTop}>
+            <div>
+              <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
+              <h1 className={styles.heroTitle}>
+                I design the UX layer of enterprise AI.
+                <svg className={styles.underline} viewBox="0 0 300 20" aria-hidden="true">
+                  <path d="M2 14 C 80 4, 220 4, 298 14" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
+                </svg>
+              </h1>
+            </div>
+            <img src={profilePic} alt="Chiranjeevi Sai Charan Kondaka" className={styles.heroPortrait} />
+          </div>
           <p className={styles.heroSub}>
             5+ years turning complex, ambiguous workflows into interfaces that enterprise
             teams actually trust, from conversational search to fraud detection dashboards.
@@ -95,10 +95,9 @@ export default function Home() {
         </Reveal>
         <Reveal>
           <AchievementCard
-            image={null}
+            image={achievementPic}
             imageAlt="Chiranjeevi holding the Best Concept Design certificate and trophy at Hackathon AI and ML 2025"
             eyebrow="1st Runner Up · Hackathon AI & ML 2025"
-            eyebrowStyle={tagVars(4)}
             title="Best Concept Design, Reusability Component"
             body="Recognized at Motherson Technology Services' Hackathon AI & ML 2025 for a reusable, scalable design approach to AI-led solutions, built with a small team under a tight timeline through fast iteration and shared ownership."
           />
@@ -118,7 +117,6 @@ export default function Home() {
               <Link
                 to={`/case-studies/${c.slug}`}
                 className={styles.card}
-                style={tagVars(i)}
                 data-cursor-hover
               >
                 <div className={styles.cardMedia}>{c.title}</div>
@@ -152,7 +150,6 @@ export default function Home() {
             <motion.span
               key={tool}
               className={styles.chip}
-              style={tagVars(i)}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
