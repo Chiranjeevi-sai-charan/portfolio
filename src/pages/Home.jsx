@@ -55,7 +55,14 @@ export default function Home() {
         >
           <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
           <h1 className={styles.heroTitle}>
-            I design the UX layer of <span className={styles.underlineWord}>enterprise</span> AI.
+            I design the UX layer of{" "}
+            <span className={styles.underlineWord}>
+              enterprise
+              <svg className={styles.underlineSvg} viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
+              </svg>
+            </span>{" "}
+            AI.
           </h1>
           <p className={styles.heroSub}>
             5+ years turning complex, ambiguous workflows into interfaces that enterprise

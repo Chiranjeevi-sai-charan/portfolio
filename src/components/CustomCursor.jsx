@@ -1,10 +1,12 @@
-/* Custom cursor: a small dot that follows the mouse, and a
-   dynamic label pill (styled like the site's own CTA buttons) that
-   appears next to it with contextual text supplied per-element via
-   data-cursor-label, e.g. "View case study" on a project card,
-   "Say hi" on the contact link. Disabled on touch devices and under
-   prefers-reduced-motion, so nothing here is load-bearing for
-   interaction, only decorative. */
+/* Custom cursor: a small spinning sparkle (an AI/magic motif, on
+   brand for the "enterprise AI" positioning) follows the mouse with
+   a gentle continuous rotation and breathing pulse so the idle state
+   has some life instead of being a static dot. A dynamic label pill
+   (styled like the site's own CTA buttons) swaps in with contextual
+   text supplied per-element via data-cursor-label, e.g. "View case
+   study" on a project card, "Say hi" on the contact link. Disabled
+   on touch devices and under prefers-reduced-motion, so nothing here
+   is load-bearing for interaction, only decorative. */
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
@@ -56,7 +58,22 @@ export default function CustomCursor() {
         style={{ left: dotX, top: dotY }}
         animate={{ scale: label ? 0 : 1 }}
         transition={{ duration: 0.15 }}
-      />
+      >
+        <motion.svg
+          className={styles.sparkle}
+          viewBox="0 0 24 24"
+          animate={{ rotate: 360, scale: [1, 1.15, 1] }}
+          transition={{
+            rotate: { duration: 7, repeat: Infinity, ease: "linear" },
+            scale: { duration: 1.6, repeat: Infinity, ease: "easeInOut" },
+          }}
+        >
+          <path
+            d="M12 1 C12.5 6.5 13.5 10 17.5 11.5 C13.5 13 12.5 16.5 12 22 C11.5 16.5 10.5 13 6.5 11.5 C10.5 10 11.5 6.5 12 1 Z"
+            fill="var(--accent)"
+          />
+        </motion.svg>
+      </motion.div>
       <motion.div
         className={styles.pill}
         style={{ left: pillX, top: pillY }}

@@ -7,10 +7,14 @@
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent);
+  width: 18px;
+  height: 18px;
+}
+
+.sparkle {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(6, 182, 212, 0.4));
 }
 
 .pill {

@@ -44,11 +44,16 @@
   max-width: 16ch;
 }
 .underlineWord {
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 8px;
+  position: relative;
+  display: inline-block;
+}
+.underlineSvg {
+  position: absolute;
+  left: 0;
+  bottom: -0.14em;
+  width: 100%;
+  height: 0.2em;
+  overflow: visible;
 }
 .heroSub {
   margin-top: var(--sp-3);
