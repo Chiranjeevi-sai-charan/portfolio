@@ -12,13 +12,16 @@
   --surface: #ffffff;
   --ink: #0a0a0a;
   --ink-soft: #4b4f52;
-  --ink-faint: #8b8f92;
+  --ink-faint: #6b7076;
   --border: #e5e7e9;
 
   /* ---- Accent (single cyan pair, used everywhere) ------------ */
   --accent: #06b6d4;
   --accent-ink: #0a0a0a;
   --accent-soft: #cffafe;
+  /* Darker cyan for text on white, --accent itself is 2.4:1 and
+     fails WCAG AA; this variant holds 5.4:1 for links/labels. */
+  --accent-text: #0e7490;
 
   /* ---- Type ---------------------------------------------------*/
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
