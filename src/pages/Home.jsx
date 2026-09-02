@@ -31,6 +31,13 @@ const STACK = [
   "Design Systems", "Claude", "ChatGPT",
 ];
 
+// Cycles through the tag palette in tokens.css so each chip/card gets
+// a different accent, Coolors-card style, without hardcoding colors here.
+const tagVars = (i) => {
+  const n = (i % 8) + 1;
+  return { "--tag-bg": `var(--tag-${n}-bg)`, "--tag-fg": `var(--tag-${n}-fg)` };
+};
+
 export default function Home() {
   return (
     <>
@@ -91,6 +98,7 @@ export default function Home() {
             image={null}
             imageAlt="Chiranjeevi holding the Best Concept Design certificate and trophy at Hackathon AI and ML 2025"
             eyebrow="1st Runner Up · Hackathon AI & ML 2025"
+            eyebrowStyle={tagVars(4)}
             title="Best Concept Design, Reusability Component"
             body="Recognized at Motherson Technology Services' Hackathon AI & ML 2025 for a reusable, scalable design approach to AI-led solutions, built with a small team under a tight timeline through fast iteration and shared ownership."
           />
@@ -107,7 +115,12 @@ export default function Home() {
         <div className={styles.grid}>
           {CASE_STUDIES.map((c, i) => (
             <Reveal key={c.slug} delay={i * 0.08}>
-              <Link to={`/case-studies/${c.slug}`} className={styles.card} data-cursor-hover>
+              <Link
+                to={`/case-studies/${c.slug}`}
+                className={styles.card}
+                style={tagVars(i)}
+                data-cursor-hover
+              >
                 <div className={styles.cardMedia}>{c.title}</div>
                 <div className={styles.cardBody}>
                   <div className={styles.cardTag}>{c.tag}</div>
@@ -139,6 +152,7 @@ export default function Home() {
             <motion.span
               key={tool}
               className={styles.chip}
+              style={tagVars(i)}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

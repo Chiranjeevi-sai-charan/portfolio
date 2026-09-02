@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 import styles from "./AchievementCard.module.css";
 
-export default function AchievementCard({ image, imageAlt, eyebrow, title, body }) {
+export default function AchievementCard({ image, imageAlt, eyebrow, eyebrowStyle, title, body }) {
   const ref = useRef(null);
   const prefersReduced = useReducedMotion();
 
@@ -41,7 +41,7 @@ export default function AchievementCard({ image, imageAlt, eyebrow, title, body 
         </div>
       )}
       <div className={styles.body}>
-        <div className={styles.eyebrow}>{eyebrow}</div>
+        <div className={styles.eyebrow} style={eyebrowStyle}>{eyebrow}</div>
         <h3>{title}</h3>
         <p>{body}</p>
       </div>

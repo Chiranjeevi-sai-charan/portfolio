@@ -1,35 +1,27 @@
-.dot,
-.ring {
+.hand {
   position: fixed;
   z-index: 9999;
   pointer-events: none;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-8px, -6px);
+  filter: drop-shadow(0 6px 10px rgba(18, 20, 28, 0.25));
+  transition: filter 0.2s var(--ease-out);
 }
 
-.dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
+.finger {
+  transform-origin: 30px 32px;
+  transition: transform 0.2s var(--ease-out);
 }
 
-.ring {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid var(--accent);
-  transition: width 0.2s var(--ease-out), height 0.2s var(--ease-out),
-    background 0.2s var(--ease-out);
+.pointing .finger {
+  transform: translateY(-4px) scaleY(1.08);
 }
 
-.ringHover {
-  width: 56px;
-  height: 56px;
-  background: var(--accent-soft);
+.pointing {
+  filter: drop-shadow(0 8px 14px rgba(18, 20, 28, 0.32));
 }
 
 @media (pointer: coarse) {
-  .dot,
-  .ring {
+  .hand {
     display: none;
   }
 }

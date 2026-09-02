@@ -1,28 +1,39 @@
 /* ============================================================
    Portfolio, Design Tokens
-   Warm, playful palette: cream surfaces, terracotta accent,
-   teal as a secondary "doodle" color. Everything reads from
-   these variables, so a full reskin is a one-file change.
+   Cool neutral base with a rotating multi-color "tag" system
+   (inspired by Coolors.co's card treatment) for playful accents,
+   anchored by one primary accent for CTAs and headings so the
+   whole thing still reads senior, not scattered.
    ============================================================ */
 
 :root {
-  /* ---- Surfaces & text ------------------------------------ */
-  --bg: #fff8f0;
-  --bg-alt: #fbecd9;
+  /* ---- Surfaces & text (cool neutral) ----------------------- */
+  --bg: #f7f8fb;
+  --bg-alt: #edeff5;
   --surface: #ffffff;
-  --ink: #241f1c;
-  --ink-soft: #5c544c;
-  --ink-faint: #9c8f82;
-  --border: #eee0cf;
+  --ink: #12141c;
+  --ink-soft: #4a4e5c;
+  --ink-faint: #8b8fa0;
+  --border: #e2e4ec;
 
-  /* ---- Accent (terracotta, playful and warm) ---------------- */
-  --accent: #ff6b4a;
+  /* ---- Primary accent (anchor color, used for CTAs/links) --- */
+  --accent: #3b82f6;
   --accent-ink: #ffffff;
-  --accent-soft: #ffe4d9;
+  --accent-soft: #dbeafe;
 
   /* ---- Secondary accent (used sparingly for doodles/details) */
-  --accent-2: #2fb3a3;
-  --accent-2-soft: #dcf3f0;
+  --accent-2: #a855f7;
+  --accent-2-soft: #f3e8ff;
+
+  /* ---- Rotating tag palette (bg/fg pairs), Coolors-inspired -- */
+  --tag-1-bg: #cffafe; --tag-1-fg: #06b6d4; /* cyan */
+  --tag-2-bg: #dbeafe; --tag-2-fg: #3b82f6; /* blue */
+  --tag-3-bg: #f3e8ff; --tag-3-fg: #a855f7; /* purple */
+  --tag-4-bg: #fce7f3; --tag-4-fg: #ec4899; /* pink */
+  --tag-5-bg: #fee2e2; --tag-5-fg: #ef4444; /* red */
+  --tag-6-bg: #ffedd5; --tag-6-fg: #f97316; /* orange */
+  --tag-7-bg: #fef9c3; --tag-7-fg: #ca8a04; /* yellow */
+  --tag-8-bg: #dcfce7; --tag-8-fg: #22c55e; /* green */
 
   /* ---- Type -------------------------------------------------*/
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -50,9 +61,9 @@
   --r-sm: 10px;
   --r-md: 16px;
   --r-lg: 24px;
-  --shadow-sm: 0 2px 8px rgba(36, 31, 28, 0.06);
-  --shadow-md: 0 8px 30px rgba(36, 31, 28, 0.10);
-  --shadow-lg: 0 24px 60px rgba(36, 31, 28, 0.16);
+  --shadow-sm: 0 2px 8px rgba(18, 20, 28, 0.06);
+  --shadow-md: 0 8px 30px rgba(18, 20, 28, 0.10);
+  --shadow-lg: 0 24px 60px rgba(18, 20, 28, 0.16);
 
   /* ---- Motion -------------------------------------------------*/
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

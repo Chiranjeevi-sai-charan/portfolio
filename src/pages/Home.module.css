@@ -96,13 +96,12 @@
 .card:hover { transform: translateY(-6px) rotate(-0.5deg); box-shadow: var(--shadow-md); }
 .cardMedia {
   aspect-ratio: 16 / 10;
-  background: linear-gradient(135deg, var(--accent-soft), var(--bg-alt));
+  background: var(--tag-bg, var(--accent-soft));
   display: flex; align-items: center; justify-content: center;
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  color: var(--tag-fg, var(--accent));
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
 }
 .cardBody { padding: var(--sp-3); }
 .cardTag { font-size: 12px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -129,13 +128,13 @@
 }
 .chip {
   display: inline-block;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--tag-bg, var(--surface));
+  border: 1px solid transparent;
   border-radius: 999px;
   padding: 10px 20px;
   font-size: var(--fs-small);
-  font-weight: 600;
-  color: var(--ink-soft);
+  font-weight: 700;
+  color: var(--tag-fg, var(--ink-soft));
   cursor: default;
 }
 
