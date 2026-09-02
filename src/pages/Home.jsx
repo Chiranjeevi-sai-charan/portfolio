@@ -75,20 +75,23 @@ export default function Home() {
         <Reveal className={styles.aboutGrid}>
           <div>
             <div className={styles.kicker}>About</div>
-            <h2>Design that ships, not just decks.</h2>
+            <h2>I design for what&apos;s actually buildable.</h2>
           </div>
           <div className={styles.aboutBody}>
             <p>
               I am a product designer with a front-end development background, which means
-              I design with what is actually buildable in mind, not just what looks good in
-              a mockup. Most of my recent work is enterprise AI: conversational search,
-              document intelligence, RAG, and multimodal interactions, simplified into
-              interfaces people can actually use without a manual.
+              I design with what is actually <span className={styles.highlight}>buildable</span> in
+              mind, not just what looks good in a mockup. Most of my recent work is enterprise
+              AI: <span className={styles.highlight}>conversational search, document intelligence,
+              RAG</span>, and multimodal interactions, simplified into interfaces people can
+              actually use without a manual.
             </p>
             <p>
-              I care about systems more than one-off screens. Reusable components, design
-              tokens, and patterns that hold up across a whole product, not just one flow.
-              That instinct is also what earned my team recognition at a recent AI hackathon.
+              I care about systems more than one-off screens.{" "}
+              <span className={styles.highlight}>Reusable components, design tokens</span>, and
+              patterns that hold up across a whole product, not just one flow. That instinct is
+              also what earned my team <span className={styles.highlight}>recognition at a recent
+              AI hackathon</span>.
             </p>
           </div>
         </Reveal>
