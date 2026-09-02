@@ -1,11 +1,42 @@
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
-import Parallax from "../components/Parallax";
 import AchievementCard from "../components/AchievementCard";
+import Marquee from "../components/Marquee";
 import profilePic from "../assets/Profile Pic.jpg";
 import achievementPic from "../assets/Achievement.jpg";
 import styles from "./Home.module.css";
+
+// Custom glyphs for tools with no real brand icon available (a
+// generic concept like "Design Systems", or a product whose logo
+// isn't published on the icon registry we use for the others).
+const GLYPHS = {
+  board: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="6.5" y="7.5" width="5" height="5" rx="1" fill="currentColor" />
+      <rect x="13" y="13.5" width="5" height="3" rx="1" fill="currentColor" />
+    </svg>
+  ),
+  grid: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" />
+      <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" />
+    </svg>
+  ),
+  chat: (
+    <svg viewBox="0 0 24 24" fill="none">
+      <path
+        d="M4 5.5h16v10H10.5L6 19v-3.5H4z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+};
 
 const CASE_STUDIES = [
   {
@@ -29,8 +60,43 @@ const CASE_STUDIES = [
 ];
 
 const STACK = [
-  "Figma", "FigJam", "Framer", "React", "HTML/CSS", "JavaScript",
-  "Design Systems", "Claude", "ChatGPT",
+  { name: "Figma", icon: "https://cdn.simpleicons.org/figma" },
+  { name: "FigJam", glyph: "board" },
+  { name: "Framer", icon: "https://cdn.simpleicons.org/framer" },
+  { name: "React", icon: "https://cdn.simpleicons.org/react" },
+  { name: "HTML/CSS", icon: "https://cdn.simpleicons.org/html5" },
+  { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript" },
+  { name: "Design Systems", glyph: "grid" },
+  { name: "Claude", icon: "https://cdn.simpleicons.org/claude" },
+  { name: "ChatGPT", glyph: "chat" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "It was great to work with Chiranjeevi as his Project Manager where he consistently demonstrated strong UX design skills, creativity and a user-friendly approach. He is a collaborative and dependable professional who would be a great asset to any team.",
+    name: "Pragati Bhatia",
+    role: "PMO | Project Management | Strategy | Lead Engineer, MTSL",
+    context: "Managed Chiranjeevi directly",
+  },
+  {
+    quote: "Chiranjeevi is a talented Product Designer who combines creativity with technical understanding. He works well with cross-functional teams and consistently delivers intuitive, high-quality user experiences. It was great working with him.",
+    name: "Nitesh Kumar Sahu",
+    role: "UI/UX Designer, Enterprise & AI Products",
+    context: "Worked together on the same team",
+  },
+];
+
+const CERTIFICATIONS = [
+  {
+    title: "Design for the 21st Century with Don Norman",
+    issuer: "Interaction Design Foundation",
+    url: "https://ixdf.org/members/kondaka-chiranjeevi-sai-charan/certificate/course/98a16628-d5f8-423e-8667-786e62971343",
+  },
+  {
+    title: "Google UX Design",
+    issuer: "Google, via Coursera",
+    url: "https://www.coursera.org/account/accomplishments/specialization/01NQXL311TLS",
+  },
 ];
 
 export default function Home() {
@@ -144,33 +210,71 @@ export default function Home() {
         </div>
       </section>
 
-      <Parallax speed={0.25}>
-        <div className={styles.parallaxBand}>
-          <Reveal>
-            <h2>I bridge design and engineering.</h2>
-            <p>Five years of front-end development means I hand off designs developers can build without guesswork.</p>
-          </Reveal>
-        </div>
-      </Parallax>
-
       <section className={styles.section} id="stack">
         <Reveal className={styles.sectionHead}>
           <div className={styles.kicker}>Toolkit</div>
           <h2>What I design and build with</h2>
         </Reveal>
-        <div className={styles.chipRow}>
-          {STACK.map((tool, i) => (
-            <motion.span
-              key={tool}
-              className={styles.chip}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.04 }}
-              whileHover={{ y: -4, rotate: (i % 2 === 0 ? -3 : 3) }}
-            >
-              {tool}
-            </motion.span>
+        <Marquee speed={26}>
+          {STACK.map((tool) => (
+            <span key={tool.name} className={styles.chip}>
+              <span className={styles.chipIcon}>
+                {tool.icon ? (
+                  <img src={tool.icon} alt="" />
+                ) : (
+                  GLYPHS[tool.glyph]
+                )}
+              </span>
+              {tool.name}
+            </span>
+          ))}
+        </Marquee>
+      </section>
+
+      <section className={styles.section} id="testimonials">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Recommendations</div>
+          <h2>What it's like to work with me</h2>
+        </Reveal>
+        <div className={styles.testimonialGrid}>
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.08} className={styles.testimonialCard}>
+              <p className={styles.testimonialQuote}>&ldquo;{t.quote}&rdquo;</p>
+              <div className={styles.testimonialAuthor}>
+                <div className={styles.testimonialAvatar}>{t.name.charAt(0)}</div>
+                <div>
+                  <div className={styles.testimonialName}>{t.name}</div>
+                  <div className={styles.testimonialRole}>{t.role}</div>
+                  <div className={styles.testimonialContext}>{t.context}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section} id="certifications">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Certifications</div>
+          <h2>Courses I've completed</h2>
+        </Reveal>
+        <div className={styles.certList}>
+          {CERTIFICATIONS.map((cert, i) => (
+            <Reveal key={cert.title} delay={i * 0.06}>
+              <a
+                href={cert.url}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.certRow}
+                data-cursor-label="View certificate"
+              >
+                <div>
+                  <div className={styles.certTitle}>{cert.title}</div>
+                  <div className={styles.certIssuer}>{cert.issuer}</div>
+                </div>
+                <span className={styles.certArrow} aria-hidden="true">→</span>
+              </a>
+            </Reveal>
           ))}
         </div>
       </section>

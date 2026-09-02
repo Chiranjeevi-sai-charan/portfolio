@@ -139,43 +139,105 @@
 .cardBody h3 { font-family: var(--font-display); font-size: var(--fs-h3); margin-top: 6px; }
 .cardBody p { margin-top: 6px; color: var(--ink-soft); font-size: var(--fs-small); }
 
-.parallaxBand {
-  /* Intentionally always-dark statement band, fixed rather than
-     var(--ink), so it doesn't invert to a light box in dark mode. */
-  background: #0a0a0a;
-  color: #fff;
-  border-radius: var(--r-lg);
-  margin: var(--sp-7) var(--sp-4);
-  padding: var(--sp-8) var(--sp-5);
-  max-width: 1100px;
-  margin-inline: auto;
-  text-align: center;
-}
-.parallaxBand h2 { color: #fff; font-family: var(--font-display); font-size: var(--fs-h1); max-width: 30ch; margin: 0 auto; }
-.parallaxBand p { margin-top: var(--sp-2); color: rgba(255,255,255,0.7); }
-
-.chipRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-}
 .chip {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 14px;
+  margin-right: var(--sp-2);
   font-size: var(--fs-small);
   font-weight: 600;
   color: var(--ink-soft);
-  cursor: default;
-  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
 }
-.chip:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
+.chipIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--ink-soft);
+}
+.chipIcon img,
+.chipIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+@media (max-width: 780px) { .testimonialGrid { grid-template-columns: 1fr; } }
+.testimonialCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
+  box-shadow: var(--shadow-sm);
+}
+.testimonialQuote {
   color: var(--ink);
+  font-size: var(--fs-body);
+  line-height: 1.6;
 }
+.testimonialAuthor {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+.testimonialAvatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.testimonialName { font-weight: 700; color: var(--ink); }
+.testimonialRole { font-size: var(--fs-small); color: var(--ink-soft); margin-top: 2px; }
+.testimonialContext { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
+
+.certList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.certRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.certRow:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+.certTitle { font-weight: 700; color: var(--ink); }
+.certIssuer { font-size: var(--fs-small); color: var(--ink-soft); margin-top: 2px; }
+.certArrow {
+  flex-shrink: 0;
+  color: var(--accent-text);
+  font-size: 20px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.certRow:hover .certArrow { transform: translateX(4px); }
 
 .footer {
   max-width: 1100px; margin: 0 auto; padding: var(--sp-6) var(--sp-4) var(--sp-7);
