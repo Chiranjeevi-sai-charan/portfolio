@@ -15,13 +15,17 @@ export default function Nav() {
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
-      <Link to="/" className={styles.brand} aria-label="Chiranjeevi Sai Charan, home">
+      <Link to="/" className={styles.brand} aria-label="Chiranjeevi Sai Charan, home" data-cursor-label="Home">
         <img src={signature} alt="" className={styles.signature} />
       </Link>
       <div className={styles.links}>
-        <a href="/#work">Work</a>
-        <a href="/#about">About</a>
-        <a href="mailto:98charan@gmail.com" className={styles.cta}>Say hello</a>
+        <a href="/#about" data-cursor-label="About">About</a>
+        <a href="/#achievements" data-cursor-label="Recognition">Recognition</a>
+        <a href="/#work" data-cursor-label="Work">Work</a>
+        <a href="/#stack" data-cursor-label="Toolkit">Toolkit</a>
+        <a href="/#testimonials" className={styles.secondary} data-cursor-label="Recommendations">Recommendations</a>
+        <a href="/#certifications" className={styles.secondary} data-cursor-label="Certifications">Certifications</a>
+        <a href="mailto:98charan@gmail.com" className={styles.cta} data-cursor-label="Say hi">Say hello</a>
       </div>
     </nav>
   );
