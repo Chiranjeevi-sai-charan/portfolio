@@ -1,9 +1,9 @@
-/* Custom cursor: a pen-tool bezier anchor point (the classic vector
-   tool motif: a diamond node at the cursor with a handle line ending
-   in a control-point circle), the handle gently swaying as if being
-   adjusted, so idle isn't static. A dynamic label pill (styled like
-   the site's own CTA buttons) swaps in with contextual text supplied
-   per-element via data-cursor-label, e.g. "View case study" on a
+/* Custom cursor: a glossy, 3D-beveled cursor pair in the site's
+   cyan accent, styled after classic "cursor pack" pointer sets, an
+   arrow at rest that swaps to a pointing hand over interactive
+   elements. A dynamic label pill (styled like the site's own CTA
+   buttons) appears alongside with contextual text supplied per
+   element via data-cursor-label, e.g. "View case study" on a
    project card, "Say hi" on the contact link. Disabled on touch
    devices and under prefers-reduced-motion, so nothing here is
    load-bearing for interaction, only decorative. */
@@ -54,29 +54,35 @@ export default function CustomCursor() {
   return (
     <>
       <motion.div
-        className={styles.dot}
+        className={styles.glossy}
         style={{ left: dotX, top: dotY }}
-        animate={{ scale: label ? 0 : 1 }}
-        transition={{ duration: 0.15 }}
+        animate={{ scale: label ? 1.08 : 1 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
       >
-        <svg className={styles.nib} viewBox="0 0 24 24">
-          {/* anchor node at the cursor position */}
-          <rect
-            x="9.5" y="9.5" width="5" height="5"
-            transform="rotate(45 12 12)"
-            fill="var(--bg)"
-            stroke="var(--accent)"
-            strokeWidth="1.6"
-          />
-          {/* handle, swaying gently like a bezier control being adjusted */}
-          <motion.g
-            style={{ transformOrigin: "12px 12px" }}
-            animate={{ rotate: [-10, 10, -10] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <line x1="12" y1="12" x2="21" y2="3" stroke="var(--accent)" strokeWidth="1.6" />
-            <circle cx="21" cy="3" r="2.2" fill="var(--accent)" />
-          </motion.g>
+        <svg viewBox="0 0 32 32" width="30" height="30">
+          <defs>
+            <linearGradient id="cursorGloss" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="var(--accent-soft)" />
+              <stop offset="100%" stopColor="var(--accent)" />
+            </linearGradient>
+          </defs>
+          {label ? (
+            /* pointing hand: three fused rounded shapes, no internal
+               stroke seams, dimensionality from gradient + drop-shadow */
+            <g fill="url(#cursorGloss)">
+              <rect x="9" y="20" width="11" height="7" rx="3.2" transform="rotate(-18 14.5 23.5)" />
+              <rect x="9.5" y="14" width="14" height="13" rx="6" />
+              <rect x="12.5" y="1" width="7" height="18" rx="3.4" />
+            </g>
+          ) : (
+            <path
+              d="M4 2.5 L4 26.5 L10 21 L14 29 L18.5 27 L14.5 19 L23 18.5 Z"
+              fill="url(#cursorGloss)"
+              stroke="var(--accent-text)"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          )}
         </svg>
       </motion.div>
       <motion.div
