@@ -30,10 +30,12 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  line-height: 1.6;
   color: var(--ink);
   background: var(--accent-soft);
-  padding: 4px 10px;
-  border-radius: 999px;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-2);
 }
 
 .body h3 {
