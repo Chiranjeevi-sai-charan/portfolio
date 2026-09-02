@@ -37,23 +37,29 @@ export default function Home() {
   return (
     <>
       <section className={styles.hero} id="top">
+        <div className={styles.heroPhotoCol}>
+          <motion.img
+            src={profilePic}
+            alt="Chiranjeevi Sai Charan Kondaka"
+            className={styles.heroPortrait}
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </div>
         <motion.div
+          className={styles.heroTextCol}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.heroTop}>
-            <div>
-              <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
-              <h1 className={styles.heroTitle}>
-                I design the UX layer of enterprise AI.
-                <svg className={styles.underline} viewBox="0 0 300 20" aria-hidden="true">
-                  <path d="M2 14 C 80 4, 220 4, 298 14" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
-                </svg>
-              </h1>
-            </div>
-            <img src={profilePic} alt="Chiranjeevi Sai Charan Kondaka" className={styles.heroPortrait} />
-          </div>
+          <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
+          <h1 className={styles.heroTitle}>
+            I design the UX layer of enterprise AI.
+            <svg className={styles.underline} viewBox="0 0 300 20" aria-hidden="true">
+              <path d="M2 14 C 80 4, 220 4, 298 14" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
+            </svg>
+          </h1>
           <p className={styles.heroSub}>
             5+ years turning complex, ambiguous workflows into interfaces that enterprise
             teams actually trust, from conversational search to fraud detection dashboards.
