@@ -1,24 +1,37 @@
-.arrow,
-.ring {
+.cursor {
   position: fixed;
   z-index: 9999;
   pointer-events: none;
-  transform: translate(0, 0);
+  transform: translate(-17px, -17px);
 }
 
-.arrow {
-  filter: drop-shadow(0 2px 4px rgba(10, 10, 10, 0.25));
+.reticle {
+  display: block;
+  transition: transform 0.15s var(--ease-out);
 }
 
-.ring {
-  border-radius: 50%;
-  border: 1.5px solid var(--accent);
-  transform: translate(-50%, -50%);
+.reticleHover {
+  transform: scale(1.15);
+}
+
+.coords {
+  position: absolute;
+  top: 38px;
+  left: 38px;
+  font-family: "Inter", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0.85;
 }
 
 @media (pointer: coarse) {
-  .arrow,
-  .ring {
+  .cursor {
     display: none;
   }
 }

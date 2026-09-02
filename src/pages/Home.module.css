@@ -5,12 +5,11 @@
   align-items: center;
 }
 .kicker {
-  font-size: var(--fs-small);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-accent);
+  font-size: 22px;
+  font-weight: 600;
   color: var(--accent);
-  margin-bottom: var(--sp-2);
+  margin-bottom: var(--sp-1);
 }
 .heroPhotoCol {
   align-self: stretch;
