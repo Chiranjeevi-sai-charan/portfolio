@@ -55,18 +55,15 @@ export default function Home() {
         >
           <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
           <h1 className={styles.heroTitle}>
-            I design the UX layer of enterprise AI.
-            <svg className={styles.underline} viewBox="0 0 300 20" aria-hidden="true">
-              <path d="M2 14 C 80 4, 220 4, 298 14" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
-            </svg>
+            I design the UX layer of <span className={styles.underlineWord}>enterprise</span> AI.
           </h1>
           <p className={styles.heroSub}>
             5+ years turning complex, ambiguous workflows into interfaces that enterprise
             teams actually trust, from conversational search to fraud detection dashboards.
           </p>
           <div className={styles.heroActions}>
-            <a href="#work" className={styles.primaryBtn} data-cursor-hover>See the work</a>
-            <a href="mailto:98charan@gmail.com" className={styles.textLink} data-cursor-hover>Say hello</a>
+            <a href="#work" className={styles.primaryBtn} data-cursor-label="Let's go">See the work</a>
+            <a href="mailto:98charan@gmail.com" className={styles.textLink} data-cursor-label="Say hi">Say hello</a>
           </div>
         </motion.div>
       </section>
@@ -126,7 +123,7 @@ export default function Home() {
               <Link
                 to={`/case-studies/${c.slug}`}
                 className={styles.card}
-                data-cursor-hover
+                data-cursor-label="View case study"
               >
                 <div className={styles.cardMedia}>{c.title}</div>
                 <div className={styles.cardBody}>
@@ -174,8 +171,8 @@ export default function Home() {
       <footer className={styles.footer}>
         <span>© {new Date().getFullYear()} Chiranjeevi Sai Charan Kondaka</span>
         <div className={styles.footerLinks}>
-          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" data-cursor-hover>LinkedIn</a>
-          <a href="mailto:98charan@gmail.com" data-cursor-hover>Email</a>
+          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" data-cursor-label="Open">LinkedIn</a>
+          <a href="mailto:98charan@gmail.com" data-cursor-label="Say hi">Email</a>
         </div>
       </footer>
     </>

@@ -1,22 +1,26 @@
-/* Custom cursor: a design-tool style selection reticle (corner
-   brackets around a crosshair, like Figma's frame/selection tool),
-   with a small live coordinate readout, plus a "+" that morphs into
-   an AI sparkle on hover of interactive elements. Disabled on touch
-   devices and under prefers-reduced-motion, so nothing here is
-   load-bearing for interaction, only decorative. */
+/* Custom cursor: a small dot that follows the mouse, and a
+   dynamic label pill (styled like the site's own CTA buttons) that
+   appears next to it with contextual text supplied per-element via
+   data-cursor-label, e.g. "View case study" on a project card,
+   "Say hi" on the contact link. Disabled on touch devices and under
+   prefers-reduced-motion, so nothing here is load-bearing for
+   interaction, only decorative. */
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useReducedMotion } from "motion/react";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import styles from "./CustomCursor.module.css";
 
 export default function CustomCursor() {
   const prefersReduced = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [label, setLabel] = useState(null);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
+  const dotX = useSpring(x, { stiffness: 500, damping: 34, mass: 0.4 });
+  const dotY = useSpring(y, { stiffness: 500, damping: 34, mass: 0.4 });
+  const pillX = useSpring(x, { stiffness: 220, damping: 24, mass: 0.6 });
+  const pillY = useSpring(y, { stiffness: 220, damping: 24, mass: 0.6 });
 
   useEffect(() => {
     if (prefersReduced) return;
@@ -28,10 +32,10 @@ export default function CustomCursor() {
     const move = (e) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      setCoords({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
     };
     const over = (e) => {
-      setHovering(Boolean(e.target.closest("a, button, [data-cursor-hover]")));
+      const target = e.target.closest("[data-cursor-label]");
+      setLabel(target ? target.getAttribute("data-cursor-label") : null);
     };
 
     window.addEventListener("mousemove", move);
@@ -46,29 +50,25 @@ export default function CustomCursor() {
   if (!enabled) return null;
 
   return (
-    <motion.div className={styles.cursor} style={{ left: x, top: y }}>
-      <svg
-        className={`${styles.reticle} ${hovering ? styles.reticleHover : ""}`}
-        width="34"
-        height="34"
-        viewBox="0 0 34 34"
+    <>
+      <motion.div
+        className={styles.dot}
+        style={{ left: dotX, top: dotY }}
+        animate={{ scale: label ? 0 : 1 }}
+        transition={{ duration: 0.15 }}
+      />
+      <motion.div
+        className={styles.pill}
+        style={{ left: pillX, top: pillY }}
+        initial={false}
+        animate={{
+          opacity: label ? 1 : 0,
+          scale: label ? 1 : 0.7,
+        }}
+        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* corner brackets, design-tool selection style */}
-        <path d="M1 9 L1 1 L9 1" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" />
-        <path d="M25 1 L33 1 L33 9" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" />
-        <path d="M33 25 L33 33 L25 33" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" />
-        <path d="M9 33 L1 33 L1 25" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" />
-        {/* center mark: crosshair by default, sparkle on hover */}
-        {hovering ? (
-          <path
-            d="M17 9 L18.6 15.4 L25 17 L18.6 18.6 L17 25 L15.4 18.6 L9 17 L15.4 15.4 Z"
-            fill="var(--ink)"
-          />
-        ) : (
-          <path d="M17 13 L17 21 M13 17 L21 17" stroke="var(--ink)" strokeWidth="1.5" strokeLinecap="round" />
-        )}
-      </svg>
-      <span className={styles.coords}>{coords.x}, {coords.y}</span>
-    </motion.div>
+        {label}
+      </motion.div>
+    </>
   );
 }

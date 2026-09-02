@@ -42,11 +42,12 @@
   font-size: var(--fs-hero);
   max-width: 16ch;
 }
-.underline {
-  display: block;
-  width: 60%;
-  height: 16px;
-  margin-top: -8px;
+.underlineWord {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
 }
 .heroSub {
   margin-top: var(--sp-3);
@@ -101,12 +102,7 @@
 .aboutBody p + p { margin-top: var(--sp-3); }
 .highlight {
   color: var(--ink);
-  font-weight: 600;
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+  font-weight: 700;
 }
 @media (max-width: 780px) { .aboutGrid { grid-template-columns: 1fr; } }
 

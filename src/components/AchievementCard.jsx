@@ -33,7 +33,6 @@ export default function AchievementCard({ image, imageAlt, eyebrow, eyebrowStyle
       style={prefersReduced ? undefined : { rotateX, rotateY, transformPerspective: 800 }}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      data-cursor-hover
     >
       {image && (
         <div className={styles.media}>
