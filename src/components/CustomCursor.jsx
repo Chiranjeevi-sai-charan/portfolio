@@ -1,12 +1,12 @@
-/* Custom cursor: a small spinning sparkle (an AI/magic motif, on
-   brand for the "enterprise AI" positioning) follows the mouse with
-   a gentle continuous rotation and breathing pulse so the idle state
-   has some life instead of being a static dot. A dynamic label pill
-   (styled like the site's own CTA buttons) swaps in with contextual
-   text supplied per-element via data-cursor-label, e.g. "View case
-   study" on a project card, "Say hi" on the contact link. Disabled
-   on touch devices and under prefers-reduced-motion, so nothing here
-   is load-bearing for interaction, only decorative. */
+/* Custom cursor: a pen-tool bezier anchor point (the classic vector
+   tool motif: a diamond node at the cursor with a handle line ending
+   in a control-point circle), the handle gently swaying as if being
+   adjusted, so idle isn't static. A dynamic label pill (styled like
+   the site's own CTA buttons) swaps in with contextual text supplied
+   per-element via data-cursor-label, e.g. "View case study" on a
+   project card, "Say hi" on the contact link. Disabled on touch
+   devices and under prefers-reduced-motion, so nothing here is
+   load-bearing for interaction, only decorative. */
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
@@ -59,20 +59,25 @@ export default function CustomCursor() {
         animate={{ scale: label ? 0 : 1 }}
         transition={{ duration: 0.15 }}
       >
-        <motion.svg
-          className={styles.sparkle}
-          viewBox="0 0 24 24"
-          animate={{ rotate: 360, scale: [1, 1.15, 1] }}
-          transition={{
-            rotate: { duration: 7, repeat: Infinity, ease: "linear" },
-            scale: { duration: 1.6, repeat: Infinity, ease: "easeInOut" },
-          }}
-        >
-          <path
-            d="M12 1 C12.5 6.5 13.5 10 17.5 11.5 C13.5 13 12.5 16.5 12 22 C11.5 16.5 10.5 13 6.5 11.5 C10.5 10 11.5 6.5 12 1 Z"
-            fill="var(--accent)"
+        <svg className={styles.nib} viewBox="0 0 24 24">
+          {/* anchor node at the cursor position */}
+          <rect
+            x="9.5" y="9.5" width="5" height="5"
+            transform="rotate(45 12 12)"
+            fill="var(--bg)"
+            stroke="var(--accent)"
+            strokeWidth="1.6"
           />
-        </motion.svg>
+          {/* handle, swaying gently like a bezier control being adjusted */}
+          <motion.g
+            style={{ transformOrigin: "12px 12px" }}
+            animate={{ rotate: [-10, 10, -10] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <line x1="12" y1="12" x2="21" y2="3" stroke="var(--accent)" strokeWidth="1.6" />
+            <circle cx="21" cy="3" r="2.2" fill="var(--accent)" />
+          </motion.g>
+        </svg>
       </motion.div>
       <motion.div
         className={styles.pill}
