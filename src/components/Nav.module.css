@@ -7,18 +7,28 @@
   justify-content: space-between;
   padding: var(--sp-2) var(--sp-4);
   backdrop-filter: saturate(180%) blur(10px);
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--nav-glass);
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 .nav.scrolled { border-color: var(--border); }
-.brand { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ink); }
 .links { display: flex; gap: var(--sp-4); align-items: center; }
-.links a { font-size: var(--fs-small); font-weight: 600; color: var(--ink-soft); }
-.links a:hover { color: var(--ink); }
+.links a:not(.cta) {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--ink);
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.links a:not(.cta):hover {
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
 .cta {
   background: var(--ink);
-  color: #fff;
+  color: var(--bg);
   padding: 9px 18px;
   border-radius: 999px;
   font-size: var(--fs-small);

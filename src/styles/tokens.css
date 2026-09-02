@@ -14,6 +14,7 @@
   --ink-soft: #4b4f52;
   --ink-faint: #6b7076;
   --border: #e5e7e9;
+  --nav-glass: rgba(255, 255, 255, 0.72);
 
   /* ---- Accent (single cyan pair, used everywhere) ------------ */
   --accent: #06b6d4;
@@ -59,4 +60,29 @@
   --dur-fast: 0.25s;
   --dur: 0.6s;
   --dur-slow: 1s;
+}
+
+/* Dark mode: same structure, values swapped so every component that
+   reads these tokens (not hardcoded colors) adapts automatically.
+   Contrast re-verified for dark surfaces, not just inverted blindly. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0d0f;
+    --bg-alt: #14171a;
+    --surface: #171b1f;
+    --ink: #f5f6f7;
+    --ink-soft: #b7bcc0;
+    --ink-faint: #8a9096;
+    --border: #262b30;
+    --nav-glass: rgba(11, 13, 15, 0.72);
+
+    --accent: #06b6d4;
+    --accent-ink: #0a0a0a;
+    --accent-soft: #0f3a42;
+    --accent-text: #22d3ee;
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
 }

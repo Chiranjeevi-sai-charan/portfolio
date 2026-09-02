@@ -140,7 +140,9 @@
 .cardBody p { margin-top: 6px; color: var(--ink-soft); font-size: var(--fs-small); }
 
 .parallaxBand {
-  background: var(--ink);
+  /* Intentionally always-dark statement band, fixed rather than
+     var(--ink), so it doesn't invert to a light box in dark mode. */
+  background: #0a0a0a;
   color: #fff;
   border-radius: var(--r-lg);
   margin: var(--sp-7) var(--sp-4);
