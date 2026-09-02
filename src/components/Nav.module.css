@@ -12,7 +12,15 @@
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 .nav.scrolled { border-color: var(--border); }
-.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--ink); }
+.brand { display: flex; align-items: center; }
+.signature {
+  display: block;
+  height: 42px;
+  width: auto;
+}
+@media (prefers-color-scheme: dark) {
+  .signature { filter: invert(1); }
+}
 .links { display: flex; gap: var(--sp-4); align-items: center; }
 .links a:not(.cta) {
   font-size: var(--fs-small);
