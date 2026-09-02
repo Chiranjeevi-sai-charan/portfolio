@@ -13,7 +13,7 @@ export default function CaseStudy() {
           Case study: {slug}
         </h1>
         <p style={{ marginTop: 12, color: "var(--ink-soft)" }}>
-          This is a placeholder route — the real case-study content (problem,
+          This is a placeholder route. The real case-study content (problem,
           personas, process, decisions, embedded live prototype) goes here next.
         </p>
       </Reveal>

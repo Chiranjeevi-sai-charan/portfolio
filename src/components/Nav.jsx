@@ -18,7 +18,7 @@ export default function Nav() {
       <div className={styles.links}>
         <a href="/#work">Work</a>
         <a href="/#about">About</a>
-        <a href="mailto:you@example.com" className={styles.cta}>Say hello</a>
+        <a href="mailto:98charan@gmail.com" className={styles.cta}>Say hello</a>
       </div>
     </nav>
   );

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect } from "react";
 import SmoothScroll from "./lib/SmoothScroll";
+import CustomCursor from "./components/CustomCursor";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import CaseStudy from "./pages/CaseStudy";
@@ -40,6 +41,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <SmoothScroll>
+      <CustomCursor />
       <BrowserRouter>
         <Nav />
         <AnimatedRoutes />

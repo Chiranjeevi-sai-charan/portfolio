@@ -16,8 +16,17 @@
   margin-bottom: var(--sp-2);
 }
 .heroTitle {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
   font-size: var(--fs-hero);
   max-width: 16ch;
+}
+.underline {
+  display: block;
+  width: 60%;
+  height: 16px;
+  margin-top: -8px;
 }
 .heroSub {
   margin-top: var(--sp-3);
@@ -25,20 +34,52 @@
   color: var(--ink-soft);
   max-width: 56ch;
 }
-.scrollHint {
-  margin-top: var(--sp-6);
-  font-size: var(--fs-small);
-  color: var(--ink-faint);
+.heroActions {
+  margin-top: var(--sp-5);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--sp-4);
+}
+.primaryBtn {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 999px;
+  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.primaryBtn:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  background: var(--accent);
+}
+.textLink {
+  font-weight: 600;
+  color: var(--ink-soft);
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 2px;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.textLink:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .section { max-width: 1100px; margin: 0 auto; padding: var(--sp-7) var(--sp-4); }
 .sectionHead { margin-bottom: var(--sp-5); max-width: 60ch; }
 .sectionHead .kicker { margin-bottom: var(--sp-1); }
-.sectionHead h2 { font-size: var(--fs-h1); }
+.sectionHead h2 { font-family: var(--font-display); font-size: var(--fs-h1); }
 .sectionHead p { margin-top: var(--sp-2); color: var(--ink-soft); font-size: var(--fs-body); }
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--sp-5);
+}
+.aboutGrid h2 { font-family: var(--font-display); font-size: var(--fs-h1); margin-top: var(--sp-1); }
+.aboutBody p { color: var(--ink-soft); }
+.aboutBody p + p { margin-top: var(--sp-3); }
+@media (max-width: 780px) { .aboutGrid { grid-template-columns: 1fr; } }
 
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); }
 @media (max-width: 780px) { .grid { grid-template-columns: 1fr; } }
@@ -52,7 +93,7 @@
   box-shadow: var(--shadow-sm);
   transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.card:hover { transform: translateY(-6px) rotate(-0.5deg); box-shadow: var(--shadow-md); }
 .cardMedia {
   aspect-ratio: 16 / 10;
   background: linear-gradient(135deg, var(--accent-soft), var(--bg-alt));
@@ -65,7 +106,7 @@
 }
 .cardBody { padding: var(--sp-3); }
 .cardTag { font-size: 12px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; }
-.cardBody h3 { font-size: var(--fs-h3); margin-top: 6px; }
+.cardBody h3 { font-family: var(--font-display); font-size: var(--fs-h3); margin-top: 6px; }
 .cardBody p { margin-top: 6px; color: var(--ink-soft); font-size: var(--fs-small); }
 
 .parallaxBand {
@@ -78,12 +119,36 @@
   margin-inline: auto;
   text-align: center;
 }
-.parallaxBand h2 { color: #fff; font-size: var(--fs-h1); max-width: 30ch; margin: 0 auto; }
+.parallaxBand h2 { color: #fff; font-family: var(--font-display); font-size: var(--fs-h1); max-width: 30ch; margin: 0 auto; }
 .parallaxBand p { margin-top: var(--sp-2); color: rgba(255,255,255,0.7); }
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.chip {
+  display: inline-block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: default;
+}
 
 .footer {
   max-width: 1100px; margin: 0 auto; padding: var(--sp-6) var(--sp-4) var(--sp-7);
   display: flex; align-items: center; justify-content: space-between;
   border-top: 1px solid var(--border);
   color: var(--ink-faint); font-size: var(--fs-small);
+}
+.footerLinks { display: flex; gap: var(--sp-3); }
+.footerLinks a { color: var(--ink-soft); font-weight: 600; }
+.footerLinks a:hover { color: var(--accent); }
+
+@media (max-width: 640px) {
+  .footer { flex-direction: column; gap: var(--sp-2); align-items: flex-start; }
 }
