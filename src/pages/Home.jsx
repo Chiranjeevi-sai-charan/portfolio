@@ -264,7 +264,16 @@ export default function Home() {
         </Reveal>
         <div className={styles.testimonialGrid}>
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.08} className={styles.testimonialCard}>
+            <Reveal
+              key={t.name}
+              as="a"
+              href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
+              target="_blank"
+              rel="noreferrer"
+              delay={i * 0.08}
+              className={styles.testimonialCard}
+              data-cursor-label="View on LinkedIn"
+            >
               <p className={styles.testimonialQuote}>&ldquo;{t.quote}&rdquo;</p>
               <div className={styles.testimonialAuthor}>
                 <div className={styles.testimonialAvatar}>{t.name.charAt(0)}</div>
