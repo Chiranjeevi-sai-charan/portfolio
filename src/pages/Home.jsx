@@ -144,9 +144,10 @@ export default function Home() {
             <p>
               I care about systems more than one-off screens.{" "}
               <span className={styles.highlight}>Reusable components, design tokens</span>, and
-              patterns that hold up across a whole product, not just one flow. That instinct is
-              also what earned my team <span className={styles.highlight}>recognition at a recent
-              AI hackathon</span>.
+              patterns that hold up across a whole product, not just one flow, including{" "}
+              <span className={styles.highlight}>a design system I shipped across three teams</span>.
+              That instinct is also what earned my team{" "}
+              <span className={styles.highlight}>recognition at a recent AI hackathon</span>.
             </p>
           </div>
         </Reveal>
