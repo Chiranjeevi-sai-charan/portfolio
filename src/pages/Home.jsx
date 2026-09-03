@@ -5,6 +5,8 @@ import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
 import profilePic from "../assets/Profile Pic Bg Less.png";
 import achievementPic from "../assets/Achievement.jpg";
+import figmaLogo from "../assets/Figma Logo.png";
+import chatgptLogo from "../assets/ChatGPT Logo.png";
 import styles from "./Home.module.css";
 
 // Custom glyphs for tools with no real brand icon available (a
@@ -24,16 +26,6 @@ const GLYPHS = {
       <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
       <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
       <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" fill="currentColor" />
-    </svg>
-  ),
-  chat: (
-    <svg viewBox="0 0 24 24" fill="none">
-      <path
-        d="M4 5.5h16v10H10.5L6 19v-3.5H4z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
     </svg>
   ),
 };
@@ -60,7 +52,7 @@ const CASE_STUDIES = [
 ];
 
 const STACK = [
-  { name: "Figma", icon: "https://cdn.simpleicons.org/figma" },
+  { name: "Figma", icon: figmaLogo },
   { name: "FigJam", glyph: "board" },
   { name: "Framer", icon: "https://cdn.simpleicons.org/framer" },
   { name: "React", icon: "https://cdn.simpleicons.org/react" },
@@ -68,7 +60,7 @@ const STACK = [
   { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript" },
   { name: "Design Systems", glyph: "grid" },
   { name: "Claude", icon: "https://cdn.simpleicons.org/claude" },
-  { name: "ChatGPT", glyph: "chat" },
+  { name: "ChatGPT", icon: chatgptLogo },
 ];
 
 const TESTIMONIALS = [
