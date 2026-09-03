@@ -57,9 +57,30 @@
   border-color: var(--accent);
   color: var(--accent-text);
 }
+.links a.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--ink);
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.links a.iconLink svg {
+  width: 18px;
+  height: 18px;
+}
+.links a.iconLink:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
 @media (max-width: 1100px) {
   .secondary { display: none; }
   .resumeCta { display: none; }
+  .iconLink { display: none; }
 }
 @media (max-width: 640px) {
   .links a:not(.cta) { display: none; }
