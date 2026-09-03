@@ -46,6 +46,21 @@ const CASE_STUDIES = [
   },
 ];
 
+const POSITIONING = [
+  {
+    label: "Goal",
+    text: "A senior product design role at an enterprise AI or B2B SaaS company, leading design systems and strategy, not just shipping screens.",
+  },
+  {
+    label: "Voice",
+    text: "Decisions backed by research and usability testing, not just visual polish, validated with real users before anything ships.",
+  },
+  {
+    label: "Audience",
+    text: "Enterprises and fast-growing SaaS companies building AI-native products, where design maturity and design-engineering collaboration matter.",
+  },
+];
+
 const STACK = [
   { name: "Figma", icon: figmaLogo },
   { name: "Framer", icon: framerLogo },
@@ -124,6 +139,22 @@ export default function Home() {
             <a href="#work" className={styles.primaryBtn}>See the work</a>
           </div>
         </motion.div>
+      </section>
+
+      <section className={`${styles.section} ${styles.positioningSection}`} id="positioning">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Strategic Positioning</div>
+          <h2>Where I'm headed, and who it's for</h2>
+        </Reveal>
+        <div className={styles.positioningRow}>
+          {POSITIONING.map((p, i) => (
+            <Reveal key={p.label} delay={i * 0.08} className={styles.positioningItem}>
+              <div className={styles.positioningIndex}>0{i + 1}</div>
+              <div className={styles.positioningLabel}>{p.label}</div>
+              <p>{p.text}</p>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className={styles.section} id="about">
