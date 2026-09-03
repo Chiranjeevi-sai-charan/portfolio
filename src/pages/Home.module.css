@@ -224,6 +224,9 @@
 }
 @media (max-width: 780px) { .testimonialGrid { grid-template-columns: 1fr; } }
 .testimonialCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
@@ -231,6 +234,7 @@
   box-shadow: var(--shadow-sm);
 }
 .testimonialQuote {
+  flex: 1;
   color: var(--ink);
   font-size: var(--fs-body);
   line-height: 1.6;
