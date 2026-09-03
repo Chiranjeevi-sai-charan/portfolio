@@ -95,20 +95,32 @@ const EXPERIENCE = [
   {
     role: "UI/UX Design Consultant",
     company: "Motherson Technology Centre",
-    period: "08/2025 — 08/2026",
-    summary: "Designed AI-powered enterprise products end-to-end and built a scalable enterprise design system in Figma across conversational search, RAG, and multimodal workflows.",
+    period: "08/2025 – 08/2026",
+    highlights: [
+      "Led end-to-end UX design for AI-powered enterprise products, from user research and information architecture through wireframes, prototypes, and high-fidelity interfaces.",
+      "Designed AI experiences spanning conversational search, RAG, multimodal interactions, document analysis, AI model selection, and voice input, simplifying complex capabilities into intuitive, production-ready interfaces.",
+      "Built a scalable enterprise design system in Figma with reusable components, design tokens, and variables, and worked closely with engineering to validate feasibility using front-end knowledge in HTML, CSS, and React.",
+    ],
   },
   {
     role: "UI/UX Designer",
     company: "Deloitte Consulting LLP",
-    period: "06/2021 — 05/2025",
-    summary: "Led usability testing and design systems work, and designed immersive XR interfaces for Apple Vision Pro using the official visionOS UI kit.",
+    period: "06/2021 – 05/2025",
+    highlights: [
+      "Led usability testing sessions and translated user feedback into actionable design improvements that directly informed product decisions.",
+      "Created wireframes, high-fidelity mockups, and advanced conditional prototypes using variables, and designed immersive XR screens for Apple Vision Pro using Apple's official visionOS UI kit.",
+      "Built and maintained tokenized design systems in Figma for visual consistency and faster design-to-dev cycles, while introducing emerging design tools and AI-based workflows to grow the wider team.",
+    ],
   },
   {
     role: "Front-End Developer",
     company: "Deloitte Consulting LLP",
-    period: "01/2021 — 05/2021",
-    summary: "Built responsive, accessible UI components in HTML, CSS, JavaScript, and React — the foundation for designing with what's actually buildable.",
+    period: "01/2021 – 05/2021",
+    highlights: [
+      "Built responsive, accessible UI components using HTML, CSS, JavaScript, and React.",
+      "Partnered closely with UI/UX designers to bring interfaces to life with pixel-perfect accuracy.",
+      "Ensured a consistent experience across devices and browsers through comprehensive UI and functionality testing.",
+    ],
   },
 ];
 
@@ -232,7 +244,11 @@ export default function Home() {
                 </div>
                 <div className={styles.experiencePeriod}>{job.period}</div>
               </div>
-              <p className={styles.experienceSummary}>{job.summary}</p>
+              <ul className={styles.experienceHighlights}>
+                {job.highlights.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
             </Reveal>
           ))}
         </div>
