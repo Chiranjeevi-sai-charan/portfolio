@@ -46,6 +46,21 @@ const CASE_STUDIES = [
   },
 ];
 
+const POSITIONING = [
+  {
+    label: "Goal",
+    text: "A senior product design role at an enterprise AI or B2B SaaS company, leading design systems and strategy, not just shipping screens.",
+  },
+  {
+    label: "Voice",
+    text: "A design-engineering bridge: enterprise AI depth, systems thinking, and interfaces teams actually trust in production.",
+  },
+  {
+    label: "Audience",
+    text: "Enterprises and scale-ups building AI-native products, where design maturity and design-engineering collaboration matter.",
+  },
+];
+
 const STACK = [
   { name: "Figma", icon: figmaLogo },
   { name: "Framer", icon: framerLogo },
@@ -126,29 +141,20 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section className={styles.section} id="positioning">
-        <Reveal className={styles.positioningGrid}>
-          <div>
-            <div className={styles.kicker}>Strategic Positioning</div>
-            <h2>My Design North Star</h2>
-          </div>
-          <div className={styles.positioningBody}>
-            <div className={styles.pillars}>
-              <div className={styles.pillar}>
-                <div className={styles.pillarLabel}>Goal</div>
-                <p>Secure a senior product design role at an enterprise AI/B2B SaaS company where I can lead design strategy, build scalable design systems, and mentor teams—transforming complex AI workflows into intuitive, trustworthy interfaces.</p>
-              </div>
-              <div className={styles.pillar}>
-                <div className={styles.pillarLabel}>I Convey</div>
-                <p>I'm a design-engineering bridge shipping production-quality designs grounded in user research and systems thinking. Deep enterprise AI expertise. Reusable components over one-offs. User-centric problem-solving backed by testing. Technical fluency to collaborate meaningfully with engineers.</p>
-              </div>
-              <div className={styles.pillar}>
-                <div className={styles.pillarLabel}>I Attract</div>
-                <p>Mid-to-large enterprises and scale-up SaaS platforms where AI/ML is core, design systems maturity matters, and teams value design-engineering collaboration. Companies building products, not features, where my growth trajectory aligns with theirs.</p>
-              </div>
-            </div>
-          </div>
+      <section className={`${styles.section} ${styles.positioningSection}`} id="positioning">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Strategic Positioning</div>
+          <h2>Where I'm headed, and who it's for</h2>
         </Reveal>
+        <div className={styles.positioningRow}>
+          {POSITIONING.map((p, i) => (
+            <Reveal key={p.label} delay={i * 0.08} className={styles.positioningItem}>
+              <div className={styles.positioningIndex}>0{i + 1}</div>
+              <div className={styles.positioningLabel}>{p.label}</div>
+              <p>{p.text}</p>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className={styles.section} id="about">
