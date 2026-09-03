@@ -37,7 +37,6 @@ export default function Nav() {
         <a
           href="mailto:98charan@gmail.com?subject=Let%27s%20talk&body=Hi%20Chiranjeevi%2C%0A%0A"
           className={styles.cta}
-          data-cursor-hide
         >
           Say hello
         </a>
