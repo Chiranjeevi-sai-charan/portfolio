@@ -42,17 +42,18 @@
   font-size: var(--fs-small);
   font-weight: 700;
 }
-.resumeCta {
+.links a.resumeCta {
   background: transparent;
   color: var(--ink);
   border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   padding: 8px 17px;
   border-radius: 999px;
   font-size: var(--fs-small);
   font-weight: 700;
   transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.resumeCta:hover {
+.links a.resumeCta:hover {
   border-color: var(--accent);
   color: var(--accent-text);
 }
