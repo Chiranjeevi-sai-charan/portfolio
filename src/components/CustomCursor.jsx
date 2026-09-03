@@ -4,7 +4,11 @@
    elements. A dynamic label pill (styled like the site's own CTA
    buttons) appears alongside with contextual text supplied per
    element via data-cursor-label, e.g. "View case study" on a
-   project card, "Say hi" on the contact link. Disabled on touch
+   project card, "Say hi" on the contact link. Buttons that already
+   have their own strong hover treatment (data-cursor-hide, e.g. the
+   filled CTA pills) suppress this cursor entirely and fall back to
+   the native pointer, since the button's own hover state is enough
+   feedback and the tooltip would be redundant. Disabled on touch
    devices and under prefers-reduced-motion, so nothing here is
    load-bearing for interaction, only decorative. */
 
@@ -16,6 +20,7 @@ export default function CustomCursor() {
   const prefersReduced = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
   const [label, setLabel] = useState(null);
+  const [hidden, setHidden] = useState(false);
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -36,6 +41,12 @@ export default function CustomCursor() {
       y.set(e.clientY);
     };
     const over = (e) => {
+      if (e.target.closest("[data-cursor-hide]")) {
+        setHidden(true);
+        setLabel(null);
+        return;
+      }
+      setHidden(false);
       const target = e.target.closest("[data-cursor-label]");
       setLabel(target ? target.getAttribute("data-cursor-label") : null);
     };
@@ -56,7 +67,7 @@ export default function CustomCursor() {
       <motion.div
         className={styles.glossy}
         style={{ left: dotX, top: dotY }}
-        animate={{ scale: label ? 1.08 : 1 }}
+        animate={{ scale: hidden ? 0 : label ? 1.08 : 1 }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
       >
         <svg viewBox="0 0 32 32" width="30" height="30">

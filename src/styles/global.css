@@ -52,6 +52,12 @@ html.lenis, html.lenis body { height: auto; }
   body.custom-cursor button {
     cursor: none;
   }
+  /* Buttons with their own strong hover treatment suppress the
+     custom cursor (see CustomCursor.jsx) and fall back to the
+     native pointer instead. */
+  body.custom-cursor [data-cursor-hide] {
+    cursor: pointer;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

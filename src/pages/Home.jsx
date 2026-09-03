@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
-import profilePic from "../assets/Profile Pic.jpg";
+import profilePic from "../assets/Profile Pic Bg Less.png";
 import achievementPic from "../assets/Achievement.jpg";
 import styles from "./Home.module.css";
 
@@ -135,7 +135,7 @@ export default function Home() {
             teams actually trust, from conversational search to fraud detection dashboards.
           </p>
           <div className={styles.heroActions}>
-            <a href="#work" className={styles.primaryBtn} data-cursor-label="Let's go">See the work</a>
+            <a href="#work" className={styles.primaryBtn} data-cursor-hide>See the work</a>
             <a href="mailto:98charan@gmail.com" className={styles.textLink} data-cursor-label="Say hi">Say hello</a>
           </div>
         </motion.div>
