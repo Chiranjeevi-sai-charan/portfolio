@@ -92,11 +92,13 @@ const CERTIFICATIONS = [
     title: "Design for the 21st Century with Don Norman",
     issuer: "Interaction Design Foundation",
     url: "https://ixdf.org/members/kondaka-chiranjeevi-sai-charan/certificate/course/98a16628-d5f8-423e-8667-786e62971343",
+    image: "https://ixdf.org/certificates/course/98a16628-d5f8-423e-8667-786e62971343/extraLarge",
   },
   {
     title: "Google UX Design",
     issuer: "Google, via Coursera",
     url: "https://www.coursera.org/account/accomplishments/specialization/01NQXL311TLS",
+    image: "https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~01NQXL311TLS/CERTIFICATE_LANDING_PAGE~01NQXL311TLS.jpeg",
   },
 ];
 
@@ -282,21 +284,26 @@ export default function Home() {
           <div className={styles.kicker}>Certifications</div>
           <h2>Courses I've completed</h2>
         </Reveal>
-        <div className={styles.certList}>
+        <div className={styles.certGrid}>
           {CERTIFICATIONS.map((cert, i) => (
             <Reveal key={cert.title} delay={i * 0.06}>
               <a
                 href={cert.url}
                 target="_blank"
                 rel="noreferrer"
-                className={styles.certRow}
+                className={styles.certCard}
                 data-cursor-label="View certificate"
               >
-                <div>
-                  <div className={styles.certTitle}>{cert.title}</div>
-                  <div className={styles.certIssuer}>{cert.issuer}</div>
+                <div className={styles.certThumb}>
+                  <img src={cert.image} alt={`${cert.title} certificate`} loading="lazy" />
                 </div>
-                <span className={styles.certArrow} aria-hidden="true">→</span>
+                <div className={styles.certCardBody}>
+                  <div>
+                    <div className={styles.certTitle}>{cert.title}</div>
+                    <div className={styles.certIssuer}>{cert.issuer}</div>
+                  </div>
+                  <span className={styles.certArrow} aria-hidden="true">→</span>
+                </div>
               </a>
             </Reveal>
           ))}
