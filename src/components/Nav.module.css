@@ -69,9 +69,11 @@
   color: var(--ink);
   transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.links a.iconLink svg {
-  width: 18px;
-  height: 18px;
+.links a.iconLink .linkedinIcon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  display: block;
 }
 .links a.iconLink:hover {
   border-color: var(--accent);
