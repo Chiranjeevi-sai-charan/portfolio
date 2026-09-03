@@ -25,6 +25,15 @@ export default function Nav() {
         <a href="/#stack" data-cursor-label="Toolkit">Toolkit</a>
         <a href="/#testimonials" className={styles.secondary} data-cursor-label="Recommendations">Recommendations</a>
         <a href="/#certifications" className={styles.secondary} data-cursor-label="Certifications">Certifications</a>
+        <a
+          href="https://flowcv.com/resume/avbobjk3o6"
+          target="_blank"
+          rel="noreferrer"
+          className={styles.resumeCta}
+          data-cursor-label="Resume"
+        >
+          Resume
+        </a>
         <a href="mailto:98charan@gmail.com" className={styles.cta}>Say hello</a>
       </div>
     </nav>

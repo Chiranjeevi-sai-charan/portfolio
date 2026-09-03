@@ -42,8 +42,23 @@
   font-size: var(--fs-small);
   font-weight: 700;
 }
+.resumeCta {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  padding: 8px 17px;
+  border-radius: 999px;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.resumeCta:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
 @media (max-width: 1100px) {
   .secondary { display: none; }
+  .resumeCta { display: none; }
 }
 @media (max-width: 640px) {
   .links a:not(.cta) { display: none; }
