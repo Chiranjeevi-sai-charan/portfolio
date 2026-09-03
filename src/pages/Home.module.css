@@ -110,19 +110,17 @@
 .positioningRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--border);
+  gap: var(--sp-5);
 }
 .positioningItem {
-  padding: var(--sp-4) var(--sp-4) 0 0;
-  border-right: 1px solid var(--border);
+  padding: 0 var(--sp-4) 0 0;
 }
-.positioningItem:last-child { border-right: none; padding-right: 0; }
+.positioningItem:last-child { padding-right: 0; }
 .positioningIndex {
   font-family: var(--font-display);
   font-size: 13px;
   font-weight: 600;
   color: var(--ink-faint);
-  margin-top: var(--sp-3);
 }
 .positioningLabel {
   font-size: 13px;
@@ -140,14 +138,8 @@
   max-width: 34ch;
 }
 @media (max-width: 780px) {
-  .positioningRow { grid-template-columns: 1fr; }
-  .positioningItem {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding: var(--sp-4) 0;
-  }
-  .positioningItem:first-child { padding-top: var(--sp-3); }
-  .positioningItem:last-child { border-bottom: none; padding-bottom: 0; }
+  .positioningRow { grid-template-columns: 1fr; gap: var(--sp-4); }
+  .positioningItem { padding: 0; }
   .positioningItem p { max-width: none; }
 }
 

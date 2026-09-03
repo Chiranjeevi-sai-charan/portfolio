@@ -53,7 +53,7 @@ const POSITIONING = [
   },
   {
     label: "Voice",
-    text: "A design-engineering bridge: enterprise AI depth, systems thinking, and interfaces teams actually trust in production.",
+    text: "Decisions backed by research and usability testing, not just visual polish, validated with real users before anything ships.",
   },
   {
     label: "Audience",
