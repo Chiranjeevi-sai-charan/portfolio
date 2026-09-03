@@ -57,7 +57,7 @@ const POSITIONING = [
   },
   {
     label: "Audience",
-    text: "Enterprises and scale-ups building AI-native products, where design maturity and design-engineering collaboration matter.",
+    text: "Enterprises and fast-growing SaaS companies building AI-native products, where design maturity and design-engineering collaboration matter.",
   },
 ];
 
