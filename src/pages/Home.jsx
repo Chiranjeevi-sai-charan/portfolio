@@ -7,19 +7,14 @@ import profilePic from "../assets/Profile Pic Bg Less.png";
 import achievementPic from "../assets/Achievement.jpg";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
+import chatgptLogoWhite from "../assets/chatgpt-white-logo.png";
+import framerLogo from "../assets/Framer.png";
 import styles from "./Home.module.css";
 
 // Custom glyphs for tools with no real brand icon available (a
 // generic concept like "Design Systems", or a product whose logo
 // isn't published on the icon registry we use for the others).
 const GLYPHS = {
-  board: (
-    <svg viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
-      <rect x="6.5" y="7.5" width="5" height="5" rx="1" fill="currentColor" />
-      <rect x="13" y="13.5" width="5" height="3" rx="1" fill="currentColor" />
-    </svg>
-  ),
   grid: (
     <svg viewBox="0 0 24 24" fill="none">
       <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" fill="currentColor" />
@@ -53,14 +48,13 @@ const CASE_STUDIES = [
 
 const STACK = [
   { name: "Figma", icon: figmaLogo },
-  { name: "FigJam", glyph: "board" },
-  { name: "Framer", icon: "https://cdn.simpleicons.org/framer" },
+  { name: "Framer", icon: framerLogo },
   { name: "React", icon: "https://cdn.simpleicons.org/react" },
   { name: "HTML/CSS", icon: "https://cdn.simpleicons.org/html5" },
   { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript" },
   { name: "Design Systems", glyph: "grid" },
   { name: "Claude", icon: "https://cdn.simpleicons.org/claude" },
-  { name: "ChatGPT", icon: chatgptLogo },
+  { name: "ChatGPT", icon: chatgptLogo, iconDark: chatgptLogoWhite },
 ];
 
 const TESTIMONIALS = [
@@ -127,7 +121,7 @@ export default function Home() {
             teams actually trust, from conversational search to fraud detection dashboards.
           </p>
           <div className={styles.heroActions}>
-            <a href="#work" className={styles.primaryBtn} data-cursor-hide>See the work</a>
+            <a href="#work" className={styles.primaryBtn}>See the work</a>
           </div>
         </motion.div>
       </section>
@@ -211,7 +205,14 @@ export default function Home() {
             <span key={tool.name} className={styles.chip}>
               <span className={styles.chipIcon}>
                 {tool.icon ? (
-                  <img src={tool.icon} alt="" />
+                  tool.iconDark ? (
+                    <>
+                      <img src={tool.icon} alt="" className={styles.iconLight} />
+                      <img src={tool.iconDark} alt="" className={styles.iconDark} />
+                    </>
+                  ) : (
+                    <img src={tool.icon} alt="" />
+                  )
                 ) : (
                   GLYPHS[tool.glyph]
                 )}
