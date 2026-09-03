@@ -91,6 +91,27 @@ const TESTIMONIALS = [
   },
 ];
 
+const EXPERIENCE = [
+  {
+    role: "UI/UX Design Consultant",
+    company: "Motherson Technology Centre",
+    period: "08/2025 — 08/2026",
+    summary: "Designed AI-powered enterprise products end-to-end and built a scalable enterprise design system in Figma across conversational search, RAG, and multimodal workflows.",
+  },
+  {
+    role: "UI/UX Designer",
+    company: "Deloitte Consulting LLP",
+    period: "06/2021 — 05/2025",
+    summary: "Led usability testing and design systems work, and designed immersive XR interfaces for Apple Vision Pro using the official visionOS UI kit.",
+  },
+  {
+    role: "Front-End Developer",
+    company: "Deloitte Consulting LLP",
+    period: "01/2021 — 05/2021",
+    summary: "Built responsive, accessible UI components in HTML, CSS, JavaScript, and React — the foundation for designing with what's actually buildable.",
+  },
+];
+
 const CERTIFICATIONS = [
   {
     title: "Design for the 21st Century with Don Norman",
@@ -194,6 +215,27 @@ export default function Home() {
             </p>
           </div>
         </Reveal>
+      </section>
+
+      <section className={styles.section} id="experience">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Experience</div>
+          <h2>Where I've worked</h2>
+        </Reveal>
+        <div className={styles.experienceList}>
+          {EXPERIENCE.map((job, i) => (
+            <Reveal key={`${job.company}-${job.period}`} delay={i * 0.06} className={styles.experienceRow}>
+              <div className={styles.experienceHead}>
+                <div>
+                  <div className={styles.experienceRole}>{job.role}</div>
+                  <div className={styles.experienceCompany}>{job.company}</div>
+                </div>
+                <div className={styles.experiencePeriod}>{job.period}</div>
+              </div>
+              <p className={styles.experienceSummary}>{job.summary}</p>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className={styles.section} id="achievements">

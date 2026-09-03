@@ -273,6 +273,42 @@
 .testimonialRole { font-size: var(--fs-small); color: var(--ink-soft); margin-top: 2px; }
 .testimonialContext { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
 
+.experienceList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.experienceRow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.experienceRow:hover { border-color: var(--accent); }
+.experienceHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.experienceRole { font-weight: 700; color: var(--ink); font-size: var(--fs-body); }
+.experienceCompany { font-size: var(--fs-small); color: var(--ink-soft); margin-top: 2px; }
+.experiencePeriod {
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.experienceSummary {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 68ch;
+}
+
 .certGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

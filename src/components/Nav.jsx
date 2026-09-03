@@ -21,6 +21,7 @@ export default function Nav() {
       </Link>
       <div className={styles.links}>
         <a href="/#about" data-cursor-label="About">About</a>
+        <a href="/#experience" className={styles.secondary} data-cursor-label="Experience">Experience</a>
         <a href="/#achievements" data-cursor-label="Recognition">Recognition</a>
         <a href="/#work" data-cursor-label="Work">Work</a>
         <a href="/#stack" data-cursor-label="Toolkit">Toolkit</a>
