@@ -14,6 +14,8 @@
 .heroPhotoCol {
   align-self: stretch;
   height: 100vh;
+  padding-top: 96px;
+  box-sizing: border-box;
   background: var(--bg);
   display: flex;
   align-items: flex-end;
@@ -38,7 +40,7 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
-  .heroPhotoCol { height: 60vh; order: -1; }
+  .heroPhotoCol { height: 60vh; padding-top: 84px; order: -1; }
   .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
 }
