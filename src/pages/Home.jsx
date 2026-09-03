@@ -136,7 +136,6 @@ export default function Home() {
           </p>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn} data-cursor-hide>See the work</a>
-            <a href="mailto:98charan@gmail.com" className={styles.textLink} data-cursor-label="Say hi">Say hello</a>
           </div>
         </motion.div>
       </section>
