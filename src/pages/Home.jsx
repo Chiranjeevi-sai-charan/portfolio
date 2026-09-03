@@ -187,6 +187,11 @@ export default function Home() {
               That instinct is also what earned my team{" "}
               <span className={styles.highlight}>recognition at a recent AI hackathon</span>.
             </p>
+            <p>
+              I also stretch beyond familiar screens when the problem calls for it, including{" "}
+              <span className={styles.highlight}>designing immersive XR interfaces for Apple
+              Vision Pro</span> using Apple&apos;s official visionOS UI kit.
+            </p>
           </div>
         </Reveal>
       </section>
