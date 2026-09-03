@@ -3,11 +3,24 @@
   position: fixed;
   z-index: 9999;
   pointer-events: none;
+}
+
+.pill {
   transform: translate(-50%, -50%);
 }
 
 .glossy {
-  filter: drop-shadow(0 3px 5px rgba(6, 182, 212, 0.45));
+  /* Biased toward the fingertip (upper-left of the artwork) rather
+     than dead-center, so the cursor position roughly tracks where
+     the hand appears to be pointing/touching. */
+  transform: translate(-18%, -12%);
+  filter: drop-shadow(0 3px 5px rgba(6, 182, 212, 0.35));
+}
+
+.glossy img {
+  display: block;
+  height: 46px;
+  width: auto;
 }
 
 .pill {

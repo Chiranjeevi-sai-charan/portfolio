@@ -1,19 +1,21 @@
-/* Custom cursor: a glossy, 3D-beveled cursor pair in the site's
-   cyan accent, styled after classic "cursor pack" pointer sets, an
-   arrow at rest that swaps to a pointing hand over interactive
-   elements. A dynamic label pill (styled like the site's own CTA
-   buttons) appears alongside with contextual text supplied per
-   element via data-cursor-label, e.g. "View case study" on a
-   project card, "Say hi" on the contact link. Buttons that already
-   have their own strong hover treatment (data-cursor-hide, e.g. the
-   filled CTA pills) suppress this cursor entirely and fall back to
-   the native pointer, since the button's own hover state is enough
-   feedback and the tooltip would be redundant. Disabled on touch
-   devices and under prefers-reduced-motion, so nothing here is
-   load-bearing for interaction, only decorative. */
+/* Custom cursor: the user's own robot-hand artwork (Cursor.png,
+   pointing, and Cursor Hover.png, open palm) swapped based on
+   hover state, cartoon-glove style. A dynamic label pill (styled
+   like the site's own CTA buttons) appears alongside with
+   contextual text supplied per element via data-cursor-label, e.g.
+   "View case study" on a project card, "Say hi" on the contact
+   link. Buttons that already have their own strong hover treatment
+   (data-cursor-hide, e.g. the filled CTA pills) suppress this
+   cursor entirely and fall back to the native pointer, since the
+   button's own hover state is enough feedback and the tooltip
+   would be redundant. Disabled on touch devices and under
+   prefers-reduced-motion, so nothing here is load-bearing for
+   interaction, only decorative. */
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
+import cursorPoint from "../assets/Cursor.png";
+import cursorHover from "../assets/Cursor Hover.png";
 import styles from "./CustomCursor.module.css";
 
 export default function CustomCursor() {
@@ -70,31 +72,7 @@ export default function CustomCursor() {
         animate={{ scale: hidden ? 0 : label ? 1.08 : 1 }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
       >
-        <svg viewBox="0 0 32 32" width="30" height="30">
-          <defs>
-            <linearGradient id="cursorGloss" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="var(--accent-soft)" />
-              <stop offset="100%" stopColor="var(--accent)" />
-            </linearGradient>
-          </defs>
-          {label ? (
-            /* pointing hand: three fused rounded shapes, no internal
-               stroke seams, dimensionality from gradient + drop-shadow */
-            <g fill="url(#cursorGloss)">
-              <rect x="9" y="20" width="11" height="7" rx="3.2" transform="rotate(-18 14.5 23.5)" />
-              <rect x="9.5" y="14" width="14" height="13" rx="6" />
-              <rect x="12.5" y="1" width="7" height="18" rx="3.4" />
-            </g>
-          ) : (
-            <path
-              d="M4 2.5 L4 26.5 L10 21 L14 29 L18.5 27 L14.5 19 L23 18.5 Z"
-              fill="url(#cursorGloss)"
-              stroke="var(--accent-text)"
-              strokeWidth="1.4"
-              strokeLinejoin="round"
-            />
-          )}
-        </svg>
+        <img src={label ? cursorHover : cursorPoint} alt="" />
       </motion.div>
       <motion.div
         className={styles.pill}
