@@ -43,6 +43,9 @@
   font-weight: 700;
 }
 .links a.resumeCta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: transparent;
   color: var(--ink);
   border: 1px solid var(--border);
@@ -56,6 +59,11 @@
 .links a.resumeCta:hover {
   border-color: var(--accent);
   color: var(--accent-text);
+}
+.downloadIcon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
 }
 .links a.iconLink {
   display: flex;

@@ -35,6 +35,10 @@ export default function Nav() {
           data-cursor-label="Resume"
         >
           Resume
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={styles.downloadIcon}>
+            <path d="M8 2v7.5M8 9.5 5 6.5M8 9.5l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3 12v1.2A1.8 1.8 0 0 0 4.8 15h6.4A1.8 1.8 0 0 0 13 13.2V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </a>
         <a
           href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
