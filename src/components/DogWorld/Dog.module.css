@@ -1,0 +1,83 @@
+/* Anchor trick: the dog's motion-value x/y represent its FEET
+   (bottom-center), not the SVG's top-left. Shifting the box up and
+   left by half its own size before translation means translate(x,y)
+   lands the feet exactly on that point — see useDogSimulation.js.
+   Keep these in sync with dogConfig.js dogWidth/dogHeight. */
+.dog {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 70px;
+  margin-left: -32px;
+  margin-top: -70px;
+  transform-origin: 50% 100%;
+}
+
+/* transform-box: fill-box makes percentage transform-origin values
+   relative to each shape's own bounding box (not the outer <svg>'s
+   viewBox) — robust regardless of the exact path coordinates below. */
+.body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: breathe var(--dur-slow) ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.025); }
+}
+
+.tail {
+  transform-box: fill-box;
+  transform-origin: 85% 85%;
+  animation: wag 1.1s ease-in-out infinite;
+}
+@keyframes wag {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.ear {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.eye {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.head {
+  transform-box: fill-box;
+  transform-origin: 20% 60%;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.legs {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+}
+
+/* Pose-driven tweaks — a light "10% more personality" pass, not a
+   full pose library. Everything here is already neutralized by the
+   sitewide prefers-reduced-motion override in global.css. */
+.dog[data-pose="LOOKING"] .head,
+.dog[data-pose="CURIOUS"] .head {
+  transform: rotate(-6deg) translateX(-2px);
+}
+.dog[data-pose="CURIOUS"] .ear {
+  transform: rotate(-16deg) translateY(-2px);
+}
+.dog[data-pose="INVESTIGATING"] .head {
+  transform: translateY(4px) rotate(4deg);
+}
+.dog[data-pose="INVESTIGATING"] .eye,
+.dog[data-pose="RESTING"] .eye {
+  transform: scaleY(0.35);
+}
+.dog[data-pose="WALKING"] .legs {
+  animation: bob 0.42s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}

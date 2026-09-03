@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
+import DogWorld from "../components/DogWorld/DogWorld";
 import profilePic from "../assets/Profile Pic.png";
 import achievementPic from "../assets/Achievement.jpg";
 import figmaLogo from "../assets/Figma Logo.png";
@@ -141,6 +142,7 @@ export default function Home() {
             <a href="#work" className={styles.primaryBtn}>See the work</a>
           </div>
         </motion.div>
+        <DogWorld className={styles.dogWorldSlot} />
       </section>
 
       <section className={`${styles.section} ${styles.positioningSection}`} id="positioning">

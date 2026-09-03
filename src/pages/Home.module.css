@@ -35,6 +35,16 @@
   flex-direction: column;
   justify-content: center;
 }
+.dogWorldSlot {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  width: 100%;
+  height: clamp(140px, 20vh, 200px);
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+}
 @media (max-width: 860px) {
   .hero {
     grid-template-columns: 1fr;
@@ -43,6 +53,7 @@
   .heroPhotoCol { height: 60vh; order: -1; }
   .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
+  .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
 }
 .heroTitle {
   position: relative;
