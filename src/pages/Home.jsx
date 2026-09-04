@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
@@ -6,7 +5,6 @@ import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
 import AnimatedCounter from "../components/AnimatedCounter";
 import TestimonialCarousel from "../components/TestimonialCarousel";
-import ColorSplash from "../components/ColorSplash";
 // DogWorld (interactive dog character) is built but disabled for now —
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
@@ -144,16 +142,6 @@ const CERTIFICATIONS = [
 ];
 
 export default function Home() {
-  const [showSplash, setShowSplash] = useState(true);
-
-  const handleColorSelected = () => {
-    setShowSplash(false);
-  };
-
-  if (showSplash) {
-    return <ColorSplash onColorSelected={handleColorSelected} />;
-  }
-
   return (
     <>
       <section className={styles.hero} id="top">
