@@ -376,3 +376,13 @@
 @media (max-width: 640px) {
   .footer { flex-direction: column; gap: var(--sp-2); align-items: flex-start; }
 }
+
+.themeSection {
+  background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 100%);
+}
+
+@media (max-width: 640px) {
+  .themeSection {
+    padding: var(--sp-4) var(--sp-3) !important;
+  }
+}

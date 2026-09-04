@@ -184,6 +184,14 @@ export default function Home() {
         {/* <DogWorld className={styles.dogWorldSlot} /> */}
       </section>
 
+      <section className={`${styles.section} ${styles.themeSection}`} id="theme">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Personalize Your Experience</div>
+          <h2>Pick your favorite color</h2>
+        </Reveal>
+        <ColorThemeSelector />
+      </section>
+
       <section className={`${styles.section} ${styles.positioningSection}`} id="positioning">
         <Reveal className={styles.sectionHead}>
           <div className={styles.kicker}>Strategic Positioning</div>
@@ -352,14 +360,6 @@ export default function Home() {
           <h2>What it's like to work with me</h2>
         </Reveal>
         <TestimonialCarousel testimonials={TESTIMONIALS} />
-      </section>
-
-      <section className={styles.section} id="theme">
-        <Reveal className={styles.sectionHead}>
-          <div className={styles.kicker}>Personalize Your Experience</div>
-          <h2>Pick your favorite color</h2>
-        </Reveal>
-        <ColorThemeSelector />
       </section>
 
       <section className={styles.section} id="certifications">

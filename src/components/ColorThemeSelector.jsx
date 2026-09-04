@@ -4,14 +4,14 @@ import Reveal from './Reveal';
 import styles from './ColorThemeSelector.module.css';
 
 const COLOR_THEMES = [
-  { name: 'Ocean Blue', hex: '#3B82F6', rgb: '59, 130, 246' },
-  { name: 'Emerald Green', hex: '#10B981', rgb: '16, 185, 129' },
-  { name: 'Sunset Orange', hex: '#F97316', rgb: '249, 115, 22' },
-  { name: 'Purple Dream', hex: '#8B5CF6', rgb: '139, 92, 246' },
-  { name: 'Rose Pink', hex: '#EC4899', rgb: '236, 72, 153' },
-  { name: 'Teal', hex: '#14B8A6', rgb: '20, 184, 166' },
-  { name: 'Indigo', hex: '#6366F1', rgb: '99, 102, 241' },
-  { name: 'Cyan', hex: '#06B6D4', rgb: '6, 182, 212' },
+  { name: 'Ocean Blue', hex: '#3B82F6', rgb: '59, 130, 246', textHex: '#1E40AF', textRgb: '30, 64, 175' },
+  { name: 'Emerald Green', hex: '#10B981', rgb: '16, 185, 129', textHex: '#047857', textRgb: '4, 120, 87' },
+  { name: 'Sunset Orange', hex: '#F97316', rgb: '249, 115, 22', textHex: '#B45309', textRgb: '180, 83, 9' },
+  { name: 'Purple Dream', hex: '#8B5CF6', rgb: '139, 92, 246', textHex: '#5B21B6', textRgb: '91, 33, 182' },
+  { name: 'Rose Pink', hex: '#EC4899', rgb: '236, 72, 153', textHex: '#BE185D', textRgb: '190, 24, 93' },
+  { name: 'Teal', hex: '#14B8A6', rgb: '20, 184, 166', textHex: '#0D9488', textRgb: '13, 148, 136' },
+  { name: 'Indigo', hex: '#6366F1', rgb: '99, 102, 241', textHex: '#3730A3', textRgb: '55, 48, 163' },
+  { name: 'Cyan', hex: '#06B6D4', rgb: '6, 182, 212', textHex: '#0E7490', textRgb: '14, 116, 144' },
 ];
 
 export default function ColorThemeSelector() {
@@ -21,10 +21,20 @@ export default function ColorThemeSelector() {
   useEffect(() => {
     const savedColor = localStorage.getItem('portfolioThemeColor');
     if (savedColor) {
-      const color = COLOR_THEMES.find(c => c.hex === savedColor);
-      if (color) {
-        setSelectedColor(color);
-        applyTheme(color);
+      try {
+        const colorData = JSON.parse(savedColor);
+        const color = COLOR_THEMES.find(c => c.hex === colorData.hex);
+        if (color) {
+          setSelectedColor(color);
+          applyTheme(color);
+        }
+      } catch {
+        // Fallback for old string format
+        const color = COLOR_THEMES.find(c => c.hex === savedColor);
+        if (color) {
+          setSelectedColor(color);
+          applyTheme(color);
+        }
       }
     }
   }, []);
@@ -32,7 +42,9 @@ export default function ColorThemeSelector() {
   const applyTheme = (color) => {
     document.documentElement.style.setProperty('--accent', color.hex);
     document.documentElement.style.setProperty('--accent-rgb', color.rgb);
-    localStorage.setItem('portfolioThemeColor', color.hex);
+    document.documentElement.style.setProperty('--accent-text', color.textHex);
+    document.documentElement.style.setProperty('--accent-text-rgb', color.textRgb);
+    localStorage.setItem('portfolioThemeColor', JSON.stringify(color));
     setIsApplied(true);
   };
 
