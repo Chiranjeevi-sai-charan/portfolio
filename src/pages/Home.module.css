@@ -88,16 +88,16 @@
 }
 .primaryBtn {
   display: inline-block;
-  background: var(--ink);
+  background: var(--accent);
   color: var(--bg);
   font-weight: 600;
   padding: 14px 28px;
   border-radius: 999px;
-  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out);
 }
 .primaryBtn:hover {
   transform: translateY(-2px) rotate(-1deg);
-  background: var(--accent);
+  filter: brightness(0.85);
 }
 .section { max-width: 1100px; margin: 0 auto; padding: var(--sp-7) var(--sp-4); }
 .sectionHead { margin-bottom: var(--sp-5); max-width: 60ch; }
