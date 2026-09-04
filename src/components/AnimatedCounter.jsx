@@ -43,18 +43,16 @@ export default function AnimatedCounter({ end, suffix = '', prefix = '', duratio
   }, [isVisible, end, duration]);
 
   return (
-    <motion.div
+    <motion.span
       ref={ref}
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, margin: '-100px' }}
     >
-      <span>
-        {prefix}
-        {count}
-        {suffix}
-      </span>
-    </motion.div>
+      {prefix}
+      {count}
+      {suffix}
+    </motion.span>
   );
 }
