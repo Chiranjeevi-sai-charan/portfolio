@@ -68,3 +68,45 @@ html.lenis, html.lenis body { height: auto; }
     scroll-behavior: auto !important;
   }
 }
+
+.react-colorful {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  width: 200px;
+  height: 200px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.react-colorful__saturation {
+  position: relative;
+  flex: 1;
+  min-height: 150px;
+  border-radius: 1rem 1rem 0 0;
+  overflow: hidden;
+  background: linear-gradient(90deg, #fff, #fff);
+}
+
+.react-colorful__hue {
+  position: relative;
+  height: 40px;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.react-colorful__pointer {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.react-colorful__pointer-fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
