@@ -7,7 +7,7 @@ import Marquee from "../components/Marquee";
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
 // import DogWorld from "../components/DogWorld/DogWorld";
-import profilePic from "../assets/Profile Pic.png";
+import profilePic from "../assets/Profile Pic.jpg";
 import achievementPic from "../assets/Achievement.jpg";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
