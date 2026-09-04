@@ -107,7 +107,6 @@ function ColorThemeSplash({ onSelect }) {
       document.documentElement.style.setProperty('--accent-soft', colorVariants.softDarkHex);
     }
 
-    localStorage.setItem('portfolioThemeColor', JSON.stringify(colorVariants));
     onSelect();
   };
 

@@ -146,28 +146,6 @@ const CERTIFICATIONS = [
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
 
-  useEffect(() => {
-    const savedColor = localStorage.getItem('portfolioThemeColor');
-    if (savedColor) {
-      try {
-        const colorData = JSON.parse(savedColor);
-        document.documentElement.style.setProperty('--accent', colorData.hex);
-        document.documentElement.style.setProperty('--accent-rgb', colorData.rgb);
-        document.documentElement.style.setProperty('--accent-text', colorData.textHex);
-        document.documentElement.style.setProperty('--accent-text-rgb', colorData.textRgb);
-        document.documentElement.style.setProperty('--accent-soft', colorData.softHex);
-
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (isDarkMode) {
-          document.documentElement.style.setProperty('--accent-soft', colorData.softDarkHex);
-        }
-      } catch (e) {
-        // Fallback for old format
-      }
-      setShowSplash(false);
-    }
-  }, []);
-
   const handleColorSelected = () => {
     setShowSplash(false);
   };
