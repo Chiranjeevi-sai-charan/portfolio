@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
+import AnimatedCounter from "../components/AnimatedCounter";
+import InteractiveTimeline from "../components/InteractiveTimeline";
+import TestimonialCarousel from "../components/TestimonialCarousel";
+import DesignSystemShowcase from "../components/DesignSystemShowcase";
 // DogWorld (interactive dog character) is built but disabled for now —
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
@@ -171,7 +175,7 @@ export default function Home() {
             AI.
           </h1>
           <p className={styles.heroSub}>
-            5+ years turning complex, ambiguous workflows into interfaces that enterprise
+            <AnimatedCounter end={5} suffix="+ years" /> turning complex, ambiguous workflows into interfaces that enterprise
             teams actually trust, from conversational search to fraud detection dashboards.
           </p>
           <div className={styles.heroActions}>
@@ -216,7 +220,7 @@ export default function Home() {
               I care about systems more than one-off screens.{" "}
               <span className={styles.highlight}>Reusable components, design tokens</span>, and
               patterns that hold up across a whole product, not just one flow, including{" "}
-              <span className={styles.highlight}>a design system I shipped across three teams</span>.
+              <span className={styles.highlight}>a design system I shipped across <AnimatedCounter end={3} /> teams</span>.
               That instinct is also what earned my team{" "}
               <span className={styles.highlight}>recognition at a recent AI hackathon</span>.
             </p>
@@ -234,24 +238,7 @@ export default function Home() {
           <div className={styles.kicker}>Experience</div>
           <h2>Where I've worked</h2>
         </Reveal>
-        <div className={styles.experienceList}>
-          {EXPERIENCE.map((job, i) => (
-            <Reveal key={`${job.company}-${job.period}`} delay={i * 0.06} className={styles.experienceRow}>
-              <div className={styles.experienceHead}>
-                <div>
-                  <div className={styles.experienceRole}>{job.role}</div>
-                  <div className={styles.experienceCompany}>{job.company}</div>
-                </div>
-                <div className={styles.experiencePeriod}>{job.period}</div>
-              </div>
-              <ul className={styles.experienceHighlights}>
-                {job.highlights.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-            </Reveal>
-          ))}
-        </div>
+        <InteractiveTimeline experiences={EXPERIENCE} />
       </section>
 
       <section className={styles.section} id="education">
@@ -348,30 +335,15 @@ export default function Home() {
           <div className={styles.kicker}>Recommendations</div>
           <h2>What it's like to work with me</h2>
         </Reveal>
-        <div className={styles.testimonialGrid}>
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal
-              key={t.name}
-              as="a"
-              href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
-              target="_blank"
-              rel="noreferrer"
-              delay={i * 0.08}
-              className={styles.testimonialCard}
-              data-cursor-label="View on LinkedIn"
-            >
-              <p className={styles.testimonialQuote}>&ldquo;{t.quote}&rdquo;</p>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}>{t.name.charAt(0)}</div>
-                <div>
-                  <div className={styles.testimonialName}>{t.name}</div>
-                  <div className={styles.testimonialRole}>{t.role}</div>
-                  <div className={styles.testimonialContext}>{t.context}</div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <TestimonialCarousel testimonials={TESTIMONIALS} />
+      </section>
+
+      <section className={styles.section} id="design-system">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Design Systems Maturity</div>
+          <h2>Tokens, components, and patterns</h2>
+        </Reveal>
+        <DesignSystemShowcase />
       </section>
 
       <section className={styles.section} id="certifications">

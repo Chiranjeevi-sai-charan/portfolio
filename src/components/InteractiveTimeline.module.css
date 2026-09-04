@@ -1,0 +1,211 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.line {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dots {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+  padding: 0 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dot {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.dot::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.dot.active::before {
+  opacity: 0.1;
+}
+
+.dotInner {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg);
+  transition: all 0.3s ease;
+  border: 2px solid var(--text-primary);
+}
+
+.dot.active .dotInner {
+  box-shadow: 0 0 0 6px var(--accent);
+  width: 20px;
+  height: 20px;
+}
+
+.content {
+  min-height: 300px;
+  padding: 2rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, transparent 100%);
+  border: 1px solid var(--border);
+}
+
+.experienceItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.experienceHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.experienceRole {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.experienceCompany {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.experiencePeriod {
+  font-size: 0.875rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.experienceHighlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.experienceHighlights li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.experienceHighlights li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.navBtn {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.navBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.navBtn:active {
+  transform: translateY(0);
+}
+
+.navCounter {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  min-width: 60px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 2rem;
+  }
+
+  .dots {
+    gap: 1rem;
+  }
+
+  .dot {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dotInner {
+    width: 12px;
+    height: 12px;
+  }
+
+  .dot.active .dotInner {
+    width: 16px;
+    height: 16px;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+
+  .experienceHead {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
