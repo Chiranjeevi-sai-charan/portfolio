@@ -252,16 +252,24 @@ export default function Home() {
             </Reveal>
           ))}
         </div>
-        <Reveal className={styles.educationBlock}>
-          <div className={styles.educationLabel}>Education</div>
-          <div className={styles.educationRow}>
-            <div>
-              <div className={styles.experienceRole}>Information Technology</div>
-              <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
-            </div>
-            <div className={styles.experiencePeriod}>2016 – 2020</div>
-          </div>
+      </section>
+
+      <section className={styles.section} id="education">
+        <Reveal className={styles.sectionHead}>
+          <div className={styles.kicker}>Education</div>
+          <h2>Where I've studied</h2>
         </Reveal>
+        <div className={styles.experienceList}>
+          <Reveal className={styles.experienceRow}>
+            <div className={styles.experienceHead}>
+              <div>
+                <div className={styles.experienceRole}>Information Technology</div>
+                <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
+              </div>
+              <div className={styles.experiencePeriod}>2016 – 2020</div>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <section className={styles.section} id="achievements">
