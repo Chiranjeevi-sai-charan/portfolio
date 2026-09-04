@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { HexColorPicker } from 'react-colorful';
+import 'react-colorful/dist/index.css';
 import ColorThemeSelector from './ColorThemeSelector';
 import styles from './ColorSplash.module.css';
 
@@ -57,54 +59,76 @@ export default function ColorSplash({ onColorSelected }) {
 }
 
 function ColorThemeSplash({ onSelect }) {
-  const COLOR_THEMES = [
-    { name: 'Ocean Blue', hex: '#3B82F6', rgb: '59, 130, 246', textHex: '#1E40AF', textRgb: '30, 64, 175', softHex: '#DBEAFE', softRgb: '219, 234, 254', softDarkHex: '#1E3A8A', softDarkRgb: '30, 58, 138' },
-    { name: 'Emerald Green', hex: '#10B981', rgb: '16, 185, 129', textHex: '#047857', textRgb: '4, 120, 87', softHex: '#D1FAE5', softRgb: '209, 250, 229', softDarkHex: '#064E3B', softDarkRgb: '6, 78, 59' },
-    { name: 'Sunset Orange', hex: '#F97316', rgb: '249, 115, 22', textHex: '#B45309', textRgb: '180, 83, 9', softHex: '#FFEDD5', softRgb: '255, 237, 213', softDarkHex: '#7C2D12', softDarkRgb: '124, 45, 18' },
-    { name: 'Purple Dream', hex: '#8B5CF6', rgb: '139, 92, 246', textHex: '#5B21B6', textRgb: '91, 33, 182', softHex: '#EDE9FE', softRgb: '237, 233, 254', softDarkHex: '#3F0F64', softDarkRgb: '63, 15, 100' },
-    { name: 'Rose Pink', hex: '#EC4899', rgb: '236, 72, 153', textHex: '#BE185D', textRgb: '190, 24, 93', softHex: '#FCE7F3', softRgb: '252, 231, 243', softDarkHex: '#831843', softDarkRgb: '131, 24, 67' },
-    { name: 'Teal', hex: '#14B8A6', rgb: '20, 184, 166', textHex: '#0D9488', textRgb: '13, 148, 136', softHex: '#CCFBF1', softRgb: '204, 251, 241', softDarkHex: '#134E4A', softDarkRgb: '19, 78, 74' },
-    { name: 'Indigo', hex: '#6366F1', rgb: '99, 102, 241', textHex: '#3730A3', textRgb: '55, 48, 163', softHex: '#E0E7FF', softRgb: '224, 231, 255', softDarkHex: '#1E1B4B', softDarkRgb: '30, 27, 75' },
-    { name: 'Cyan', hex: '#06B6D4', rgb: '6, 182, 212', textHex: '#0E7490', textRgb: '14, 116, 144', softHex: '#CFFAFE', softRgb: '207, 250, 254', softDarkHex: '#0F3A42', softDarkRgb: '15, 58, 66' },
-  ];
+  const [color, setColor] = useState('#3B82F6');
 
-  const handleSelectColor = (color) => {
-    document.documentElement.style.setProperty('--accent', color.hex);
-    document.documentElement.style.setProperty('--accent-rgb', color.rgb);
-    document.documentElement.style.setProperty('--accent-text', color.textHex);
-    document.documentElement.style.setProperty('--accent-text-rgb', color.textRgb);
-    document.documentElement.style.setProperty('--accent-soft', color.softHex);
+  const hexToRgb = (hex) => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '59, 130, 246';
+  };
+
+  const generateColorVariants = (hex) => {
+    const rgb = hexToRgb(hex);
+    const isDark = parseInt(hex.slice(1), 16) < 0x808080;
+
+    return {
+      hex,
+      rgb,
+      textHex: isDark ? '#FFFFFF' : '#000000',
+      textRgb: isDark ? '255, 255, 255' : '0, 0, 0',
+      softHex: hex + '20',
+      softRgb: rgb,
+      softDarkHex: hex + '30',
+      softDarkRgb: rgb,
+    };
+  };
+
+  const handleColorChange = (newColor) => {
+    setColor(newColor);
+  };
+
+  const handleConfirm = () => {
+    const colorData = generateColorVariants(color);
+
+    document.documentElement.style.setProperty('--accent', colorData.hex);
+    document.documentElement.style.setProperty('--accent-rgb', colorData.rgb);
+    document.documentElement.style.setProperty('--accent-text', colorData.textHex);
+    document.documentElement.style.setProperty('--accent-text-rgb', colorData.textRgb);
+    document.documentElement.style.setProperty('--accent-soft', colorData.softHex);
 
     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (isDarkMode) {
-      document.documentElement.style.setProperty('--accent-soft', color.softDarkHex);
+      document.documentElement.style.setProperty('--accent-soft', colorData.softDarkHex);
     }
 
-    localStorage.setItem('portfolioThemeColor', JSON.stringify(color));
+    localStorage.setItem('portfolioThemeColor', JSON.stringify(colorData));
     onSelect();
   };
 
   return (
-    <div className={styles.colorGrid}>
-      {COLOR_THEMES.map((color, i) => (
-        <motion.button
-          key={color.hex}
-          onClick={() => handleSelectColor(color)}
-          className={styles.colorOption}
-          whileHover={{ scale: 1.15 }}
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: i * 0.06 }}
-          title={color.name}
-        >
-          <div
-            className={styles.colorCircle}
-            style={{ backgroundColor: color.hex }}
-          />
-          <span className={styles.colorName}>{color.name}</span>
-        </motion.button>
-      ))}
+    <div className={styles.pickerContainer}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className={styles.colorPickerWrapper}
+      >
+        <HexColorPicker color={color} onChange={handleColorChange} />
+      </motion.div>
+      <motion.button
+        onClick={handleConfirm}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className={styles.confirmButton}
+        style={{
+          backgroundColor: color,
+          color: parseInt(color.slice(1), 16) < 0x808080 ? '#fff' : '#000'
+        }}
+      >
+        Continue with this color
+      </motion.button>
     </div>
   );
 }
