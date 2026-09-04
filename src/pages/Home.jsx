@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
@@ -5,7 +6,7 @@ import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
 import AnimatedCounter from "../components/AnimatedCounter";
 import TestimonialCarousel from "../components/TestimonialCarousel";
-import ColorThemeSelector from "../components/ColorThemeSelector";
+import ColorSplash from "../components/ColorSplash";
 // DogWorld (interactive dog character) is built but disabled for now —
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
@@ -143,6 +144,38 @@ const CERTIFICATIONS = [
 ];
 
 export default function Home() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const savedColor = localStorage.getItem('portfolioThemeColor');
+    if (savedColor) {
+      try {
+        const colorData = JSON.parse(savedColor);
+        document.documentElement.style.setProperty('--accent', colorData.hex);
+        document.documentElement.style.setProperty('--accent-rgb', colorData.rgb);
+        document.documentElement.style.setProperty('--accent-text', colorData.textHex);
+        document.documentElement.style.setProperty('--accent-text-rgb', colorData.textRgb);
+        document.documentElement.style.setProperty('--accent-soft', colorData.softHex);
+
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDarkMode) {
+          document.documentElement.style.setProperty('--accent-soft', colorData.softDarkHex);
+        }
+      } catch (e) {
+        // Fallback for old format
+      }
+      setShowSplash(false);
+    }
+  }, []);
+
+  const handleColorSelected = () => {
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return <ColorSplash onColorSelected={handleColorSelected} />;
+  }
+
   return (
     <>
       <section className={styles.hero} id="top">
@@ -182,14 +215,6 @@ export default function Home() {
           </div>
         </motion.div>
         {/* <DogWorld className={styles.dogWorldSlot} /> */}
-      </section>
-
-      <section className={`${styles.section} ${styles.themeSection}`} id="theme">
-        <Reveal className={styles.sectionHead}>
-          <div className={styles.kicker}>Personalize Your Experience</div>
-          <h2>Pick your favorite color</h2>
-        </Reveal>
-        <ColorThemeSelector />
       </section>
 
       <section className={`${styles.section} ${styles.positioningSection}`} id="positioning">
