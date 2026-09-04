@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { HexColorPicker } from 'react-colorful';
-import 'react-colorful/dist/index.css';
+import 'react-colorful/index.css';
 import ColorThemeSelector from './ColorThemeSelector';
 import styles from './ColorSplash.module.css';
 
