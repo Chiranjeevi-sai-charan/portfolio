@@ -80,7 +80,7 @@ const TESTIMONIALS = [
   {
     quote: "It was great to work with Chiranjeevi as his Project Manager where he consistently demonstrated strong UX design skills, creativity and a user-friendly approach. He is a collaborative and dependable professional who would be a great asset to any team.",
     name: "Pragati Bhatia",
-    role: "PMO | Project Management | Strategy | Lead Engineer, MTSL",
+    role: "PMO | Project Management | Lead Engineer, MTSL",
     context: "Managed Chiranjeevi directly",
   },
   {
@@ -252,6 +252,16 @@ export default function Home() {
             </Reveal>
           ))}
         </div>
+        <Reveal className={styles.educationBlock}>
+          <div className={styles.educationLabel}>Education</div>
+          <div className={styles.educationRow}>
+            <div>
+              <div className={styles.experienceRole}>Information Technology</div>
+              <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
+            </div>
+            <div className={styles.experiencePeriod}>2016 – 2020</div>
+          </div>
+        </Reveal>
       </section>
 
       <section className={styles.section} id="achievements">
