@@ -4,9 +4,8 @@ import Reveal from "../components/Reveal";
 import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
 import AnimatedCounter from "../components/AnimatedCounter";
-import InteractiveTimeline from "../components/InteractiveTimeline";
 import TestimonialCarousel from "../components/TestimonialCarousel";
-import DesignSystemShowcase from "../components/DesignSystemShowcase";
+import ColorThemeSelector from "../components/ColorThemeSelector";
 // DogWorld (interactive dog character) is built but disabled for now —
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
@@ -238,7 +237,24 @@ export default function Home() {
           <div className={styles.kicker}>Experience</div>
           <h2>Where I've worked</h2>
         </Reveal>
-        <InteractiveTimeline experiences={EXPERIENCE} />
+        <div className={styles.experienceList}>
+          {EXPERIENCE.map((job, i) => (
+            <Reveal key={`${job.company}-${job.period}`} delay={i * 0.06} className={styles.experienceRow}>
+              <div className={styles.experienceHead}>
+                <div>
+                  <div className={styles.experienceRole}>{job.role}</div>
+                  <div className={styles.experienceCompany}>{job.company}</div>
+                </div>
+                <div className={styles.experiencePeriod}>{job.period}</div>
+              </div>
+              <ul className={styles.experienceHighlights}>
+                {job.highlights.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       <section className={styles.section} id="education">
@@ -338,12 +354,12 @@ export default function Home() {
         <TestimonialCarousel testimonials={TESTIMONIALS} />
       </section>
 
-      <section className={styles.section} id="design-system">
+      <section className={styles.section} id="theme">
         <Reveal className={styles.sectionHead}>
-          <div className={styles.kicker}>Design Systems Maturity</div>
-          <h2>Tokens, components, and patterns</h2>
+          <div className={styles.kicker}>Personalize Your Experience</div>
+          <h2>Pick your favorite color</h2>
         </Reveal>
-        <DesignSystemShowcase />
+        <ColorThemeSelector />
       </section>
 
       <section className={styles.section} id="certifications">

@@ -110,7 +110,7 @@ export default function TestimonialCarousel({ testimonials }) {
           onClick={() => setAutoPlay(!autoPlay)}
           className={styles.toggleBtn}
         >
-          {autoPlay ? '⏸ Pause' : '▶ Play'}
+          {autoPlay ? 'Pause' : 'Play'}
         </button>
       </div>
     </div>
