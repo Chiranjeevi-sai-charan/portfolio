@@ -171,7 +171,7 @@ export default function Home() {
                 <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
               </svg>
             </span>{" "}
-            with <span className={styles.accentNumber}><AnimatedCounter end={5} suffix="+" /></span> years of experience designing enterprise applications, AI-powered experiences, and scalable design systems.
+            with <span className={styles.accentNumber}><AnimatedCounter end={5} suffix="+" /></span> years of experience designing Enterprise Applications, AI-Powered Experiences, and Scalable Design Systems.
           </h1>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn}>See the work</a>
@@ -210,9 +210,6 @@ export default function Home() {
             </p>
             <p>
               I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
-            </p>
-            <p>
-              My expertise spans <span className={styles.highlight}>Enterprise Applications, AI-Powered Experiences, and Scalable Design Systems</span>—transforming complex workflows into intuitive interfaces that teams trust.
             </p>
             <p>
               Most of my recent work is enterprise
