@@ -351,6 +351,21 @@ export default function Home() {
           <h2>What it's like to work with me</h2>
         </Reveal>
         <TestimonialCarousel testimonials={TESTIMONIALS} />
+        <Reveal delay={0.2}>
+          <div className={styles.testimonialFooter}>
+            <p>
+              <a
+                href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.linkedinLink}
+                data-cursor-label="View on LinkedIn"
+              >
+                See all my recommendations on LinkedIn →
+              </a>
+            </p>
+          </div>
+        </Reveal>
       </section>
 
       <section className={styles.section} id="certifications">

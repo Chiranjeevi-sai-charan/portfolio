@@ -381,6 +381,34 @@
   background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 100%);
 }
 
+.testimonialFooter {
+  text-align: center;
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--border);
+}
+
+.testimonialFooter p {
+  margin: 0;
+  font-size: var(--fs-body);
+  color: var(--ink-soft);
+}
+
+.linkedinLink {
+  color: var(--accent-text);
+  font-weight: 600;
+  transition: all var(--dur-fast) var(--ease-out);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.linkedinLink:hover {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+
 @media (max-width: 640px) {
   .themeSection {
     padding: var(--sp-4) var(--sp-3) !important;
