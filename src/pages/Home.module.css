@@ -67,6 +67,7 @@
   max-width: 70ch;
   line-height: 1.5;
   color: var(--ink);
+  font-weight: 400;
 }
 .productDesigner {
   position: relative;
