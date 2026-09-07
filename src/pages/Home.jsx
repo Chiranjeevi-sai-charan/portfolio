@@ -163,30 +163,16 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.heroGreeting}>
-            <h1 className={styles.heroName}>Hey 👋, I'm Chiranjeevi!</h1>
-            <p className={styles.heroIntro}>
-              UI/UX Designer with <span className={styles.highlight}><AnimatedCounter end={5} suffix="+" /></span> years of experience designing enterprise applications, AI-powered experiences, and scalable design systems.
-            </p>
-          </div>
-
-          <div className={styles.careerMeterContainer}>
-            <div className={styles.careerMeterLabel}>Career Progress</div>
-            <div className={styles.careerMeter}>
-              <motion.div
-                className={styles.careerMeterFill}
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
-              />
-            </div>
-            <div className={styles.careerMeterStats}>
-              <span>2 Companies</span>
-              <span>5+ Years</span>
-              <span>Enterprise Focus</span>
-            </div>
-          </div>
-
+          <div className={styles.kicker}>Hey 👋, I'm Chiranjeevi!</div>
+          <h1 className={styles.heroTitle}>
+            <span className={styles.underlineWord}>
+              Product Designer
+              <svg className={styles.underlineSvg} viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
+              </svg>
+            </span>{" "}
+            with <AnimatedCounter end={5} suffix="+" /> years of experience designing enterprise applications, AI-powered experiences, and scalable design systems.
+          </h1>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn}>See the work</a>
           </div>
