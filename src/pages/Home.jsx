@@ -163,15 +163,15 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.kicker}>Hey 👋, I'm Chiranjeevi!</div>
+          <div className={styles.kicker}>Hey! I'm Chiranjeevi</div>
           <h1 className={styles.heroTitle}>
-            <span className={styles.underlineWord}>
+            A <span className={styles.productDesigner}>
               Product Designer
               <svg className={styles.underlineSvg} viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true">
                 <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
               </svg>
             </span>{" "}
-            with <AnimatedCounter end={5} suffix="+" /> years of experience designing enterprise applications, AI-powered experiences, and scalable design systems.
+            with <span className={styles.accentNumber}><AnimatedCounter end={5} suffix="+" /></span> years of experience designing enterprise applications, AI-powered experiences, and scalable design systems.
           </h1>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn}>See the work</a>
@@ -235,25 +235,6 @@ export default function Home() {
         <Reveal className={styles.sectionHead}>
           <div className={styles.kicker}>Experience</div>
           <h2>Where I've worked</h2>
-        </Reveal>
-        <Reveal className={styles.careerLadder}>
-          <div className={styles.ladderStep}>
-            <div className={styles.ladderDot} />
-            <div className={styles.ladderContent}>
-              <div className={styles.ladderTitle}>UI/UX Designer</div>
-              <div className={styles.ladderCompany}>Deloitte Consulting LLP</div>
-              <div className={styles.ladderPeriod}>06/2021 – 05/2025 (4 years)</div>
-            </div>
-          </div>
-          <div className={styles.ladderConnector} />
-          <div className={styles.ladderStep}>
-            <div className={styles.ladderDot} />
-            <div className={styles.ladderContent}>
-              <div className={styles.ladderTitle}>UI/UX Design Consultant</div>
-              <div className={styles.ladderCompany}>Motherson Technology Centre</div>
-              <div className={styles.ladderPeriod}>08/2025 – Present</div>
-            </div>
-          </div>
         </Reveal>
         <div className={styles.experienceList}>
           {EXPERIENCE.map((job, i) => (
