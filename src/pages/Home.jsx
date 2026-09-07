@@ -212,6 +212,9 @@ export default function Home() {
               I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
             </p>
             <p>
+              My expertise spans <span className={styles.highlight}>Enterprise Applications, AI-Powered Experiences, and Scalable Design Systems</span>—transforming complex workflows into intuitive interfaces that teams trust.
+            </p>
+            <p>
               Most of my recent work is enterprise
               AI: <span className={styles.highlight}>conversational search, document intelligence,
               RAG</span>, and multimodal interactions, simplified into interfaces people can
