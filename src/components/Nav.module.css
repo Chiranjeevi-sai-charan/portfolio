@@ -88,7 +88,7 @@
   border-color: var(--accent);
   color: var(--accent-text);
 }
-.downloadIcon {
+.externalLinkIcon {
   width: 13px;
   height: 13px;
   flex-shrink: 0;

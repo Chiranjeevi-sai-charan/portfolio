@@ -46,9 +46,8 @@ export default function Nav() {
           data-cursor-label="Resume"
         >
           Resume
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={styles.downloadIcon}>
-            <path d="M8 2v7.5M8 9.5 5 6.5M8 9.5l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M3 12v1.2A1.8 1.8 0 0 0 4.8 15h6.4A1.8 1.8 0 0 0 13 13.2V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={styles.externalLinkIcon}>
+            <path d="M10 2h4v4M14 2L8 8M6 2H2v12h12V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
         <a
@@ -92,8 +91,7 @@ export default function Nav() {
           <a href="https://flowcv.com/resume/avbobjk3o6" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuResume}>
             Resume
             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M8 2v7.5M8 9.5 5 6.5M8 9.5l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M3 12v1.2A1.8 1.8 0 0 0 4.8 15h6.4A1.8 1.8 0 0 0 13 13.2V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M10 2h4v4M14 2L8 8M6 2H2v12h12V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
           <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuLinkedin}>
