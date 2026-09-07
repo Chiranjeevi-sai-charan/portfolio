@@ -163,7 +163,13 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
+          <div className={styles.kickerWrapper}>
+            <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
+            <div className={styles.experienceStat}>
+              <span className={styles.experienceNumber}><AnimatedCounter end={5} suffix="+" /></span>
+              <span className={styles.experienceLabel}>years</span>
+            </div>
+          </div>
           <h1 className={styles.heroTitle}>
             I design the UX layer of{" "}
             <span className={styles.underlineWord}>
@@ -172,11 +178,10 @@ export default function Home() {
                 <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
               </svg>
             </span>{" "}
-            AI.
+            app.
           </h1>
           <p className={styles.heroSub}>
-            <AnimatedCounter end={5} suffix="+ years" /> turning complex, ambiguous workflows into interfaces that enterprise
-            teams actually trust, from conversational search to fraud detection dashboards.
+            Turning complex, ambiguous workflows into interfaces that enterprise teams actually trust, from conversational search to fraud detection dashboards.
           </p>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn}>See the work</a>

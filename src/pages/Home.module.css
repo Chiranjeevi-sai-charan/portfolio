@@ -6,10 +6,41 @@
 }
 .kicker {
   font-family: var(--font-accent);
-  font-size: 30px;
-  font-weight: 600;
+  font-size: 40px;
+  font-weight: 700;
   color: var(--accent-text);
-  margin-bottom: var(--sp-1);
+  margin-bottom: var(--sp-2);
+  line-height: 1.2;
+}
+.kickerWrapper {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-3);
+  flex-wrap: wrap;
+}
+.experienceStat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--accent-soft);
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+}
+.experienceNumber {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent-text);
+  line-height: 1;
+}
+.experienceLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .heroPhotoCol {
   align-self: stretch;
@@ -54,13 +85,20 @@
   .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
   .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
+  .kickerWrapper { justify-content: center; gap: var(--sp-3); }
+  .kicker { font-size: 32px; }
+  .experienceStat { padding: 6px 14px; }
+  .experienceNumber { font-size: 28px; }
+  .experienceLabel { font-size: 12px; }
 }
 .heroTitle {
   position: relative;
   display: inline-block;
   font-family: var(--font-display);
-  font-size: var(--fs-hero);
+  font-size: clamp(2rem, 8vw, 4.5rem);
   max-width: 16ch;
+  line-height: 1.1;
+  margin-bottom: var(--sp-3);
 }
 .underlineWord {
   position: relative;
@@ -75,10 +113,11 @@
   overflow: visible;
 }
 .heroSub {
-  margin-top: var(--sp-3);
-  font-size: 20px;
+  margin-top: var(--sp-2);
+  font-size: clamp(16px, 2.5vw, 20px);
   color: var(--ink-soft);
   max-width: 56ch;
+  line-height: 1.6;
 }
 .heroActions {
   margin-top: var(--sp-5);
