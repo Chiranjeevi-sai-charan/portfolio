@@ -12,7 +12,19 @@
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 .nav.scrolled { border-color: var(--border); }
-.brand { display: flex; align-items: center; }
+.brand {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: opacity var(--dur-fast) ease;
+}
+.brand:hover {
+  opacity: 0.8;
+}
 .brandContent {
   display: flex;
   flex-direction: column;
