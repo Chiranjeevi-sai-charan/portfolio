@@ -6,6 +6,7 @@ import styles from "./Nav.module.css";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -13,6 +14,8 @@ export default function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
@@ -60,6 +63,31 @@ export default function Nav() {
           Say hello
         </a>
       </div>
+
+      <button
+        className={styles.mobileMenuBtn}
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Menu"
+        aria-expanded={mobileMenuOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      {mobileMenuOpen && (
+        <div className={styles.mobileMenu}>
+          <a href="/#about" onClick={closeMobileMenu}>About</a>
+          <a href="/#experience" onClick={closeMobileMenu}>Experience</a>
+          <a href="/#achievements" onClick={closeMobileMenu}>Recognition</a>
+          <a href="/#work" onClick={closeMobileMenu}>Work</a>
+          <a href="/#stack" onClick={closeMobileMenu}>Toolkit</a>
+          <a href="/#testimonials" onClick={closeMobileMenu}>Recommendations</a>
+          <a href="/#certifications" onClick={closeMobileMenu}>Certifications</a>
+          <a href="https://flowcv.com/resume/avbobjk3o6" target="_blank" rel="noreferrer" onClick={closeMobileMenu}>Resume</a>
+          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" onClick={closeMobileMenu}>LinkedIn</a>
+        </div>
+      )}
     </nav>
   );
 }
