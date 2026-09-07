@@ -57,15 +57,16 @@
   .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
   .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
-  .heroTitle { font-size: 18px; }
-  .productDesigner { font-size: 32px; }
+  .heroTitle { font-size: 24px; }
+  .productDesigner { font-size: 36px; }
 }
 .heroTitle {
   position: relative;
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 34px;
   max-width: 70ch;
   line-height: 1.5;
+  color: var(--ink);
 }
 .productDesigner {
   position: relative;

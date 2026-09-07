@@ -16,14 +16,13 @@
   --border: #e5e7e9;
   --nav-glass: rgba(255, 255, 255, 0.72);
 
-  /* ---- Accent (single blue pair, used everywhere) ------------ */
-  --accent: #00b4d8;
-  --accent-rgb: 0, 180, 216;
-  --accent-ink: #0a0a0a;
+  /* ---- Accent (dark navy for light theme, light cyan for dark theme) ------------ */
+  --accent: #03045e;
+  --accent-rgb: 3, 4, 94;
+  --accent-ink: #ffffff;
   --accent-soft: #90e0ef;
-  /* Darker blue for text on white, provides 5.4:1 contrast for links/labels. */
-  --accent-text: #0077b6;
-  --accent-text-rgb: 0, 119, 182;
+  --accent-text: #03045e;
+  --accent-text-rgb: 3, 4, 94;
 
   /* ---- Type ---------------------------------------------------*/
   --font-sans: "Valley Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -77,12 +76,12 @@
     --border: #33393f;
     --nav-glass: rgba(11, 13, 15, 0.72);
 
-    --accent: #00b4d8;
-    --accent-rgb: 0, 180, 216;
-    --accent-ink: #0a0a0a;
+    --accent: #caf0f8;
+    --accent-rgb: 202, 240, 248;
+    --accent-ink: #03045e;
     --accent-soft: #0d3a47;
-    --accent-text: #4dd9f1;
-    --accent-text-rgb: 77, 217, 241;
+    --accent-text: #caf0f8;
+    --accent-text-rgb: 202, 240, 248;
 
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);

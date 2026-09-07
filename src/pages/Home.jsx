@@ -54,15 +54,15 @@ const CASE_STUDIES = [
 
 const POSITIONING = [
   {
-    label: "Goal",
+    label: "Where I'm Headed",
     text: "A senior product design role at an enterprise AI or B2B SaaS company, leading design systems and strategy, not just shipping screens.",
   },
   {
-    label: "Voice",
+    label: "How I Work",
     text: "Decisions backed by research and usability testing, not just visual polish, validated with real users before anything ships.",
   },
   {
-    label: "Audience",
+    label: "Who I'm For",
     text: "Enterprises and fast-growing SaaS companies building AI-native products, where design maturity and design-engineering collaboration matter.",
   },
 ];
@@ -206,7 +206,10 @@ export default function Home() {
             <p>
               I am a product designer with a front-end development background, which means
               I design with what is actually <span className={styles.highlight}>buildable</span> in
-              mind, not just what looks good in a mockup. I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
+              mind, not just what looks good in a mockup.
+            </p>
+            <p>
+              I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
             </p>
             <p>
               Most of my recent work is enterprise
