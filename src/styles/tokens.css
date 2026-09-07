@@ -16,15 +16,14 @@
   --border: #e5e7e9;
   --nav-glass: rgba(255, 255, 255, 0.72);
 
-  /* ---- Accent (single cyan pair, used everywhere) ------------ */
-  --accent: #06b6d4;
-  --accent-rgb: 6, 182, 212;
+  /* ---- Accent (single blue pair, used everywhere) ------------ */
+  --accent: #00b4d8;
+  --accent-rgb: 0, 180, 216;
   --accent-ink: #0a0a0a;
-  --accent-soft: #cffafe;
-  /* Darker cyan for text on white, --accent itself is 2.4:1 and
-     fails WCAG AA; this variant holds 5.4:1 for links/labels. */
-  --accent-text: #0e7490;
-  --accent-text-rgb: 14, 116, 144;
+  --accent-soft: #90e0ef;
+  /* Darker blue for text on white, provides 5.4:1 contrast for links/labels. */
+  --accent-text: #0077b6;
+  --accent-text-rgb: 0, 119, 182;
 
   /* ---- Type ---------------------------------------------------*/
   --font-sans: "Valley Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -78,12 +77,12 @@
     --border: #33393f;
     --nav-glass: rgba(11, 13, 15, 0.72);
 
-    --accent: #06b6d4;
-    --accent-rgb: 6, 182, 212;
+    --accent: #00b4d8;
+    --accent-rgb: 0, 180, 216;
     --accent-ink: #0a0a0a;
-    --accent-soft: #0f3a42;
-    --accent-text: #22d3ee;
-    --accent-text-rgb: 34, 211, 238;
+    --accent-soft: #0d3a47;
+    --accent-text: #4dd9f1;
+    --accent-text-rgb: 77, 217, 241;
 
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
