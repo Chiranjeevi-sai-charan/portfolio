@@ -84,8 +84,17 @@ export default function Nav() {
           <a href="/#stack" onClick={closeMobileMenu}>Toolkit</a>
           <a href="/#testimonials" onClick={closeMobileMenu}>Recommendations</a>
           <a href="/#certifications" onClick={closeMobileMenu}>Certifications</a>
-          <a href="https://flowcv.com/resume/avbobjk3o6" target="_blank" rel="noreferrer" onClick={closeMobileMenu}>Resume</a>
-          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" onClick={closeMobileMenu}>LinkedIn</a>
+          <a href="https://flowcv.com/resume/avbobjk3o6" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuResume}>
+            Resume
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 2v7.5M8 9.5 5 6.5M8 9.5l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 12v1.2A1.8 1.8 0 0 0 4.8 15h6.4A1.8 1.8 0 0 0 13 13.2V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuLinkedin}>
+            <img src={linkedinLogo} alt="LinkedIn" />
+            LinkedIn
+          </a>
         </div>
       )}
     </nav>

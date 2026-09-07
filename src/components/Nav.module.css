@@ -157,6 +157,22 @@
   color: var(--accent-text);
   background: var(--bg-alt);
 }
+.mobileMenuResume,
+.mobileMenuLinkedin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mobileMenuResume svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.mobileMenuLinkedin img {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
 
 @media (max-width: 640px) {
   .links a:not(.cta) { display: none; }
