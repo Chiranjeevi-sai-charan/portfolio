@@ -16,13 +16,13 @@
   --border: #e5e7e9;
   --nav-glass: rgba(255, 255, 255, 0.72);
 
-  /* ---- Accent (medium blue for light theme, light cyan for dark theme) ------------ */
-  --accent: #0077b6;
-  --accent-rgb: 0, 119, 182;
+  /* ---- Accent (dark blue for light theme, light cyan for dark theme) ------------ */
+  --accent: #023e8a;
+  --accent-rgb: 2, 62, 138;
   --accent-ink: #ffffff;
   --accent-soft: #90e0ef;
-  --accent-text: #0077b6;
-  --accent-text-rgb: 0, 119, 182;
+  --accent-text: #023e8a;
+  --accent-text-rgb: 2, 62, 138;
 
   /* ---- Type ---------------------------------------------------*/
   --font-sans: "Valley Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
