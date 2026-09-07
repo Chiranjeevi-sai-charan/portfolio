@@ -12,36 +12,6 @@
   margin-bottom: var(--sp-2);
   line-height: 1.2;
 }
-.kickerWrapper {
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-4);
-  margin-bottom: var(--sp-3);
-  flex-wrap: wrap;
-}
-.experienceStat {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 8px 16px;
-  background: var(--accent-soft);
-  border-radius: 999px;
-  border: 1px solid var(--accent);
-}
-.experienceNumber {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--accent-text);
-  line-height: 1;
-}
-.experienceLabel {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
 .heroPhotoCol {
   align-self: stretch;
   height: 100vh;
@@ -65,6 +35,71 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: var(--sp-5);
+}
+.heroGreeting {
+  margin-bottom: var(--sp-2);
+}
+.heroName {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: var(--sp-2);
+}
+.heroIntro {
+  font-size: clamp(16px, 2.5vw, 18px);
+  color: var(--ink-soft);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+.heroIntro .highlight {
+  color: var(--accent-text);
+  font-weight: 700;
+}
+.careerMeterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.careerMeterLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+}
+.careerMeter {
+  height: 6px;
+  background: var(--bg-alt);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.careerMeterFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-text));
+  border-radius: 999px;
+}
+.careerMeterStats {
+  display: flex;
+  gap: var(--sp-3);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  flex-wrap: wrap;
+}
+.careerMeterStats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.careerMeterStats span::before {
+  content: '•';
+  color: var(--accent);
+}
+.careerMeterStats span:first-child::before {
+  content: '';
 }
 .dogWorldSlot {
   grid-column: 2;
@@ -82,14 +117,13 @@
     text-align: center;
   }
   .heroPhotoCol { height: 60vh; order: -1; }
-  .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
+  .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); gap: var(--sp-4); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
   .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
-  .kickerWrapper { justify-content: center; gap: var(--sp-3); }
-  .kicker { font-size: 32px; }
-  .experienceStat { padding: 6px 14px; }
-  .experienceNumber { font-size: 28px; }
-  .experienceLabel { font-size: 12px; }
+  .careerMeterStats { justify-content: center; }
+  .careerLadder { padding-left: var(--sp-3); }
+  .ladderDot { margin-left: -24px; }
+  .ladderConnector { margin-left: -16px; }
 }
 .heroTitle {
   position: relative;
@@ -312,6 +346,59 @@
 .testimonialRole { font-size: var(--fs-small); color: var(--ink-soft); margin-top: 2px; }
 .testimonialContext { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
 
+.careerLadder {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: var(--sp-6);
+  position: relative;
+  padding-left: var(--sp-4);
+}
+.ladderStep {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  position: relative;
+}
+.ladderDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+  z-index: 2;
+  margin-left: -28px;
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.ladderConnector {
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-soft));
+  margin-left: -20px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+}
+.ladderContent {
+  padding: var(--sp-2) 0;
+}
+.ladderTitle {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: var(--fs-body);
+}
+.ladderCompany {
+  font-size: var(--fs-small);
+  color: var(--accent-text);
+  margin-top: 2px;
+}
+.ladderPeriod {
+  font-size: var(--fs-small);
+  color: var(--ink-faint);
+  margin-top: 4px;
+}
 .experienceList {
   display: flex;
   flex-direction: column;

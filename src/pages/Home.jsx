@@ -163,26 +163,30 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.kickerWrapper}>
-            <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
-            <div className={styles.experienceStat}>
-              <span className={styles.experienceNumber}><AnimatedCounter end={5} suffix="+" /></span>
-              <span className={styles.experienceLabel}>years</span>
+          <div className={styles.heroGreeting}>
+            <h1 className={styles.heroName}>Hey 👋, I'm Chiranjeevi!</h1>
+            <p className={styles.heroIntro}>
+              UI/UX Designer with <span className={styles.highlight}><AnimatedCounter end={5} suffix="+" /></span> years of experience designing enterprise applications, AI-powered experiences, and scalable design systems.
+            </p>
+          </div>
+
+          <div className={styles.careerMeterContainer}>
+            <div className={styles.careerMeterLabel}>Career Progress</div>
+            <div className={styles.careerMeter}>
+              <motion.div
+                className={styles.careerMeterFill}
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
+              />
+            </div>
+            <div className={styles.careerMeterStats}>
+              <span>2 Companies</span>
+              <span>5+ Years</span>
+              <span>Enterprise Focus</span>
             </div>
           </div>
-          <h1 className={styles.heroTitle}>
-            I design the UX layer of{" "}
-            <span className={styles.underlineWord}>
-              enterprise
-              <svg className={styles.underlineSvg} viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
-              </svg>
-            </span>{" "}
-            app.
-          </h1>
-          <p className={styles.heroSub}>
-            Turning complex, ambiguous workflows into interfaces that enterprise teams actually trust, from conversational search to fraud detection dashboards.
-          </p>
+
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn}>See the work</a>
           </div>
@@ -245,6 +249,25 @@ export default function Home() {
         <Reveal className={styles.sectionHead}>
           <div className={styles.kicker}>Experience</div>
           <h2>Where I've worked</h2>
+        </Reveal>
+        <Reveal className={styles.careerLadder}>
+          <div className={styles.ladderStep}>
+            <div className={styles.ladderDot} />
+            <div className={styles.ladderContent}>
+              <div className={styles.ladderTitle}>UI/UX Designer</div>
+              <div className={styles.ladderCompany}>Deloitte Consulting LLP</div>
+              <div className={styles.ladderPeriod}>06/2021 – 05/2025 (4 years)</div>
+            </div>
+          </div>
+          <div className={styles.ladderConnector} />
+          <div className={styles.ladderStep}>
+            <div className={styles.ladderDot} />
+            <div className={styles.ladderContent}>
+              <div className={styles.ladderTitle}>UI/UX Design Consultant</div>
+              <div className={styles.ladderCompany}>Motherson Technology Centre</div>
+              <div className={styles.ladderPeriod}>08/2025 – Present</div>
+            </div>
+          </div>
         </Reveal>
         <div className={styles.experienceList}>
           {EXPERIENCE.map((job, i) => (
