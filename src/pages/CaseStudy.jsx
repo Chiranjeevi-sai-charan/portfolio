@@ -303,7 +303,7 @@ export default function CaseStudy() {
               marginBottom: 48,
             }}>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Project Name
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
@@ -311,7 +311,7 @@ export default function CaseStudy() {
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Date
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
@@ -319,7 +319,7 @@ export default function CaseStudy() {
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Your Role
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
@@ -327,7 +327,7 @@ export default function CaseStudy() {
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Team Members
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
@@ -336,7 +336,7 @@ export default function CaseStudy() {
               </div>
               {caseStudy.overview.toolsUsed && (
                 <div style={{ gridColumn: "1 / -1" }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                     Tools Used
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(100px, 1fr))", gap: 8, lineHeight: "1.8" }}>
@@ -349,7 +349,7 @@ export default function CaseStudy() {
                 </div>
               )}
               <div style={{ gridColumn: "1 / -1" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Objective
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)", lineHeight: "1.6" }}>
@@ -357,7 +357,7 @@ export default function CaseStudy() {
                 </div>
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Target Audience
                 </div>
                 <ul style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)", lineHeight: "1.8", paddingLeft: 20 }}>
