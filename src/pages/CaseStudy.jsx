@@ -576,10 +576,10 @@ export default function CaseStudy() {
                             backgroundColor: stageIndex % 2 === 0 ? "rgba(255, 255, 255, 0.02)" : "transparent",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
                           }}>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}><strong>{stage.stage}</strong></td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}>{stage.current}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}>{stage.pain}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}>{stage.opportunity}</td>
+                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}><strong>{stage.stage}</strong></td>
+                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.current}</td>
+                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.pain}</td>
+                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.opportunity}</td>
                           </tr>
                         ))}
                       </tbody>
