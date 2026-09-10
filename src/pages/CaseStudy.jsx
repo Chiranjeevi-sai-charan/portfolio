@@ -298,7 +298,7 @@ export default function CaseStudy() {
             </h2>
             <div style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(2, 1fr)",
               gap: 24,
               marginBottom: 48,
             }}>
@@ -339,19 +339,8 @@ export default function CaseStudy() {
                   <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                     Tools Used
                   </div>
-                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                    {caseStudy.overview.toolsUsed.map((tool) => (
-                      <div key={tool} style={{
-                        backgroundColor: "var(--accent-soft)",
-                        color: "var(--accent-text)",
-                        padding: "8px 16px",
-                        borderRadius: "999px",
-                        fontSize: 14,
-                        fontWeight: 600
-                      }}>
-                        {tool}
-                      </div>
-                    ))}
+                  <div style={{ fontSize: 16, fontWeight: 600 }}>
+                    {caseStudy.overview.toolsUsed.join(", ")}
                   </div>
                 </div>
               )}
