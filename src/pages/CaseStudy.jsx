@@ -3,6 +3,7 @@ import Reveal from "../components/Reveal";
 import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
 import sageLogo from "../assets/Sage Logo.png";
 import sageSolvesSticker from "../assets/Sage solves this.png";
+import projectOverviewImage from "../assets/Project Overview.png";
 
 const CASE_STUDY_DATA = {
   sage: {
@@ -418,6 +419,15 @@ export default function CaseStudy() {
                 </ul>
               </div>
             </div>
+          </div>
+
+          {/* PROJECT OVERVIEW IMAGE */}
+          <div style={{ marginTop: 64, marginBottom: 96 }}>
+            <img
+              src={projectOverviewImage}
+              alt="Project Overview"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
           </div>
         </Reveal>
         </>
