@@ -456,7 +456,7 @@ export default function CaseStudy() {
 
             <div style={{ marginBottom: 48 }}>
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
-                Define Your Objective
+                Objective
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }} dangerouslySetInnerHTML={{ __html: caseStudy.research.objective }} />
             </div>
