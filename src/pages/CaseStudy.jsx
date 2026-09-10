@@ -521,39 +521,69 @@ export default function CaseStudy() {
                 How Users Currently Struggle
               </h3>
               {caseStudy.research.journeyMaps.map((journeyMap, mapIndex) => (
-                <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 36 : 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 16, color: "var(--ink)" }}>
+                <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 64 : 0 }}>
+                  <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 24, color: "var(--ink)" }}>
                     {journeyMap.persona}'s Journey: {journeyMap.scenario}
                   </div>
-                  <div style={{ overflowX: "auto" }}>
-                    <table style={{
-                      width: "100%",
-                      borderCollapse: "collapse",
-                      fontSize: 14,
-                      lineHeight: 1.6
-                    }}>
-                      <thead>
-                        <tr style={{ backgroundColor: "rgba(255, 255, 255, 0.05)", borderBottom: "1px solid rgba(255, 255, 255, 0.1)" }}>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Stage</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Current State</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Pain</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Opportunity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {journeyMap.stages.map((stage, stageIndex) => (
-                          <tr key={stageIndex} style={{
-                            backgroundColor: stageIndex % 2 === 0 ? "rgba(255, 255, 255, 0.02)" : "transparent",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
+
+                  {/* Responsive Journey Map: Works on Desktop and Mobile */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    {journeyMap.stages.map((stage, stageIndex) => (
+                      <div key={stageIndex} style={{
+                        padding: 20,
+                        border: "1px solid rgba(255, 255, 255, 0.08)",
+                        borderRadius: "12px",
+                        backgroundColor: "rgba(255, 255, 255, 0.02)",
+                        borderLeft: "4px solid var(--accent)"
+                      }}>
+                        <div style={{
+                          fontSize: 16,
+                          fontWeight: 700,
+                          marginBottom: 12,
+                          color: "var(--accent)",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8
+                        }}>
+                          <div style={{
+                            width: 28,
+                            height: 28,
+                            borderRadius: "50%",
+                            backgroundColor: "var(--accent)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: 14,
+                            fontWeight: 700,
+                            color: "white"
                           }}>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}><strong>{stage.stage}</strong></td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}>{stage.current}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}>{stage.pain}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)" }}>{stage.opportunity}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                            {stageIndex + 1}
+                          </div>
+                          {stage.stage}
+                        </div>
+
+                        <div style={{ marginBottom: 12 }}>
+                          <div style={{ fontSize: 11, textTransform: "uppercase", fontWeight: 700, color: "var(--ink-faint)", marginBottom: 4 }}>Current State</div>
+                          <p style={{ fontSize: 14, lineHeight: "1.5", color: "var(--ink-soft)", margin: 0 }}>
+                            {stage.current}
+                          </p>
+                        </div>
+
+                        <div style={{ marginBottom: 12 }}>
+                          <div style={{ fontSize: 11, textTransform: "uppercase", fontWeight: 700, color: "var(--ink-faint)", marginBottom: 4 }}>Pain</div>
+                          <p style={{ fontSize: 14, lineHeight: "1.5", color: "var(--ink-soft)", margin: 0 }}>
+                            {stage.pain}
+                          </p>
+                        </div>
+
+                        <div>
+                          <div style={{ fontSize: 11, textTransform: "uppercase", fontWeight: 700, color: "var(--accent)", marginBottom: 4 }}>Opportunity</div>
+                          <p style={{ fontSize: 14, lineHeight: "1.5", color: "var(--ink)", margin: 0, fontWeight: 500 }}>
+                            {stage.opportunity}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -566,17 +596,33 @@ export default function CaseStudy() {
               <p style={{ fontSize: 16, lineHeight: "1.7", marginBottom: 20, color: "var(--ink-soft)" }}>
                 {caseStudy.research.application.intro}
               </p>
-              <div style={{ display: "grid", gap: 24 }}>
-                {caseStudy.research.application.solutions.map((solution, index) => (
-                  <div key={index}>
-                    <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 8, color: "var(--accent)" }}>
-                      {solution.name}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+                {caseStudy.research.application.solutions.map((solution, index) => {
+                  const icons = ["💬", "✓", "🎯", "🔐", "📁", "👥", "📊", "🌍"];
+                  return (
+                    <div key={index} style={{
+                      padding: 24,
+                      border: "1px solid rgba(255, 255, 255, 0.08)",
+                      borderRadius: "12px",
+                      backgroundColor: "rgba(255, 255, 255, 0.02)",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 12,
+                      transition: "all 0.3s ease",
+                      borderLeft: "4px solid var(--accent)"
+                    }}>
+                      <div style={{ fontSize: 28, lineHeight: 1 }}>
+                        {icons[index]}
+                      </div>
+                      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--ink)", lineHeight: 1.3 }}>
+                        {solution.name}
+                      </div>
+                      <p style={{ fontSize: 14, lineHeight: "1.6", color: "var(--ink-soft)", margin: 0 }}>
+                        {solution.description}
+                      </p>
                     </div>
-                    <p style={{ fontSize: 15, lineHeight: "1.6", color: "var(--ink-soft)" }}>
-                      {solution.description}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

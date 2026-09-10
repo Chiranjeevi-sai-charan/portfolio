@@ -1,7 +1,7 @@
 /* ============================================================
    Portfolio, Design Tokens
    Restrained two-tone system: ink black and white, with a single
-   cyan accent pair. One color, used consistently, reads more
+   blue accent pair. One color, used consistently, reads more
    senior than a rainbow of accents.
    ============================================================ */
 
@@ -16,7 +16,6 @@
   --border: #e5e7e9;
   --nav-glass: rgba(255, 255, 255, 0.72);
 
-<<<<<<< HEAD
   /* ---- Accent (single blue pair, used everywhere) ------------ */
   --accent: #009cde;
   --accent-hover: #007db2;
@@ -78,7 +77,6 @@
     --border: #33393f;
     --nav-glass: rgba(11, 13, 15, 0.72);
 
-<<<<<<< HEAD
     --accent: #009cde;
     --accent-hover: #007db2;
     --accent-ink: #0a0a0a;
