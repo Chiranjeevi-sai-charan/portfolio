@@ -415,7 +415,7 @@ export default function CaseStudy() {
                     <svg key="search" width="56" height="56" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56 }}>
                       <circle cx="20" cy="20" r="14" stroke={color.iconColor} strokeWidth="2.5" />
                       <path d="M30 30L44 44" stroke={color.iconColor} strokeWidth="2.5" strokeLinecap="round" />
-                      <text x="18" y="26" fontSize="14" fontWeight="700" fill={color.iconColor}>50+</text>
+                      <text x="18" y="25" fontSize="8" fontWeight="700" fill={color.iconColor} textAnchor="middle">50+</text>
                     </svg>,
                     // Consistency Gap - Conflicting messages
                     <svg key="gap" width="56" height="56" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56 }}>
