@@ -33,6 +33,12 @@ const GLYPHS = {
 
 const CASE_STUDIES = [
   {
+    slug: "sage",
+    tag: "Enterprise AI · Knowledge platform",
+    title: "Sage: AI-Powered HR Assistant",
+    blurb: "An intelligent knowledge platform for enterprise HR teams, featuring role-based document access, AI chatbot, and multilingual support.",
+  },
+  {
     slug: "flowops",
     tag: "Enterprise AI · Workflow automation",
     title: "FlowOps",
