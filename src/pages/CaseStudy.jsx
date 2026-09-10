@@ -597,9 +597,7 @@ export default function CaseStudy() {
               </h3>
               {caseStudy.research.journeyMaps.map((journeyMap, mapIndex) => {
                 const isAditya = journeyMap.persona === "Aditya";
-                const stageColors = isAditya
-                  ? ["rgba(219, 234, 254, 0.5)", "rgba(240, 253, 250, 0.5)", "rgba(254, 243, 235, 0.5)", "rgba(240, 253, 250, 0.5)"]
-                  : ["rgba(219, 234, 254, 0.5)", "rgba(240, 253, 250, 0.5)", "rgba(254, 243, 235, 0.5)", "rgba(240, 253, 250, 0.5)"];
+                const stageColors = ["rgba(219, 234, 254, 0.3)", "rgba(229, 231, 235, 0.3)", "rgba(219, 234, 254, 0.3)", "rgba(229, 231, 235, 0.3)"];
                 const stageBorders = isAditya
                   ? ["#0ea5e9", "#10b981", "#f97316", "#10b981"]
                   : ["#0ea5e9", "#10b981", "#f97316", "#10b981"];
@@ -631,12 +629,12 @@ export default function CaseStudy() {
                           </div>
 
                           {/* Stage actions/description */}
-                          <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 16, flex: 1 }}>
+                          <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 12 }}>
                             {stage.current}
                           </div>
 
                           {/* Pain point */}
-                          <div style={{ padding: "12px", backgroundColor: "rgba(220, 38, 38, 0.1)", borderLeft: "3px solid #dc2626", borderRadius: 4, marginTop: "auto", marginBottom: 12 }}>
+                          <div style={{ padding: "12px", backgroundColor: "rgba(220, 38, 38, 0.1)", borderLeft: "3px solid #dc2626", borderRadius: 4, marginBottom: 12 }}>
                             <div style={{ fontSize: 12, fontWeight: 700, color: "#dc2626", marginBottom: 2 }}>Pain:</div>
                             <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>{stage.pain}</div>
                           </div>
