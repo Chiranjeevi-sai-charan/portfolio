@@ -627,36 +627,6 @@ export default function CaseStudy() {
         </Reveal>
       )}
 
-      {caseStudy.tools && (
-        <Reveal delay={0.4}>
-          <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
-              Tools & Technology
-            </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-              {caseStudy.tools.map((tool, index) => (
-                <div key={index} style={{
-                  padding: 24,
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  borderRadius: 8,
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  transition: "all 0.3s ease"
-                }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4, color: "var(--accent)" }}>
-                    {tool.name}
-                  </div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 12 }}>
-                    {tool.category}
-                  </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>
-                    {tool.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      )}
     </section>
   );
 }
