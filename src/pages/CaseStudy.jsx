@@ -5,6 +5,8 @@ import sageLogo from "../assets/Sage Logo.png";
 import sageSolvesSticker from "../assets/Sage solves this.png";
 import projectOverviewImage from "../assets/Project Overview.png";
 import problemSilosSticker from "../assets/Problem 1 Information Silos.png";
+import problemSearchOverloadSticker from "../assets/Problem 2 Search Overload.png";
+import problemConsistencyGapSticker from "../assets/Problem 3 Consistency Gap.png";
 
 const CASE_STUDY_DATA = {
   sage: {
@@ -500,70 +502,88 @@ export default function CaseStudy() {
                     Employees don't know which HR document contains the answer.
                   </p>
                 </div>
+
+                {/* Problem Sticker 2: Search Overload */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  padding: "24px",
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <img
+                    src={problemSearchOverloadSticker}
+                    alt="Search Overload illustration"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: "8px",
+                      marginBottom: "16px"
+                    }}
+                  />
+                  <h3 style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "var(--ink)",
+                    marginBottom: 8
+                  }}>
+                    Search Overload
+                  </h3>
+                  <p style={{
+                    fontSize: 14,
+                    color: "var(--ink-soft)",
+                    lineHeight: 1.5,
+                    margin: 0
+                  }}>
+                    Manual searches return 50+ irrelevant results.
+                  </p>
+                </div>
+
+                {/* Problem Sticker 3: Consistency Gap */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  padding: "24px",
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <img
+                    src={problemConsistencyGapSticker}
+                    alt="Consistency Gap illustration"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: "8px",
+                      marginBottom: "16px"
+                    }}
+                  />
+                  <h3 style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "var(--ink)",
+                    marginBottom: 8
+                  }}>
+                    Consistency Gap
+                  </h3>
+                  <p style={{
+                    fontSize: 14,
+                    color: "var(--ink-soft)",
+                    lineHeight: 1.5,
+                    margin: 0
+                  }}>
+                    Different HR staff give different answers to the same question.
+                  </p>
+                </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 24, marginBottom: 24 }}>
-                {caseStudy.problem.issues.map((issue, index) => {
-                  const colors = [
-                    { bg: "rgba(239, 68, 68, 0.1)", border: "rgba(239, 68, 68, 0.3)", accent: "#ef4444", iconColor: "#dc2626" },
-                    { bg: "rgba(249, 115, 22, 0.1)", border: "rgba(249, 115, 22, 0.3)", accent: "#f97316", iconColor: "#ea580c" },
-                    { bg: "rgba(234, 179, 8, 0.1)", border: "rgba(234, 179, 8, 0.3)", accent: "#eab308", iconColor: "#ca8a04" }
-                  ];
-                  const color = colors[index];
-
-                  const icons = [
-                    // Information Silos - Scattered documents
-                    <svg key="silos" width="56" height="56" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56 }}>
-                      <g opacity="0.8">
-                        <rect x="8" y="10" width="16" height="22" fill={color.iconColor} opacity="0.3" transform="rotate(-25 16 21)" />
-                        <rect x="28" y="8" width="16" height="22" fill={color.iconColor} opacity="0.5" />
-                        <rect x="42" y="16" width="16" height="22" fill={color.iconColor} opacity="0.3" transform="rotate(20 50 27)" />
-                        <circle cx="28" cy="28" r="4" fill={color.iconColor} />
-                        <path d="M16 21L28 28M40 27L28 28M28 28L32 42" stroke={color.iconColor} strokeWidth="2" opacity="0.4" />
-                      </g>
-                    </svg>,
-                    // Search Overload - Magnifying glass with 50+
-                    <svg key="search" width="56" height="56" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56 }}>
-                      <circle cx="20" cy="20" r="14" stroke={color.iconColor} strokeWidth="2.5" />
-                      <path d="M30 30L44 44" stroke={color.iconColor} strokeWidth="2.5" strokeLinecap="round" />
-                      <text x="20" y="24" fontSize="8" fontWeight="700" fill={color.iconColor} textAnchor="middle">50</text>
-                    </svg>,
-                    // Consistency Gap - Conflicting messages
-                    <svg key="gap" width="56" height="56" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56 }}>
-                      <g opacity="0.8">
-                        <ellipse cx="16" cy="22" rx="12" ry="8" stroke={color.iconColor} strokeWidth="2" fill="none" />
-                        <ellipse cx="40" cy="26" rx="12" ry="8" stroke={color.iconColor} strokeWidth="2" fill="none" />
-                        <text x="10" y="26" fontSize="12" fontWeight="700" fill={color.iconColor} opacity="0.7">✓</text>
-                        <text x="34" y="30" fontSize="12" fontWeight="700" fill={color.iconColor} opacity="0.7">✗</text>
-                        <path d="M28 20L28 36" stroke={color.iconColor} strokeWidth="2" opacity="0.3" strokeDasharray="2,2" />
-                      </g>
-                    </svg>
-                  ];
-
-                  return (
-                    <div key={issue.title} style={{
-                      padding: 32,
-                      border: `1px solid ${color.border}`,
-                      borderRadius: 12,
-                      backgroundColor: color.bg,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      textAlign: "center"
-                    }}>
-                      <div style={{ marginBottom: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {icons[index]}
-                      </div>
-                      <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: color.accent }}>
-                        {issue.title}
-                      </div>
-                      <p style={{ fontSize: 14, lineHeight: "1.6", color: "var(--ink-soft)", margin: 0 }}>
-                        {issue.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
               <p style={{ fontSize: 16, lineHeight: "1.7", fontStyle: "italic", color: "var(--ink-soft)", paddingLeft: 20, borderLeft: "3px solid var(--accent)" }}>
                 "{caseStudy.problem.consequence}"
               </p>
