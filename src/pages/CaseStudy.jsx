@@ -595,43 +595,63 @@ export default function CaseStudy() {
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 24, fontWeight: 700 }}>
                 How Users Currently Struggle
               </h3>
-              {caseStudy.research.journeyMaps.map((journeyMap, mapIndex) => (
-                <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 36 : 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 16, color: "var(--ink)" }}>
-                    {journeyMap.persona}'s Journey: {journeyMap.scenario}
+              {caseStudy.research.journeyMaps.map((journeyMap, mapIndex) => {
+                const isAditya = journeyMap.persona === "Aditya";
+                const stageColors = isAditya
+                  ? ["rgba(219, 234, 254, 0.5)", "rgba(240, 253, 250, 0.5)", "rgba(254, 243, 235, 0.5)", "rgba(240, 253, 250, 0.5)"]
+                  : ["rgba(219, 234, 254, 0.5)", "rgba(240, 253, 250, 0.5)", "rgba(254, 243, 235, 0.5)", "rgba(240, 253, 250, 0.5)"];
+                const stageBorders = isAditya
+                  ? ["#0ea5e9", "#10b981", "#f97316", "#10b981"]
+                  : ["#0ea5e9", "#10b981", "#f97316", "#10b981"];
+
+                return (
+                  <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 48 : 0, border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: 8, overflow: "hidden" }}>
+                    {/* Header with persona info */}
+                    <div style={{ padding: "24px", backgroundColor: "rgba(255, 255, 255, 0.02)", borderBottom: "1px solid rgba(255, 255, 255, 0.1)", display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, alignItems: "start" }}>
+                      <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "rgba(15, 165, 233, 0.2)", border: "2px solid #0ea5e9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>
+                        {isAditya ? "👤" : "👨‍💼"}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 }}>{journeyMap.persona.toUpperCase()}</div>
+                        <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6 }}>
+                          <strong>Scenario:</strong> {journeyMap.scenario}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Journey stages grid */}
+                    <div style={{ display: "grid", gridTemplateColumns: `repeat(${journeyMap.stages.length}, 1fr)`, minHeight: 400 }}>
+                      {journeyMap.stages.map((stage, stageIndex) => (
+                        <div key={stageIndex} style={{ backgroundColor: stageColors[stageIndex], borderRight: stageIndex < journeyMap.stages.length - 1 ? "1px solid rgba(255, 255, 255, 0.1)" : "none", padding: "24px", position: "relative", display: "flex", flexDirection: "column" }}>
+                          {/* Stage header */}
+                          <div style={{ borderBottom: `3px solid ${stageBorders[stageIndex]}`, paddingBottom: 12, marginBottom: 16 }}>
+                            <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", color: "var(--ink)" }}>
+                              {stage.stage}
+                            </div>
+                          </div>
+
+                          {/* Stage actions/description */}
+                          <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 16, flex: 1 }}>
+                            {stage.current}
+                          </div>
+
+                          {/* Pain point */}
+                          <div style={{ padding: "12px", backgroundColor: "rgba(220, 38, 38, 0.1)", borderLeft: "3px solid #dc2626", borderRadius: 4, marginTop: "auto", marginBottom: 12 }}>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: "#dc2626", marginBottom: 2 }}>Pain:</div>
+                            <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>{stage.pain}</div>
+                          </div>
+
+                          {/* Opportunity */}
+                          <div style={{ padding: "12px", backgroundColor: "rgba(16, 185, 129, 0.1)", borderLeft: "3px solid #10b981", borderRadius: 4 }}>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: "#10b981", marginBottom: 2 }}>Opportunity:</div>
+                            <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>{stage.opportunity}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div style={{ overflowX: "auto" }}>
-                    <table style={{
-                      width: "100%",
-                      borderCollapse: "collapse",
-                      fontSize: 14,
-                      lineHeight: 1.6
-                    }}>
-                      <thead>
-                        <tr style={{ backgroundColor: "rgba(255, 255, 255, 0.05)", borderBottom: "1px solid rgba(255, 255, 255, 0.1)" }}>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Stage</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Current State</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Pain</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Opportunity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {journeyMap.stages.map((stage, stageIndex) => (
-                          <tr key={stageIndex} style={{
-                            backgroundColor: stageIndex % 2 === 0 ? "rgba(255, 255, 255, 0.02)" : "transparent",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
-                          }}>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}><strong>{stage.stage}</strong></td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.current}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.pain}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.opportunity}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div style={{ marginBottom: 48 }}>
