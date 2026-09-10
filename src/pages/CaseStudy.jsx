@@ -352,7 +352,7 @@ export default function CaseStudy() {
                 <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Objective
                 </div>
-                <div style={{ fontSize: 16, lineHeight: "1.6" }}>
+                <div style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)", lineHeight: "1.6" }}>
                   {caseStudy.overview.objective}
                 </div>
               </div>
@@ -360,7 +360,7 @@ export default function CaseStudy() {
                 <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Target Audience
                 </div>
-                <ul style={{ fontSize: 16, lineHeight: "1.8", paddingLeft: 20 }}>
+                <ul style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)", lineHeight: "1.8", paddingLeft: 20 }}>
                   {caseStudy.overview.targetAudience.map((audience) => (
                     <li key={audience}>{audience}</li>
                   ))}
