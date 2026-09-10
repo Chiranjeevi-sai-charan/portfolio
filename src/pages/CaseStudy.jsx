@@ -618,7 +618,7 @@ export default function CaseStudy() {
                     </div>
 
                     {/* Journey stages grid */}
-                    <div style={{ display: "grid", gridTemplateColumns: `repeat(${journeyMap.stages.length}, 1fr)`, minHeight: 400 }}>
+                    <div style={{ display: "grid", gridTemplateColumns: `repeat(${journeyMap.stages.length}, 1fr)`, gap: 64 }}>
                       {journeyMap.stages.map((stage, stageIndex) => (
                         <div key={stageIndex} style={{ backgroundColor: stageColors[stageIndex], borderRight: stageIndex < journeyMap.stages.length - 1 ? "1px solid rgba(255, 255, 255, 0.1)" : "none", padding: "24px", position: "relative", display: "flex", flexDirection: "column" }}>
                           {/* Stage header */}
