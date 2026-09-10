@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import signature from "../assets/Sign V3.png";
 import linkedinLogo from "../assets/LinkedIn Logo.png";
-import callIcon from "../assets/icons8-call-48.png";
 import styles from "./Nav.module.css";
 
 export default function Nav() {
@@ -69,7 +68,9 @@ export default function Nav() {
           aria-label="Call me"
           data-cursor-label="Call"
         >
-          <img src={callIcon} alt="" className={styles.callIcon} />
+          <svg viewBox="0 0 24 24" fill="currentColor" className={styles.callIcon}>
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+          </svg>
         </a>
         <a
           href="mailto:98charan@gmail.com?subject=Let%27s%20talk&body=Hi%20Chiranjeevi%2C%0A%0A"

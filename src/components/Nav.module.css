@@ -115,6 +115,7 @@
   width: 20px;
   height: 20px;
   display: block;
+  flex-shrink: 0;
 }
 .links a.iconLink:hover {
   border-color: var(--accent);
