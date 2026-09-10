@@ -335,7 +335,7 @@ export default function CaseStudy() {
                 </div>
               </div>
               {caseStudy.overview.toolsUsed && (
-                <div>
+                <div style={{ gridColumn: "1 / -1" }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                     Tools Used
                   </div>
