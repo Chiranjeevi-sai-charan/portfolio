@@ -15,6 +15,8 @@ import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
 import chatgptLogoWhite from "../assets/chatgpt-white-logo.png";
 import framerLogo from "../assets/Framer.png";
+import mothersonLogo from "../assets/Motherson Logo.png";
+import deloitteLogo from "../assets/Deloitte Logo.png";
 import styles from "./Home.module.css";
 
 // Custom glyphs for tools with no real brand icon available (a
@@ -103,6 +105,7 @@ const EXPERIENCE = [
   {
     role: "UI/UX Design Consultant",
     company: "Motherson Technology Centre",
+    logo: mothersonLogo,
     period: "08/2025 – 08/2026",
     highlights: [
       "Led end-to-end UX design for AI-powered enterprise products, from user research and information architecture through wireframes, prototypes, and high-fidelity interfaces.",
@@ -113,7 +116,8 @@ const EXPERIENCE = [
   },
   {
     role: "UI/UX Designer",
-    company: "Deloitte Consulting LLP",
+    company: "Deloitte Consulting India Private Limited",
+    logo: deloitteLogo,
     period: "06/2021 – 05/2025",
     highlights: [
       "Led usability testing sessions and translated user feedback into actionable design improvements that directly informed product decisions.",
@@ -250,6 +254,7 @@ export default function Home() {
             <Reveal key={`${job.company}-${job.period}`} delay={i * 0.06} className={styles.experienceRow}>
               <div className={styles.experienceHead}>
                 <div>
+                  {job.logo && <img src={job.logo} alt={job.company} className={styles.experienceLogo} />}
                   <div className={styles.experienceRole}>{job.role}</div>
                   <div className={styles.experienceCompany}>{job.company}</div>
                 </div>
