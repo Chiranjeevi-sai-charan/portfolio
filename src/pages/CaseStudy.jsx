@@ -334,26 +334,8 @@ export default function CaseStudy() {
                   {caseStudy.overview.team}
                 </div>
               </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                  Objective
-                </div>
-                <div style={{ fontSize: 16, lineHeight: "1.6" }}>
-                  {caseStudy.overview.objective}
-                </div>
-              </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                  Target Audience
-                </div>
-                <ul style={{ fontSize: 16, lineHeight: "1.8", paddingLeft: 20 }}>
-                  {caseStudy.overview.targetAudience.map((audience) => (
-                    <li key={audience}>{audience}</li>
-                  ))}
-                </ul>
-              </div>
               {caseStudy.overview.toolsUsed && (
-                <div style={{ gridColumn: "1 / -1" }}>
+                <div>
                   <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                     Tools Used
                   </div>
@@ -373,6 +355,24 @@ export default function CaseStudy() {
                   </div>
                 </div>
               )}
+              <div style={{ gridColumn: "1 / -1" }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                  Objective
+                </div>
+                <div style={{ fontSize: 16, lineHeight: "1.6" }}>
+                  {caseStudy.overview.objective}
+                </div>
+              </div>
+              <div style={{ gridColumn: "1 / -1" }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                  Target Audience
+                </div>
+                <ul style={{ fontSize: 16, lineHeight: "1.8", paddingLeft: 20 }}>
+                  {caseStudy.overview.targetAudience.map((audience) => (
+                    <li key={audience}>{audience}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </Reveal>
