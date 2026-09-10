@@ -31,6 +31,12 @@ const GLYPHS = {
 
 const CASE_STUDIES = [
   {
+    slug: "sage",
+    tag: "Enterprise AI · Knowledge platform",
+    title: "Sage",
+    blurb: "An AI-powered knowledge platform serving 1000+ employees across 10+ departments with secure, role-based access.",
+  },
+  {
     slug: "flowops",
     tag: "Enterprise AI · Workflow automation",
     title: "FlowOps",
@@ -100,6 +106,7 @@ const EXPERIENCE = [
       "Led end-to-end UX design for AI-powered enterprise products, from user research and information architecture through wireframes, prototypes, and high-fidelity interfaces.",
       "Designed AI experiences spanning conversational search, RAG, multimodal interactions, document analysis, AI model selection, and voice input, simplifying complex capabilities into intuitive, production-ready interfaces.",
       "Built a scalable enterprise design system in Figma with reusable components, design tokens, and variables, and worked closely with engineering to validate feasibility using front-end knowledge in HTML, CSS, and React.",
+      "Converted Figma designs into responsive front-end components using HTML, CSS, JavaScript, React, and Angular, accelerating design-to-engineering handoff and validating interaction feasibility early."
     ],
   },
   {
@@ -110,6 +117,7 @@ const EXPERIENCE = [
       "Led usability testing sessions and translated user feedback into actionable design improvements that directly informed product decisions.",
       "Created wireframes, high-fidelity mockups, and advanced conditional prototypes using variables, and designed immersive XR screens for Apple Vision Pro using Apple's official visionOS UI kit.",
       "Built and maintained tokenized design systems in Figma for visual consistency and faster design-to-dev cycles, while introducing emerging design tools and AI-based workflows to grow the wider team.",
+      "Developed responsive front-end components from Figma designs using HTML, CSS, JavaScript, React, and Angular, streamlining design-to-dev handoff and functional implementation."
     ],
   },
   {
@@ -207,7 +215,10 @@ export default function Home() {
             <p>
               I am a product designer with a front-end development background, which means
               I design with what is actually <span className={styles.highlight}>buildable</span> in
-              mind, not just what looks good in a mockup. Most of my recent work is enterprise
+              mind, not just what looks good in a mockup. I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
+            </p>
+            <p>
+              Most of my recent work is enterprise
               AI: <span className={styles.highlight}>conversational search, document intelligence,
               RAG</span>, and multimodal interactions, simplified into interfaces people can
               actually use without a manual.
