@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
+import sageLogo from "../assets/Sage Logo.png";
 
 const CASE_STUDY_DATA = {
   sage: {
@@ -221,12 +222,15 @@ export default function CaseStudy() {
       `}</style>
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
       <Reveal>
-        <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>
+        <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)", display: "inline-block", marginTop: -30 }}>
           ← Back home
         </Link>
-        <h1 style={{ fontSize: "var(--fs-h1)", marginTop: 16 }}>
-          {caseStudy.title.replace(" — ", ": ")}
-        </h1>
+        <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 32, marginBottom: 16 }}>
+          <img src={sageLogo} alt="Sage Logo" style={{ height: 60, width: "auto" }} />
+          <h1 style={{ fontSize: "var(--fs-h1)", margin: 0 }}>
+            {caseStudy.title.replace(" — ", ": ")}
+          </h1>
+        </div>
       </Reveal>
 
       {caseStudy.overview && (
