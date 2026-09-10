@@ -211,7 +211,15 @@ export default function CaseStudy() {
   }
 
   return (
-    <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
+    <>
+      <style>{`
+        @media (max-width: 1024px) {
+          .skeleton-sticker {
+            display: none !important;
+          }
+        }
+      `}</style>
+      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
       <Reveal>
         <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>
           ← Back home
@@ -246,11 +254,13 @@ export default function CaseStudy() {
                 <img
                   src={skeletonSticker}
                   alt="SW Engineer Skeleton Waiting"
+                  className="skeleton-sticker"
                   style={{
                     position: "absolute",
-                    right: -100,
-                    top: -40,
-                    width: 180,
+                    right: -220,
+                    top: "50%",
+                    transform: "translateY(-40%)",
+                    width: 200,
                     height: "auto",
                     pointerEvents: "none"
                   }}
@@ -687,5 +697,6 @@ export default function CaseStudy() {
       )}
 
     </section>
+    </>
   );
 }
