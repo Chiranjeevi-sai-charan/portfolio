@@ -24,14 +24,14 @@ export default function Nav() {
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
-      <button className={styles.brand} onClick={scrollToTop} aria-label="Scroll to top" data-cursor-label="Home">
+      <Link to="/" className={styles.brand} data-cursor-label="Home">
         <div className={styles.brandContent}>
           <img src={signature} alt="" className={styles.signature} />
           <span className={styles.brandName}>K. Chiranjeevi</span>
         </div>
-      </button>
+      </Link>
       <div className={styles.links}>
-        <a href="/" onClick={scrollToTop} data-cursor-label="Home">Home</a>
+        <Link to="/" data-cursor-label="Home">Home</Link>
         <a href="/#about" data-cursor-label="About">About</a>
         <a href="/#experience" className={styles.secondary} data-cursor-label="Experience">Experience</a>
         <a href="/#achievements" data-cursor-label="Recognition">Recognition</a>
@@ -82,7 +82,7 @@ export default function Nav() {
 
       {mobileMenuOpen && (
         <div className={styles.mobileMenu}>
-          <a href="/" onClick={(e) => { scrollToTop(e); closeMobileMenu(); }}>Home</a>
+          <Link to="/" onClick={closeMobileMenu}>Home</Link>
           <a href="/#about" onClick={closeMobileMenu}>About</a>
           <a href="/#experience" onClick={closeMobileMenu}>Experience</a>
           <a href="/#achievements" onClick={closeMobileMenu}>Recognition</a>
