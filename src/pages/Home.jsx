@@ -409,10 +409,11 @@ export default function Home() {
       </section>
 
       <footer className={styles.footer}>
-        <span>© {new Date().getFullYear()} Chiranjeevi Sai Charan Kondaka</span>
+        <span>© {new Date().getFullYear()} Kondaka Chiranjeevi Sai Charan</span>
         <div className={styles.footerLinks}>
           <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" data-cursor-label="Open">LinkedIn</a>
           <a href="mailto:98charan@gmail.com" data-cursor-label="Say hi">Email</a>
+          <a href="tel:+8500518015" className={styles.phoneLink} title="+8500518015" data-cursor-label="Call">Call</a>
         </div>
       </footer>
     </>

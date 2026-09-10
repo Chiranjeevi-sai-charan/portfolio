@@ -111,6 +111,11 @@
   border-radius: 5px;
   display: block;
 }
+.links a.iconLink .callIcon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
 .links a.iconLink:hover {
   border-color: var(--accent);
   color: var(--accent-text);
@@ -170,7 +175,8 @@
   background: var(--bg-alt);
 }
 .mobileMenuResume,
-.mobileMenuLinkedin {
+.mobileMenuLinkedin,
+.mobileMenuCall {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -181,6 +187,11 @@
   flex-shrink: 0;
 }
 .mobileMenuLinkedin img {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.mobileMenuCall img {
   width: 18px;
   height: 18px;
   flex-shrink: 0;

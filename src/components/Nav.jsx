@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import signature from "../assets/Sign V3.png";
 import linkedinLogo from "../assets/LinkedIn Logo.png";
+import callIcon from "../assets/icons8-call-48.png";
 import styles from "./Nav.module.css";
 
 export default function Nav() {
@@ -60,6 +61,15 @@ export default function Nav() {
           data-cursor-label="LinkedIn"
         >
           <img src={linkedinLogo} alt="" className={styles.linkedinIcon} />
+        </a>
+        <a
+          href="tel:+8500518015"
+          className={styles.iconLink}
+          title="+8500518015"
+          aria-label="Call me"
+          data-cursor-label="Call"
+        >
+          <img src={callIcon} alt="" className={styles.callIcon} />
         </a>
         <a
           href="mailto:98charan@gmail.com?subject=Let%27s%20talk&body=Hi%20Chiranjeevi%2C%0A%0A"
