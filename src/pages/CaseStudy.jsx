@@ -7,6 +7,7 @@ import projectOverviewImage from "../assets/Project Overview.png";
 import problemSilosSticker from "../assets/Problem 1 Information Silos.png";
 import problemSearchOverloadSticker from "../assets/Problem 2 Search Overload.png";
 import problemConsistencyGapSticker from "../assets/Problem 3 Consistency Gap.png";
+import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
   sage: {
@@ -589,21 +590,56 @@ export default function CaseStudy() {
               </p>
             </div>
 
-            <div style={{ marginBottom: 48 }}>
-              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 20, fontWeight: 700 }}>
+            <div style={{ marginBottom: 96 }}>
+              <h2 style={{ fontSize: "2rem", marginBottom: 48, fontWeight: 700, color: "var(--accent)" }}>
                 Impact
-              </h3>
-              <div style={{ display: "grid", gap: 16 }}>
-                {caseStudy.problem.impact.map((item) => (
-                  <div key={item.label} style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 16 }}>
-                    <div style={{ fontWeight: 700, color: "var(--accent)" }}>
-                      {item.label}
-                    </div>
-                    <div style={{ color: "var(--ink-soft)" }}>
-                      {item.value}
-                    </div>
-                  </div>
-                ))}
+              </h2>
+
+              {/* IMPACT STICKERS GRID */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: 24
+              }}>
+                {/* Impact Sticker 1: HR Team Burnout */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  padding: "24px",
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <img
+                    src={impactBurnoutSticker}
+                    alt="HR Team Burnout illustration"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: "8px",
+                      marginBottom: "16px"
+                    }}
+                  />
+                  <h3 style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "var(--ink)",
+                    marginBottom: 8
+                  }}>
+                    HR Team Burnout
+                  </h3>
+                  <p style={{
+                    fontSize: 14,
+                    color: "var(--ink-soft)",
+                    lineHeight: 1.5,
+                    margin: 0
+                  }}>
+                    12-15 questions daily = 60% time wasted
+                  </p>
+                </div>
               </div>
             </div>
 
