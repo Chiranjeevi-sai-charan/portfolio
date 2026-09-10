@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
 import sageLogo from "../assets/Sage Logo.png";
+import sageSolvesSticker from "../assets/Sage solves this.png";
 
 const CASE_STUDY_DATA = {
   sage: {
@@ -218,6 +219,14 @@ export default function CaseStudy() {
           .skeleton-sticker {
             display: none !important;
           }
+          .sage-solves-sticker {
+            display: none !important;
+          }
+        }
+        @media (min-width: 1025px) {
+          .sage-solves-sticker {
+            display: block !important;
+          }
         }
       `}</style>
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
@@ -296,24 +305,39 @@ export default function CaseStudy() {
                 padding: "40px 36px",
                 borderRadius: "12px",
                 border: "1px solid rgba(76, 175, 80, 0.15)",
-                textAlign: "center"
+                display: "flex",
+                gap: 36,
+                alignItems: "center"
               }}>
-                <h2 style={{
-                  fontSize: 24,
-                  fontWeight: 600,
-                  color: "var(--ink)",
-                  margin: "0 0 16px 0"
-                }}>
-                  Sage solves this.
-                </h2>
-                <p style={{
-                  fontSize: 15,
-                  lineHeight: "1.7",
-                  color: "var(--ink-soft)",
-                  margin: 0
-                }}>
-                  Instant HR answers. Source verification in every response. Role-based access. Multilingual support (English and Japanese). Complete audit trail.
-                </p>
+                <img
+                  src={sageSolvesSticker}
+                  alt="Sage solves this"
+                  style={{
+                    width: 160,
+                    height: "auto",
+                    flexShrink: 0,
+                    display: "none"
+                  }}
+                  className="sage-solves-sticker"
+                />
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <h2 style={{
+                    fontSize: 24,
+                    fontWeight: 600,
+                    color: "var(--ink)",
+                    margin: "0 0 16px 0"
+                  }}>
+                    Sage solves this.
+                  </h2>
+                  <p style={{
+                    fontSize: 15,
+                    lineHeight: "1.7",
+                    color: "var(--ink-soft)",
+                    margin: 0
+                  }}>
+                    Instant HR answers. Source verification in every response. Role-based access. Multilingual support (English and Japanese). Complete audit trail.
+                  </p>
+                </div>
               </div>
             </div>
           </Reveal>
