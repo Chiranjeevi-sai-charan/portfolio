@@ -128,7 +128,8 @@ const EXPERIENCE = [
   },
   {
     role: "Front-End Developer",
-    company: "Deloitte Consulting LLP",
+    company: "Deloitte Consulting India Private Limited",
+    logo: deloitteLogo,
     period: "01/2021 – 05/2021",
     highlights: [
       "Built responsive, accessible UI components using HTML, CSS, JavaScript, and React.",
