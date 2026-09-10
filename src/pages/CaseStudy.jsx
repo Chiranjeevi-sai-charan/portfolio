@@ -160,7 +160,15 @@ const CASE_STUDY_DATA = {
         ]
       },
       reflection: "The research revealed that employees do not distrust the system itself. They distrust unverified information. By making source attribution and policy verification the core design principle, we built trust without needing perfect AI. Employees gained confidence because they could verify answers against official HR documents. This insight shaped every subsequent design decision and became the foundation for Sage's competitive advantage. The ability to instantly access official policy with proof of source transformed the employee experience from frustration to confidence."
-    }
+    },
+    tools: [
+      { name: "Figma", category: "Design & Prototyping", description: "Created comprehensive design system with components, patterns, and comprehensive documentation for Sage." },
+      { name: "React", category: "Frontend Framework", description: "Built interactive UI components with state management for seamless user experience." },
+      { name: "TypeScript", category: "Programming Language", description: "Ensured type safety and improved developer experience across the codebase." },
+      { name: "Next.js", category: "Full-Stack Framework", description: "Built scalable backend API endpoints and server-side rendering for HR chatbot platform." },
+      { name: "Vercel", category: "Deployment & Hosting", description: "Deployed production application with automatic CI.CD pipeline and zero-downtime deployments." },
+      { name: "Stripe", category: "Authentication & Security", description: "Implemented secure authentication and role-based access control for admin features." }
+    ]
   },
   flowops: {
     title: "FlowOps",
@@ -592,6 +600,37 @@ export default function CaseStudy() {
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", margin: 0 }}>
                 {caseStudy.research.reflection}
               </p>
+            </div>
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.tools && (
+        <Reveal delay={0.4}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+              Tools & Technology
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {caseStudy.tools.map((tool, index) => (
+                <div key={index} style={{
+                  padding: 24,
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderRadius: 8,
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  transition: "all 0.3s ease"
+                }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4, color: "var(--accent)" }}>
+                    {tool.name}
+                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 12 }}>
+                    {tool.category}
+                  </div>
+                  <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>
+                    {tool.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </Reveal>

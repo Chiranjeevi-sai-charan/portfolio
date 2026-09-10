@@ -93,6 +93,12 @@
   height: 13px;
   flex-shrink: 0;
 }
+.callIcon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+}
 .links a.iconLink {
   display: flex;
   align-items: center;
