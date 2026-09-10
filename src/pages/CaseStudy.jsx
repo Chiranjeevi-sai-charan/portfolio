@@ -592,60 +592,107 @@ export default function CaseStudy() {
             </div>
 
             <div style={{ marginBottom: 48 }}>
-              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 24, fontWeight: 700 }}>
-                How Users Currently Struggle
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 40, fontWeight: 700 }}>
+                User Journey Maps
               </h3>
               {caseStudy.research.journeyMaps.map((journeyMap, mapIndex) => {
                 const isAditya = journeyMap.persona === "Aditya";
-                const stageColors = ["rgba(219, 234, 254, 0.3)", "rgba(229, 231, 235, 0.3)", "rgba(219, 234, 254, 0.3)", "rgba(229, 231, 235, 0.3)"];
-                const stageBorders = isAditya
-                  ? ["#0ea5e9", "#10b981", "#f97316", "#10b981"]
-                  : ["#0ea5e9", "#10b981", "#f97316", "#10b981"];
+                const personaBg = isAditya ? "rgba(15, 165, 233, 0.1)" : "rgba(16, 185, 129, 0.1)";
+                const personaBorder = isAditya ? "#0ea5e9" : "#10b981";
+
+                const stageIcons = [
+                  isAditya ? "💡" : "📤",
+                  isAditya ? "📧" : "📁",
+                  isAditya ? "✓" : "🔐",
+                  isAditya ? "✅" : "👁"
+                ];
+
+                const quotes = isAditya
+                  ? [null, "Where do I find this?", "Is this current?", "Finally, I'm confident."]
+                  : [null, null, null, null];
 
                 return (
-                  <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 48 : 0, border: "1px solid rgba(255, 255, 255, 0.1)", borderRadius: 8, overflow: "hidden" }}>
-                    {/* Header with persona info */}
-                    <div style={{ padding: "24px", backgroundColor: "rgba(255, 255, 255, 0.02)", borderBottom: "1px solid rgba(255, 255, 255, 0.1)", display: "grid", gridTemplateColumns: "auto 1fr", gap: 20, alignItems: "start" }}>
-                      <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "rgba(15, 165, 233, 0.2)", border: "2px solid #0ea5e9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>
+                  <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 64 : 0 }}>
+                    {/* Persona Header */}
+                    <div style={{ padding: "32px", backgroundColor: personaBg, borderRadius: 12, marginBottom: 48, display: "flex", gap: 24, alignItems: "flex-start" }}>
+                      <div style={{ width: 100, height: 100, borderRadius: "50%", backgroundColor: "rgba(255, 255, 255, 0.5)", border: `3px solid ${personaBorder}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48, flexShrink: 0 }}>
                         {isAditya ? "👤" : "👨‍💼"}
                       </div>
                       <div>
-                        <div style={{ fontSize: 16, fontWeight: 700, color: "var(--ink)", marginBottom: 4 }}>{journeyMap.persona.toUpperCase()}</div>
-                        <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6 }}>
-                          <strong>Scenario:</strong> {journeyMap.scenario}
+                        <div style={{ fontSize: 20, fontWeight: 700, color: "var(--ink)", marginBottom: 8 }}>{journeyMap.persona}</div>
+                        <div style={{ fontSize: 14, color: "var(--ink-soft)", lineHeight: 1.8 }}>
+                          {journeyMap.scenario}
                         </div>
                       </div>
                     </div>
 
-                    {/* Journey stages grid */}
-                    <div style={{ display: "grid", gridTemplateColumns: `repeat(${journeyMap.stages.length}, 1fr)`, gap: 64 }}>
-                      {journeyMap.stages.map((stage, stageIndex) => (
-                        <div key={stageIndex} style={{ backgroundColor: stageColors[stageIndex], borderRight: stageIndex < journeyMap.stages.length - 1 ? "1px solid rgba(255, 255, 255, 0.1)" : "none", padding: "24px", position: "relative", display: "flex", flexDirection: "column" }}>
-                          {/* Stage header */}
-                          <div style={{ borderBottom: `3px solid ${stageBorders[stageIndex]}`, paddingBottom: 12, marginBottom: 16 }}>
-                            <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", color: "var(--ink)" }}>
-                              {stage.stage}
+                    {/* Timeline Container */}
+                    <div style={{ position: "relative" }}>
+                      {/* Emotion Arc SVG */}
+                      <svg width="100%" height="150" viewBox={`0 0 ${Math.max(800, journeyMap.stages.length * 200)} 150`} style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}>
+                        <defs>
+                          <linearGradient id={`emotionGradient-${mapIndex}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#ef4444" stopOpacity="0.4" />
+                            <stop offset="50%" stopColor="#f97316" stopOpacity="0.4" />
+                            <stop offset="100%" stopColor="#10b981" stopOpacity="0.4" />
+                          </linearGradient>
+                        </defs>
+                        <path
+                          d={`M 80 120 Q ${journeyMap.stages.length > 2 ? '200 80, 350 100' : '200 100'} T ${Math.max(800, journeyMap.stages.length * 200) - 80} 60`}
+                          stroke={`url(#emotionGradient-${mapIndex})`}
+                          strokeWidth="3"
+                          fill="none"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+
+                      {/* Stages Grid */}
+                      <div style={{ display: "grid", gridTemplateColumns: `repeat(${journeyMap.stages.length}, 1fr)`, gap: "32px", paddingTop: "160px" }}>
+                        {journeyMap.stages.map((stage, stageIndex) => (
+                          <div key={stageIndex} style={{ display: "flex", flexDirection: "column" }}>
+                            {/* Stage Icon and Name */}
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 20 }}>
+                              <div style={{ width: 70, height: 70, borderRadius: "50%", backgroundColor: "rgba(255, 255, 255, 0.1)", border: "2px solid rgba(255, 255, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, marginBottom: 12 }}>
+                                {stageIcons[stageIndex]}
+                              </div>
+                              <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", color: "var(--ink)", textAlign: "center" }}>
+                                {stage.stage}
+                              </div>
+                            </div>
+
+                            {/* Stage Description */}
+                            <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 16, textAlign: "center" }}>
+                              {stage.current}
+                            </div>
+
+                            {/* Quote Bubble */}
+                            {quotes[stageIndex] && (
+                              <div style={{ padding: "12px", backgroundColor: "rgba(59, 130, 246, 0.1)", borderRadius: "8px 8px 8px 0", marginBottom: 16, fontStyle: "italic", fontSize: 12, color: "var(--ink-soft)", textAlign: "center", borderLeft: "3px solid #3b82f6" }}>
+                                "{quotes[stageIndex]}"
+                              </div>
+                            )}
+
+                            {/* Pain & Opportunity Side by Side */}
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                              {/* Pain */}
+                              <div style={{ padding: "14px", backgroundColor: "#ffe5e5", borderLeft: "3px solid #ff4444", borderRadius: 6, border: "1px solid #ffcccc" }}>
+                                <div style={{ fontSize: 11, fontWeight: 700, color: "#cc0000", marginBottom: 4, display: "flex", alignItems: "center", gap: 4 }}>
+                                  ⚠️ Pain
+                                </div>
+                                <div style={{ fontSize: 12, color: "#660000", lineHeight: 1.4 }}>{stage.pain}</div>
+                              </div>
+
+                              {/* Opportunity */}
+                              <div style={{ padding: "14px", backgroundColor: "#e5f9e5", borderLeft: "3px solid #00cc44", borderRadius: 6, border: "1px solid #ccffcc" }}>
+                                <div style={{ fontSize: 11, fontWeight: 700, color: "#006600", marginBottom: 4, display: "flex", alignItems: "center", gap: 4 }}>
+                                  ✓ Opportunity
+                                </div>
+                                <div style={{ fontSize: 12, color: "#003300", lineHeight: 1.4 }}>{stage.opportunity}</div>
+                              </div>
                             </div>
                           </div>
-
-                          {/* Stage actions/description */}
-                          <div style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 12 }}>
-                            {stage.current}
-                          </div>
-
-                          {/* Pain point */}
-                          <div style={{ padding: "12px", backgroundColor: "rgba(220, 38, 38, 0.1)", borderLeft: "3px solid #dc2626", borderRadius: 4, marginBottom: 12 }}>
-                            <div style={{ fontSize: 12, fontWeight: 700, color: "#dc2626", marginBottom: 2 }}>Pain:</div>
-                            <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>{stage.pain}</div>
-                          </div>
-
-                          {/* Opportunity */}
-                          <div style={{ padding: "12px", backgroundColor: "rgba(16, 185, 129, 0.1)", borderLeft: "3px solid #10b981", borderRadius: 4 }}>
-                            <div style={{ fontSize: 12, fontWeight: 700, color: "#10b981", marginBottom: 2 }}>Opportunity:</div>
-                            <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>{stage.opportunity}</div>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
                 );
