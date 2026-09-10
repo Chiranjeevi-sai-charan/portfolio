@@ -305,39 +305,39 @@ export default function CaseStudy() {
                 padding: "40px 36px",
                 borderRadius: "12px",
                 border: "1px solid rgba(76, 175, 80, 0.15)",
-                display: "flex",
-                gap: 36,
-                alignItems: "center"
+                textAlign: "center",
+                position: "relative"
               }}>
                 <img
                   src={sageSolvesSticker}
                   alt="Sage solves this"
                   style={{
-                    width: 160,
+                    position: "absolute",
+                    left: -200,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: 180,
                     height: "auto",
-                    flexShrink: 0,
-                    display: "none"
+                    pointerEvents: "none"
                   }}
                   className="sage-solves-sticker"
                 />
-                <div style={{ flex: 1, textAlign: "center" }}>
-                  <h2 style={{
-                    fontSize: 24,
-                    fontWeight: 600,
-                    color: "var(--ink)",
-                    margin: "0 0 16px 0"
-                  }}>
-                    Sage solves this.
-                  </h2>
-                  <p style={{
-                    fontSize: 15,
-                    lineHeight: "1.7",
-                    color: "var(--ink-soft)",
-                    margin: 0
-                  }}>
-                    Instant HR answers. Source verification in every response. Role-based access. Multilingual support (English and Japanese). Complete audit trail.
-                  </p>
-                </div>
+                <h2 style={{
+                  fontSize: 24,
+                  fontWeight: 600,
+                  color: "var(--ink)",
+                  margin: "0 0 16px 0"
+                }}>
+                  Sage solves this.
+                </h2>
+                <p style={{
+                  fontSize: 15,
+                  lineHeight: "1.7",
+                  color: "var(--ink-soft)",
+                  margin: 0
+                }}>
+                  Instant HR answers. Source verification in every response. Role-based access. Multilingual support (English and Japanese). Complete audit trail.
+                </p>
               </div>
             </div>
           </Reveal>
