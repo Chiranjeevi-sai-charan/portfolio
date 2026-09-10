@@ -4,6 +4,7 @@ import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
 import sageLogo from "../assets/Sage Logo.png";
 import sageSolvesSticker from "../assets/Sage solves this.png";
 import projectOverviewImage from "../assets/Project Overview.png";
+import problemSilosSticker from "../assets/Problem 1 Information Silos.png";
 
 const CASE_STUDY_DATA = {
   sage: {
@@ -449,9 +450,58 @@ export default function CaseStudy() {
             </h2>
 
             <div style={{ marginBottom: 48 }}>
-              <p style={{ fontSize: 18, lineHeight: "1.8", marginBottom: 24 }}>
+              <p style={{ fontSize: 18, lineHeight: "1.8", marginBottom: 48 }}>
                 {caseStudy.problem.statement}
               </p>
+
+              {/* PROBLEM STICKERS GRID */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: 24,
+                marginBottom: 48
+              }}>
+                {/* Problem Sticker 1: Information Silos */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  padding: "24px",
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <img
+                    src={problemSilosSticker}
+                    alt="Information Silos illustration"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: "8px",
+                      marginBottom: "16px"
+                    }}
+                  />
+                  <h3 style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "var(--ink)",
+                    marginBottom: 8
+                  }}>
+                    Information Silos
+                  </h3>
+                  <p style={{
+                    fontSize: 14,
+                    color: "var(--ink-soft)",
+                    lineHeight: 1.5,
+                    margin: 0
+                  }}>
+                    Employees don't know which HR document contains the answer.
+                  </p>
+                </div>
+              </div>
+
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 24, marginBottom: 24 }}>
                 {caseStudy.problem.issues.map((issue, index) => {
                   const colors = [
