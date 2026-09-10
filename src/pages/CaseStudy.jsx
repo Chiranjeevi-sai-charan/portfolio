@@ -14,6 +14,14 @@ const CASE_STUDY_DATA = {
         "Employees seeking instant answers to HR policy questions",
         "HR Admins managing HR documents and user permissions",
         "System Admins ensuring compliance and security"
+      ],
+      toolsUsed: [
+        "Claude",
+        "Figma",
+        "Figma Make",
+        "Claude Code",
+        "Vercel",
+        "Whispr Flow"
       ]
     },
     problem: {
@@ -344,6 +352,27 @@ export default function CaseStudy() {
                   ))}
                 </ul>
               </div>
+              {caseStudy.overview.toolsUsed && (
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+                    Tools Used
+                  </div>
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    {caseStudy.overview.toolsUsed.map((tool) => (
+                      <div key={tool} style={{
+                        backgroundColor: "var(--accent-soft)",
+                        color: "var(--accent-text)",
+                        padding: "8px 16px",
+                        borderRadius: "999px",
+                        fontSize: 14,
+                        fontWeight: 600
+                      }}>
+                        {tool}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Reveal>
