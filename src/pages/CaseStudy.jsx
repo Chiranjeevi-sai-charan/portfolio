@@ -306,7 +306,7 @@ export default function CaseStudy() {
                 <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Project Name
                 </div>
-                <div style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)" }}>
+                <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
                   {caseStudy.overview.projectName}
                 </div>
               </div>
@@ -314,7 +314,7 @@ export default function CaseStudy() {
                 <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Date
                 </div>
-                <div style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)" }}>
+                <div style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
                   {caseStudy.overview.date}
                 </div>
               </div>
@@ -360,7 +360,7 @@ export default function CaseStudy() {
                 <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                   Target Audience
                 </div>
-                <ul style={{ fontSize: 17, fontWeight: 600, color: "var(--ink)", lineHeight: "1.8", paddingLeft: 20 }}>
+                <ul style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)", lineHeight: "1.8", paddingLeft: 20 }}>
                   {caseStudy.overview.targetAudience.map((audience) => (
                     <li key={audience}>{audience}</li>
                   ))}
