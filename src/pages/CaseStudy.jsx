@@ -335,11 +335,11 @@ export default function CaseStudy() {
                 </div>
               </div>
               {caseStudy.overview.toolsUsed && (
-                <div>
+                <div style={{ gridColumn: "span 2" }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-soft)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
                     Tools Used
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, lineHeight: "1.8" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 8, lineHeight: "1.8" }}>
                     {caseStudy.overview.toolsUsed.map((tool) => (
                       <div key={tool} style={{ fontSize: 16, fontWeight: 600 }}>
                         {tool}
