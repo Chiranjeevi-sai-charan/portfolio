@@ -391,7 +391,7 @@ export default function CaseStudy() {
               <p style={{ fontSize: 18, lineHeight: "1.8", marginBottom: 24 }}>
                 {caseStudy.problem.statement}
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, marginBottom: 24 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 24, marginBottom: 24 }}>
                 {caseStudy.problem.issues.map((issue, index) => {
                   const colors = [
                     { bg: "rgba(239, 68, 68, 0.1)", border: "rgba(239, 68, 68, 0.3)", accent: "#ef4444", iconColor: "#dc2626" },
@@ -647,7 +647,7 @@ export default function CaseStudy() {
                       </svg>
 
                       {/* Stages Grid */}
-                      <div style={{ display: "grid", gridTemplateColumns: `repeat(${journeyMap.stages.length}, 1fr)`, gap: "32px", paddingTop: "160px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(120px, 1fr))`, gap: "32px", paddingTop: "160px" }}>
                         {journeyMap.stages.map((stage, stageIndex) => (
                           <div key={stageIndex} style={{ display: "flex", flexDirection: "column" }}>
                             {/* Stage Icon and Name */}
