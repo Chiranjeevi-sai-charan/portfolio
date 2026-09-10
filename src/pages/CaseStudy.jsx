@@ -339,7 +339,7 @@ export default function CaseStudy() {
                   <div style={{ fontSize: 11, fontWeight: 700, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 12 }}>
                     Tools Used
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(100px, 1fr))", gap: 8, lineHeight: "1.8" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: 8, lineHeight: "1.8" }}>
                     {caseStudy.overview.toolsUsed.map((tool) => (
                       <div key={tool} style={{ fontSize: 17, fontWeight: 400, color: "var(--ink)" }}>
                         {tool}
