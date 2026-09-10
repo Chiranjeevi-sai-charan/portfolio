@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import AchievementCard from "../components/AchievementCard";
 import Marquee from "../components/Marquee";
+import AnimatedCounter from "../components/AnimatedCounter";
+import TestimonialCarousel from "../components/TestimonialCarousel";
 // DogWorld (interactive dog character) is built but disabled for now —
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
 // import DogWorld from "../components/DogWorld/DogWorld";
-import profilePic from "../assets/Profile Pic.png";
+import profilePic from "../assets/Profile Pic.jpg";
 import achievementPic from "../assets/Achievement.jpg";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
@@ -31,12 +33,6 @@ const GLYPHS = {
 
 const CASE_STUDIES = [
   {
-    slug: "sage",
-    tag: "Enterprise AI · Knowledge platform",
-    title: "Sage",
-    blurb: "An AI-powered knowledge platform serving 1000+ employees across 10+ departments with secure, role-based access.",
-  },
-  {
     slug: "flowops",
     tag: "Enterprise AI · Workflow automation",
     title: "FlowOps",
@@ -58,15 +54,15 @@ const CASE_STUDIES = [
 
 const POSITIONING = [
   {
-    label: "Goal",
+    label: "Where I'm Headed",
     text: "A senior product design role at an enterprise AI or B2B SaaS company, leading design systems and strategy, not just shipping screens.",
   },
   {
-    label: "Voice",
+    label: "How I Work",
     text: "Decisions backed by research and usability testing, not just visual polish, validated with real users before anything ships.",
   },
   {
-    label: "Audience",
+    label: "Who I'm For",
     text: "Enterprises and fast-growing SaaS companies building AI-native products, where design maturity and design-engineering collaboration matter.",
   },
 ];
@@ -106,7 +102,7 @@ const EXPERIENCE = [
       "Led end-to-end UX design for AI-powered enterprise products, from user research and information architecture through wireframes, prototypes, and high-fidelity interfaces.",
       "Designed AI experiences spanning conversational search, RAG, multimodal interactions, document analysis, AI model selection, and voice input, simplifying complex capabilities into intuitive, production-ready interfaces.",
       "Built a scalable enterprise design system in Figma with reusable components, design tokens, and variables, and worked closely with engineering to validate feasibility using front-end knowledge in HTML, CSS, and React.",
-      "Converted Figma designs into responsive front-end components using HTML, CSS, JavaScript, React, and Angular, accelerating design-to-engineering handoff and validating interaction feasibility early."
+      "Converted Figma designs into responsive front-end components using HTML, CSS, JavaScript, React, and Angular, accelerating design-to-engineering handoff and validating interaction feasibility early.",
     ],
   },
   {
@@ -117,7 +113,7 @@ const EXPERIENCE = [
       "Led usability testing sessions and translated user feedback into actionable design improvements that directly informed product decisions.",
       "Created wireframes, high-fidelity mockups, and advanced conditional prototypes using variables, and designed immersive XR screens for Apple Vision Pro using Apple's official visionOS UI kit.",
       "Built and maintained tokenized design systems in Figma for visual consistency and faster design-to-dev cycles, while introducing emerging design tools and AI-based workflows to grow the wider team.",
-      "Developed responsive front-end components from Figma designs using HTML, CSS, JavaScript, React, and Angular, streamlining design-to-dev handoff and functional implementation."
+      "Developed responsive front-end components from Figma designs using HTML, CSS, JavaScript, React, and Angular, streamlining design-to-dev handoff and functional implementation.",
     ],
   },
   {
@@ -167,21 +163,16 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className={styles.kicker}>Product Designer, Enterprise AI & B2B SaaS</div>
+          <div className={styles.kicker}>Hey! I'm Chiranjeevi</div>
           <h1 className={styles.heroTitle}>
-            I design the UX layer of{" "}
-            <span className={styles.underlineWord}>
-              enterprise
+            A <span className={styles.productDesigner}>
+              Product Designer
               <svg className={styles.underlineSvg} viewBox="0 0 220 20" preserveAspectRatio="none" aria-hidden="true">
                 <path d="M2 12 C 60 2, 160 2, 218 12" stroke="var(--accent)" strokeWidth="5" fill="none" strokeLinecap="round" />
               </svg>
             </span>{" "}
-            AI.
+            with <span className={styles.accentNumber}><AnimatedCounter end={5} suffix="+" /></span> years of experience designing Enterprise Applications, AI-Powered Experiences, and Scalable Design Systems.
           </h1>
-          <p className={styles.heroSub}>
-            5+ years turning complex, ambiguous workflows into interfaces that enterprise
-            teams actually trust, from conversational search to fraud detection dashboards.
-          </p>
           <div className={styles.heroActions}>
             <a href="#work" className={styles.primaryBtn}>See the work</a>
           </div>
@@ -215,7 +206,10 @@ export default function Home() {
             <p>
               I am a product designer with a front-end development background, which means
               I design with what is actually <span className={styles.highlight}>buildable</span> in
-              mind, not just what looks good in a mockup. I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
+              mind, not just what looks good in a mockup.
+            </p>
+            <p>
+              I convert Figma designs into responsive, front-end code using <span className={styles.highlight}>HTML, CSS, JavaScript and React</span>, accelerating the design-to-engineering handoff and validating interaction feasibility early.
             </p>
             <p>
               Most of my recent work is enterprise
@@ -359,30 +353,22 @@ export default function Home() {
           <div className={styles.kicker}>Recommendations</div>
           <h2>What it's like to work with me</h2>
         </Reveal>
-        <div className={styles.testimonialGrid}>
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal
-              key={t.name}
-              as="a"
-              href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
-              target="_blank"
-              rel="noreferrer"
-              delay={i * 0.08}
-              className={styles.testimonialCard}
-              data-cursor-label="View on LinkedIn"
-            >
-              <p className={styles.testimonialQuote}>&ldquo;{t.quote}&rdquo;</p>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}>{t.name.charAt(0)}</div>
-                <div>
-                  <div className={styles.testimonialName}>{t.name}</div>
-                  <div className={styles.testimonialRole}>{t.role}</div>
-                  <div className={styles.testimonialContext}>{t.context}</div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <TestimonialCarousel testimonials={TESTIMONIALS} />
+        <Reveal delay={0.2}>
+          <div className={styles.testimonialFooter}>
+            <p>
+              <a
+                href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.linkedinLink}
+                data-cursor-label="View on LinkedIn"
+              >
+                See all my recommendations on LinkedIn →
+              </a>
+            </p>
+          </div>
+        </Reveal>
       </section>
 
       <section className={styles.section} id="certifications">

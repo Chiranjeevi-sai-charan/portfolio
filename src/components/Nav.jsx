@@ -6,6 +6,7 @@ import styles from "./Nav.module.css";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -14,12 +15,23 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const scrollToTop = (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
-      <Link to="/" className={styles.brand} aria-label="Chiranjeevi Sai Charan, home" data-cursor-label="Home">
-        <img src={signature} alt="" className={styles.signature} />
-      </Link>
+      <button className={styles.brand} onClick={scrollToTop} aria-label="Scroll to top" data-cursor-label="Home">
+        <div className={styles.brandContent}>
+          <img src={signature} alt="" className={styles.signature} />
+          <span className={styles.brandName}>K. Chiranjeevi</span>
+        </div>
+      </button>
       <div className={styles.links}>
+        <a href="/" onClick={scrollToTop} data-cursor-label="Home">Home</a>
         <a href="/#about" data-cursor-label="About">About</a>
         <a href="/#experience" className={styles.secondary} data-cursor-label="Experience">Experience</a>
         <a href="/#achievements" data-cursor-label="Recognition">Recognition</a>
@@ -35,9 +47,8 @@ export default function Nav() {
           data-cursor-label="Resume"
         >
           Resume
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={styles.downloadIcon}>
-            <path d="M8 2v7.5M8 9.5 5 6.5M8 9.5l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M3 12v1.2A1.8 1.8 0 0 0 4.8 15h6.4A1.8 1.8 0 0 0 13 13.2V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={styles.externalLinkIcon}>
+            <path d="M10 2h4v4M14 2L8 8M6 2H2v12h12V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
         <a
@@ -57,6 +68,40 @@ export default function Nav() {
           Say hello
         </a>
       </div>
+
+      <button
+        className={styles.mobileMenuBtn}
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Menu"
+        aria-expanded={mobileMenuOpen}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      {mobileMenuOpen && (
+        <div className={styles.mobileMenu}>
+          <a href="/" onClick={(e) => { scrollToTop(e); closeMobileMenu(); }}>Home</a>
+          <a href="/#about" onClick={closeMobileMenu}>About</a>
+          <a href="/#experience" onClick={closeMobileMenu}>Experience</a>
+          <a href="/#achievements" onClick={closeMobileMenu}>Recognition</a>
+          <a href="/#work" onClick={closeMobileMenu}>Work</a>
+          <a href="/#stack" onClick={closeMobileMenu}>Toolkit</a>
+          <a href="/#testimonials" onClick={closeMobileMenu}>Recommendations</a>
+          <a href="/#certifications" onClick={closeMobileMenu}>Certifications</a>
+          <a href="https://flowcv.com/resume/avbobjk3o6" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuResume}>
+            Resume
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M10 2h4v4M14 2L8 8M6 2H2v12h12V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuLinkedin}>
+            <img src={linkedinLogo} alt="LinkedIn" />
+            LinkedIn
+          </a>
+        </div>
+      )}
     </nav>
   );
 }
