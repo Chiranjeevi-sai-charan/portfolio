@@ -868,11 +868,11 @@ export default function CaseStudy() {
             How the chatbot transforms two different experiences
           </p>
 
-          {/* JOURNEY MAPS CONTAINER */}
+          {/* JOURNEY MAPS CONTAINER - STACKED VERTICALLY */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))",
-            gap: 40
+            gridTemplateColumns: "1fr",
+            gap: 60
           }}>
             {/* ADITYA'S JOURNEY */}
             <article style={{
