@@ -635,357 +635,6 @@ export default function CaseStudy() {
         </Reveal>
       )}
 
-      {/* PERSONAS SECTION */}
-      <Reveal delay={0.25}>
-        <div style={{ marginTop: 96, marginBottom: 96 }}>
-          <h2 style={{ fontSize: "2rem", marginBottom: 16, fontWeight: 700, color: "var(--accent)" }}>
-            Personas
-          </h2>
-          <p style={{ fontSize: 16, lineHeight: "1.6", color: "var(--ink-soft)", marginBottom: 64 }}>
-            Two perspectives on the same problem
-          </p>
-
-          {/* PERSONAS GRID */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-            gap: 40
-          }}>
-            {/* PERSONA 1: ADITYA */}
-            <div style={{
-              padding: 24,
-              backgroundColor: "rgba(255, 255, 255, 0.02)",
-              borderRadius: 12,
-              border: "1px solid rgba(255, 255, 255, 0.08)"
-            }}>
-              <img
-                src={personaAdityaSticker}
-                alt="Persona: Aditya - Operations Supervisor"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  borderRadius: 8,
-                  marginBottom: 24
-                }}
-              />
-              <div style={{ marginBottom: 20 }}>
-                <h3 style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Aditya
-                </h3>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0
-                }}>
-                  Operations Supervisor, 28 | Bangalore
-                </p>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <p style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Goal
-                </p>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0,
-                  lineHeight: 1.5
-                }}>
-                  Quickly find answers to HR questions without emailing HR
-                </p>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <p style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Pain Point
-                </p>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0,
-                  lineHeight: 1.5
-                }}>
-                  Forgets which documents to check. Gets conflicting info from colleagues. Worried about outdated/incorrect information.
-                </p>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <p style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Tech Comfort
-                </p>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0
-                }}>
-                  High
-                </p>
-              </div>
-
-              <p style={{
-                fontSize: 16,
-                fontStyle: "italic",
-                color: "var(--accent)",
-                margin: 0,
-                lineHeight: 1.5
-              }}>
-                "I ask HR at 7 PM and expect answers by next day"
-              </p>
-            </div>
-
-            {/* PERSONA 2: PRIYA */}
-            <div style={{
-              padding: 24,
-              backgroundColor: "rgba(255, 255, 255, 0.02)",
-              borderRadius: 12,
-              border: "1px solid rgba(255, 255, 255, 0.08)"
-            }}>
-              <img
-                src={personaPriyaSticker}
-                alt="Persona: Priya - HR Manager"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  borderRadius: 8,
-                  marginBottom: 24
-                }}
-              />
-              <div style={{ marginBottom: 20 }}>
-                <h3 style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Priya
-                </h3>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0
-                }}>
-                  HR Manager, 34 | Hyderabad
-                </p>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <p style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Goal
-                </p>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0,
-                  lineHeight: 1.5
-                }}>
-                  Reduce HR team's time on repetitive questions so they can focus on strategic initiatives (hiring, culture, retention)
-                </p>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <p style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Pain Point
-                </p>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0,
-                  lineHeight: 1.5
-                }}>
-                  Answers 12-15 identical questions daily (leave policy, salary structure, benefits). Frustrated she can't scale answers without hiring more HR staff. Worried employees get different answers from different team members.
-                </p>
-              </div>
-
-              <div style={{ marginBottom: 16 }}>
-                <p style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--ink)",
-                  marginBottom: 4
-                }}>
-                  Tech Comfort
-                </p>
-                <p style={{
-                  fontSize: 14,
-                  color: "var(--ink-soft)",
-                  margin: 0
-                }}>
-                  Medium
-                </p>
-              </div>
-
-              <p style={{
-                fontSize: 16,
-                fontStyle: "italic",
-                color: "var(--accent)",
-                margin: 0,
-                lineHeight: 1.5
-              }}>
-                "If employees could just find answers themselves, I could actually do strategic work"
-              </p>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      {/* JOURNEY MAPS SECTION - SIMPLE LINEAR TIMELINE */}
-      <Reveal delay={0.3}>
-        <div style={{ marginTop: 96, marginBottom: 96 }}>
-          <h2 style={{ fontSize: "2rem", marginBottom: 16, fontWeight: 700, color: "var(--accent)" }}>
-            Journey Maps
-          </h2>
-          <p style={{ fontSize: 16, lineHeight: "1.6", color: "var(--ink-soft)", marginBottom: 64 }}>
-            How the chatbot transforms two different experiences
-          </p>
-
-          {/* JOURNEY MAPS CONTAINER - STACKED VERTICALLY */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: 60
-          }}>
-            {/* ADITYA'S JOURNEY */}
-            <article style={{
-              borderLeft: "4px solid #0078d4",
-              backgroundColor: "#fafafa",
-              padding: 20,
-              borderRadius: 6,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
-            }}>
-              <h3 style={{
-                fontSize: 16,
-                fontWeight: 700,
-                color: "#0078d4",
-                textTransform: "uppercase",
-                marginBottom: 40
-              }}>
-                Aditya's Journey: Searching for Answers
-              </h3>
-
-              {/* Horizontal Stages Grid - 4 columns desktop, 1 column mobile */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 20
-              }}>
-                {/* Stage 1 */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
-                  <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Doesn't know which HR policy document to check</p>
-                </div>
-
-                {/* Stage 2 */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Search & Frustration</p>
-                  <img src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Jumps between 50+ documents, loses 20 minutes</p>
-                </div>
-
-                {/* Stage 3 */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Give Up & Email</p>
-                  <img src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Sends email, waits overnight for reply</p>
-                </div>
-
-                {/* Stage 4 - SOLUTION */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
-                  <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#0078d4" }}>✓</div>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Gets Answer</p>
-                  <img src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Instant verified answer in 30 seconds</p>
-                </div>
-              </div>
-            </article>
-
-            {/* PRIYA'S JOURNEY */}
-            <article style={{
-              borderLeft: "4px solid #10b981",
-              backgroundColor: "#fafafa",
-              padding: 20,
-              borderRadius: 6,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
-            }}>
-              <h3 style={{
-                fontSize: 16,
-                fontWeight: 700,
-                color: "#10b981",
-                textTransform: "uppercase",
-                marginBottom: 20
-              }}>
-                Priya's Journey: Context Switching
-              </h3>
-
-              {/* Horizontal Stages Grid */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-                gap: 20
-              }}>
-                {/* Stage 1 */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
-                  <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Receives 15th identical question of the day</p>
-                </div>
-
-                {/* Stage 2 */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Context Switch</p>
-                  <img src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Stops strategic work to answer repetitive question</p>
-                </div>
-
-                {/* Stage 3 */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Finds Answer (Unsure)</p>
-                  <img src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Worried answer is outdated or inconsistent</p>
-                </div>
-
-                {/* Stage 4 - SOLUTION */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
-                  <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#10b981" }}>✓</div>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Focus on Strategy</p>
-                  <img src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
-                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Chatbot handles 80% of questions; focuses on strategy</p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </Reveal>
 
       {caseStudy.research && (
         <Reveal delay={0.3}>
@@ -1041,140 +690,351 @@ export default function CaseStudy() {
             </div>
 
             <div style={{ marginBottom: 48 }}>
-              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 24, fontWeight: 700 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 20, fontWeight: 700 }}>
                 Personas
               </h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, marginBottom: 48 }}>
-                {caseStudy.research.personas.map((persona, index) => (
-                  <div key={index} style={{
-                    padding: 24,
-                    backgroundColor: "rgba(255, 255, 255, 0.05)",
-                    borderRadius: 8,
-                    border: "1px solid rgba(255, 255, 255, 0.08)"
-                  }}>
-                    <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>
-                      {persona.name}
-                    </div>
-                    <div style={{ fontSize: 13, color: "var(--ink-soft)", marginBottom: 16 }}>
-                      {persona.role} (Age {persona.age})
-                      <br />
-                      {persona.location}
-                    </div>
-                    <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)", marginBottom: 6, textTransform: "uppercase" }}>
-                        Goals
-                      </div>
-                      <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>
-                        {persona.goals}
-                      </p>
-                    </div>
-                    <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)", marginBottom: 6, textTransform: "uppercase" }}>
-                        Pain Points
-                      </div>
-                      <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>
-                        {persona.painPoints}
-                      </p>
-                    </div>
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)", marginBottom: 6, textTransform: "uppercase" }}>
-                        Tech Comfort
-                      </div>
-                      <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>
-                        {persona.techComfort}
-                      </p>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)", marginBottom: 6, textTransform: "uppercase" }}>
-                        Behavior
-                      </div>
-                      <p style={{ fontSize: 14, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>
-                        {persona.behavior}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+              <p style={{ fontSize: 16, lineHeight: "1.7", marginBottom: 36, color: "var(--ink-soft)" }}>
+                Two perspectives on the same problem
+              </p>
 
-            <div style={{ marginBottom: 48 }}>
-              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 24, fontWeight: 700 }}>
-                User Journey Maps
-              </h3>
-              {caseStudy.research.journeyMaps.map((journeyMap, mapIndex) => (
-                <div key={mapIndex} style={{ marginBottom: mapIndex < caseStudy.research.journeyMaps.length - 1 ? 36 : 0 }}>
-                  <div style={{ fontSize: 15, marginBottom: 16, color: "var(--ink)" }}>
-                    <span style={{ fontWeight: 700 }}>{journeyMap.persona}'s Journey:</span>
-                    <span style={{ fontWeight: 400 }}> {journeyMap.scenario}</span>
-                  </div>
-                  <div style={{ overflowX: "auto" }}>
-                    <table style={{
+              {/* PERSONAS GRID */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+                gap: 40
+              }}>
+                {/* PERSONA 1: ADITYA */}
+                <div style={{
+                  padding: 24,
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  borderRadius: 12,
+                  border: "1px solid rgba(255, 255, 255, 0.08)"
+                }}>
+                  <img
+                    src={personaAdityaSticker}
+                    alt="Persona: Aditya - Operations Supervisor"
+                    style={{
                       width: "100%",
-                      borderCollapse: "collapse",
-                      fontSize: 14,
-                      lineHeight: 1.6
+                      height: "auto",
+                      borderRadius: 8,
+                      marginBottom: 24
+                    }}
+                  />
+                  <div style={{ marginBottom: 20 }}>
+                    <h3 style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
                     }}>
-                      <thead>
-                        <tr style={{ backgroundColor: "rgba(255, 255, 255, 0.05)", borderBottom: "1px solid rgba(255, 255, 255, 0.1)" }}>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Stage</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Current State</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Pain</th>
-                          <th style={{ padding: 12, textAlign: "left", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.5px" }}>Opportunity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {journeyMap.stages.map((stage, stageIndex) => (
-                          <tr key={stageIndex} style={{
-                            backgroundColor: stageIndex % 2 === 0 ? "rgba(255, 255, 255, 0.02)" : "transparent",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
-                          }}>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}><strong>{stage.stage}</strong></td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.current}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.pain}</td>
-                            <td style={{ padding: 12, color: "var(--ink-soft)", verticalAlign: "top" }}>{stage.opportunity}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                      Aditya
+                    </h3>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0
+                    }}>
+                      Operations Supervisor, 28 | Bangalore
+                    </p>
                   </div>
+
+                  <div style={{ marginBottom: 16 }}>
+                    <p style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Goal
+                    </p>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0,
+                      lineHeight: 1.5
+                    }}>
+                      Quickly find answers to HR questions without emailing HR
+                    </p>
+                  </div>
+
+                  <div style={{ marginBottom: 16 }}>
+                    <p style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Pain Point
+                    </p>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0,
+                      lineHeight: 1.5
+                    }}>
+                      Forgets which documents to check. Gets conflicting info from colleagues. Worried about outdated/incorrect information.
+                    </p>
+                  </div>
+
+                  <div style={{ marginBottom: 16 }}>
+                    <p style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Tech Comfort
+                    </p>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0
+                    }}>
+                      High
+                    </p>
+                  </div>
+
+                  <p style={{
+                    fontSize: 16,
+                    fontStyle: "italic",
+                    color: "var(--accent)",
+                    margin: 0,
+                    lineHeight: 1.5
+                  }}>
+                    "I ask HR at 7 PM and expect answers by next day"
+                  </p>
                 </div>
-              ))}
+
+                {/* PERSONA 2: PRIYA */}
+                <div style={{
+                  padding: 24,
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  borderRadius: 12,
+                  border: "1px solid rgba(255, 255, 255, 0.08)"
+                }}>
+                  <img
+                    src={personaPriyaSticker}
+                    alt="Persona: Priya - HR Manager"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: 8,
+                      marginBottom: 24
+                    }}
+                  />
+                  <div style={{ marginBottom: 20 }}>
+                    <h3 style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Priya
+                    </h3>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0
+                    }}>
+                      HR Manager, 34 | Hyderabad
+                    </p>
+                  </div>
+
+                  <div style={{ marginBottom: 16 }}>
+                    <p style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Goal
+                    </p>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0,
+                      lineHeight: 1.5
+                    }}>
+                      Reduce HR team's time on repetitive questions so they can focus on strategic initiatives (hiring, culture, retention)
+                    </p>
+                  </div>
+
+                  <div style={{ marginBottom: 16 }}>
+                    <p style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Pain Point
+                    </p>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0,
+                      lineHeight: 1.5
+                    }}>
+                      Answers 12-15 identical questions daily (leave policy, salary structure, benefits). Frustrated she can't scale answers without hiring more HR staff. Worried employees get different answers from different team members.
+                    </p>
+                  </div>
+
+                  <div style={{ marginBottom: 16 }}>
+                    <p style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 4
+                    }}>
+                      Tech Comfort
+                    </p>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      margin: 0
+                    }}>
+                      Medium
+                    </p>
+                  </div>
+
+                  <p style={{
+                    fontSize: 16,
+                    fontStyle: "italic",
+                    color: "var(--accent)",
+                    margin: 0,
+                    lineHeight: 1.5
+                  }}>
+                    "If employees could just find answers themselves, I could actually do strategic work"
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div style={{ marginBottom: 48 }}>
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 20, fontWeight: 700 }}>
-                Application of Research to Design Decisions
+                Journey Maps
               </h3>
-              <p style={{ fontSize: 16, lineHeight: "1.7", marginBottom: 20, color: "var(--ink-soft)" }}>
-                {caseStudy.research.application.intro}
+              <p style={{ fontSize: 16, lineHeight: "1.7", marginBottom: 36, color: "var(--ink-soft)" }}>
+                How the chatbot transforms two different experiences
               </p>
-              <div style={{ display: "grid", gap: 24 }}>
-                {caseStudy.research.application.solutions.map((solution, index) => (
-                  <div key={index}>
-                    <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 8, color: "var(--accent)" }}>
-                      {solution.name}
+
+              {/* JOURNEY MAPS CONTAINER - STACKED VERTICALLY */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                gap: 60
+              }}>
+                {/* ADITYA'S JOURNEY */}
+                <article style={{
+                  borderLeft: "4px solid #0078d4",
+                  backgroundColor: "#fafafa",
+                  padding: 20,
+                  borderRadius: 6,
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+                }}>
+                  <h3 style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: "#0078d4",
+                    textTransform: "uppercase",
+                    marginBottom: 40
+                  }}>
+                    Aditya's Journey: Searching for Answers
+                  </h3>
+
+                  {/* Horizontal Stages Grid - 4 columns desktop, 2 columns mobile */}
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+                    gap: 20
+                  }}>
+                    {/* Stage 1 */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
+                      <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Doesn't know which HR policy document to check</p>
                     </div>
-                    <p style={{ fontSize: 15, lineHeight: "1.6", color: "var(--ink-soft)" }}>
-                      {solution.description}
-                    </p>
+
+                    {/* Stage 2 */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Search & Frustration</p>
+                      <img src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Jumps between 50+ documents, loses 20 minutes</p>
+                    </div>
+
+                    {/* Stage 3 */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Give Up & Email</p>
+                      <img src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Sends email, waits overnight for reply</p>
+                    </div>
+
+                    {/* Stage 4 - SOLUTION */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
+                      <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#0078d4" }}>✓</div>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Gets Answer</p>
+                      <img src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Instant verified answer in 30 seconds</p>
+                    </div>
                   </div>
-                ))}
+                </article>
+
+                {/* PRIYA'S JOURNEY */}
+                <article style={{
+                  borderLeft: "4px solid #10b981",
+                  backgroundColor: "#fafafa",
+                  padding: 20,
+                  borderRadius: 6,
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+                }}>
+                  <h3 style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: "#10b981",
+                    textTransform: "uppercase",
+                    marginBottom: 20
+                  }}>
+                    Priya's Journey: Context Switching
+                  </h3>
+
+                  {/* Horizontal Stages Grid */}
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+                    gap: 20
+                  }}>
+                    {/* Stage 1 */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
+                      <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Receives 15th identical question of the day</p>
+                    </div>
+
+                    {/* Stage 2 */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Context Switch</p>
+                      <img src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Stops strategic work to answer repetitive question</p>
+                    </div>
+
+                    {/* Stage 3 */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Finds Answer (Unsure)</p>
+                      <img src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Worried answer is outdated or inconsistent</p>
+                    </div>
+
+                    {/* Stage 4 - SOLUTION */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
+                      <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#10b981" }}>✓</div>
+                      <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Focus on Strategy</p>
+                      <img src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Chatbot handles 80% of questions; focuses on strategy</p>
+                    </div>
+                  </div>
+                </article>
               </div>
             </div>
 
-            <div style={{
-              padding: 24,
-              backgroundColor: "rgba(255, 255, 255, 0.03)",
-              borderLeft: "3px solid var(--accent)",
-              borderRadius: 8
-            }}>
-              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
-                Reflect
-              </h3>
-              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", margin: 0 }}>
-                {caseStudy.research.reflection}
-              </p>
-            </div>
           </div>
         </Reveal>
       )}
