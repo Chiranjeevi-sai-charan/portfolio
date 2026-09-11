@@ -871,7 +871,7 @@ export default function CaseStudy() {
           {/* JOURNEY MAPS CONTAINER */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))",
             gap: 40
           }}>
             {/* ADITYA'S JOURNEY */}
@@ -887,15 +887,15 @@ export default function CaseStudy() {
                 fontWeight: 700,
                 color: "#0078d4",
                 textTransform: "uppercase",
-                marginBottom: 20
+                marginBottom: 40
               }}>
                 Aditya's Journey: Searching for Answers
               </h3>
 
-              {/* Horizontal Stages Grid */}
+              {/* Horizontal Stages Grid - 4 columns desktop, 1 column mobile */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+                gridTemplateColumns: "repeat(4, 1fr)",
                 gap: 20
               }}>
                 {/* Stage 1 */}
