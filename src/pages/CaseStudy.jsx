@@ -453,10 +453,6 @@ export default function CaseStudy() {
             </h2>
 
             <div style={{ marginBottom: 48 }}>
-              <p style={{ fontSize: 18, lineHeight: "1.8", marginBottom: 64 }}>
-                Employees across a 1000+ person organization struggle to access HR information they need. With 50+ HR policy documents scattered across the company's internal portal, employees waste time searching for answers and face delays when seeking clarification from HR. This creates frustration, inefficiency, and impacts both employee satisfaction and HR team productivity.
-              </p>
-
               {/* COLUMN HEADERS */}
               <div style={{
                 display: "grid",
