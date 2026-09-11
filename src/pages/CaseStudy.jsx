@@ -795,7 +795,7 @@ export default function CaseStudy() {
                   margin: 0,
                   lineHeight: 1.5
                 }}>
-                  Empower employee self-service while maintaining compliance and controlling sensitive doc access
+                  Reduce HR team's time on repetitive questions so they can focus on strategic initiatives (hiring, culture, retention)
                 </p>
               </div>
 
@@ -814,7 +814,7 @@ export default function CaseStudy() {
                   margin: 0,
                   lineHeight: 1.5
                 }}>
-                  Spends 60% of time on repetitive questions. Can't track document access. Worried about data security breaches.
+                  Answers 12-15 identical questions daily (leave policy, salary structure, benefits). Frustrated she can't scale answers without hiring more HR staff. Worried employees get different answers from different team members.
                 </p>
               </div>
 
@@ -843,7 +843,7 @@ export default function CaseStudy() {
                 margin: 0,
                 lineHeight: 1.5
               }}>
-                "I need metrics showing how often employees use self-service vs. email"
+                "If employees could just find answers themselves, I could actually do strategic work"
               </p>
             </div>
           </div>
