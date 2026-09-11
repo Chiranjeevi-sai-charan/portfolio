@@ -4,9 +4,9 @@ import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
 import sageLogo from "../assets/Sage Logo.png";
 import sageSolvesSticker from "../assets/Sage solves this.png";
 import projectOverviewImage from "../assets/Project Overview.png";
-import problemSilosSticker from "../assets/Problem 1 Information Silos.png";
-import problemSearchOverloadSticker from "../assets/Problem 2 Search Overload.png";
-import problemConsistencyGapSticker from "../assets/Problem 3 Consistency Gap.png";
+import problemUserSticker from "../assets/problem-user-cant-find-answers.png";
+import problemBusinessSticker from "../assets/problem-hr-burnout.png";
+import problemGoalSticker from "../assets/problem-instant-answers.png";
 import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -453,18 +453,17 @@ export default function CaseStudy() {
             </h2>
 
             <div style={{ marginBottom: 48 }}>
-              <p style={{ fontSize: 18, lineHeight: "1.8", marginBottom: 48 }}>
-                {caseStudy.problem.statement}
+              <p style={{ fontSize: 18, lineHeight: "1.8", marginBottom: 64 }}>
+                Employees across a 1000+ person organization struggle to access HR information they need. With 50+ HR policy documents scattered across the company's internal portal, employees waste time searching for answers and face delays when seeking clarification from HR. This creates frustration, inefficiency, and impacts both employee satisfaction and HR team productivity.
               </p>
 
-              {/* PROBLEM STICKERS GRID */}
+              {/* PROBLEM STICKERS GRID: USER PROBLEM → BUSINESS IMPACT → GOAL */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: 24,
-                marginBottom: 48
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: 24
               }}>
-                {/* Problem Sticker 1: Information Silos */}
+                {/* Problem Sticker 1: User Problem */}
                 <div style={{
                   display: "flex",
                   flexDirection: "column",
@@ -477,8 +476,8 @@ export default function CaseStudy() {
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
                 }}>
                   <img
-                    src={problemSilosSticker}
-                    alt="Information Silos illustration"
+                    src={problemUserSticker}
+                    alt="Employees Can't Find HR Answers illustration"
                     style={{
                       width: "100%",
                       height: "auto",
@@ -492,7 +491,7 @@ export default function CaseStudy() {
                     color: "var(--ink)",
                     marginBottom: 8
                   }}>
-                    Information Silos
+                    Employees Can't Find HR Answers
                   </h3>
                   <p style={{
                     fontSize: 14,
@@ -500,11 +499,11 @@ export default function CaseStudy() {
                     lineHeight: 1.5,
                     margin: 0
                   }}>
-                    Employees don't know which HR document contains the answer.
+                    Employees search through 50+ HR policy documents in the internal portal but struggle to find relevant answers. Even when they find something, they're uncertain if it's current or accurate, forcing them to email HR for clarification.
                   </p>
                 </div>
 
-                {/* Problem Sticker 2: Search Overload */}
+                {/* Problem Sticker 2: Business Impact */}
                 <div style={{
                   display: "flex",
                   flexDirection: "column",
@@ -517,8 +516,8 @@ export default function CaseStudy() {
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
                 }}>
                   <img
-                    src={problemSearchOverloadSticker}
-                    alt="Search Overload illustration"
+                    src={problemBusinessSticker}
+                    alt="HR Team Burnout illustration"
                     style={{
                       width: "100%",
                       height: "auto",
@@ -532,7 +531,7 @@ export default function CaseStudy() {
                     color: "var(--ink)",
                     marginBottom: 8
                   }}>
-                    Search Overload
+                    HR Team Burnout
                   </h3>
                   <p style={{
                     fontSize: 14,
@@ -540,11 +539,11 @@ export default function CaseStudy() {
                     lineHeight: 1.5,
                     margin: 0
                   }}>
-                    Manual searches return 50+ irrelevant results.
+                    HR staff receive questions employees couldn't find answers to, fielding 12-15 clarification requests per day. This wastes 60% of HR time on repetitive questions that should be self-service, creating burnout and preventing strategic work.
                   </p>
                 </div>
 
-                {/* Problem Sticker 3: Consistency Gap */}
+                {/* Problem Sticker 3: Goal */}
                 <div style={{
                   display: "flex",
                   flexDirection: "column",
@@ -557,8 +556,8 @@ export default function CaseStudy() {
                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
                 }}>
                   <img
-                    src={problemConsistencyGapSticker}
-                    alt="Consistency Gap illustration"
+                    src={problemGoalSticker}
+                    alt="Instant, Verified HR Answers illustration"
                     style={{
                       width: "100%",
                       height: "auto",
@@ -572,7 +571,7 @@ export default function CaseStudy() {
                     color: "var(--ink)",
                     marginBottom: 8
                   }}>
-                    Consistency Gap
+                    Instant, Verified HR Answers
                   </h3>
                   <p style={{
                     fontSize: 14,
@@ -580,14 +579,10 @@ export default function CaseStudy() {
                     lineHeight: 1.5,
                     margin: 0
                   }}>
-                    Different HR staff give different answers to the same question.
+                    Employees get instant answers with source verification so they know the information is accurate. HR can focus on strategic initiatives while employees self-serve their HR questions confidently.
                   </p>
                 </div>
               </div>
-
-              <p style={{ fontSize: 16, lineHeight: "1.7", fontStyle: "italic", color: "var(--ink-soft)", paddingLeft: 20, borderLeft: "3px solid var(--accent)" }}>
-                "{caseStudy.problem.consequence}"
-              </p>
             </div>
 
             <div style={{ marginBottom: 96 }}>
