@@ -887,43 +887,45 @@ export default function CaseStudy() {
                 fontWeight: 700,
                 color: "#0078d4",
                 textTransform: "uppercase",
-                marginBottom: 20,
-                margin: 0,
                 marginBottom: 20
               }}>
                 Aditya's Journey: Searching for Answers
               </h3>
 
-              {/* Stage 1 */}
-              <div style={{ marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
-                <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Doesn't know which HR policy document to check</p>
-              </div>
-              <div style={{ borderBottom: "1px solid #e0e0e0", margin: "12px 0", opacity: 0.6 }}></div>
+              {/* Horizontal Stages Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+                gap: 20
+              }}>
+                {/* Stage 1 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
+                  <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Doesn't know which HR policy document to check</p>
+                </div>
 
-              {/* Stage 2 */}
-              <div style={{ marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Search & Frustration</p>
-                <img src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Jumps between 50+ documents, loses 20 minutes searching</p>
-              </div>
-              <div style={{ borderBottom: "1px solid #e0e0e0", margin: "12px 0", opacity: 0.6 }}></div>
+                {/* Stage 2 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Search & Frustration</p>
+                  <img src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Jumps between 50+ documents, loses 20 minutes</p>
+                </div>
 
-              {/* Stage 3 */}
-              <div style={{ marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Give Up & Email</p>
-                <img src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Sends email to HR, waits overnight for reply, can't move forward</p>
-              </div>
-              <div style={{ borderBottom: "1px solid #e0e0e0", margin: "12px 0", opacity: 0.6 }}></div>
+                {/* Stage 3 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Give Up & Email</p>
+                  <img src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Sends email, waits overnight for reply</p>
+                </div>
 
-              {/* Stage 4 - SOLUTION */}
-              <div style={{ marginBottom: 0, display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
-                <div style={{ position: "absolute", top: 0, right: 0, fontSize: 24, color: "#0078d4" }}>✓</div>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Gets Answer</p>
-                <img src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Instant verified answer in 30 seconds</p>
+                {/* Stage 4 - SOLUTION */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
+                  <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#0078d4" }}>✓</div>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Gets Answer</p>
+                  <img src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Instant verified answer in 30 seconds</p>
+                </div>
               </div>
             </article>
 
@@ -940,43 +942,45 @@ export default function CaseStudy() {
                 fontWeight: 700,
                 color: "#10b981",
                 textTransform: "uppercase",
-                marginBottom: 20,
-                margin: 0,
                 marginBottom: 20
               }}>
                 Priya's Journey: Context Switching
               </h3>
 
-              {/* Stage 1 */}
-              <div style={{ marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
-                <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Receives 15th identical question of the day</p>
-              </div>
-              <div style={{ borderBottom: "1px solid #e0e0e0", margin: "12px 0", opacity: 0.6 }}></div>
+              {/* Horizontal Stages Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+                gap: 20
+              }}>
+                {/* Stage 1 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
+                  <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Receives 15th identical question of the day</p>
+                </div>
 
-              {/* Stage 2 */}
-              <div style={{ marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Context Switch</p>
-                <img src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Stops strategic HR work to answer repetitive question</p>
-              </div>
-              <div style={{ borderBottom: "1px solid #e0e0e0", margin: "12px 0", opacity: 0.6 }}></div>
+                {/* Stage 2 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Context Switch</p>
+                  <img src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Stops strategic work to answer repetitive question</p>
+                </div>
 
-              {/* Stage 3 */}
-              <div style={{ marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Finds Answer (Unsure)</p>
-                <img src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Searches docs, worried answer is outdated or inconsistent with other HR staff</p>
-              </div>
-              <div style={{ borderBottom: "1px solid #e0e0e0", margin: "12px 0", opacity: 0.6 }}></div>
+                {/* Stage 3 */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Finds Answer (Unsure)</p>
+                  <img src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Worried answer is outdated or inconsistent</p>
+                </div>
 
-              {/* Stage 4 - SOLUTION */}
-              <div style={{ marginBottom: 0, display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
-                <div style={{ position: "absolute", top: 0, right: 0, fontSize: 24, color: "#10b981" }}>✓</div>
-                <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Focus on Strategy</p>
-                <img src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: 140, height: 140, objectFit: "contain", marginBottom: 16 }} />
-                <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, margin: 0, textAlign: "center" }}>Chatbot handles 80% of questions; Priya focuses on hiring, culture, strategy</p>
+                {/* Stage 4 - SOLUTION */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
+                  <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#10b981" }}>✓</div>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Focus on Strategy</p>
+                  <img src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Chatbot handles 80% of questions; focuses on strategy</p>
+                </div>
               </div>
             </article>
           </div>
