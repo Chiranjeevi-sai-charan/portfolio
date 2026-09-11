@@ -901,7 +901,7 @@ export default function CaseStudy() {
                 {/* Stage 1 */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                   <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
-                  <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 12 }} />
+                  <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                   <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Doesn't know which HR policy document to check</p>
                 </div>
 
