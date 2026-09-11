@@ -56,16 +56,16 @@ const CASE_STUDY_DATA = {
       ]
     },
     research: {
-      objective: "The objective of this research was to understand the <span style=\"font-weight: 800;\">pain points</span> employees faced when trying to access HR policies and information. The business goal was to <span style=\"font-weight: 800;\">reduce HR support load by 60%</span> through <span style=\"font-weight: 800;\">employee self-service</span> and <span style=\"font-weight: 800;\">improve policy consistency</span> across the organization.",
-      methods: "We distributed a <span style=\"font-weight: 800;\">Microsoft Form</span> to employees across multiple departments with targeted questions about their current workflow, pain points, and how they currently access HR policies. We also <span style=\"font-weight: 800;\">conducted informal conversations</span> with key HR stakeholders to understand the <span style=\"font-weight: 800;\">administrative challenges</span> they face daily.",
+      objective: "Understand why employees struggle to access HR policies and how this impacts HR team productivity, with the goal of designing a solution that reduces HR support load by 60% through employee self-service.",
+      methods: "Microsoft Form survey to employees + informal conversations with 3-4 HR stakeholders",
+      participants: "50+ employees across departments + 3-4 HR staff members",
       synthesize: {
-        intro: "Five key themes emerged:",
+        intro: "Four key findings emerged:",
         themes: [
-          { num: 1, title: "Knowledge fragmentation", desc: "Employees spent significant time searching for HR policies and often found information unclear or incomplete. A single policy question required browsing multiple documents." },
-          { num: 2, title: "Trust barrier", desc: "Employees wanted to verify chatbot answers against official policy sources before making decisions based on the information." },
-          { num: 3, title: "Multilingual gap", desc: "HR policy documents existed only in English, creating delays and confusion for Japanese-speaking employees who needed clarification or translation." },
-          { num: 4, title: "Access frustration", desc: "Admins couldn't upload documents directly without IT approval, slowing policy updates by 3 days. Employees saw irrelevant HR policies from other departments, causing confusion about what applied to them." },
-          { num: 5, title: "Compliance gap", desc: "No audit mechanism existed to prove when and how employees were informed about HR policy changes. HR had no way to track which policies were accessed or by whom." }
+          { num: 1, title: "Knowledge Fragmentation", desc: "Employees spent significant time searching through 50+ HR policy documents in the internal portal to find answers to a single question. Information was often unclear, incomplete, or scattered across multiple locations." },
+          { num: 2, title: "Consistency & Trust Gap", desc: "Employees received conflicting answers from different HR staff members about the same policy question. Without a single source of truth, employees didn't know which answer to trust, leading to confusion and lack of confidence in HR guidance." },
+          { num: 3, title: "Multilingual Gap", desc: "HR policy documents existed only in English, creating delays and confusion for Japanese-speaking employees who needed clarification or translation. These employees faced 2-3 day delays for translated responses." },
+          { num: 4, title: "Access Frustration", desc: "Admin staff couldn't upload updated documents directly without IT approval, slowing policy updates by 3 days. Employees also saw irrelevant HR policies from other departments, causing confusion about what policies applied to their role." }
         ]
       },
       personas: [
@@ -656,12 +656,23 @@ export default function CaseStudy() {
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
                 Research Methods
               </h3>
-              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }} dangerouslySetInnerHTML={{ __html: caseStudy.research.methods }} />
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                {caseStudy.research.methods}
+              </p>
+            </div>
+
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Participants
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                {caseStudy.research.participants}
+              </p>
             </div>
 
             <div style={{ marginBottom: 48 }}>
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 20, fontWeight: 700 }}>
-                Synthesized Insights
+                Key Findings
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", marginBottom: 20, color: "var(--ink-soft)" }}>
                 {caseStudy.research.synthesize.intro}
