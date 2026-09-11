@@ -7,6 +7,8 @@ import projectOverviewImage from "../assets/Project Overview.png";
 import problemUserSticker from "../assets/problem-user-cant-find-answers.png";
 import problemBusinessSticker from "../assets/problem-hr-burnout.png";
 import problemGoalSticker from "../assets/problem-instant-answers.png";
+import personaAdityaSticker from "../assets/persona-aditya.png";
+import personaPriyaSticker from "../assets/persona-priya.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -624,6 +626,229 @@ export default function CaseStudy() {
           </div>
         </Reveal>
       )}
+
+      {/* PERSONAS SECTION */}
+      <Reveal delay={0.25}>
+        <div style={{ marginTop: 96, marginBottom: 96 }}>
+          <h2 style={{ fontSize: "2rem", marginBottom: 16, fontWeight: 700, color: "var(--accent)" }}>
+            Personas
+          </h2>
+          <p style={{ fontSize: 16, lineHeight: "1.6", color: "var(--ink-soft)", marginBottom: 64 }}>
+            Two perspectives on the same problem
+          </p>
+
+          {/* PERSONAS GRID */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+            gap: 40
+          }}>
+            {/* PERSONA 1: ADITYA */}
+            <div style={{
+              padding: 24,
+              backgroundColor: "rgba(255, 255, 255, 0.02)",
+              borderRadius: 12,
+              border: "1px solid rgba(255, 255, 255, 0.08)"
+            }}>
+              <img
+                src={personaAdityaSticker}
+                alt="Persona: Aditya - Operations Supervisor"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: 8,
+                  marginBottom: 24
+                }}
+              />
+              <div style={{ marginBottom: 20 }}>
+                <h3 style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Aditya
+                </h3>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0
+                }}>
+                  Operations Supervisor, 28 | Bangalore
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <p style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Goal
+                </p>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0,
+                  lineHeight: 1.5
+                }}>
+                  Quickly find answers to HR questions without emailing HR
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <p style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Pain Point
+                </p>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0,
+                  lineHeight: 1.5
+                }}>
+                  Forgets which documents to check. Gets conflicting info from colleagues. Worried about outdated/incorrect information.
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <p style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Tech Comfort
+                </p>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0
+                }}>
+                  High
+                </p>
+              </div>
+
+              <p style={{
+                fontSize: 16,
+                fontStyle: "italic",
+                color: "var(--accent)",
+                margin: 0,
+                lineHeight: 1.5
+              }}>
+                "I ask HR at 7 PM and expect answers by next day"
+              </p>
+            </div>
+
+            {/* PERSONA 2: PRIYA */}
+            <div style={{
+              padding: 24,
+              backgroundColor: "rgba(255, 255, 255, 0.02)",
+              borderRadius: 12,
+              border: "1px solid rgba(255, 255, 255, 0.08)"
+            }}>
+              <img
+                src={personaPriyaSticker}
+                alt="Persona: Priya - HR Manager"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: 8,
+                  marginBottom: 24
+                }}
+              />
+              <div style={{ marginBottom: 20 }}>
+                <h3 style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Priya
+                </h3>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0
+                }}>
+                  HR Manager, 34 | Hyderabad
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <p style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Goal
+                </p>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0,
+                  lineHeight: 1.5
+                }}>
+                  Empower employee self-service while maintaining compliance and controlling sensitive doc access
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <p style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Pain Point
+                </p>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0,
+                  lineHeight: 1.5
+                }}>
+                  Spends 60% of time on repetitive questions. Can't track document access. Worried about data security breaches.
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16 }}>
+                <p style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  marginBottom: 4
+                }}>
+                  Tech Comfort
+                </p>
+                <p style={{
+                  fontSize: 14,
+                  color: "var(--ink-soft)",
+                  margin: 0
+                }}>
+                  Medium
+                </p>
+              </div>
+
+              <p style={{
+                fontSize: 16,
+                fontStyle: "italic",
+                color: "var(--accent)",
+                margin: 0,
+                lineHeight: 1.5
+              }}>
+                "I need metrics showing how often employees use self-service vs. email"
+              </p>
+            </div>
+          </div>
+        </div>
+      </Reveal>
 
       {caseStudy.research && (
         <Reveal delay={0.3}>
