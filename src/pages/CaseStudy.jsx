@@ -453,187 +453,174 @@ export default function CaseStudy() {
             </h2>
 
             <div style={{ marginBottom: 48 }}>
-              {/* COLUMN HEADERS */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                gap: 24,
-                marginBottom: 32
-              }}>
-                <div style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--accent)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.6px",
-                  textAlign: "center"
-                }}>
-                  User Problem
-                </div>
-                <div style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--accent)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.6px",
-                  textAlign: "center"
-                }}>
-                  Business Impact
-                </div>
-                <div style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: "var(--accent)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.6px",
-                  textAlign: "center"
-                }}>
-                  Goal
-                </div>
-              </div>
-
-              {/* PROBLEM STICKERS GRID: USER PROBLEM → BUSINESS IMPACT → GOAL */}
+              {/* PROBLEM STICKERS GRID WITH PAIRED HEADERS: USER PROBLEM → BUSINESS IMPACT → GOAL */}
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
                 gap: 24
               }}>
-                {/* Problem Sticker 1: User Problem */}
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  padding: "24px",
-                  backgroundColor: "rgba(255, 255, 255, 0.02)",
-                  borderRadius: "12px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
-                }}>
-                  <img
-                    src={problemUserSticker}
-                    alt="Employees Can't Find HR Answers illustration"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      borderRadius: "8px",
-                      marginBottom: "16px"
-                    }}
-                  />
-                  <h3 style={{
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: "var(--ink)",
-                    marginBottom: 8
-                  }}>
-                    Employees Can't Find HR Answers
-                  </h3>
-                  <p style={{
+                {/* Column 1: User Problem Header + Sticker */}
+                <div>
+                  <div style={{
                     fontSize: 14,
-                    color: "var(--ink-soft)",
-                    lineHeight: 1.5,
-                    margin: 0
+                    fontWeight: 700,
+                    color: "var(--accent)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.6px",
+                    textAlign: "center",
+                    marginBottom: 16
                   }}>
-                    Employees search through 50+ HR policy documents in the internal portal but struggle to find relevant answers. Even when they find something, they're uncertain if it's current or accurate, forcing them to email HR for clarification.
-                  </p>
+                    User Problem
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    padding: "24px",
+                    backgroundColor: "rgba(255, 255, 255, 0.02)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                  }}>
+                    <img
+                      src={problemUserSticker}
+                      alt="Employees Can't Find HR Answers illustration"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: "8px",
+                        marginBottom: "16px"
+                      }}
+                    />
+                    <h3 style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 8
+                    }}>
+                      Employees Can't Find HR Answers
+                    </h3>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      lineHeight: 1.5,
+                      margin: 0
+                    }}>
+                      Employees search through 50+ HR policy documents in the internal portal but struggle to find relevant answers. Even when they find something, they're uncertain if it's current or accurate, forcing them to email HR for clarification.
+                    </p>
+                  </div>
                 </div>
 
-                {/* Problem Sticker 2: Business Impact */}
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  padding: "24px",
-                  backgroundColor: "rgba(255, 255, 255, 0.02)",
-                  borderRadius: "12px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
-                }}>
-                  <img
-                    src={problemBusinessSticker}
-                    alt="HR Team Burnout illustration"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      borderRadius: "8px",
-                      marginBottom: "16px"
-                    }}
-                  />
-                  <h3 style={{
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: "var(--ink)",
-                    marginBottom: 8
-                  }}>
-                    HR Team Burnout
-                  </h3>
-                  <p style={{
+                {/* Column 2: Business Impact Header + Sticker */}
+                <div>
+                  <div style={{
                     fontSize: 14,
-                    color: "var(--ink-soft)",
-                    lineHeight: 1.5,
-                    margin: 0
+                    fontWeight: 700,
+                    color: "var(--accent)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.6px",
+                    textAlign: "center",
+                    marginBottom: 16
                   }}>
-                    HR staff receive questions employees couldn't find answers to, fielding 12-15 clarification requests per day. This wastes 60% of HR time on repetitive questions that should be self-service, creating burnout and preventing strategic work.
-                  </p>
+                    Business Impact
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    padding: "24px",
+                    backgroundColor: "rgba(255, 255, 255, 0.02)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                  }}>
+                    <img
+                      src={problemBusinessSticker}
+                      alt="HR Team Burnout illustration"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: "8px",
+                        marginBottom: "16px"
+                      }}
+                    />
+                    <h3 style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 8
+                    }}>
+                      HR Team Burnout
+                    </h3>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      lineHeight: 1.5,
+                      margin: 0
+                    }}>
+                      HR staff receive questions employees couldn't find answers to, fielding 12-15 clarification requests per day. This wastes 60% of HR time on repetitive questions that should be self-service, creating burnout and preventing strategic work.
+                    </p>
+                  </div>
                 </div>
 
-                {/* Problem Sticker 3: Goal */}
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  padding: "24px",
-                  backgroundColor: "rgba(255, 255, 255, 0.02)",
-                  borderRadius: "12px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
-                }}>
-                  <img
-                    src={problemGoalSticker}
-                    alt="Instant, Verified HR Answers illustration"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      borderRadius: "8px",
-                      marginBottom: "16px"
-                    }}
-                  />
-                  <h3 style={{
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: "var(--ink)",
-                    marginBottom: 8
-                  }}>
-                    Instant, Verified HR Answers
-                  </h3>
-                  <p style={{
+                {/* Column 3: Goal Header + Sticker */}
+                <div>
+                  <div style={{
                     fontSize: 14,
-                    color: "var(--ink-soft)",
-                    lineHeight: 1.5,
-                    margin: 0
+                    fontWeight: 700,
+                    color: "var(--accent)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.6px",
+                    textAlign: "center",
+                    marginBottom: 16
                   }}>
-                    Employees get instant answers with source verification so they know the information is accurate. HR can focus on strategic initiatives while employees self-serve their HR questions confidently.
-                  </p>
+                    Goal
+                  </div>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    padding: "24px",
+                    backgroundColor: "rgba(255, 255, 255, 0.02)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                  }}>
+                    <img
+                      src={problemGoalSticker}
+                      alt="Instant, Verified HR Answers illustration"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: "8px",
+                        marginBottom: "16px"
+                      }}
+                    />
+                    <h3 style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "var(--ink)",
+                      marginBottom: 8
+                    }}>
+                      Instant, Verified HR Answers
+                    </h3>
+                    <p style={{
+                      fontSize: 14,
+                      color: "var(--ink-soft)",
+                      lineHeight: 1.5,
+                      margin: 0
+                    }}>
+                      Employees get instant answers with source verification so they know the information is accurate. HR can focus on strategic initiatives while employees self-serve their HR questions confidently.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Impact section coming soon - waiting for sticker images */}
-
-            <div>
-              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 20, fontWeight: 700 }}>
-                Goals
-              </h3>
-              <ol style={{ paddingLeft: 24, lineHeight: "1.8" }}>
-                {caseStudy.problem.goals.map((goal, index) => (
-                  <li key={index} style={{ marginBottom: 16, color: "var(--ink-soft)" }}>
-                    {goal}
-                  </li>
-                ))}
-              </ol>
-            </div>
           </div>
         </Reveal>
       )}
