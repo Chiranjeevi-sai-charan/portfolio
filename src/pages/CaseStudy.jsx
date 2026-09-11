@@ -9,6 +9,14 @@ import problemBusinessSticker from "../assets/problem-hr-burnout.png";
 import problemGoalSticker from "../assets/problem-instant-answers.png";
 import personaAdityaSticker from "../assets/persona-aditya.png";
 import personaPriyaSticker from "../assets/persona-priya.png";
+import adityaStage1 from "../assets/persona-aditya-stage1.png";
+import adityaStage2 from "../assets/persona-aditya-stage2.png";
+import adityaStage3 from "../assets/persona-aditya-stage3.png";
+import adityaStage4 from "../assets/persona-aditya-stage4.png";
+import priyaStage1 from "../assets/persona-priya-stage1.png";
+import priyaStage2 from "../assets/persona-priya-stage2.png";
+import priyaStage3 from "../assets/persona-priya-stage3.png";
+import priyaStage4 from "../assets/persona-priya-stage4.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -845,6 +853,199 @@ export default function CaseStudy() {
               }}>
                 "If employees could just find answers themselves, I could actually do strategic work"
               </p>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* JOURNEY MAPS SECTION */}
+      <Reveal delay={0.3}>
+        <div style={{ marginTop: 96, marginBottom: 96 }}>
+          <h2 style={{ fontSize: "2rem", marginBottom: 16, fontWeight: 700, color: "var(--accent)" }}>
+            Journey Maps
+          </h2>
+          <p style={{ fontSize: 16, lineHeight: "1.6", color: "var(--ink-soft)", marginBottom: 64 }}>
+            How the chatbot transforms two different experiences
+          </p>
+
+          {/* JOURNEY MAPS CONTAINER */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(500px, 1fr))",
+            gap: 40
+          }}>
+            {/* ADITYA'S JOURNEY */}
+            <div>
+              <h3 style={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "#0078d4",
+                marginBottom: 32,
+                paddingBottom: 12,
+                borderBottom: "2px solid #0078d4"
+              }}>
+                Aditya's Journey: Searching for Answers
+              </h3>
+
+              {/* Stages Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: 20,
+                marginBottom: 32
+              }}>
+                {/* Stage 1 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #0078d4",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#0078d4", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
+                  <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Doesn't know which HR policy document to check</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Uncertain</p>
+                </div>
+
+                {/* Stage 2 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #0078d4",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#0078d4", textTransform: "uppercase", marginBottom: 12 }}>02 Search & Frustration</p>
+                  <img src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Jumps between 50+ documents, loses 20 minutes searching</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Frustrated</p>
+                </div>
+
+                {/* Stage 3 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #0078d4",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#0078d4", textTransform: "uppercase", marginBottom: 12 }}>03 Give Up & Email</p>
+                  <img src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Sends email to HR, waits overnight for reply, can't move forward</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Resigned</p>
+                </div>
+
+                {/* Stage 4 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #0078d4",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#0078d4", textTransform: "uppercase", marginBottom: 12 }}>04 Gets Answer</p>
+                  <img src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Chatbot gives instant verified answer in 30 seconds</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Relieved & Happy</p>
+                </div>
+              </div>
+
+              {/* Emotion Curve */}
+              <svg style={{ width: "100%", height: 80, marginTop: 20 }} preserveAspectRatio="none">
+                <polyline points="0,60 33,75 66,85 100,20" fill="none" stroke="#0078d4" strokeWidth="3" />
+                <circle cx="0" cy="60" r="4" fill="#0078d4" />
+                <circle cx="33" cy="75" r="4" fill="#0078d4" />
+                <circle cx="66" cy="85" r="4" fill="#0078d4" />
+                <circle cx="100" cy="20" r="4" fill="#0078d4" />
+              </svg>
+            </div>
+
+            {/* PRIYA'S JOURNEY */}
+            <div>
+              <h3 style={{
+                fontSize: 18,
+                fontWeight: 700,
+                color: "#10b981",
+                marginBottom: 32,
+                paddingBottom: 12,
+                borderBottom: "2px solid #10b981"
+              }}>
+                Priya's Journey: Context Switching
+              </h3>
+
+              {/* Stages Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: 20,
+                marginBottom: 32
+              }}>
+                {/* Stage 1 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #10b981",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#10b981", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
+                  <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Receives 15th identical question of the day</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Tired</p>
+                </div>
+
+                {/* Stage 2 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #10b981",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#10b981", textTransform: "uppercase", marginBottom: 12 }}>02 Context Switch</p>
+                  <img src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Stops strategic HR work to answer repetitive question</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Frustrated</p>
+                </div>
+
+                {/* Stage 3 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #10b981",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#10b981", textTransform: "uppercase", marginBottom: 12 }}>03 Find Answer</p>
+                  <img src={priyaStage3} alt="Stage 3 - Priya: Find answer" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Unsure if answer matches what other HR staff said; doc might be outdated</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Stressed</p>
+                </div>
+
+                {/* Stage 4 */}
+                <div style={{
+                  padding: 16,
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: 6,
+                  borderTop: "3px solid #10b981",
+                  textAlign: "center"
+                }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#10b981", textTransform: "uppercase", marginBottom: 12 }}>04 Focus on Strategy</p>
+                  <img src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: "100%", height: "auto", marginBottom: 12, borderRadius: 4 }} />
+                  <p style={{ fontSize: 13, color: "#333", lineHeight: 1.5, marginBottom: 8 }}>Chatbot handles 80% of questions; Priya focuses on hiring, culture, strategy</p>
+                  <p style={{ fontSize: 11, fontStyle: "italic", color: "#999", margin: 0 }}>Focused & Happy</p>
+                </div>
+              </div>
+
+              {/* Emotion Curve */}
+              <svg style={{ width: "100%", height: 80, marginTop: 20 }} preserveAspectRatio="none">
+                <polyline points="0,50 33,70 66,80 100,25" fill="none" stroke="#10b981" strokeWidth="3" />
+                <circle cx="0" cy="50" r="4" fill="#10b981" />
+                <circle cx="33" cy="70" r="4" fill="#10b981" />
+                <circle cx="66" cy="80" r="4" fill="#10b981" />
+                <circle cx="100" cy="25" r="4" fill="#10b981" />
+              </svg>
             </div>
           </div>
         </div>
