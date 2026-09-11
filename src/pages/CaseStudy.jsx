@@ -457,6 +457,45 @@ export default function CaseStudy() {
                 Employees across a 1000+ person organization struggle to access HR information they need. With 50+ HR policy documents scattered across the company's internal portal, employees waste time searching for answers and face delays when seeking clarification from HR. This creates frustration, inefficiency, and impacts both employee satisfaction and HR team productivity.
               </p>
 
+              {/* COLUMN HEADERS */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: 24,
+                marginBottom: 32
+              }}>
+                <div style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--accent)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.6px",
+                  textAlign: "center"
+                }}>
+                  User Problem
+                </div>
+                <div style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--accent)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.6px",
+                  textAlign: "center"
+                }}>
+                  Business Impact
+                </div>
+                <div style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "var(--accent)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.6px",
+                  textAlign: "center"
+                }}>
+                  Goal
+                </div>
+              </div>
+
               {/* PROBLEM STICKERS GRID: USER PROBLEM → BUSINESS IMPACT → GOAL */}
               <div style={{
                 display: "grid",
