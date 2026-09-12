@@ -89,7 +89,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
   const buttonGroupStyles: React.CSSProperties = {
     display: 'flex',
-    gap: spacing.md',
+    gap: spacing.md,
     marginTop: spacing.lg,
     justifyContent: 'center',
   };
