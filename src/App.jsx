@@ -6,6 +6,7 @@ import CustomCursor from "./components/CustomCursor";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import CaseStudy from "./pages/CaseStudy";
+import SageApp from "./pages/sage/SageApp";
 
 function PageTransition({ children }) {
   return (
@@ -33,6 +34,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/case-studies/:slug" element={<PageTransition><CaseStudy /></PageTransition>} />
+        <Route path="/sage" element={<PageTransition><SageApp /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );

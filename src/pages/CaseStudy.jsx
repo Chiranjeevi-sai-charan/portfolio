@@ -405,6 +405,31 @@ export default function CaseStudy() {
                 }}>
                   Instant HR answers. Source verification in every response. Role-based access. Multilingual support (English and Japanese). Complete audit trail.
                 </p>
+                <Link
+                  to="/sage"
+                  style={{
+                    display: "inline-block",
+                    marginTop: 24,
+                    padding: "12px 32px",
+                    backgroundColor: "var(--accent)",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "8px",
+                    fontWeight: 600,
+                    fontSize: 15,
+                    transition: "all 0.2s ease-in-out",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#2E7D32";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--accent)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                >
+                  Explore Sage →
+                </Link>
               </div>
             </div>
           </Reveal>
