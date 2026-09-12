@@ -14,7 +14,7 @@ export { Textarea } from "./Textarea";
 
 // Navigation Components
 export { Header } from "./Header";
-export { Sidebar } from "./Sidebar";
+export { Sidebar, type SidebarItem } from "./Sidebar";
 export { Tabs } from "./Tabs";
 export { Breadcrumbs } from "./Breadcrumbs";
 
