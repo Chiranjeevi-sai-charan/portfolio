@@ -100,16 +100,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     display: 'flex',
     flexDirection: 'column',
     width: collapsed ? '64px' : componentSizes.sidebar.width,
-    height: '100vh',
+    flexShrink: 0,
+    height: '100%',
     backgroundColor: colors['neutral-white'],
     borderRight: `1px solid ${colors['neutral-200']}`,
     boxShadow: shadows.sm,
     transition: 'width 0.3s ease-in-out',
     overflow: 'hidden',
-    position: 'fixed',
-    left: 0,
-    top: 0,
-    zIndex: 300,
+    position: 'relative',
+    zIndex: 10,
   };
 
   const logoSectionStyles: React.CSSProperties = {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { colors, spacing, typography } from '../../../styles/sage/tokens';
+import { colors, spacing, typography, componentSizes } from '../../../styles/sage/tokens';
 import { Header } from '../Header';
 import { Sidebar, SidebarItem } from '../Sidebar';
 import { Input } from '../Input';
@@ -126,6 +126,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: colors['neutral-white'],
+    minWidth: 0,
   };
 
   const messagesContainerStyles: React.CSSProperties = {
