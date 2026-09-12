@@ -17,6 +17,8 @@ import priyaStage1 from "../assets/persona-priya-stage1.png";
 import priyaStage2 from "../assets/persona-priya-stage2.png";
 import priyaStage3 from "../assets/persona-priya-stage3.png";
 import priyaStage4 from "../assets/persona-priya-stage4.png";
+import wireframeBasicV1 from "../assets/wireframe-basic-v1.jpg";
+import wireframeLoFiV1 from "../assets/wireframe-lofi-v1.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -210,6 +212,29 @@ const CASE_STUDY_DATA = {
       wireframes: {
         status: "Concept C advanced to wireframing with three screen states.",
         description: "Low-fidelity wireframes for Employee, Admin, and System Admin views.",
+        image: wireframeBasicV1
+      }
+    },
+    design: {
+      lowFidelity: {
+        title: "Low-Fidelity Prototype",
+        description: "Building on the initial wireframe, the low-fidelity prototype refined the layout with proper typography hierarchy, sidebar navigation, department filtering, and structured file list. Shows emerging visual structure before high-fidelity polish.",
+        annotation: "Refined structure with navigation, filters, and proper spacing",
+        image: wireframeLoFiV1
+      },
+      feedback: {
+        title: "Client Feedback & Key Changes",
+        blocks: [
+          { heading: "Initial Design Challenge", content: "The two-column layout worked well for uploading documents. However, during stakeholder review, a critical gap emerged: admins needed visibility into active documents, archived records, and deleted items for compliance and audit purposes." },
+          { heading: "Client Request", content: "Support multiple document states without cluttering the interface. Admins needed to switch between viewing active, archived, and deleted documents with separate access controls and audit trails." },
+          { heading: "Design Solution", content: "Rather than adding more columns, the solution was a tab-based interface. Four tabs kept the interface clean while providing full lifecycle visibility." },
+          { heading: "Additional Refinements", content: "Department selector for role-based uploads. Content Type and Sensitivity filters for organization and access control. Role-based access control restricted to Admins/System Admins." }
+        ]
+      },
+      highFidelity: {
+        title: "High-Fidelity Design - Final Version",
+        description: "Final design coming soon with tab-based navigation for document lifecycle management.",
+        annotations: ["Tab-based layout for document lifecycle tracking", "Department and sensitivity filtering", "Admin-only upload and user management"],
         image: null
       }
     },
