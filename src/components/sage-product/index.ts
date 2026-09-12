@@ -32,9 +32,9 @@ export { Alert } from "./Alert";
 export { Toast } from "./Toast";
 
 // Utility Components
-export { Avatar } from "./Avatar";
 export { LoadingSpinner } from "./LoadingSpinner";
-export { EmptyState } from "./EmptyState";
+export { EmptyState, type EmptyStateAction } from "./EmptyState";
+export { Tooltip } from "./Tooltip";
 export { Pagination } from "./Pagination";
 
 // Layout Components
