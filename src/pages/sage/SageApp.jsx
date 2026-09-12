@@ -33,57 +33,77 @@ export default function SageApp() {
   const ActiveComponent = activeRoleData?.component;
 
   return (
-    <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Role Selector */}
+    <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' }}>
+      {/* Header Bar */}
       <div
         style={{
-          backgroundColor: '#f9fafb',
+          backgroundColor: '#ffffff',
           borderBottom: '1px solid #e5e7eb',
-          padding: '16px 24px',
+          padding: '12px 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          height: '60px',
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
         }}
       >
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <Link
-            to="/case-studies/sage"
-            style={{
-              color: '#4CAF50',
-              textDecoration: 'none',
-              fontWeight: 600,
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            ← Case Study
-          </Link>
-          <div style={{ width: '1px', height: '24px', backgroundColor: '#d1d5db' }} />
-          <span style={{ fontWeight: 600, color: '#111827' }}>Sage Product Demo</span>
+        {/* Left: Back Link */}
+        <Link
+          to="/case-studies/sage"
+          style={{
+            color: '#4CAF50',
+            textDecoration: 'none',
+            fontWeight: 600,
+            fontSize: '13px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.7')}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+        >
+          ← Case Study
+        </Link>
+
+        {/* Center: Logo/Title */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#111827', fontSize: '14px' }}>
+          <span style={{ fontSize: '18px' }}>🧠</span>
+          Sage Product Demo
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
+        {/* Right: Role Selector */}
+        <div style={{ display: 'flex', gap: '8px' }}>
           {roles.map((role) => (
             <button
               key={role.id}
               onClick={() => setActiveRole(role.id)}
               style={{
-                padding: '8px 16px',
+                padding: '6px 14px',
                 backgroundColor: activeRole === role.id ? '#2E7D32' : '#f3f4f6',
                 color: activeRole === role.id ? 'white' : '#374151',
                 border: 'none',
                 borderRadius: '6px',
                 cursor: 'pointer',
                 fontWeight: 500,
-                fontSize: '14px',
+                fontSize: '13px',
                 transition: 'all 0.2s ease-in-out',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
+                gap: '5px',
+                whiteSpace: 'nowrap',
               }}
               title={role.description}
+              onMouseEnter={(e) => {
+                if (activeRole !== role.id) {
+                  e.currentTarget.style.backgroundColor = '#e5e7eb';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeRole !== role.id) {
+                  e.currentTarget.style.backgroundColor = '#f3f4f6';
+                }
+              }}
             >
               {role.icon} {role.label}
             </button>
@@ -92,7 +112,7 @@ export default function SageApp() {
       </div>
 
       {/* Product Content */}
-      <div style={{ flex: 1, overflow: 'hidden' }}>
+      <div style={{ flex: 1, overflow: 'hidden', backgroundColor: '#ffffff' }}>
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>
