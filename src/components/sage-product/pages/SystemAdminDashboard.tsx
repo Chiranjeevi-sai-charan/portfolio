@@ -1,438 +1,237 @@
-import React, { useState } from 'react';
-import { colors, spacing, typography } from '../../../styles/sage/tokens';
-import { SystemAdminLayout } from '../layouts/SystemAdminLayout';
-import { Card } from '../Card';
-import { Badge } from '../Badge';
-import { Table, TableColumn } from '../Table';
-import { Alert } from '../Alert';
-import { Tabs } from '../Tabs';
+import React, { useState, useEffect } from 'react';
+import { colors, spacing, borderRadius, typography } from '../../../styles/sage/tokens';
+import { DocumentUpload } from '../DocumentUpload';
+import { DocumentList } from '../DocumentList';
+import { UserManagementTable } from '../UserManagementTable';
+import { Document, documentStorage, User, userStorage, initializeMockData } from '../../../utils/storage';
 
 /**
  * SystemAdminDashboard Page
  *
- * System-level admin interface for managing organizations, users, and system settings.
+ * System-level admin interface for managing all documents and users across all departments.
  *
  * @component
  * @example
  * <SystemAdminDashboard />
  */
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'System Admin' | 'Org Admin' | 'HR Admin' | 'Employee';
-  organization: string;
-  status: 'Active' | 'Inactive' | 'Pending';
-}
-
-interface Organization {
-  id: string;
-  name: string;
-  users: number;
-  plan: 'Basic' | 'Professional' | 'Enterprise';
-  status: 'Active' | 'Trial' | 'Paused';
-}
-
-/**
- * SystemAdminDashboard - System admin interface
- *
- * Tabs:
- * - Overview: System health and stats
- * - Users: User management and permissions
- * - Organizations: Org management and billing
- * - Security: System security settings
- */
 export const SystemAdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [sortBy, setSortBy] = useState<'name' | 'organization'>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [activeTab, setActiveTab] = useState('upload-documents');
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
-  const users: User[] = [
-    {
-      id: 'u1',
-      name: 'admin@sage.com',
-      email: 'admin@sage.com',
-      role: 'System Admin',
-      organization: 'Sage',
-      status: 'Active',
-    },
-    {
-      id: 'u2',
-      name: 'Sarah Johnson',
-      email: 'sarah@techcorp.com',
-      role: 'Org Admin',
-      organization: 'TechCorp',
-      status: 'Active',
-    },
-    {
-      id: 'u3',
-      name: 'Mike Chen',
-      email: 'mike@startupxyz.com',
-      role: 'HR Admin',
-      organization: 'StartupXYZ',
-      status: 'Active',
-    },
-    {
-      id: 'u4',
-      name: 'Lisa Wang',
-      email: 'lisa@globalcorp.com',
-      role: 'Org Admin',
-      organization: 'GlobalCorp',
-      status: 'Pending',
-    },
-    {
-      id: 'u5',
-      name: 'James Wilson',
-      email: 'james@oldcompany.com',
-      role: 'Employee',
-      organization: 'OldCompany',
-      status: 'Inactive',
-    },
+  useEffect(() => {
+    initializeMockData();
+    setDocuments(documentStorage.getAll());
+    setUsers(userStorage.getAll());
+  }, []);
+
+  const departments = ['General', 'Human Resources (HR)', 'Quality Assurance (QA)'];
+  const contentTypes = [
+    'Manual',
+    'Report',
+    'Regulations and Guidelines',
+    'Work Standards',
+    'Process quality control sheet',
+    'Inspection Standards',
+    'External Documents',
+    'Others',
   ];
+  const sensitivities = ['Sensitive', 'Non-Sensitive'];
 
-  const organizations: Organization[] = [
-    {
-      id: 'org1',
-      name: 'Sage Internal',
-      users: 45,
-      plan: 'Enterprise',
-      status: 'Active',
-    },
-    {
-      id: 'org2',
-      name: 'TechCorp Inc',
-      users: 234,
-      plan: 'Enterprise',
-      status: 'Active',
-    },
-    {
-      id: 'org3',
-      name: 'StartupXYZ',
-      users: 28,
-      plan: 'Professional',
-      status: 'Active',
-    },
-    {
-      id: 'org4',
-      name: 'GlobalCorp',
-      users: 512,
-      plan: 'Enterprise',
-      status: 'Active',
-    },
-    {
-      id: 'org5',
-      name: 'TrialCorp',
-      users: 12,
-      plan: 'Basic',
-      status: 'Trial',
-    },
-  ];
-
-  const userColumns: TableColumn<User>[] = [
-    { key: 'name', label: 'Name', sortable: true },
-    { key: 'email', label: 'Email' },
-    { key: 'role', label: 'Role' },
-    { key: 'organization', label: 'Organization', sortable: true },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (value) => (
-        <Badge
-          variant={
-            value === 'Active' ? 'success' : value === 'Pending' ? 'warning' : 'default'
-          }
-          size="sm"
-        >
-          {value}
-        </Badge>
-      ),
-    },
-  ];
-
-  const orgColumns: TableColumn<Organization>[] = [
-    { key: 'name', label: 'Organization', sortable: true },
-    {
-      key: 'users',
-      label: 'Users',
-      render: (value) => <span>{value} members</span>,
-    },
-    {
-      key: 'plan',
-      label: 'Plan',
-      render: (value) => (
-        <Badge
-          variant={
-            value === 'Enterprise'
-              ? 'success'
-              : value === 'Professional'
-                ? 'info'
-                : 'default'
-          }
-          size="sm"
-        >
-          {value}
-        </Badge>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (value) => (
-        <Badge
-          variant={
-            value === 'Active'
-              ? 'success'
-              : value === 'Trial'
-                ? 'warning'
-                : 'default'
-          }
-          size="sm"
-        >
-          {value}
-        </Badge>
-      ),
-    },
-  ];
-
-  const statsStyles: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: spacing.lg,
-    marginBottom: spacing.lg,
+  const handleDocumentDelete = (docId: string) => {
+    const doc = documentStorage.getById(docId);
+    if (doc) {
+      doc.status = 'deleted';
+      documentStorage.save(doc);
+      setDocuments(documentStorage.getAll());
+    }
   };
 
-  const statCardStyles: React.CSSProperties = {
+  const handleDocumentArchive = (docId: string) => {
+    documentStorage.archive(docId);
+    setDocuments(documentStorage.getAll());
+  };
+
+  const handleDocumentRestore = (docId: string) => {
+    documentStorage.restore(docId);
+    setDocuments(documentStorage.getAll());
+  };
+
+  const handleUserDelete = (userId: string) => {
+    userStorage.delete(userId);
+    setUsers(userStorage.getAll());
+  };
+
+  const handleUploadSuccess = (doc: Document) => {
+    setDocuments(documentStorage.getAll());
+  };
+
+  const activeDocuments = documents.filter((d) => d.status === 'active');
+  const archivedDocuments = documents.filter((d) => d.status === 'archived');
+  const deletedDocuments = documents.filter((d) => d.status === 'deleted');
+
+  const containerStyles: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.lg,
+    backgroundColor: colors['neutral-50'],
     padding: spacing.lg,
+    borderRadius: borderRadius.md,
+  };
+
+  const tabButtonStyles: React.CSSProperties = {
+    padding: `${spacing.md} ${spacing.lg}`,
     backgroundColor: colors['neutral-white'],
-    borderRadius: '8px',
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
-  };
-
-  const statNumberStyles: React.CSSProperties = {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    color: colors['sage-green-500'],
-    margin: `${spacing.md} 0`,
-  };
-
-  const statLabelStyles: React.CSSProperties = {
+    border: 'none',
+    borderBottom: `2px solid transparent`,
+    cursor: 'pointer',
+    fontWeight: 600,
     fontSize: typography.fontSize['body-sm'],
-    color: colors['neutral-600'],
+    transition: 'all 0.2s ease',
   };
 
-  const gridStyles: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: spacing.lg,
-    marginBottom: spacing.lg,
+  const tabs = [
+    { id: 'upload-documents', label: '📤 Upload Document', icon: '📤' },
+    { id: 'active-documents', label: '✅ Active Documents', icon: '✅' },
+    { id: 'archived-documents', label: '📦 Archived Documents', icon: '📦' },
+    { id: 'deleted-documents', label: '🗑️ Deleted Documents', icon: '🗑️' },
+    { id: 'user-management', label: '👥 User Management', icon: '👥' },
+  ];
+
+  const tabsContainerStyles: React.CSSProperties = {
+    display: 'flex',
+    gap: spacing.md,
+    borderBottom: `2px solid ${colors['neutral-200']}`,
+    backgroundColor: colors['neutral-white'],
+    padding: spacing.md,
+    borderRadius: `${borderRadius.md} ${borderRadius.md} 0 0`,
   };
 
   return (
-    <SystemAdminLayout
-      title="System Administration"
-      breadcrumbs={[{ label: 'System' }, { label: 'Administration' }]}
-      tabs={[
-        { id: 'overview', label: 'Overview' },
-        { id: 'users', label: 'Users', badge: { label: '1', variant: 'warning' } },
-        { id: 'organizations', label: 'Organizations' },
-        { id: 'security', label: 'Security' },
-      ]}
-      activeTab={activeTab}
-      onTabChange={setActiveTab}
-      activeItemId="dashboard"
-    >
-      {/* Overview Tab */}
-      {activeTab === 'overview' && (
-        <div>
-          {/* System Health Alert */}
-          <Alert variant="success" icon="✓" onClose={() => {}}>
-            System operational — All services running normally. Last backup: 2 hours ago.
-          </Alert>
+    <div style={containerStyles}>
+      <div style={tabsContainerStyles}>
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            style={{
+              ...tabButtonStyles,
+              borderBottomColor:
+                activeTab === tab.id ? colors['sage-green-500'] : 'transparent',
+              color: activeTab === tab.id ? colors['sage-green-600'] : colors['neutral-600'],
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
-          {/* Stats Grid */}
-          <div style={statsStyles}>
-            <div style={statCardStyles}>
-              <div style={statLabelStyles}>Total Organizations</div>
-              <div style={statNumberStyles}>5</div>
-              <Badge variant="success" size="sm">
-                1 on trial
-              </Badge>
+      <div style={{ backgroundColor: colors['neutral-white'] }}>
+        {activeTab === 'upload-documents' && (
+          <DocumentUpload
+            departments={departments}
+            contentTypes={contentTypes}
+            sensitivities={sensitivities}
+            onUploadSuccess={handleUploadSuccess}
+          />
+        )}
+
+        {activeTab === 'active-documents' && (
+          <DocumentList
+            documents={activeDocuments}
+            showSearch
+            onDocumentDelete={handleDocumentDelete}
+            onDocumentArchive={handleDocumentArchive}
+            onDocumentDownload={(doc) => {
+              console.log('Downloading:', doc.name);
+              alert(`Downloading "${doc.name}"`);
+            }}
+          />
+        )}
+
+        {activeTab === 'archived-documents' && (
+          <DocumentList documents={archivedDocuments} showSearch />
+        )}
+
+        {activeTab === 'deleted-documents' && (
+          <div style={{ padding: spacing.lg }}>
+            <div style={{ fontSize: typography.fontSize['h3'], fontWeight: 600, marginBottom: spacing.md }}>
+              Deleted Documents
             </div>
-            <div style={statCardStyles}>
-              <div style={statLabelStyles}>Total Users</div>
-              <div style={statNumberStyles}>831</div>
-              <Badge variant="info" size="sm">
-                ↑ 45 this week
-              </Badge>
-            </div>
-            <div style={statCardStyles}>
-              <div style={statLabelStyles}>System Admins</div>
-              <div style={statNumberStyles}>1</div>
-              <Badge variant="warning" size="sm">
-                Add more recommended
-              </Badge>
-            </div>
-            <div style={statCardStyles}>
-              <div style={statLabelStyles}>API Calls (24h)</div>
-              <div style={statNumberStyles}>28.4K</div>
-              <Badge variant="default" size="sm">
-                Within quota
-              </Badge>
-            </div>
+            {deletedDocuments.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: spacing.xl, color: colors['neutral-500'] }}>
+                No deleted documents.
+              </div>
+            ) : (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
+                  <thead
+                    style={{
+                      backgroundColor: colors['neutral-100'],
+                      borderBottom: `2px solid ${colors['neutral-200']}`,
+                    }}
+                  >
+                    <tr>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>File</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Department</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {deletedDocuments.map((doc) => (
+                      <tr key={doc.id} style={{ borderBottom: `1px solid ${colors['neutral-200']}` }}>
+                        <td style={{ padding: spacing.md }}>📄 {doc.name}</td>
+                        <td style={{ padding: spacing.md }}>{doc.department}</td>
+                        <td style={{ padding: spacing.md }}>
+                          <button
+                            onClick={() => handleDocumentRestore(doc.id)}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              color: colors['success-green'],
+                              marginRight: spacing.md,
+                            }}
+                          >
+                            ↩️ Restore
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`Permanently delete "${doc.name}"?`)) {
+                                documentStorage.delete(doc.id);
+                                setDocuments(documentStorage.getAll());
+                              }
+                            }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              color: colors['error-red'],
+                            }}
+                          >
+                            🗑️ Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
+        )}
 
-          {/* Quick Actions */}
-          <div style={gridStyles}>
-            <Card title="System Health" elevation="sm">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.md }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: `${spacing.sm} ${spacing.md}`,
-                    backgroundColor: colors['neutral-50'],
-                    borderRadius: '6px',
-                  }}
-                >
-                  <span>Database</span>
-                  <Badge variant="success" size="sm">
-                    ✓ Healthy
-                  </Badge>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: `${spacing.sm} ${spacing.md}`,
-                    backgroundColor: colors['neutral-50'],
-                    borderRadius: '6px',
-                  }}
-                >
-                  <span>API Server</span>
-                  <Badge variant="success" size="sm">
-                    ✓ Healthy
-                  </Badge>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: `${spacing.sm} ${spacing.md}`,
-                    backgroundColor: colors['neutral-50'],
-                    borderRadius: '6px',
-                  }}
-                >
-                  <span>Backup Service</span>
-                  <Badge variant="success" size="sm">
-                    ✓ Healthy
-                  </Badge>
-                </div>
-              </div>
-            </Card>
-
-            <Card title="Recent Activity" elevation="sm">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.md }}>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  <div>🔑 API key generated</div>
-                  <div style={{ fontSize: '11px', color: colors['neutral-500'] }}>2 hours ago</div>
-                </div>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  <div>👤 New user invited</div>
-                  <div style={{ fontSize: '11px', color: colors['neutral-500'] }}>4 hours ago</div>
-                </div>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  <div>🏢 Organization created</div>
-                  <div style={{ fontSize: '11px', color: colors['neutral-500'] }}>1 day ago</div>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
-      )}
-
-      {/* Users Tab */}
-      {activeTab === 'users' && (
-        <Card title="User Management" elevation="sm">
-          <Table columns={userColumns} data={users} striped={true} hoverable={true} />
-        </Card>
-      )}
-
-      {/* Organizations Tab */}
-      {activeTab === 'organizations' && (
-        <Card title="Organizations" elevation="sm">
-          <Table columns={orgColumns} data={organizations} striped={true} hoverable={true} />
-        </Card>
-      )}
-
-      {/* Security Tab */}
-      {activeTab === 'security' && (
-        <div style={{ display: 'grid', gap: spacing.lg }}>
-          <Alert variant="info" icon="ℹ️" onClose={() => {}}>
-            All security policies are up to date and compliance requirements are met.
-          </Alert>
-
-          <Card title="Security Settings" elevation="sm">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.lg }}>
-              <div
-                style={{
-                  padding: spacing.lg,
-                  backgroundColor: colors['neutral-50'],
-                  borderRadius: '6px',
-                  borderLeft: `4px solid ${colors['sage-green-500']}`,
-                }}
-              >
-                <div style={{ fontWeight: 600, marginBottom: spacing.sm }}>Two-Factor Authentication</div>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  Required for all system admins
-                </div>
-                <Badge variant="success" size="sm" style={{ marginTop: spacing.sm }}>
-                  ✓ Enabled
-                </Badge>
-              </div>
-
-              <div
-                style={{
-                  padding: spacing.lg,
-                  backgroundColor: colors['neutral-50'],
-                  borderRadius: '6px',
-                  borderLeft: `4px solid ${colors['sage-green-500']}`,
-                }}
-              >
-                <div style={{ fontWeight: 600, marginBottom: spacing.sm }}>IP Whitelist</div>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  Admin access restricted to approved IPs
-                </div>
-                <Badge variant="success" size="sm" style={{ marginTop: spacing.sm }}>
-                  ✓ Configured
-                </Badge>
-              </div>
-
-              <div
-                style={{
-                  padding: spacing.lg,
-                  backgroundColor: colors['neutral-50'],
-                  borderRadius: '6px',
-                  borderLeft: `4px solid ${colors['warning-amber']}`,
-                }}
-              >
-                <div style={{ fontWeight: 600, marginBottom: spacing.sm }}>SSL Certificate</div>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  Expires on 2025-03-15 (6 months remaining)
-                </div>
-                <Badge variant="warning" size="sm" style={{ marginTop: spacing.sm }}>
-                  ⚠️ Renew soon
-                </Badge>
-              </div>
-            </div>
-          </Card>
-        </div>
-      )}
-    </SystemAdminLayout>
+        {activeTab === 'user-management' && (
+          <UserManagementTable
+            users={users}
+            showSearch
+            onUserDelete={handleUserDelete}
+            onAddUserClick={() => alert('Add user functionality would open here')}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
