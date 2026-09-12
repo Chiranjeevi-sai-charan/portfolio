@@ -1,0 +1,12 @@
+/**
+ * Sage Design System - Main Entry Point
+ *
+ * Import order matters:
+ * 1. global.css (CSS variables, resets, animations)
+ * 2. utilities.css (helper classes)
+ *
+ * This single file is imported in App.jsx or main entry point
+ */
+
+@import './global.css';
+@import './utilities.css';

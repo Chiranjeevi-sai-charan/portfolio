@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect } from "react";
+import "./styles/sage/index.css";
 import SmoothScroll from "./lib/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
 import Nav from "./components/Nav";
