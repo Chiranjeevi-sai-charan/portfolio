@@ -24,6 +24,7 @@ function PageTransition({ children }) {
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const isSageRoute = location.pathname === '/sage';
 
   // Jump to top on route change (Lenis-aware).
   useEffect(() => {
@@ -35,18 +36,21 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/case-studies/:slug" element={<PageTransition><CaseStudy /></PageTransition>} />
-        <Route path="/sage" element={<PageTransition><SageApp /></PageTransition>} />
+        <Route path="/sage" element={<SageApp />} />
       </Routes>
     </AnimatePresence>
   );
 }
 
 export default function App() {
+  const location = useLocation();
+  const isSageRoute = location.pathname === '/sage';
+
   return (
     <SmoothScroll>
       <CustomCursor />
       <BrowserRouter>
-        <Nav />
+        {!isSageRoute && <Nav />}
         <AnimatedRoutes />
       </BrowserRouter>
     </SmoothScroll>
