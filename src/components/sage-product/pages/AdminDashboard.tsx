@@ -282,26 +282,6 @@ export const AdminDashboard: React.FC = () => {
             onAddUserClick={() => {
               alert('Add user modal would open here');
             }}
-              }}
-            >
-              ➕ Add New Employee
-            </button>
-            <button
-              style={{
-                padding: `${spacing.md} ${spacing.lg}`,
-                backgroundColor: colors['info-cyan'],
-                color: colors['neutral-white'],
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 500,
-                transition: 'all 0.2s ease-in-out',
-              }}
-            showSearch
-            onUserDelete={handleUserDelete}
-            onAddUserClick={() => {
-              alert('Add user modal would open here');
-            }}
           />
         )}
       </div>
