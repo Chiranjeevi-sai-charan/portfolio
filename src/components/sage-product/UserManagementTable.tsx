@@ -153,7 +153,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
             Manage users and administrator access.
           </div>
         </div>
-        <div style={{ display: 'flex', gap: spacing.md', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: spacing.md, alignItems: 'center' }}>
           {showSearch && (
             <div style={{ width: '250px' }}>
               <Input
