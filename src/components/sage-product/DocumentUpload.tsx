@@ -246,17 +246,37 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
                 <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
                   OR
                 </div>
-                <label style={{ display: 'inline-block' }}>
-                  <Button variant="primary" as="span">
-                    Browse files
-                  </Button>
-                  <input
-                    type="file"
-                    onChange={handleFileSelect}
-                    style={{ display: 'none' }}
-                    accept=".pdf,.docx,.xlsx,.pptx"
-                  />
-                </label>
+                <button
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.pdf,.docx,.xlsx,.pptx';
+                    input.onchange = (e) => {
+                      const file = (e.target as HTMLInputElement).files?.[0];
+                      if (file) setSelectedFile(file);
+                    };
+                    input.click();
+                  }}
+                  style={{
+                    padding: `${spacing.md} ${spacing.lg}`,
+                    backgroundColor: colors['sage-green-500'],
+                    color: colors['neutral-white'],
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: typography.fontSize['body-sm'],
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['sage-green-600'];
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['sage-green-500'];
+                  }}
+                >
+                  Browse files
+                </button>
                 <div style={supportedFormatsStyles}>
                   Supported: PDF, DOCX, XLSX, PPTX • Up to 200MB
                 </div>
