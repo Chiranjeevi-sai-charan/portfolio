@@ -20,6 +20,8 @@ export { Breadcrumbs } from "./Breadcrumbs";
 
 // Content Display Components
 export { ChatBubble } from "./ChatBubble";
+export { MessageActions } from "./MessageActions";
+export { DepartmentFilter } from "./DepartmentFilter";
 export { Card } from "./Card";
 export { Table, type TableColumn } from "./Table";
 export { Badge } from "./Badge";

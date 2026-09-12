@@ -91,6 +91,15 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(sidebarCollapsed);
+  const [selectedDepartments, setSelectedDepartments] = useState<string[]>(['General']);
+
+  const departments = ['General', 'Human Resources (HR)', 'Quality Assurance (QA)'];
+
+  const toggleDepartment = (dept: string) => {
+    setSelectedDepartments((prev) =>
+      prev.includes(dept) ? prev.filter((d) => d !== dept) : [...prev, dept]
+    );
+  };
 
   const handleSendMessage = () => {
     if (inputValue.trim()) {
@@ -163,8 +172,16 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
         <Sidebar
           items={defaultSidebarItems}
           collapsed={isCollapsed}
-          onCollapse={setIsCollapsed}
-          activeItemId={chatHistory[0]?.id}
+          onCollapseToggle={() => setIsCollapsed(!isCollapsed)}
+          activeItem={chatHistory[0]?.label}
+          onItemClick={(item) => {
+            console.log('Chat selected:', item);
+          }}
+          departmentFilter={{
+            departments,
+            selectedDepartments,
+            onDepartmentChange: toggleDepartment,
+          }}
         />
 
         {/* Main Chat Area */}
@@ -193,9 +210,12 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     <ChatBubble
                       key={msg.id}
                       message={msg.content}
-                      isUser={msg.type === 'user'}
+                      type={msg.type}
                       citations={msg.citations}
                       loading={msg.type === 'ai' && !msg.content}
+                      timestamp={msg.timestamp}
+                      liked={(msg as any).liked}
+                      disliked={(msg as any).disliked}
                     />
                   ))
                 )}
@@ -205,7 +225,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
               <div style={inputAreaStyles}>
                 <div style={inputGroupStyles}>
                   <Input
-                    placeholder="Ask me anything..."
+                    placeholder="How can I help you today?"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={(e) => {
@@ -215,12 +235,43 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                       }
                     }}
                   />
+                  {/* Voice Input Button */}
+                  <button
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '8px',
+                      border: `1px solid ${colors['neutral-200']}`,
+                      backgroundColor: colors['neutral-white'],
+                      cursor: 'pointer',
+                      color: colors['neutral-600'],
+                      fontSize: '20px',
+                      transition: 'all 0.2s ease',
+                    }}
+                    onClick={() => {
+                      console.log('Voice input clicked');
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = colors['neutral-50'];
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = colors['neutral-white'];
+                    }}
+                    title="Use voice input"
+                    aria-label="Voice input"
+                  >
+                    🎤
+                  </button>
+                  {/* Send Button */}
                   <Button
                     variant="primary"
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim()}
                   >
-                    Send
+                    ➤
                   </Button>
                 </div>
               </div>

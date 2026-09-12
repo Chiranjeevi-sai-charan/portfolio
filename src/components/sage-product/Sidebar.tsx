@@ -28,6 +28,12 @@ export interface SidebarItem {
   children?: SidebarItem[];
 }
 
+interface DepartmentFilterConfig {
+  departments: string[];
+  selectedDepartments: string[];
+  onDepartmentChange: (department: string) => void;
+}
+
 interface SidebarProps {
   /** Menu items to display */
   items: SidebarItem[];
@@ -46,6 +52,9 @@ interface SidebarProps {
 
   /** Logo/brand element */
   logo?: React.ReactNode;
+
+  /** Department filter configuration */
+  departmentFilter?: DepartmentFilterConfig;
 }
 
 /**
@@ -77,6 +86,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   collapsed = false,
   onCollapseToggle,
   logo,
+  departmentFilter,
 }) => {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
 
@@ -256,10 +266,70 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
+  const departmentFilterStyles: React.CSSProperties = {
+    padding: `${spacing.md} ${spacing.lg}`,
+    borderBottom: `1px solid ${colors['neutral-200']}`,
+    backgroundColor: colors['neutral-white'],
+  };
+
+  const departmentTitleStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-sm'],
+    fontWeight: typography.fontWeight.semibold,
+    color: colors['neutral-900'],
+    marginBottom: spacing.md,
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+  };
+
+  const departmentCheckboxStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+    cursor: 'pointer',
+  };
+
+  const checkboxInputStyles: React.CSSProperties = {
+    width: '18px',
+    height: '18px',
+    cursor: 'pointer',
+    accentColor: colors['sage-green-500'],
+  };
+
+  const checkboxLabelStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-sm'],
+    color: colors['neutral-700'],
+    cursor: 'pointer',
+    userSelect: 'none',
+  };
+
   return (
     <div style={sidebarStyles}>
       {/* Logo Section */}
       <div style={logoSectionStyles}>{logo || '🧠'}</div>
+
+      {/* Department Filter */}
+      {departmentFilter && !collapsed && (
+        <div style={departmentFilterStyles}>
+          <div style={departmentTitleStyles}>
+            <span>🔍</span>
+            <span>Chat Filter</span>
+          </div>
+          {departmentFilter.departments.map((dept) => (
+            <label key={dept} style={departmentCheckboxStyles}>
+              <input
+                type="checkbox"
+                checked={departmentFilter.selectedDepartments.includes(dept)}
+                onChange={() => departmentFilter.onDepartmentChange(dept)}
+                style={checkboxInputStyles}
+                aria-label={`Filter by ${dept}`}
+              />
+              <span style={checkboxLabelStyles}>{dept}</span>
+            </label>
+          ))}
+        </div>
+      )}
 
       {/* Menu Items */}
       <div style={menuStyles}>{items.map((item) => renderMenuItem(item))}</div>

@@ -19,6 +19,9 @@ interface Message {
   content: string;
   timestamp: string;
   citations?: string[];
+  liked?: boolean;
+  disliked?: boolean;
+  department?: string;
 }
 
 /**
