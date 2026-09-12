@@ -19,6 +19,7 @@ import priyaStage3 from "../assets/persona-priya-stage3.png";
 import priyaStage4 from "../assets/persona-priya-stage4.png";
 import wireframeBasicV1 from "../assets/wireframe-basic-v1.jpg";
 import wireframeLoFiV1 from "../assets/wireframe-lofi-v1.png";
+import designHiFiV2 from "../assets/design-hifi-v2-tabs.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -233,9 +234,9 @@ const CASE_STUDY_DATA = {
       },
       highFidelity: {
         title: "High-Fidelity Design - Final Version",
-        description: "Final design coming soon with tab-based navigation for document lifecycle management.",
+        description: "The final design incorporates all feedback and refinements. Tab-based navigation provides complete document lifecycle management. Department selection, content type, and sensitivity classifications enable fine-grained access control while maintaining a clean, focused interface.",
         annotations: ["Tab-based layout for document lifecycle tracking", "Department and sensitivity filtering", "Admin-only upload and user management"],
-        image: null
+        image: designHiFiV2
       }
     },
     tools: [
