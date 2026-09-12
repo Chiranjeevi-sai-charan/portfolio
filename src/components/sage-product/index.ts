@@ -43,6 +43,6 @@ export { AdminLayout } from "./layouts/AdminLayout";
 export { SystemAdminLayout } from "./layouts/SystemAdminLayout";
 
 // Pages
-export { EmployeeChatbot } from "../pages/EmployeeChatbot";
-export { AdminDashboard } from "../pages/AdminDashboard";
-export { SystemAdminDashboard } from "../pages/SystemAdminDashboard";
+export { EmployeeChatbot } from "./pages/EmployeeChatbot";
+export { AdminDashboard } from "./pages/AdminDashboard";
+export { SystemAdminDashboard } from "./pages/SystemAdminDashboard";
