@@ -229,7 +229,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     placeholder="How can I help you today?"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         handleSendMessage();
