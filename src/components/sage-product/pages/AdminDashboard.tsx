@@ -1,302 +1,287 @@
-import React, { useState } from 'react';
-import { colors, spacing, typography } from '../../../styles/sage/tokens';
-import { AdminLayout } from '../layouts/AdminLayout';
-import { Card } from '../Card';
-import { Badge } from '../Badge';
-import { Table, TableColumn } from '../Table';
-import { Alert } from '../Alert';
+import React, { useState, useEffect } from 'react';
+import { colors, spacing, typography, borderRadius } from '../../../styles/sage/tokens';
+import { Tabs } from '../Tabs';
+import { DocumentUpload } from '../DocumentUpload';
+import { DocumentList } from '../DocumentList';
+import { UserManagementTable } from '../UserManagementTable';
+import { Document, documentStorage, User, userStorage, initializeMockData } from '../../../utils/storage';
 
 /**
  * AdminDashboard Page
  *
- * HR admin dashboard for managing employees, policies, and documents.
+ * HR admin dashboard for managing documents and users by department.
  *
  * @component
  * @example
  * <AdminDashboard />
  */
 
-interface Employee {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  status: 'Active' | 'On Leave' | 'Inactive';
-}
-
-interface Policy {
-  id: string;
-  title: string;
-  category: string;
-  lastUpdated: string;
-  status: 'Active' | 'Draft' | 'Archived';
-}
-
-/**
- * AdminDashboard - HR admin interface
- *
- * Sections:
- * - Quick stats (employees, policies, documents)
- * - Recent policies (with status)
- * - Employee directory (sortable)
- * - Pending actions
- */
 export const AdminDashboard: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('overview');
+  const [activeTab, setActiveTab] = useState('upload-documents');
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
 
-  const employees: Employee[] = [
-    {
-      id: '1',
-      name: 'Sarah Johnson',
-      role: 'Product Manager',
-      department: 'Product',
-      status: 'Active',
-    },
-    {
-      id: '2',
-      name: 'Mike Chen',
-      role: 'Senior Engineer',
-      department: 'Engineering',
-      status: 'Active',
-    },
-    {
-      id: '3',
-      name: 'Emma Davis',
-      role: 'Designer',
-      department: 'Design',
-      status: 'On Leave',
-    },
-    {
-      id: '4',
-      name: 'James Wilson',
-      role: 'Data Analyst',
-      department: 'Analytics',
-      status: 'Active',
-    },
-    {
-      id: '5',
-      name: 'Lisa Anderson',
-      role: 'HR Specialist',
-      department: 'Human Resources',
-      status: 'Active',
-    },
+  useEffect(() => {
+    // Initialize mock data
+    initializeMockData();
+
+    // Load documents and users
+    const allDocs = documentStorage.getAll();
+    setDocuments(allDocs);
+
+    const allUsers = userStorage.getAll();
+    setUsers(allUsers);
+  }, []);
+
+  const departments = ['General', 'Human Resources (HR)', 'Quality Assurance (QA)'];
+  const contentTypes = [
+    'Manual',
+    'Report',
+    'Regulations and Guidelines',
+    'Work Standards',
+    'Process quality control sheet',
+    'Inspection Standards',
+    'External Documents',
+    'Others',
   ];
+  const sensitivities = ['Sensitive', 'Non-Sensitive'];
 
-  const policies: Policy[] = [
-    {
-      id: 'p1',
-      title: 'Remote Work Policy v2.0',
-      category: 'Work Arrangements',
-      lastUpdated: '2024-09-10',
-      status: 'Active',
-    },
-    {
-      id: 'p2',
-      title: 'Professional Development Guide',
-      category: 'Benefits',
-      lastUpdated: '2024-09-05',
-      status: 'Draft',
-    },
-    {
-      id: 'p3',
-      title: 'Performance Review Process',
-      category: 'Management',
-      lastUpdated: '2024-08-28',
-      status: 'Active',
-    },
-  ];
-
-  const employeeColumns: TableColumn<Employee>[] = [
-    { key: 'name', label: 'Name', sortable: true },
-    { key: 'role', label: 'Role' },
-    { key: 'department', label: 'Department', sortable: true },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (value) => (
-        <Badge
-          variant={value === 'Active' ? 'success' : value === 'On Leave' ? 'warning' : 'default'}
-          size="sm"
-        >
-          {value}
-        </Badge>
-      ),
-    },
-  ];
-
-  const policyColumns: TableColumn<Policy>[] = [
-    { key: 'title', label: 'Policy Title', sortable: true },
-    { key: 'category', label: 'Category' },
-    { key: 'lastUpdated', label: 'Last Updated', sortable: true },
-    {
-      key: 'status',
-      label: 'Status',
-      render: (value) => (
-        <Badge
-          variant={value === 'Active' ? 'success' : value === 'Draft' ? 'warning' : 'default'}
-          size="sm"
-        >
-          {value}
-        </Badge>
-      ),
-    },
-  ];
-
-  const statsStyles: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: spacing.lg,
-    marginBottom: spacing.lg,
+  const handleDocumentDelete = (docId: string) => {
+    const doc = documentStorage.getById(docId);
+    if (doc) {
+      doc.status = 'deleted';
+      documentStorage.save(doc);
+      setDocuments(documentStorage.getAll());
+    }
   };
 
-  const statCardStyles: React.CSSProperties = {
+  const handleDocumentArchive = (docId: string) => {
+    documentStorage.archive(docId);
+    setDocuments(documentStorage.getAll());
+  };
+
+  const handleDocumentRestore = (docId: string) => {
+    documentStorage.restore(docId);
+    setDocuments(documentStorage.getAll());
+  };
+
+  const handleUserDelete = (userId: string) => {
+    userStorage.delete(userId);
+    setUsers(userStorage.getAll());
+  };
+
+  const handleUploadSuccess = (doc: Document) => {
+    setDocuments(documentStorage.getAll());
+  };
+
+  const activeDocuments = documents.filter((d) => d.status === 'active');
+  const archivedDocuments = documents.filter((d) => d.status === 'archived');
+  const deletedDocuments = documents.filter((d) => d.status === 'deleted');
+
+  const containerStyles: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.lg,
+    backgroundColor: colors['neutral-50'],
     padding: spacing.lg,
+    borderRadius: borderRadius.md,
+  };
+
+  const tabButtonStyles: React.CSSProperties = {
+    padding: `${spacing.md} ${spacing.lg}`,
     backgroundColor: colors['neutral-white'],
-    borderRadius: '8px',
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
-  };
-
-  const statNumberStyles: React.CSSProperties = {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    color: colors['sage-green-500'],
-    margin: `${spacing.md} 0`,
-  };
-
-  const statLabelStyles: React.CSSProperties = {
+    border: 'none',
+    borderBottom: `2px solid transparent`,
+    cursor: 'pointer',
+    fontWeight: 600,
     fontSize: typography.fontSize['body-sm'],
-    color: colors['neutral-600'],
+    transition: 'all 0.2s ease',
   };
 
-  const contentAreaStyles: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: spacing.lg,
-  };
+  const tabs = [
+    { id: 'upload-documents', label: '📤 Upload Document', icon: '📤' },
+    { id: 'active-documents', label: '✅ Active Documents', icon: '✅' },
+    { id: 'archived-documents', label: '📦 Archived Documents', icon: '📦' },
+    { id: 'deleted-documents', label: '🗑️ Deleted Documents', icon: '🗑️' },
+    { id: 'user-management', label: '👥 User Management', icon: '👥' },
+  ];
 
-  const fullWidthStyles: React.CSSProperties = {
-    gridColumn: '1 / -1',
+  const tabsContainerStyles: React.CSSProperties = {
+    display: 'flex',
+    gap: spacing.md,
+    borderBottom: `2px solid ${colors['neutral-200']}`,
+    backgroundColor: colors['neutral-white'],
+    padding: spacing.md,
+    borderRadius: `${borderRadius.md} ${borderRadius.md} 0 0`,
   };
 
   return (
-    <AdminLayout
-      title="Dashboard"
-      breadcrumbs={[{ label: 'Admin' }, { label: 'Dashboard' }]}
-      activeItemId="dashboard"
-    >
-      {/* Alert Section */}
-      <Alert variant="warning" icon="⚠️" onClose={() => {}}>
-        <strong>3 pending policy reviews</strong> — Several new policies are waiting for your approval.
-      </Alert>
-
-      {/* Stats */}
-      <div style={statsStyles}>
-        <div style={statCardStyles}>
-          <div style={statLabelStyles}>Total Employees</div>
-          <div style={statNumberStyles}>245</div>
-          <Badge variant="success" size="sm">
-            ↑ 12 this month
-          </Badge>
-        </div>
-        <div style={statCardStyles}>
-          <div style={statLabelStyles}>Active Policies</div>
-          <div style={statNumberStyles}>18</div>
-          <Badge variant="warning" size="sm">
-            3 pending review
-          </Badge>
-        </div>
-        <div style={statCardStyles}>
-          <div style={statLabelStyles}>Documents</div>
-          <div style={statNumberStyles}>156</div>
-          <Badge variant="info" size="sm">
-            12 new this month
-          </Badge>
-        </div>
-        <div style={statCardStyles}>
-          <div style={statLabelStyles}>On Leave Today</div>
-          <div style={statNumberStyles}>8</div>
-          <Badge variant="default" size="sm">
-            Updated now
-          </Badge>
-        </div>
+    <div style={containerStyles}>
+      {/* Tabs Header */}
+      <div style={tabsContainerStyles}>
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            style={{
+              ...tabButtonStyles,
+              borderBottomColor:
+                activeTab === tab.id ? colors['sage-green-500'] : 'transparent',
+              color: activeTab === tab.id ? colors['sage-green-600'] : colors['neutral-600'],
+            }}
+            onMouseEnter={(e) => {
+              if (activeTab !== tab.id) {
+                (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-900'];
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (activeTab !== tab.id) {
+                (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-600'];
+              }
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
-      {/* Content Grid */}
-      <div style={contentAreaStyles}>
-        {/* Recent Policies */}
-        <Card title="Recent Policies" elevation="sm">
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: spacing.md,
+      {/* Tab Content */}
+      <div style={{ backgroundColor: colors['neutral-white'] }}>
+        {activeTab === 'upload-documents' && (
+          <DocumentUpload
+            departments={departments}
+            contentTypes={contentTypes}
+            sensitivities={sensitivities}
+            onUploadSuccess={handleUploadSuccess}
+          />
+        )}
+
+        {activeTab === 'active-documents' && (
+          <DocumentList
+            documents={activeDocuments}
+            showSearch
+            onDocumentDelete={handleDocumentDelete}
+            onDocumentArchive={handleDocumentArchive}
+            onDocumentDownload={(doc) => {
+              console.log('Downloading document:', doc.name);
+              alert(`Document "${doc.name}" would be downloaded here`);
             }}
-          >
-            {policies.map((policy) => (
+          />
+        )}
+
+        {activeTab === 'archived-documents' && (
+          <DocumentList
+            documents={archivedDocuments}
+            showSearch
+            onDocumentDownload={(doc) => {
+              console.log('Downloading document:', doc.name);
+              alert(`Document "${doc.name}" would be downloaded here`);
+            }}
+          />
+        )}
+
+        {activeTab === 'deleted-documents' && (
+          <div style={{ padding: spacing.lg }}>
+            <div style={{ marginBottom: spacing.lg }}>
+              <div style={{ fontSize: typography.fontSize['h3'], fontWeight: 600, marginBottom: spacing.md }}>
+                Deleted Documents
+              </div>
               <div
-                key={policy.id}
                 style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
                   padding: spacing.md,
                   backgroundColor: colors['neutral-50'],
-                  borderRadius: '6px',
+                  borderRadius: borderRadius.md,
+                  marginBottom: spacing.md,
+                  fontSize: typography.fontSize['body-sm'],
+                  color: colors['neutral-600'],
                 }}
               >
-                <div>
-                  <div style={{ fontWeight: 600, color: colors['neutral-900'] }}>
-                    {policy.title}
-                  </div>
-                  <div style={{ fontSize: '12px', color: colors['neutral-500'] }}>
-                    {policy.category}
-                  </div>
-                </div>
-                <Badge
-                  variant={
-                    policy.status === 'Active'
-                      ? 'success'
-                      : policy.status === 'Draft'
-                        ? 'warning'
-                        : 'default'
-                  }
-                  size="sm"
-                >
-                  {policy.status}
-                </Badge>
+                Documents which were earlier deleted can be restored if required.
               </div>
-            ))}
-          </div>
-        </Card>
+            </div>
 
-        {/* Quick Actions */}
-        <Card title="Quick Actions" elevation="sm">
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: spacing.md,
+            {deletedDocuments.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: spacing.xl, color: colors['neutral-500'] }}>
+                No deleted documents.
+              </div>
+            ) : (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
+                  <thead
+                    style={{
+                      backgroundColor: colors['neutral-100'],
+                      borderBottom: `2px solid ${colors['neutral-200']}`,
+                    }}
+                  >
+                    <tr>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>
+                        File
+                      </th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>
+                        Department
+                      </th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {deletedDocuments.map((doc) => (
+                      <tr key={doc.id} style={{ borderBottom: `1px solid ${colors['neutral-200']}` }}>
+                        <td style={{ padding: spacing.md }}>
+                          📄 {doc.name}
+                        </td>
+                        <td style={{ padding: spacing.md }}>{doc.department}</td>
+                        <td style={{ padding: spacing.md }}>
+                          <button
+                            onClick={() => handleDocumentRestore(doc.id)}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              color: colors['success-green'],
+                              marginRight: spacing.md,
+                            }}
+                            title="Restore"
+                          >
+                            ↩️ Restore
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`Permanently delete "${doc.name}"?`)) {
+                                documentStorage.delete(doc.id);
+                                setDocuments(documentStorage.getAll());
+                              }
+                            }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              color: colors['error-red'],
+                            }}
+                            title="Permanently delete"
+                          >
+                            🗑️ Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'user-management' && (
+          <UserManagementTable
+            users={users}
+            showSearch
+            onUserDelete={handleUserDelete}
+            onAddUserClick={() => {
+              alert('Add user modal would open here');
             }}
-          >
-            <button
-              style={{
-                padding: `${spacing.md} ${spacing.lg}`,
-                backgroundColor: colors['sage-green-100'],
-                color: colors['sage-green-600'],
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 500,
-                transition: 'all 0.2s ease-in-out',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  colors['sage-green-200'];
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  colors['sage-green-100'];
               }}
             >
               ➕ Add New Employee
@@ -312,52 +297,15 @@ export const AdminDashboard: React.FC = () => {
                 fontWeight: 500,
                 transition: 'all 0.2s ease-in-out',
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.opacity = '0.9';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.opacity = '1';
-              }}
-            >
-              📋 Create Policy
-            </button>
-            <button
-              style={{
-                padding: `${spacing.md} ${spacing.lg}`,
-                backgroundColor: colors['neutral-100'],
-                color: colors['neutral-900'],
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 500,
-                transition: 'all 0.2s ease-in-out',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  colors['neutral-200'];
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  colors['neutral-100'];
-              }}
-            >
-              📊 Generate Report
-            </button>
-          </div>
-        </Card>
+            showSearch
+            onUserDelete={handleUserDelete}
+            onAddUserClick={() => {
+              alert('Add user modal would open here');
+            }}
+          />
+        )}
       </div>
-
-      {/* Employee Directory */}
-      <Card title="Employee Directory" elevation="sm" className="" style={fullWidthStyles}>
-        <Table
-          columns={employeeColumns}
-          data={employees}
-          striped={true}
-          hoverable={true}
-          sortBy="name"
-        />
-      </Card>
-    </AdminLayout>
+    </div>
   );
 };
 
