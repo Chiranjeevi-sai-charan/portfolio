@@ -2,14 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard } from '../../components/sage-product';
 
-// Add Material Symbols font
-const materialSymbolsStyle = document.createElement('link');
-materialSymbolsStyle.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-200..200';
-materialSymbolsStyle.rel = 'stylesheet';
-if (document.head && !document.querySelector('link[href*="Material+Symbols"]')) {
-  document.head.appendChild(materialSymbolsStyle);
-}
-
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
 
@@ -17,31 +9,25 @@ export default function SageApp() {
     {
       id: 'employee',
       label: 'Employee',
-      icon: 'person',
+      icon: '👤',
       description: 'Try the AI-powered chatbot',
       component: EmployeeChatbot,
     },
     {
       id: 'hr-admin',
       label: 'HR Admin',
-      icon: 'group',
+      icon: '👥',
       description: 'Manage employees & policies',
       component: AdminDashboard,
     },
     {
       id: 'system-admin',
       label: 'System Admin',
-      icon: 'settings',
+      icon: '⚙️',
       description: 'System controls & settings',
       component: SystemAdminDashboard,
     },
   ];
-
-  const MaterialIcon = ({ name, size = 20 }) => (
-    <span style={{ fontSize: size, fontFamily: 'Material Symbols Outlined', fontWeight: 400 }}>
-      {name}
-    </span>
-  );
 
   const activeRoleData = roles.find((r) => r.id === activeRole);
   const ActiveComponent = activeRoleData?.component;
@@ -99,8 +85,7 @@ export default function SageApp() {
               }}
               title={role.description}
             >
-              <MaterialIcon name={role.icon} size={18} />
-              {role.label}
+              {role.icon} {role.label}
             </button>
           ))}
         </div>
