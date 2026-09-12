@@ -26,8 +26,8 @@ export { Badge } from "./Badge";
 export { Avatar, AvatarGroup } from "./Avatar";
 
 // Modal & Overlay Components
-export { Modal } from "./Modal";
-export { Dropdown } from "./Dropdown";
+export { Modal, type ModalAction } from "./Modal";
+export { Dropdown, type DropdownItem } from "./Dropdown";
 export { Alert } from "./Alert";
 export { Toast } from "./Toast";
 
