@@ -21,8 +21,9 @@ export { Breadcrumbs } from "./Breadcrumbs";
 // Content Display Components
 export { ChatBubble } from "./ChatBubble";
 export { Card } from "./Card";
-export { Table } from "./Table";
+export { Table, type TableColumn } from "./Table";
 export { Badge } from "./Badge";
+export { Avatar, AvatarGroup } from "./Avatar";
 
 // Modal & Overlay Components
 export { Modal } from "./Modal";
