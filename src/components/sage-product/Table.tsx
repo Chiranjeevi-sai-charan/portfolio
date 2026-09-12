@@ -124,7 +124,7 @@ export const Table: React.FC<TableProps<any>> = ({
     transition: 'background-color 0.2s ease-in-out',
   };
 
-  const striped = (index: number): React.CSSProperties =>
+  const getStripedStyles = (index: number): React.CSSProperties =>
     striped && index % 2 === 1
       ? { backgroundColor: colors['neutral-50'] }
       : { backgroundColor: colors['neutral-white'] };
@@ -207,7 +207,7 @@ export const Table: React.FC<TableProps<any>> = ({
                 key={rowIndex}
                 style={{
                   ...bodyRowStyles,
-                  ...striped(rowIndex),
+                  ...getStripedStyles(rowIndex),
                   cursor: onRowClick ? 'pointer' : 'default',
                 }}
                 onClick={() => onRowClick?.(row)}
@@ -219,7 +219,7 @@ export const Table: React.FC<TableProps<any>> = ({
                 }}
                 onMouseLeave={(e) => {
                   if (hoverable && onRowClick) {
-                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor = striped(
+                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor = getStripedStyles(
                       rowIndex
                     ).backgroundColor as string;
                   }

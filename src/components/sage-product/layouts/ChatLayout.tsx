@@ -18,7 +18,7 @@ import { ChatBubble } from '../ChatBubble';
  *   userName="John Doe"
  *   userInitials="JD"
  * >
- *   {/* Chat content */}
+ *   Chat content
  * </ChatLayout>
  */
 

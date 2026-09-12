@@ -22,7 +22,7 @@ import { Breadcrumbs } from '../Breadcrumbs';
  *   ]}
  *   activeTab="general"
  * >
- *   {/* Settings content */}
+ *   Content area
  * </SystemAdminLayout>
  */
 

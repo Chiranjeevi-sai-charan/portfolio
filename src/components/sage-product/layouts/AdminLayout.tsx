@@ -19,7 +19,7 @@ import { Breadcrumbs } from '../Breadcrumbs';
  *     { label: 'Policies' }
  *   ]}
  * >
- *   {/* Dashboard content */}
+ *   Dashboard content
  * </AdminLayout>
  */
 
