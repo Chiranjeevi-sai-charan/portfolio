@@ -187,6 +187,32 @@ const CASE_STUDY_DATA = {
       },
       reflection: "The research revealed that employees do not distrust the system itself. They distrust unverified information. By making source attribution and policy verification the core design principle, we built trust without needing perfect AI. Employees gained confidence because they could verify answers against official HR documents. This insight shaped every subsequent design decision and became the foundation for Sage's competitive advantage. The ability to instantly access official policy with proof of source transformed the employee experience from frustration to confidence."
     },
+    ideation: {
+      brainstorming: {
+        overview: "With research findings and a core insight about trust, the team entered brainstorming to generate solution pathways addressing each research finding.",
+        process: "Constraint-driven exploration guided the work with three core principles: Trust Through Verification, Three User Perspectives, and Removal of Friction.",
+        principles: ["Trust First: No feature without source attribution.", "Reduce Friction: Every interaction removes a pain point.", "Three Experiences, One System: Sage works for employees, admins, and system admins."]
+      },
+      conceptDevelopment: {
+        intro: "Brainstorming gave us eight solutions. The next question: How do these live together in a coherent system?",
+        rejectedDirections: [
+          { name: "Concept A: Unified Chat-First", premise: "Everything funnels through the conversational interface.", strength: "Simplicity.", weakness: "Admin features feel bolted-on.", reason: "Rejected" },
+          { name: "Concept B: Three Separate Products", premise: "Three completely separate interfaces.", strength: "Each optimized for its user.", weakness: "Lack of coherence. Users feel like three products.", reason: "Rejected" }
+        ],
+        selectedConcept: {
+          name: "Concept C: Progressive Disclosure with Unified Header",
+          premise: "Same Sage system with unified header. Different experiences based on role.",
+          strength: "Unified system identity.",
+          description: "All users share a common header. Employees see chatbot. Admins see management tools. System admins see full dashboard.",
+          keyInterfaces: ["Chatbot Canvas with source document sidebar", "Admin Dashboard with navigation and quick actions", "Role-Based Entry Points for different user types"]
+        }
+      },
+      wireframes: {
+        status: "Concept C advanced to wireframing with three screen states.",
+        description: "Low-fidelity wireframes for Employee, Admin, and System Admin views.",
+        image: null
+      }
+    },
     tools: [
       { name: "Figma", category: "Design & Prototyping", description: "Created comprehensive design system with components, patterns, and comprehensive documentation for Sage." },
       { name: "React", category: "Frontend Framework", description: "Built interactive UI components with state management for seamless user experience." },
@@ -252,7 +278,7 @@ export default function CaseStudy() {
         <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 32, marginBottom: 16 }}>
           <img src={sageLogo} alt="Sage Logo" style={{ height: 60, width: "auto" }} />
           <h1 style={{ fontSize: "var(--fs-h1)", margin: 0 }}>
-            {caseStudy.title.replace(" — ", ": ")}
+            {caseStudy.title.replace(" - ", ": ")}
           </h1>
         </div>
       </Reveal>
@@ -1035,6 +1061,248 @@ export default function CaseStudy() {
               </div>
             </div>
 
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.ideation && (
+        <Reveal delay={0.35}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+              Ideation
+            </h2>
+
+            {/* BRAINSTORMING SECTION */}
+            <div style={{ marginBottom: 64 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Brainstorming
+              </h3>
+              <div style={{ marginBottom: 32 }}>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
+                  {caseStudy.ideation.brainstorming.overview}
+                </p>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 20 }}>
+                  {caseStudy.ideation.brainstorming.process}
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 32, padding: "24px", backgroundColor: "rgba(76, 175, 80, 0.08)", borderRadius: "8px", borderLeft: "3px solid var(--accent)" }}>
+                <h4 style={{ fontSize: 15, fontWeight: 700, marginBottom: 16, color: "var(--ink)" }}>
+                  Design Principles Extracted
+                </h4>
+                <ul style={{ margin: 0, paddingLeft: 24, color: "var(--ink-soft)", fontSize: 15, lineHeight: "1.8" }}>
+                  {caseStudy.ideation.brainstorming.principles.map((principle, idx) => (
+                    <li key={idx}>{principle}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* CONCEPT DEVELOPMENT SECTION */}
+            <div style={{ marginBottom: 64 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Concept Development
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                {caseStudy.ideation.conceptDevelopment.intro}
+              </p>
+
+              {/* REJECTED CONCEPTS */}
+              <div style={{ marginBottom: 48 }}>
+                <h4 style={{ fontSize: 15, fontWeight: 700, marginBottom: 20, color: "var(--ink)" }}>
+                  Exploration: Three Competing Directions
+                </h4>
+                <div style={{ display: "grid", gap: 24 }}>
+                  {caseStudy.ideation.conceptDevelopment.rejectedDirections.map((concept, idx) => (
+                    <div key={idx} style={{
+                      padding: 24,
+                      backgroundColor: "rgba(255, 255, 255, 0.02)",
+                      borderRadius: "8px",
+                      border: "1px solid rgba(255, 255, 255, 0.08)"
+                    }}>
+                      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
+                        <h5 style={{ fontSize: 15, fontWeight: 700, margin: "0 0 0 0", color: "var(--ink)" }}>
+                          {concept.name}
+                        </h5>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", padding: "4px 8px", backgroundColor: "rgba(255, 0, 0, 0.1)", borderRadius: "4px" }}>
+                          {concept.reason}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: 14, color: "var(--ink-soft)", marginBottom: 12, fontStyle: "italic" }}>
+                        Premise: {concept.premise}
+                      </p>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, fontSize: 14 }}>
+                        <div>
+                          <p style={{ fontWeight: 700, color: "var(--ink)", marginBottom: 4 }}>Strength</p>
+                          <p style={{ color: "var(--ink-soft)", margin: 0 }}>{concept.strength}</p>
+                        </div>
+                        <div>
+                          <p style={{ fontWeight: 700, color: "var(--ink)", marginBottom: 4 }}>Weakness</p>
+                          <p style={{ color: "var(--ink-soft)", margin: 0 }}>{concept.weakness}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* SELECTED CONCEPT */}
+              <div style={{ marginTop: 32, padding: 32, backgroundColor: "linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.04) 100%)", borderRadius: "12px", border: "1px solid rgba(76, 175, 80, 0.15)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                  <span style={{ fontSize: 24 }}>✓</span>
+                  <h4 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: "var(--accent)" }}>
+                    SELECTED: {caseStudy.ideation.conceptDevelopment.selectedConcept.name}
+                  </h4>
+                </div>
+                <p style={{ fontSize: 14, color: "var(--ink-soft)", marginBottom: 12, fontStyle: "italic" }}>
+                  Premise: {caseStudy.ideation.conceptDevelopment.selectedConcept.premise}
+                </p>
+                <p style={{ fontSize: 15, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 20 }}>
+                  {caseStudy.ideation.conceptDevelopment.selectedConcept.description}
+                </p>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 12 }}>Key Interface Concepts</p>
+                  <ul style={{ margin: 0, paddingLeft: 24, fontSize: 14, color: "var(--ink-soft)", lineHeight: "1.8" }}>
+                    {caseStudy.ideation.conceptDevelopment.selectedConcept.keyInterfaces.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* WIREFRAMES SECTION */}
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Wireframes (v1)
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
+                {caseStudy.ideation.wireframes.status}
+              </p>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                {caseStudy.ideation.wireframes.description}
+              </p>
+
+              {caseStudy.ideation.wireframes.image && (
+                <div style={{ marginTop: 24 }}>
+                  <img
+                    src={caseStudy.ideation.wireframes.image}
+                    alt="Sage Wireframes - Three Concepts"
+                    style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                  />
+                </div>
+              )}
+
+              {!caseStudy.ideation.wireframes.image && (
+                <div style={{ padding: 32, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: "8px", border: "1px dashed rgba(255, 255, 255, 0.1)", textAlign: "center" }}>
+                  <p style={{ fontSize: 15, color: "var(--ink-soft)", margin: 0 }}>
+                    📋 Wireframe mockups coming soon. Hand-sketched annotations on Figma-generated wireframes showing the three concept explorations.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.design && (
+        <Reveal delay={0.4}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+              Design
+            </h2>
+
+            {/* LOW-FIDELITY SECTION */}
+            <div style={{ marginBottom: 80 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                {caseStudy.design.lowFidelity.title}
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                {caseStudy.design.lowFidelity.description}
+              </p>
+              <p style={{ fontSize: 14, fontStyle: "italic", color: "var(--ink-soft)", marginBottom: 24 }}>
+                {caseStudy.design.lowFidelity.annotation}
+              </p>
+
+              {caseStudy.design.lowFidelity.image && (
+                <div style={{ marginTop: 24 }}>
+                  <img
+                    src={caseStudy.design.lowFidelity.image}
+                    alt="Sage HR Chatbot Low-Fidelity Design"
+                    style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                  />
+                </div>
+              )}
+
+              {!caseStudy.design.lowFidelity.image && (
+                <div style={{ padding: 32, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: "8px", border: "1px dashed rgba(255, 255, 255, 0.1)", textAlign: "center" }}>
+                  <p style={{ fontSize: 15, color: "var(--ink-soft)", margin: 0 }}>
+                    🎨 Low-fidelity wireframe coming soon.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* FEEDBACK & ITERATIONS SECTION */}
+            <div style={{ marginBottom: 80 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 32, fontWeight: 700 }}>
+                {caseStudy.design.feedback.title}
+              </h3>
+
+              <div style={{ maxWidth: 900, margin: "0 auto" }}>
+                {caseStudy.design.feedback.blocks.map((block, idx) => (
+                  <div key={idx} style={{ marginBottom: 28 }}>
+                    <h4 style={{ fontSize: 15, fontWeight: 700, color: "var(--ink)", marginBottom: 12 }}>
+                      {block.heading}
+                    </h4>
+                    <p style={{ fontSize: 15, lineHeight: "1.7", color: "var(--ink-soft)", margin: 0 }}>
+                      {block.content}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* HIGH-FIDELITY SECTION */}
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                {caseStudy.design.highFidelity.title}
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                {caseStudy.design.highFidelity.description}
+              </p>
+
+              {caseStudy.design.highFidelity.annotations && caseStudy.design.highFidelity.annotations.length > 0 && (
+                <div style={{ marginBottom: 24, padding: 20, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: "8px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 12 }}>
+                    Key Design Annotations
+                  </p>
+                  <ul style={{ margin: 0, paddingLeft: 24, fontSize: 14, color: "var(--ink-soft)", lineHeight: "1.8" }}>
+                    {caseStudy.design.highFidelity.annotations.map((annotation, idx) => (
+                      <li key={idx}>{annotation}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {caseStudy.design.highFidelity.image && (
+                <div style={{ marginTop: 24 }}>
+                  <img
+                    src={caseStudy.design.highFidelity.image}
+                    alt="Sage HR Chatbot High-Fidelity Design"
+                    style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                  />
+                </div>
+              )}
+
+              {!caseStudy.design.highFidelity.image && (
+                <div style={{ padding: 32, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: "8px", border: "1px dashed rgba(255, 255, 255, 0.1)", textAlign: "center" }}>
+                  <p style={{ fontSize: 15, color: "var(--ink-soft)", margin: 0 }}>
+                    ✨ High-fidelity design coming soon.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </Reveal>
       )}
