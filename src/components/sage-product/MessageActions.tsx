@@ -56,7 +56,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onClick={onLike}
           style={
             liked
-              ? { ...buttonStyle, backgroundColor: colors['sage-green-50'], borderRadius: '6px' }
+              ? { ...buttonStyle, backgroundColor: colors['neutral-200'], borderRadius: '6px' }
               : buttonStyle
           }
           onMouseEnter={(e) => {
@@ -82,7 +82,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onClick={onDislike}
           style={
             disliked
-              ? { ...buttonStyle, backgroundColor: '#FEE2E2', borderRadius: '6px' }
+              ? { ...buttonStyle, backgroundColor: colors['neutral-200'], borderRadius: '6px' }
               : buttonStyle
           }
           onMouseEnter={(e) => {

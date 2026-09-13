@@ -1,12 +1,12 @@
 import React from 'react';
-import { colors, spacing, typography, componentSizes, shadows } from '../../styles/sage/tokens';
+import { colors, spacing, typography, componentSizes, shadows, borderRadius } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 
 /**
  * Sidebar Component
  *
- * Left navigation sidebar for Sage application.
- * Displays menu items with icons, labels, and active states.
+ * Left navigation sidebar for the Sage application, styled after ChatGPT's
+ * minimal black & white interface.
  *
  * @component
  * @example
@@ -35,6 +35,11 @@ interface DepartmentFilterConfig {
   onDepartmentChange: (department: string) => void;
 }
 
+interface SidebarUser {
+  name: string;
+  role: string;
+}
+
 interface SidebarProps {
   /** Menu items to display */
   items: SidebarItem[];
@@ -56,30 +61,14 @@ interface SidebarProps {
 
   /** Department filter configuration */
   departmentFilter?: DepartmentFilterConfig;
+
+  /** User pinned to the bottom of the sidebar, with a dropdown menu */
+  user?: SidebarUser;
+
+  /** Called when a dropdown menu item is clicked ('personalization' | 'profile' | 'settings' | 'help' | 'logout') */
+  onUserMenuAction?: (action: string) => void;
 }
 
-/**
- * Sidebar - Left navigation menu
- *
- * Layout:
- * - Logo section (top)
- * - Menu items (scrollable)
- * - Icons + labels (or icons only when collapsed)
- * - Active indicator (left green border)
- * - Badges for counts/notifications
- * - Collapse/expand toggle
- *
- * Width: 200px (from design tokens)
- * Fixed positioning with shadow
- *
- * Features:
- * - Icons for visual recognition
- * - Active state highlighting
- * - Badge support for counts
- * - Collapse to icon-only mode
- * - Nested item support
- * - Keyboard accessible
- */
 export const Sidebar: React.FC<SidebarProps> = ({
   items,
   activeItem,
@@ -88,8 +77,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onCollapseToggle,
   logo,
   departmentFilter,
+  user,
+  onUserMenuAction,
 }) => {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
+  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
+  const userMenuRef = React.useRef<HTMLDivElement>(null);
 
   const toggleExpanded = (label: string) => {
     setExpandedItems((prev) =>
@@ -97,80 +90,96 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
+  React.useEffect(() => {
+    if (!userMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [userMenuOpen]);
+
   const sidebarStyles: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     width: collapsed ? '64px' : componentSizes.sidebar.width,
     flexShrink: 0,
     height: '100%',
-    backgroundColor: colors['neutral-white'],
+    backgroundColor: colors['neutral-50'],
     borderRight: `1px solid ${colors['neutral-200']}`,
-    boxShadow: shadows.sm,
     transition: 'width 0.3s ease-in-out',
-    overflow: 'hidden',
+    overflow: 'visible',
     position: 'relative',
     zIndex: 10,
   };
 
   const logoSectionStyles: React.CSSProperties = {
     padding: spacing.lg,
-    borderBottom: `1px solid ${colors['neutral-200']}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: componentSizes.header.height,
+    minHeight: '56px',
   };
 
   const menuStyles: React.CSSProperties = {
     flex: 1,
     overflowY: 'auto',
-    padding: spacing.md,
+    padding: `0 ${spacing.sm}`,
     display: 'flex',
     flexDirection: 'column',
-    gap: spacing.sm,
+    gap: '2px',
   };
 
   const menuItemStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     gap: spacing.md,
-    padding: `${spacing.md} ${spacing.lg}`,
-    backgroundColor: colors['neutral-50'],
+    padding: `${spacing.sm} ${spacing.md}`,
+    backgroundColor: 'transparent',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: borderRadius.md,
     cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
-    borderLeft: `3px solid transparent`,
+    transition: 'background-color 0.15s ease-in-out',
     width: '100%',
     textAlign: 'left',
   };
 
   const activeMenuItemStyles: React.CSSProperties = {
-    backgroundColor: colors['sage-green-50'],
-    borderLeftColor: colors['sage-green-500'],
-    color: colors['sage-green-700'],
+    backgroundColor: colors['neutral-200'],
+    color: colors['neutral-900'],
   };
 
   const menuItemIconStyles: React.CSSProperties = {
-    fontSize: '20px',
     minWidth: '20px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: colors['neutral-700'],
   };
 
   const menuItemLabelStyles: React.CSSProperties = {
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.medium,
-    color: colors['neutral-700'],
+    color: colors['neutral-900'],
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     flex: 1,
   };
 
+  const sectionLabelStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['label-sm'],
+    fontWeight: typography.fontWeight.semibold,
+    color: colors['neutral-500'],
+    padding: `${spacing.md} ${spacing.md} ${spacing.xs}`,
+    textTransform: 'uppercase',
+    letterSpacing: '0.4px',
+  };
+
   const badgeStyles: React.CSSProperties = {
-    backgroundColor: colors['error-red'],
+    backgroundColor: colors['neutral-900'],
     color: colors['neutral-white'],
     padding: `0 ${spacing.sm}`,
     borderRadius: '12px',
@@ -182,24 +191,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const collapseSectionStyles: React.CSSProperties = {
-    padding: spacing.md,
-    borderTop: `1px solid ${colors['neutral-200']}`,
+    padding: spacing.sm,
     display: 'flex',
     justifyContent: 'center',
   };
 
   const collapseButtonStyles: React.CSSProperties = {
-    width: '40px',
-    height: '40px',
+    width: '36px',
+    height: '36px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors['neutral-100'],
+    backgroundColor: 'transparent',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: borderRadius.md,
     cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
-    fontSize: '18px',
+    transition: 'background-color 0.15s ease-in-out',
+    color: colors['neutral-600'],
   };
 
   const renderMenuItem = (item: SidebarItem, level = 0) => {
@@ -214,7 +222,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             ...menuItemStyles,
             ...(isActive && activeMenuItemStyles),
             marginLeft: `${level * 12}px`,
-            paddingLeft: level > 0 ? spacing.md : spacing.lg,
             opacity: item.disabled ? 0.5 : 1,
             cursor: item.disabled ? 'not-allowed' : 'pointer',
           }}
@@ -234,8 +241,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           }}
           onMouseLeave={(e) => {
             if (!item.disabled && !isActive) {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                colors['neutral-50'];
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
             }
           }}
           disabled={item.disabled}
@@ -250,9 +256,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div style={badgeStyles}>{item.badge > 99 ? '99+' : item.badge}</div>
               )}
               {hasChildren && (
-                <span style={{ fontSize: '12px', color: colors['neutral-500'] }}>
-                  {isExpanded ? '▼' : '▶'}
-                </span>
+                <MaterialIcon
+                  name={isExpanded ? 'expand_more' : 'chevron_right'}
+                  size={16}
+                  color={colors['neutral-500']}
+                />
               )}
             </>
           )}
@@ -260,62 +268,158 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Nested Items */}
         {hasChildren && isExpanded && !collapsed && (
-          <div>
-            {item.children!.map((child) => renderMenuItem(child, level + 1))}
-          </div>
+          <div>{item.children!.map((child) => renderMenuItem(child, level + 1))}</div>
         )}
       </div>
     );
   };
 
   const departmentFilterStyles: React.CSSProperties = {
-    padding: `${spacing.md} ${spacing.lg}`,
-    borderBottom: `1px solid ${colors['neutral-200']}`,
-    backgroundColor: colors['neutral-white'],
+    padding: `${spacing.sm} ${spacing.md}`,
   };
 
   const departmentTitleStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['body-sm'],
+    fontSize: typography.fontSize['label-sm'],
     fontWeight: typography.fontWeight.semibold,
-    color: colors['neutral-900'],
-    marginBottom: spacing.md,
+    color: colors['neutral-500'],
+    marginBottom: spacing.sm,
     display: 'flex',
     alignItems: 'center',
     gap: spacing.sm,
+    textTransform: 'uppercase',
+    letterSpacing: '0.4px',
   };
 
   const departmentCheckboxStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     gap: spacing.sm,
-    marginBottom: spacing.sm,
+    padding: `${spacing.xs} ${spacing.sm}`,
     cursor: 'pointer',
   };
 
   const checkboxInputStyles: React.CSSProperties = {
-    width: '18px',
-    height: '18px',
+    width: '16px',
+    height: '16px',
     cursor: 'pointer',
-    accentColor: colors['sage-green-500'],
+    accentColor: colors['neutral-900'],
   };
 
   const checkboxLabelStyles: React.CSSProperties = {
     fontSize: typography.fontSize['body-sm'],
-    color: colors['neutral-700'],
+    color: colors['neutral-800'] || colors['neutral-900'],
     cursor: 'pointer',
     userSelect: 'none',
   };
 
+  const userFooterStyles: React.CSSProperties = {
+    position: 'relative',
+    borderTop: `1px solid ${colors['neutral-200']}`,
+    padding: spacing.sm,
+  };
+
+  const userRowStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+    padding: spacing.sm,
+    borderRadius: borderRadius.md,
+    cursor: 'pointer',
+    transition: 'background-color 0.15s ease-in-out',
+    width: '100%',
+    background: 'none',
+    border: 'none',
+    textAlign: 'left',
+  };
+
+  const userAvatarStyles: React.CSSProperties = {
+    width: '28px',
+    height: '28px',
+    borderRadius: '50%',
+    backgroundColor: colors['neutral-900'],
+    color: colors['neutral-white'],
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '12px',
+    fontWeight: 700,
+    flexShrink: 0,
+  };
+
+  const userNameStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-sm'],
+    fontWeight: typography.fontWeight.semibold,
+    color: colors['neutral-900'],
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  };
+
+  const userRoleStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-xs'],
+    color: colors['neutral-500'],
+  };
+
+  const userMenuStyles: React.CSSProperties = {
+    position: 'absolute',
+    bottom: '100%',
+    left: spacing.sm,
+    right: spacing.sm,
+    marginBottom: spacing.xs,
+    backgroundColor: colors['neutral-white'],
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.md,
+    boxShadow: shadows.lg,
+    padding: spacing.xs,
+    zIndex: 50,
+  };
+
+  const userMenuItemStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+    width: '100%',
+    padding: `${spacing.sm} ${spacing.md}`,
+    background: 'none',
+    border: 'none',
+    borderRadius: borderRadius.sm,
+    cursor: 'pointer',
+    fontSize: typography.fontSize['body-sm'],
+    color: colors['neutral-900'],
+    textAlign: 'left',
+  };
+
+  const userMenuDividerStyles: React.CSSProperties = {
+    borderTop: `1px solid ${colors['neutral-200']}`,
+    margin: `${spacing.xs} 0`,
+  };
+
+  const getUserInitials = (name: string) =>
+    name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+
+  const menuActions = [
+    { id: 'personalization', label: 'Personalization', icon: 'tune' },
+    { id: 'profile', label: 'Profile', icon: 'account_circle' },
+    { id: 'settings', label: 'Settings', icon: 'settings' },
+  ];
+
   return (
     <div style={sidebarStyles}>
       {/* Logo Section */}
-      <div style={logoSectionStyles}>{logo || <MaterialIcon name="psychology" size={24} color={colors['sage-green-600']} />}</div>
+      <div style={logoSectionStyles}>
+        {logo || <MaterialIcon name="psychology" size={22} color={colors['neutral-900']} />}
+      </div>
 
       {/* Department Filter */}
       {departmentFilter && !collapsed && (
         <div style={departmentFilterStyles}>
           <div style={departmentTitleStyles}>
-            <MaterialIcon name="filter_alt" size={18} />
+            <MaterialIcon name="filter_alt" size={16} />
             <span>Chat Filter</span>
           </div>
           {departmentFilter.departments.map((dept) => (
@@ -333,6 +437,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       )}
 
+      {!collapsed && <div style={sectionLabelStyles}>Chats</div>}
+
       {/* Menu Items */}
       <div style={menuStyles}>{items.map((item) => renderMenuItem(item))}</div>
 
@@ -342,18 +448,81 @@ export const Sidebar: React.FC<SidebarProps> = ({
           style={collapseButtonStyles}
           onClick={onCollapseToggle}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              colors['neutral-200'];
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              colors['neutral-100'];
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
           }}
           title={collapsed ? 'Expand' : 'Collapse'}
         >
-          {collapsed ? '→' : '←'}
+          <MaterialIcon name={collapsed ? 'chevron_right' : 'chevron_left'} size={20} />
         </button>
       </div>
+
+      {/* User Footer */}
+      {user && (
+        <div style={userFooterStyles} ref={userMenuRef}>
+          {userMenuOpen && (
+            <div style={userMenuStyles}>
+              {menuActions.map((action) => (
+                <button
+                  key={action.id}
+                  style={userMenuItemStyles}
+                  onClick={() => {
+                    setUserMenuOpen(false);
+                    onUserMenuAction?.(action.id);
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <MaterialIcon name={action.icon} size={18} color={colors['neutral-700']} />
+                  {action.label}
+                </button>
+              ))}
+              <div style={userMenuDividerStyles} />
+              <button
+                style={userMenuItemStyles}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  onUserMenuAction?.('logout');
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                }}
+              >
+                <MaterialIcon name="logout" size={18} color={colors['neutral-700']} />
+                Log out
+              </button>
+            </div>
+          )}
+
+          <button
+            style={userRowStyles}
+            onClick={() => setUserMenuOpen((v) => !v)}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+            }}
+          >
+            <div style={userAvatarStyles}>{getUserInitials(user.name)}</div>
+            {!collapsed && (
+              <div style={{ overflow: 'hidden' }}>
+                <div style={userNameStyles}>{user.name}</div>
+                <div style={userRoleStyles}>{user.role}</div>
+              </div>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

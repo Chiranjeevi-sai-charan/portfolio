@@ -43,9 +43,6 @@ interface ChatBubbleProps {
   /** Whether AI is generating response (loading state) */
   loading?: boolean;
 
-  /** User avatar (for user messages) or AI icon (for AI messages) */
-  avatar?: React.ReactNode;
-
   /** Callback when user likes the message */
   onLike?: () => void;
 
@@ -88,7 +85,6 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   citations,
   timestamp,
   loading = false,
-  avatar,
   onLike,
   onDislike,
   onComment,
@@ -101,19 +97,16 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
   const bubbleContainerStyles: React.CSSProperties = {
     display: 'flex',
-    gap: spacing.md,
     marginBottom: spacing.lg,
     justifyContent: isUser ? 'flex-end' : 'flex-start',
-    alignItems: 'flex-end',
   };
 
   const bubbleStyles: React.CSSProperties = {
-    maxWidth: '70%',
-    padding: spacing.lg,
+    maxWidth: isUser ? '70%' : '100%',
+    padding: isUser ? `${spacing.sm} ${spacing.lg}` : 0,
     borderRadius: borderRadius.lg,
-    backgroundColor: isUser ? colors['sage-green-50'] : colors['neutral-100'],
-    color: isUser ? colors['neutral-900'] : colors['neutral-900'],
-    boxShadow: shadows.sm,
+    backgroundColor: isUser ? colors['neutral-100'] : 'transparent',
+    color: colors['neutral-900'],
     wordWrap: 'break-word',
   };
 
@@ -156,21 +149,6 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     color: colors['neutral-500'],
     marginTop: spacing.sm,
     textAlign: isUser ? 'right' : 'left',
-  };
-
-  const avatarContainerStyles: React.CSSProperties = {
-    width: '32px',
-    height: '32px',
-    borderRadius: borderRadius.full,
-    backgroundColor: isUser ? colors['sage-green-500'] : colors['neutral-200'],
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: isUser ? colors['neutral-white'] : colors['neutral-900'],
-    fontSize: '12px',
-    fontWeight: 600,
-    flexShrink: 0,
-    order: isUser ? 1 : -1,
   };
 
   const loadingDotsStyles: React.CSSProperties = {
@@ -219,11 +197,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div style={avatarContainerStyles}>
-        {avatar || (isUser ? 'U' : <MaterialIcon name="psychology" size={18} color={colors['sage-green-600']} />)}
-      </div>
-
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: isUser ? '0 1 auto' : 1, maxWidth: '100%' }}>
         <div style={bubbleStyles}>
           {loading ? (
             <div style={loadingDotsStyles}>
