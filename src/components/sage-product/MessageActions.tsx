@@ -8,6 +8,8 @@ interface MessageActionsProps {
   onComment?: () => void;
   onCopy?: () => void;
   onSpeak?: () => void;
+  onShare?: () => void;
+  onRegenerate?: () => void;
   liked?: boolean;
   disliked?: boolean;
   compact?: boolean;
@@ -19,6 +21,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
   onComment,
   onCopy,
   onSpeak,
+  onShare,
+  onRegenerate,
   liked = false,
   disliked = false,
   compact = false,
@@ -153,6 +157,42 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           aria-label="Speak"
         >
           <MaterialIcon name="volume_up" size={compact ? 16 : 18} />
+        </button>
+      )}
+
+      {/* Share Button */}
+      {onShare && (
+        <button
+          onClick={onShare}
+          style={buttonStyle}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = colors['neutral-700'];
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = colors['neutral-500'];
+          }}
+          title="Share"
+          aria-label="Share"
+        >
+          <MaterialIcon name="ios_share" size={compact ? 16 : 18} />
+        </button>
+      )}
+
+      {/* Regenerate Button */}
+      {onRegenerate && (
+        <button
+          onClick={onRegenerate}
+          style={buttonStyle}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = colors['neutral-700'];
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = colors['neutral-500'];
+          }}
+          title="Try again"
+          aria-label="Try again"
+        >
+          <MaterialIcon name="refresh" size={compact ? 16 : 18} />
         </button>
       )}
     </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { colors, spacing, typography } from '../../../styles/sage/tokens';
 import { ChatLayout } from '../layouts/ChatLayout';
 import { SidebarItem } from '../Sidebar';
 
@@ -21,59 +20,55 @@ interface Message {
   citations?: string[];
   liked?: boolean;
   disliked?: boolean;
-  department?: string;
 }
+
+interface Conversation {
+  id: string;
+  title: string;
+  icon: string;
+}
+
+const SEED_CONVERSATIONS: Conversation[] = [
+  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'beach_access' },
+  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'local_hospital' },
+  { id: 'chat-3', title: 'Performance Review Process', icon: 'bar_chart' },
+  { id: 'chat-4', title: 'Work from Home Policy', icon: 'home' },
+];
 
 /**
  * EmployeeChatbot - Main employee chat interface
  *
  * Features:
  * - AI-powered HR question answering
- * - Chat history persistence
+ * - Chat history that updates dynamically as new conversations start
  * - Message citations and source documents
  * - Real-time typing simulation
- * - Conversation memory
  */
 export const EmployeeChatbot: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      type: 'ai',
-      content: 'Hi! 👋 I\'m Sage, your HR assistant. I can help you with questions about company policies, benefits, time off, and more. What can I help you with today?',
-      timestamp: new Date().toLocaleTimeString(),
-      citations: ['Company Handbook - Section 1'],
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>(SEED_CONVERSATIONS);
+  const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
 
-  const chatHistory: SidebarItem[] = [
-    {
-      id: 'chat-1',
-      label: 'Vacation Policy Questions',
-      icon: 'beach_access',
-      onClick: () => loadConversation('chat-1'),
-    },
-    {
-      id: 'chat-2',
-      label: 'Health Insurance Coverage',
-      icon: 'local_hospital',
-      onClick: () => loadConversation('chat-2'),
-    },
-    {
-      id: 'chat-3',
-      label: 'Performance Review Process',
-      icon: 'bar_chart',
-      onClick: () => loadConversation('chat-3'),
-    },
-    {
-      id: 'chat-4',
-      label: 'Work from Home Policy',
-      icon: 'home',
-      onClick: () => loadConversation('chat-4'),
-    },
-  ];
+  const chatHistory: SidebarItem[] = conversations.map((c) => ({
+    label: c.title,
+    icon: c.icon,
+  }));
+
+  const handleNewChat = () => {
+    setMessages([]);
+    setActiveConversationId(null);
+  };
 
   const handleSendMessage = (userMessage: string) => {
-    // Add user message
+    // If this is the first message of a fresh conversation, add it to the sidebar history
+    if (!activeConversationId) {
+      const newId = String(Date.now());
+      const title =
+        userMessage.length > 40 ? `${userMessage.slice(0, 40).trim()}...` : userMessage;
+      setConversations((prev) => [{ id: newId, title, icon: 'chat' }, ...prev]);
+      setActiveConversationId(newId);
+    }
+
     const userMsg: Message = {
       id: String(Date.now()),
       type: 'user',
@@ -120,7 +115,7 @@ export const EmployeeChatbot: React.FC = () => {
       }
     }
 
-    return 'That\'s a great question! Based on our company policies, I recommend reaching out to the HR team at hr@company.com for detailed information. They can provide personalized guidance for your situation.';
+    return "That's a great question! Based on our company policies, I recommend reaching out to the HR team at hr@company.com for detailed information. They can provide personalized guidance for your situation.";
   };
 
   const generateCitations = (userMessage: string): string[] => {
@@ -141,11 +136,6 @@ export const EmployeeChatbot: React.FC = () => {
     return ['Company Handbook', 'HR Portal'];
   };
 
-  const loadConversation = (chatId: string) => {
-    console.log('Loading conversation:', chatId);
-    // In a real app, load the conversation history from backend
-  };
-
   const containerStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
@@ -155,11 +145,12 @@ export const EmployeeChatbot: React.FC = () => {
     <div style={containerStyles}>
       <ChatLayout
         userRole="Employee"
-        userName="Employee"
-        userInitials="EMP"
+        userName="Sai Ganesh"
+        userInitials="SG"
         messages={messages}
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}
+        onNewChat={handleNewChat}
       />
     </div>
   );

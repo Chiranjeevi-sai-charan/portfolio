@@ -57,14 +57,18 @@ interface ChatLayoutProps {
   /** Children (additional content) */
   children?: React.ReactNode;
 
+  /** Called when the user clicks "New Chat" in the sidebar */
+  onNewChat?: () => void;
+
   /** CSS class name */
   className?: string;
 }
 
 const SUGGESTIONS = [
-  { icon: 'beach_access', label: 'Ask about the vacation policy' },
-  { icon: 'local_hospital', label: 'Check health insurance coverage' },
-  { icon: 'menu_book', label: 'Search the company handbook' },
+  { icon: 'event_available', label: 'How many vacation days do I have left?' },
+  { icon: 'health_and_safety', label: 'What does our health insurance cover?' },
+  { icon: 'home_work', label: 'What is the work-from-home policy?' },
+  { icon: 'menu_book', label: 'Where can I find the employee handbook?' },
 ];
 
 /**
@@ -84,6 +88,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   sidebarCollapsed = false,
   onSearch,
   children,
+  onNewChat,
   className = '',
 }) => {
   const [inputValue, setInputValue] = useState('');
@@ -102,12 +107,14 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     height: '100%',
     backgroundColor: colors['neutral-white'],
     flexDirection: 'column',
+    minHeight: 0,
   };
 
   const contentWrapperStyles: React.CSSProperties = {
     display: 'flex',
     flex: 1,
     overflow: 'hidden',
+    minHeight: 0,
   };
 
   const mainStyles: React.CSSProperties = {
@@ -116,11 +123,20 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     flexDirection: 'column',
     backgroundColor: colors['neutral-white'],
     minWidth: 0,
+    minHeight: 0,
+  };
+
+  const READING_WIDTH = '760px';
+
+  const messagesScrollStyles: React.CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
   };
 
   const messagesContainerStyles: React.CSSProperties = {
-    flex: 1,
-    overflowY: 'auto',
+    maxWidth: READING_WIDTH,
+    margin: '0 auto',
     padding: `${spacing.lg} ${spacing.xl}`,
     display: 'flex',
     flexDirection: 'column',
@@ -129,6 +145,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const emptyStateStyles: React.CSSProperties = {
     flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -146,7 +164,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const pillFormStyles: React.CSSProperties = {
     width: '100%',
-    maxWidth: '680px',
+    maxWidth: READING_WIDTH,
   };
 
   const pillInputWrapperStyles: React.CSSProperties = {
@@ -192,25 +210,27 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     cursor: enabled ? 'pointer' : 'not-allowed',
   });
 
-  const suggestionsRowStyles: React.CSSProperties = {
+  const suggestionsListStyles: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '520px',
     display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: spacing.sm,
+    flexDirection: 'column',
   };
 
-  const suggestionPillStyles: React.CSSProperties = {
+  const suggestionRowItemStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing.sm,
-    padding: `${spacing.sm} ${spacing.lg}`,
-    borderRadius: borderRadius.full,
-    border: `1px solid ${colors['neutral-200']}`,
-    backgroundColor: colors['neutral-white'],
-    color: colors['neutral-700'],
-    fontSize: typography.fontSize['body-sm'],
+    gap: spacing.md,
+    padding: `${spacing.sm} ${spacing.sm}`,
+    border: 'none',
+    background: 'transparent',
+    color: colors['neutral-600'],
+    fontSize: typography.fontSize['body-md'],
     cursor: 'pointer',
+    borderRadius: borderRadius.md,
     transition: 'background-color 0.15s ease',
+    textAlign: 'left',
+    width: '100%',
   };
 
   const inputAreaStyles: React.CSSProperties = {
@@ -222,7 +242,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const inputAreaInnerStyles: React.CSSProperties = {
     width: '100%',
-    maxWidth: '680px',
+    maxWidth: READING_WIDTH,
   };
 
   const defaultSidebarItems: SidebarItem[] = [
@@ -292,7 +312,11 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           onCollapseToggle={() => setIsCollapsed(!isCollapsed)}
           activeItem={chatHistory[0]?.label}
           onItemClick={(item) => {
-            console.log('Chat selected:', item);
+            if (item.label === 'New Chat') {
+              onNewChat?.();
+            } else {
+              console.log('Chat selected:', item);
+            }
           }}
           user={{ name: userName, role: userRole }}
           onUserMenuAction={(action) => console.log('User menu action:', action)}
@@ -306,20 +330,20 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
             <div style={emptyStateStyles}>
               <div style={greetingStyles}>What's on your mind today?</div>
               <div style={pillFormStyles}>{renderPillInput()}</div>
-              <div style={suggestionsRowStyles}>
+              <div style={suggestionsListStyles}>
                 {SUGGESTIONS.map((s) => (
                   <button
                     key={s.label}
-                    style={suggestionPillStyles}
+                    style={suggestionRowItemStyles}
                     onClick={() => handleSendMessage(s.label)}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.backgroundColor = colors['neutral-50'];
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = colors['neutral-white'];
+                      e.currentTarget.style.backgroundColor = 'transparent';
                     }}
                   >
-                    <MaterialIcon name={s.icon} size={18} color={colors['neutral-500']} />
+                    <MaterialIcon name={s.icon} size={20} color={colors['neutral-500']} />
                     {s.label}
                   </button>
                 ))}
@@ -328,7 +352,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           ) : (
             <>
               {/* Messages */}
-              <div style={messagesContainerStyles}>
+              <div style={messagesScrollStyles}>
+                <div style={messagesContainerStyles}>
                 {messages.map((msg) => (
                   <ChatBubble
                     key={msg.id}
@@ -339,8 +364,11 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     timestamp={msg.timestamp}
                     liked={(msg as any).liked}
                     disliked={(msg as any).disliked}
+                    onShare={() => console.log('Share message:', msg.id)}
+                    onRegenerate={() => console.log('Regenerate message:', msg.id)}
                   />
                 ))}
+                </div>
               </div>
 
               {/* Input Area */}

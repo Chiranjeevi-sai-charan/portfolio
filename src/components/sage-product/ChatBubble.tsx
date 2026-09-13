@@ -52,6 +52,12 @@ interface ChatBubbleProps {
   /** Callback when user comments on the message */
   onComment?: () => void;
 
+  /** Callback when user shares the message */
+  onShare?: () => void;
+
+  /** Callback when user asks to regenerate the response */
+  onRegenerate?: () => void;
+
   /** Whether message is liked */
   liked?: boolean;
 
@@ -88,6 +94,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   onLike,
   onDislike,
   onComment,
+  onShare,
+  onRegenerate,
   liked = false,
   disliked = false,
 }) => {
@@ -147,7 +155,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   const timestampStyles: React.CSSProperties = {
     fontSize: '11px',
     color: colors['neutral-500'],
-    marginTop: spacing.sm,
+    marginTop: spacing.xs,
+    whiteSpace: 'nowrap',
     textAlign: isUser ? 'right' : 'left',
   };
 
@@ -181,6 +190,19 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       navigator.clipboard.writeText(message);
       console.log('Message copied to clipboard');
     }
+  };
+
+  const handleShare = () => {
+    if (message) {
+      navigator.clipboard.writeText(message);
+    }
+    console.log('Sharing message');
+    onShare?.();
+  };
+
+  const handleRegenerate = () => {
+    console.log('Regenerating response');
+    onRegenerate?.();
   };
 
   const handleSpeak = () => {
@@ -234,11 +256,11 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                   ))}
                 </div>
               )}
-
-              {timestamp && <div style={timestampStyles}>{timestamp}</div>}
             </>
           )}
         </div>
+
+        {timestamp && !loading && <div style={timestampStyles}>{timestamp}</div>}
 
         {/* Message Actions - Show for AI responses */}
         {!loading && !isUser && (isHovering || feedback) && (
@@ -250,6 +272,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
             onComment={onComment}
             onCopy={handleCopy}
             onSpeak={handleSpeak}
+            onShare={handleShare}
+            onRegenerate={handleRegenerate}
             compact
           />
         )}

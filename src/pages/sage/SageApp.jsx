@@ -113,7 +113,7 @@ export default function SageApp() {
       </div>
 
       {/* Product Content */}
-      <div style={{ flex: 1, overflow: 'hidden', backgroundColor: '#ffffff' }}>
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', backgroundColor: '#ffffff' }}>
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>
