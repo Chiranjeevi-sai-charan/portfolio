@@ -1,5 +1,6 @@
 import React from 'react';
 import { spacing, colors, shadows, borderRadius, typography } from '../../styles/sage/tokens';
+import { MaterialIcon } from './MaterialIcon';
 
 /**
  * Select Component
@@ -128,11 +129,24 @@ export const Select: React.FC<SelectProps> = ({
     transition: 'all 0.2s ease-in-out',
     opacity: disabled ? 0.6 : 1,
     appearance: 'none',
-    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='${colors['neutral-500']}' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: `right ${spacing.md} center`,
-    backgroundSize: '20px',
-    paddingRight: `36px`,
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    paddingRight: '36px',
+  };
+
+  const selectWrapperStyles: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+  };
+
+  const chevronOverlayStyles: React.CSSProperties = {
+    position: 'absolute',
+    right: spacing.md,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    pointerEvents: 'none',
+    display: 'flex',
+    color: colors['neutral-500'],
   };
 
   const errorMessageStyles: React.CSSProperties = {
@@ -168,28 +182,33 @@ export const Select: React.FC<SelectProps> = ({
         </label>
       )}
 
-      <select
-        style={selectStyles}
-        disabled={disabled}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        {...props}
-      >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            disabled={option.disabled}
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div style={selectWrapperStyles}>
+        <select
+          style={selectStyles}
+          disabled={disabled}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        >
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          )}
+          {options.map((option) => (
+            <option
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <div style={chevronOverlayStyles}>
+          <MaterialIcon name="keyboard_arrow_down" size={20} />
+        </div>
+      </div>
 
       {error && <div style={errorMessageStyles}>{error}</div>}
       {!error && helperText && <div style={helperTextStyles}>{helperText}</div>}

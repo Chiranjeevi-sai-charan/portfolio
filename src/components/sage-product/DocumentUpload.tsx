@@ -24,7 +24,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const [selectedSensitivity, setSelectedSensitivity] = useState('');
   const [documentDate, setDocumentDate] = useState('');
   const [isDragging, setIsDragging] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const containerStyles: React.CSSProperties = {
     padding: spacing.lg,
@@ -95,6 +95,80 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
     justifyContent: 'center',
   };
 
+  const fileListStyles: React.CSSProperties = {
+    marginTop: spacing.lg,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.sm,
+  };
+
+  const fileListHeaderStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['label-md'],
+    fontWeight: typography.fontWeight.semibold,
+    color: colors['neutral-900'],
+    marginBottom: spacing.xs,
+  };
+
+  const fileRowStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.md,
+    padding: `${spacing.sm} ${spacing.md}`,
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.md,
+    backgroundColor: colors['neutral-white'],
+  };
+
+  const fileRowNameStyles: React.CSSProperties = {
+    flex: 1,
+    fontSize: typography.fontSize['body-sm'],
+    color: colors['neutral-900'],
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  };
+
+  const fileRowSizeStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-xs'],
+    color: colors['neutral-500'],
+    flexShrink: 0,
+  };
+
+  const fileRowRemoveStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '28px',
+    height: '28px',
+    border: 'none',
+    borderRadius: borderRadius.sm,
+    background: 'transparent',
+    color: colors['neutral-500'],
+    cursor: 'pointer',
+    flexShrink: 0,
+  };
+
+  const fileIconMap: Record<string, string> = {
+    pdf: 'picture_as_pdf',
+    docx: 'description',
+    doc: 'description',
+    xlsx: 'table_chart',
+    pptx: 'slideshow',
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    return `${(bytes / 1024).toFixed(2)} KB`;
+  };
+
+  const addFiles = (files: FileList | File[]) => {
+    setSelectedFiles((prev) => [...prev, ...Array.from(files)]);
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -108,47 +182,50 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      setSelectedFile(files[0]);
+    if (e.dataTransfer.files.length > 0) {
+      addFiles(e.dataTransfer.files);
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedFile(e.target.files[0]);
+      addFiles(e.target.files);
     }
   };
 
   const handleUpload = () => {
-    if (!selectedFile || !selectedDepartment || !selectedType || !selectedSensitivity) {
-      alert('Please fill all fields and select a file');
+    if (selectedFiles.length === 0 || !selectedDepartment || !selectedType || !selectedSensitivity) {
+      alert('Please fill all fields and select at least one file');
       return;
     }
 
-    const newDoc: Document = {
-      id: `doc_${Date.now()}`,
-      name: selectedFile.name,
-      type: selectedFile.name.split('.').pop() || 'unknown',
-      department: selectedDepartment,
-      sensitivity: selectedSensitivity,
-      date: documentDate,
-      uploadedBy: 'current.user@motherson.com',
-      status: 'active',
-      uploadedAt: Date.now(),
-    };
+    selectedFiles.forEach((file) => {
+      const newDoc: Document = {
+        id: `doc_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        name: file.name,
+        type: file.name.split('.').pop() || 'unknown',
+        department: selectedDepartment,
+        sensitivity: selectedSensitivity,
+        date: documentDate,
+        uploadedBy: 'current.user@motherson.com',
+        status: 'active',
+        uploadedAt: Date.now(),
+      };
 
-    documentStorage.save(newDoc);
-    onUploadSuccess?.(newDoc);
+      documentStorage.save(newDoc);
+      onUploadSuccess?.(newDoc);
+    });
+
+    const count = selectedFiles.length;
 
     // Reset form
-    setSelectedFile(null);
+    setSelectedFiles([]);
     setSelectedDepartment('');
     setSelectedType('');
     setSelectedSensitivity('');
     setDocumentDate('');
 
-    alert(`Document "${newDoc.name}" uploaded successfully!`);
+    alert(`${count} document${count > 1 ? 's' : ''} uploaded successfully!`);
   };
 
   return (
@@ -223,78 +300,97 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
       >
         <div style={{ ...dropzoneStyles, ...fullWidthStyles }}>
           <div style={dropzoneContentStyles}>
-            {selectedFile ? (
-              <>
-                <MaterialIcon name="check_circle" size={48} color={colors['neutral-900']} />
-                <div>
-                  <div style={dropzoneTextStyles}>{selectedFile.name}</div>
-                  <div style={{ fontSize: '12px', color: colors['neutral-500'], marginTop: spacing.xs }}>
-                    {(selectedFile.size / 1024).toFixed(2)} KB
-                  </div>
-                </div>
-                <Button
-                  variant="secondary"
-                  onClick={() => setSelectedFile(null)}
-                  style={{ marginTop: spacing.md }}
-                >
-                  Change File
-                </Button>
-              </>
-            ) : (
-              <>
-                <MaterialIcon name="folder" size={48} color={colors['neutral-400']} />
-                <div style={dropzoneTextStyles}>Drag & drop files</div>
-                <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                  OR
-                </div>
-                <button
-                  onClick={() => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = '.pdf,.docx,.xlsx,.pptx';
-                    input.onchange = (e) => {
-                      const file = (e.target as HTMLInputElement).files?.[0];
-                      if (file) setSelectedFile(file);
-                    };
-                    input.click();
-                  }}
-                  style={{
-                    padding: `${spacing.md} ${spacing.lg}`,
-                    backgroundColor: colors['neutral-900'],
-                    color: colors['neutral-white'],
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontWeight: 600,
-                    fontSize: typography.fontSize['body-sm'],
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-700'];
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-900'];
-                  }}
-                >
-                  Browse files
-                </button>
-                <div style={supportedFormatsStyles}>
-                  Supported: PDF, DOCX, XLSX, PPTX • Up to 200MB
-                </div>
-              </>
-            )}
+            <MaterialIcon name="folder" size={48} color={colors['neutral-400']} />
+            <div style={dropzoneTextStyles}>Drag & drop files</div>
+            <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
+              OR
+            </div>
+            <button
+              onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.multiple = true;
+                input.accept = '.pdf,.docx';
+                input.onchange = (e) => {
+                  const files = (e.target as HTMLInputElement).files;
+                  if (files && files.length > 0) addFiles(files);
+                };
+                input.click();
+              }}
+              style={{
+                padding: `${spacing.md} ${spacing.lg}`,
+                backgroundColor: colors['neutral-900'],
+                color: colors['neutral-white'],
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: typography.fontSize['body-sm'],
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-700'];
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-900'];
+              }}
+            >
+              Browse files
+            </button>
+            <div style={supportedFormatsStyles}>
+              Supported: PDF, DOCX • Up to 200MB/file
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Selected Files List */}
+      {selectedFiles.length > 0 && (
+        <div style={fileListStyles}>
+          <div style={fileListHeaderStyles}>
+            Selected Files ({selectedFiles.length})
+          </div>
+          {selectedFiles.map((file, index) => {
+            const ext = file.name.split('.').pop()?.toLowerCase() || '';
+            return (
+              <div key={`${file.name}-${index}`} style={fileRowStyles}>
+                <MaterialIcon
+                  name={fileIconMap[ext] || 'description'}
+                  size={20}
+                  color={colors['neutral-500']}
+                />
+                <div style={fileRowNameStyles}>{file.name}</div>
+                <div style={fileRowSizeStyles}>{formatFileSize(file.size)}</div>
+                <button
+                  style={fileRowRemoveStyles}
+                  onClick={() => removeFile(index)}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                    (e.currentTarget as HTMLButtonElement).style.color = colors['error-red'];
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                    (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-500'];
+                  }}
+                  title={`Remove ${file.name}`}
+                  aria-label={`Remove ${file.name}`}
+                >
+                  <MaterialIcon name="close" size={18} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div style={buttonGroupStyles}>
         <Button
           variant="primary"
           onClick={handleUpload}
-          disabled={!selectedFile || !selectedDepartment || !selectedType || !selectedSensitivity}
+          disabled={selectedFiles.length === 0 || !selectedDepartment || !selectedType || !selectedSensitivity}
         >
-          Upload
+          Upload{selectedFiles.length > 1 ? ` (${selectedFiles.length})` : ''}
         </Button>
       </div>
     </div>
