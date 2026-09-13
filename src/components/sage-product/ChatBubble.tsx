@@ -63,7 +63,7 @@ interface ChatBubbleProps {
  * ChatBubble - Message container for chat interface
  *
  * Types:
- * - user: Right-aligned, sage-green-50 background
+ * - user: Right-aligned, neutral-100 background
  * - ai: Left-aligned, neutral-100 background
  *
  * Features:

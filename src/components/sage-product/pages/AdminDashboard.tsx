@@ -128,8 +128,8 @@ export const AdminDashboard: React.FC = () => {
             style={{
               ...tabButtonStyles,
               borderBottomColor:
-                activeTab === tab.id ? colors['sage-green-500'] : 'transparent',
-              color: activeTab === tab.id ? colors['sage-green-600'] : colors['neutral-600'],
+                activeTab === tab.id ? colors['neutral-900'] : 'transparent',
+              color: activeTab === tab.id ? colors['neutral-900'] : colors['neutral-600'],
             }}
             onMouseEnter={(e) => {
               if (activeTab !== tab.id) {

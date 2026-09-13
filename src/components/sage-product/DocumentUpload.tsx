@@ -56,11 +56,11 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   };
 
   const dropzoneStyles: React.CSSProperties = {
-    border: `2px dashed ${isDragging ? colors['sage-green-500'] : colors['neutral-300']}`,
+    border: `2px dashed ${isDragging ? colors['neutral-900'] : colors['neutral-300']}`,
     borderRadius: borderRadius.lg,
     padding: spacing.xl,
     textAlign: 'center',
-    backgroundColor: isDragging ? colors['sage-green-50'] : colors['neutral-50'],
+    backgroundColor: isDragging ? colors['neutral-100'] : colors['neutral-50'],
     cursor: 'pointer',
     transition: 'all 0.2s ease',
   };
@@ -225,7 +225,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
           <div style={dropzoneContentStyles}>
             {selectedFile ? (
               <>
-                <MaterialIcon name="check_circle" size={48} color={colors['sage-green-500']} />
+                <MaterialIcon name="check_circle" size={48} color={colors['neutral-900']} />
                 <div>
                   <div style={dropzoneTextStyles}>{selectedFile.name}</div>
                   <div style={{ fontSize: '12px', color: colors['neutral-500'], marginTop: spacing.xs }}>
@@ -260,7 +260,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
                   }}
                   style={{
                     padding: `${spacing.md} ${spacing.lg}`,
-                    backgroundColor: colors['sage-green-500'],
+                    backgroundColor: colors['neutral-900'],
                     color: colors['neutral-white'],
                     border: 'none',
                     borderRadius: '6px',
@@ -270,10 +270,10 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
                     transition: 'all 0.2s ease',
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['sage-green-600'];
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-700'];
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['sage-green-500'];
+                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-900'];
                   }}
                 >
                   Browse files

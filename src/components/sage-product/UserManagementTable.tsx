@@ -79,7 +79,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     width: '32px',
     height: '32px',
     borderRadius: borderRadius.full,
-    backgroundColor: colors['sage-green-500'],
+    backgroundColor: colors['neutral-900'],
     color: colors['neutral-white'],
     display: 'flex',
     alignItems: 'center',
@@ -103,7 +103,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   const roleBadgeMap: Record<string, { bg: string; text: string }> = {
     user: { bg: colors['neutral-100'], text: colors['neutral-900'] },
     admin: { bg: colors['warning-amber'], text: colors['neutral-white'] },
-    'system-admin': { bg: colors['sage-green-500'], text: colors['neutral-white'] },
+    'system-admin': { bg: colors['neutral-900'], text: colors['neutral-white'] },
   };
 
   const getRoleBadgeStyle = (role: string) => {

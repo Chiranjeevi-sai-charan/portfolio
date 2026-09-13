@@ -51,7 +51,7 @@ export default function SageApp() {
         <Link
           to="/case-studies/sage"
           style={{
-            color: '#4CAF50',
+            color: '#111827',
             textDecoration: 'none',
             fontWeight: 600,
             fontSize: '13px',
@@ -68,7 +68,7 @@ export default function SageApp() {
 
         {/* Center: Logo/Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#111827', fontSize: '14px' }}>
-          <MaterialIcon name="psychology" size={18} color="#2E7D32" />
+          <MaterialIcon name="psychology" size={18} color="#111827" />
           Sage Product Demo
         </div>
 
@@ -80,7 +80,7 @@ export default function SageApp() {
               onClick={() => setActiveRole(role.id)}
               style={{
                 padding: '6px 14px',
-                backgroundColor: activeRole === role.id ? '#2E7D32' : '#f3f4f6',
+                backgroundColor: activeRole === role.id ? '#111827' : '#f3f4f6',
                 color: activeRole === role.id ? 'white' : '#374151',
                 border: 'none',
                 borderRadius: '6px',

@@ -148,8 +148,8 @@ export const Select: React.FC<SelectProps> = ({
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLSelectElement>) => {
-    e.currentTarget.style.borderColor = colors['sage-green-500'];
-    e.currentTarget.style.boxShadow = `0 0 0 3px ${colors['sage-green-50']}`;
+    e.currentTarget.style.borderColor = colors['neutral-900'];
+    e.currentTarget.style.boxShadow = `0 0 0 3px ${colors['neutral-100']}`;
     props.onFocus?.(e);
   };
 
