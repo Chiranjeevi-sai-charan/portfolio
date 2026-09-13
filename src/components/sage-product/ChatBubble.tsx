@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { colors, spacing, borderRadius, shadows } from '../../styles/sage/tokens';
 import { MessageActions } from './MessageActions';
+import { MaterialIcon } from './MaterialIcon';
 
 /**
  * ChatBubble Component
@@ -219,7 +220,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       onMouseLeave={() => setIsHovering(false)}
     >
       <div style={avatarContainerStyles}>
-        {avatar || (isUser ? 'U' : '🧠')}
+        {avatar || (isUser ? 'U' : <MaterialIcon name="psychology" size={18} color={colors['sage-green-600']} />)}
       </div>
 
       <div style={{ flex: 1 }}>
@@ -254,7 +255,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                         e.currentTarget.style.backgroundColor = 'transparent';
                       }}
                     >
-                      📎 {citation}
+                      <MaterialIcon name="attach_file" size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {citation}
                     </a>
                   ))}
                 </div>

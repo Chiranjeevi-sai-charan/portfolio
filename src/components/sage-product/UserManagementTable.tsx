@@ -3,6 +3,7 @@ import { colors, spacing, typography, borderRadius } from '../../styles/sage/tok
 import { User, userStorage } from '../../utils/storage';
 import { Input } from './Input';
 import { Button } from './Button';
+import { MaterialIcon } from './MaterialIcon';
 
 interface UserManagementTableProps {
   users: User[];
@@ -166,7 +167,8 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
           )}
           {onAddUserClick && (
             <Button variant="primary" onClick={onAddUserClick}>
-              ➕ Add User
+              <MaterialIcon name="person_add" size={16} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+              Add User
             </Button>
           )}
         </div>
@@ -237,7 +239,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                             (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
                           }}
                         >
-                          🗑️
+                          <MaterialIcon name="delete" size={18} />
                         </button>
                       )}
                     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors, spacing, shadows, typography, componentSizes } from '../../styles/sage/tokens';
+import { MaterialIcon } from './MaterialIcon';
 
 /**
  * Header Component
@@ -272,7 +273,7 @@ export const Header: React.FC<HeaderProps> = ({
           (e.currentTarget as HTMLDivElement).style.color = colors['sage-green-500'];
         }}
       >
-        🧠 {logoText}
+        <MaterialIcon name="psychology" size={20} /> {logoText}
       </div>
 
       {/* Center: Search */}
@@ -288,7 +289,7 @@ export const Header: React.FC<HeaderProps> = ({
             (e.currentTarget as HTMLDivElement).style.backgroundColor = colors['neutral-50'];
           }}
         >
-          <span style={{ fontSize: '16px' }}>🔍</span>
+          <MaterialIcon name="search" size={18} color={colors['neutral-500']} />
           <input
             type="text"
             placeholder={searchPlaceholder}
@@ -321,7 +322,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Notification Bell */}
         <button style={notificationButtonStyles} onClick={onNotificationClick}>
-          🔔
+          <MaterialIcon name="notifications" size={20} />
           {notificationCount > 0 && (
             <div style={badgeStyles}>{notificationCount > 9 ? '9+' : notificationCount}</div>
           )}

@@ -3,6 +3,7 @@ import { colors, spacing, borderRadius, typography } from '../../../styles/sage/
 import { DocumentUpload } from '../DocumentUpload';
 import { DocumentList } from '../DocumentList';
 import { UserManagementTable } from '../UserManagementTable';
+import { MaterialIcon } from '../MaterialIcon';
 import { Document, documentStorage, User, userStorage, initializeMockData } from '../../../utils/storage';
 
 /**
@@ -92,11 +93,11 @@ export const SystemAdminDashboard: React.FC = () => {
   };
 
   const tabs = [
-    { id: 'upload-documents', label: '📤 Upload Document', icon: '📤' },
-    { id: 'active-documents', label: '✅ Active Documents', icon: '✅' },
-    { id: 'archived-documents', label: '📦 Archived Documents', icon: '📦' },
-    { id: 'deleted-documents', label: '🗑️ Deleted Documents', icon: '🗑️' },
-    { id: 'user-management', label: '👥 User Management', icon: '👥' },
+    { id: 'upload-documents', label: 'Upload Document', icon: 'upload_file' },
+    { id: 'active-documents', label: 'Active Documents', icon: 'check_circle' },
+    { id: 'archived-documents', label: 'Archived Documents', icon: 'archive' },
+    { id: 'deleted-documents', label: 'Deleted Documents', icon: 'delete' },
+    { id: 'user-management', label: 'User Management', icon: 'group' },
   ];
 
   const tabsContainerStyles: React.CSSProperties = {
@@ -122,6 +123,7 @@ export const SystemAdminDashboard: React.FC = () => {
               color: activeTab === tab.id ? colors['sage-green-600'] : colors['neutral-600'],
             }}
           >
+            <MaterialIcon name={tab.icon} size={18} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
             {tab.label}
           </button>
         ))}
@@ -181,7 +183,10 @@ export const SystemAdminDashboard: React.FC = () => {
                   <tbody>
                     {deletedDocuments.map((doc) => (
                       <tr key={doc.id} style={{ borderBottom: `1px solid ${colors['neutral-200']}` }}>
-                        <td style={{ padding: spacing.md }}>📄 {doc.name}</td>
+                        <td style={{ padding: spacing.md }}>
+                          <MaterialIcon name="description" size={16} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+                          {doc.name}
+                        </td>
                         <td style={{ padding: spacing.md }}>{doc.department}</td>
                         <td style={{ padding: spacing.md }}>
                           <button
@@ -194,7 +199,8 @@ export const SystemAdminDashboard: React.FC = () => {
                               marginRight: spacing.md,
                             }}
                           >
-                            ↩️ Restore
+                            <MaterialIcon name="restore" size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                            Restore
                           </button>
                           <button
                             onClick={() => {
@@ -210,7 +216,8 @@ export const SystemAdminDashboard: React.FC = () => {
                               color: colors['error-red'],
                             }}
                           >
-                            🗑️ Delete
+                            <MaterialIcon name="delete_forever" size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                            Delete
                           </button>
                         </td>
                       </tr>

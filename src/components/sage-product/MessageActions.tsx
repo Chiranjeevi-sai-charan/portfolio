@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors, spacing, iconSizes } from '../../styles/sage/tokens';
+import { MaterialIcon } from './MaterialIcon';
 
 interface MessageActionsProps {
   onLike?: () => void;
@@ -71,7 +72,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           title="Like this response"
           aria-label="Like"
         >
-          👍
+          <MaterialIcon name="thumb_up" size={compact ? 16 : 18} filled={liked} />
         </button>
       )}
 
@@ -97,7 +98,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           title="Dislike this response"
           aria-label="Dislike"
         >
-          👎
+          <MaterialIcon name="thumb_down" size={compact ? 16 : 18} filled={disliked} />
         </button>
       )}
 
@@ -115,7 +116,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           title="Leave feedback"
           aria-label="Comment"
         >
-          💬
+          <MaterialIcon name="chat_bubble" size={compact ? 16 : 18} />
         </button>
       )}
 
@@ -133,7 +134,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           title="Copy to clipboard"
           aria-label="Copy"
         >
-          📋
+          <MaterialIcon name="content_copy" size={compact ? 16 : 18} />
         </button>
       )}
 
@@ -151,7 +152,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           title="Listen to this response"
           aria-label="Speak"
         >
-          🔊
+          <MaterialIcon name="volume_up" size={compact ? 16 : 18} />
         </button>
       )}
     </div>

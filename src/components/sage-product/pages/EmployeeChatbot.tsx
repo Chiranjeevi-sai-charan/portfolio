@@ -49,25 +49,25 @@ export const EmployeeChatbot: React.FC = () => {
     {
       id: 'chat-1',
       label: 'Vacation Policy Questions',
-      icon: '🏖️',
+      icon: 'beach_access',
       onClick: () => loadConversation('chat-1'),
     },
     {
       id: 'chat-2',
       label: 'Health Insurance Coverage',
-      icon: '🏥',
+      icon: 'local_hospital',
       onClick: () => loadConversation('chat-2'),
     },
     {
       id: 'chat-3',
       label: 'Performance Review Process',
-      icon: '📊',
+      icon: 'bar_chart',
       onClick: () => loadConversation('chat-3'),
     },
     {
       id: 'chat-4',
       label: 'Work from Home Policy',
-      icon: '🏠',
+      icon: 'home',
       onClick: () => loadConversation('chat-4'),
     },
   ];

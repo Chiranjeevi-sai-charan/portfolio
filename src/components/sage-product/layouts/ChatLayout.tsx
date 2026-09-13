@@ -5,6 +5,7 @@ import { Sidebar, SidebarItem } from '../Sidebar';
 import { Input } from '../Input';
 import { Button } from '../Button';
 import { ChatBubble } from '../ChatBubble';
+import { MaterialIcon } from '../MaterialIcon';
 
 /**
  * ChatLayout Component
@@ -156,7 +157,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     {
       id: 'new-chat',
       label: 'New Chat',
-      icon: '➕',
+      icon: 'add',
       onClick: () => console.log('New chat'),
     },
     ...chatHistory,
@@ -264,7 +265,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     title="Use voice input"
                     aria-label="Voice input"
                   >
-                    🎤
+                    <MaterialIcon name="mic" size={20} />
                   </button>
                   {/* Send Button */}
                   <Button
@@ -272,7 +273,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim()}
                   >
-                    ➤
+                    <MaterialIcon name="send" size={18} />
                   </Button>
                 </div>
               </div>

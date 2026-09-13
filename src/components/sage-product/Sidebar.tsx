@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors, spacing, typography, componentSizes, shadows } from '../../styles/sage/tokens';
+import { MaterialIcon } from './MaterialIcon';
 
 /**
  * Sidebar Component
@@ -11,8 +12,8 @@ import { colors, spacing, typography, componentSizes, shadows } from '../../styl
  * @example
  * <Sidebar
  *   items={[
- *     { icon: '💬', label: 'Chatbot', href: '/chat' },
- *     { icon: '📄', label: 'Documents', href: '/docs' },
+ *     { icon: 'chat', label: 'Chatbot', href: '/chat' },
+ *     { icon: 'description', label: 'Documents', href: '/docs' },
  *   ]}
  *   activeItem="Chatbot"
  *   onItemClick={(item) => navigate(item.href)}
@@ -239,7 +240,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           }}
           disabled={item.disabled}
         >
-          <div style={menuItemIconStyles}>{item.icon}</div>
+          <div style={menuItemIconStyles}>
+            <MaterialIcon name={item.icon} size={20} />
+          </div>
           {!collapsed && (
             <>
               <div style={menuItemLabelStyles}>{item.label}</div>
@@ -306,13 +309,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div style={sidebarStyles}>
       {/* Logo Section */}
-      <div style={logoSectionStyles}>{logo || '🧠'}</div>
+      <div style={logoSectionStyles}>{logo || <MaterialIcon name="psychology" size={24} color={colors['sage-green-600']} />}</div>
 
       {/* Department Filter */}
       {departmentFilter && !collapsed && (
         <div style={departmentFilterStyles}>
           <div style={departmentTitleStyles}>
-            <span>🔍</span>
+            <MaterialIcon name="filter_alt" size={18} />
             <span>Chat Filter</span>
           </div>
           {departmentFilter.departments.map((dept) => (

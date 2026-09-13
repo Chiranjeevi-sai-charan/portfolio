@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
+import { MaterialIcon } from './MaterialIcon';
 
 interface DepartmentFilterProps {
   departments: string[];
@@ -59,7 +60,12 @@ export const DepartmentFilter: React.FC<DepartmentFilterProps> = ({
 
   return (
     <div style={containerStyles}>
-      {!collapsed && <div style={titleStyles}>🔍 Chat Filter</div>}
+      {!collapsed && (
+        <div style={titleStyles}>
+          <MaterialIcon name="filter_alt" size={18} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+          Chat Filter
+        </div>
+      )}
       <div style={checkboxGroupStyles}>
         {departments.map((dept) => (
           <label key={dept} style={checkboxStyles} title={dept}>

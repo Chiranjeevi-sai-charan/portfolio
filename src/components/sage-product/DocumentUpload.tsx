@@ -4,6 +4,7 @@ import { Button } from './Button';
 import { Select } from './Select';
 import { Input } from './Input';
 import { Document, documentStorage } from '../../utils/storage';
+import { MaterialIcon } from './MaterialIcon';
 
 interface DocumentUploadProps {
   departments: string[];
@@ -224,7 +225,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
           <div style={dropzoneContentStyles}>
             {selectedFile ? (
               <>
-                <span style={iconStyles}>✅</span>
+                <MaterialIcon name="check_circle" size={48} color={colors['sage-green-500']} />
                 <div>
                   <div style={dropzoneTextStyles}>{selectedFile.name}</div>
                   <div style={{ fontSize: '12px', color: colors['neutral-500'], marginTop: spacing.xs }}>
@@ -241,7 +242,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
               </>
             ) : (
               <>
-                <span style={iconStyles}>📁</span>
+                <MaterialIcon name="folder" size={48} color={colors['neutral-400']} />
                 <div style={dropzoneTextStyles}>Drag & drop files</div>
                 <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
                   OR

@@ -3,6 +3,7 @@ import { colors, spacing, typography, borderRadius } from '../../styles/sage/tok
 import { Document, documentStorage } from '../../utils/storage';
 import { Input } from './Input';
 import { Button } from './Button';
+import { MaterialIcon } from './MaterialIcon';
 
 interface DocumentListProps {
   documents: Document[];
@@ -77,11 +78,11 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   };
 
   const fileIconMap: Record<string, string> = {
-    pdf: '📄',
-    docx: '📝',
-    xlsx: '📊',
-    pptx: '🎨',
-    default: '📁',
+    pdf: 'picture_as_pdf',
+    docx: 'description',
+    xlsx: 'table_chart',
+    pptx: 'slideshow',
+    default: 'folder',
   };
 
   const getFileIcon = (fileName: string): string => {
@@ -149,7 +150,12 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                   }}
                 >
                   <td style={tbodyTdStyles}>
-                    <span style={{ marginRight: spacing.sm }}>{getFileIcon(doc.name)}</span>
+                    <MaterialIcon
+                      name={getFileIcon(doc.name)}
+                      size={18}
+                      color={colors['neutral-500']}
+                      style={{ verticalAlign: 'middle', marginRight: spacing.sm }}
+                    />
                     {doc.name}
                   </td>
                   <td style={tbodyTdStyles}>{doc.department}</td>
@@ -187,7 +193,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                         }}
                         title="Download"
                       >
-                        ⬇️
+                        <MaterialIcon name="download" size={18} />
                       </button>
                       {onDocumentArchive && (
                         <button
@@ -201,7 +207,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                           }}
                           title="Archive"
                         >
-                          📦
+                          <MaterialIcon name="archive" size={18} />
                         </button>
                       )}
                       {onDocumentDelete && (
@@ -220,7 +226,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                           }}
                           title="Delete"
                         >
-                          🗑️
+                          <MaterialIcon name="delete" size={18} />
                         </button>
                       )}
                     </div>
