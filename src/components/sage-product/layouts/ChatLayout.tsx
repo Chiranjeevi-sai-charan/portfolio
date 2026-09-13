@@ -89,15 +89,6 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(sidebarCollapsed);
-  const [selectedDepartments, setSelectedDepartments] = useState<string[]>(['General']);
-
-  const departments = ['General', 'Human Resources (HR)', 'Quality Assurance (QA)'];
-
-  const toggleDepartment = (dept: string) => {
-    setSelectedDepartments((prev) =>
-      prev.includes(dept) ? prev.filter((d) => d !== dept) : [...prev, dept]
-    );
-  };
 
   const handleSendMessage = (text?: string) => {
     const value = (text ?? inputValue).trim();
@@ -348,11 +339,6 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           activeItem={chatHistory[0]?.label}
           onItemClick={(item) => {
             console.log('Chat selected:', item);
-          }}
-          departmentFilter={{
-            departments,
-            selectedDepartments,
-            onDepartmentChange: toggleDepartment,
           }}
           user={{ name: userName, role: userRole }}
           onUserMenuAction={(action) => console.log('User menu action:', action)}

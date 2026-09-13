@@ -29,12 +29,6 @@ export interface SidebarItem {
   children?: SidebarItem[];
 }
 
-interface DepartmentFilterConfig {
-  departments: string[];
-  selectedDepartments: string[];
-  onDepartmentChange: (department: string) => void;
-}
-
 interface SidebarUser {
   name: string;
   role: string;
@@ -59,9 +53,6 @@ interface SidebarProps {
   /** Logo/brand element */
   logo?: React.ReactNode;
 
-  /** Department filter configuration */
-  departmentFilter?: DepartmentFilterConfig;
-
   /** User pinned to the bottom of the sidebar, with a dropdown menu */
   user?: SidebarUser;
 
@@ -76,7 +67,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   collapsed = false,
   onCollapseToggle,
   logo,
-  departmentFilter,
   user,
   onUserMenuAction,
 }) => {
@@ -274,44 +264,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  const departmentFilterStyles: React.CSSProperties = {
-    padding: `${spacing.sm} ${spacing.md}`,
-  };
-
-  const departmentTitleStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['label-sm'],
-    fontWeight: typography.fontWeight.semibold,
-    color: colors['neutral-500'],
-    marginBottom: spacing.sm,
-    display: 'flex',
-    alignItems: 'center',
-    gap: spacing.sm,
-    textTransform: 'uppercase',
-    letterSpacing: '0.4px',
-  };
-
-  const departmentCheckboxStyles: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: spacing.sm,
-    padding: `${spacing.xs} ${spacing.sm}`,
-    cursor: 'pointer',
-  };
-
-  const checkboxInputStyles: React.CSSProperties = {
-    width: '16px',
-    height: '16px',
-    cursor: 'pointer',
-    accentColor: colors['neutral-900'],
-  };
-
-  const checkboxLabelStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['body-sm'],
-    color: colors['neutral-800'] || colors['neutral-900'],
-    cursor: 'pointer',
-    userSelect: 'none',
-  };
-
   const userFooterStyles: React.CSSProperties = {
     position: 'relative',
     borderTop: `1px solid ${colors['neutral-200']}`,
@@ -414,28 +366,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div style={logoSectionStyles}>
         {logo || <MaterialIcon name="psychology" size={22} color={colors['neutral-900']} />}
       </div>
-
-      {/* Department Filter */}
-      {departmentFilter && !collapsed && (
-        <div style={departmentFilterStyles}>
-          <div style={departmentTitleStyles}>
-            <MaterialIcon name="filter_alt" size={16} />
-            <span>Chat Filter</span>
-          </div>
-          {departmentFilter.departments.map((dept) => (
-            <label key={dept} style={departmentCheckboxStyles}>
-              <input
-                type="checkbox"
-                checked={departmentFilter.selectedDepartments.includes(dept)}
-                onChange={() => departmentFilter.onDepartmentChange(dept)}
-                style={checkboxInputStyles}
-                aria-label={`Filter by ${dept}`}
-              />
-              <span style={checkboxLabelStyles}>{dept}</span>
-            </label>
-          ))}
-        </div>
-      )}
 
       {!collapsed && <div style={sectionLabelStyles}>Chats</div>}
 
