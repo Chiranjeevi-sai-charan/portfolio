@@ -181,7 +181,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     gap: spacing.sm,
     padding: `${spacing.sm} ${spacing.sm} ${spacing.sm} ${spacing.lg}`,
     border: `1px solid ${colors['neutral-300']}`,
-    borderRadius: '8px',
+    borderRadius: '16px',
     backgroundColor: colors['neutral-white'],
     boxShadow: shadows.sm,
   };
