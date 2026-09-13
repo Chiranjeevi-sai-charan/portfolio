@@ -19,7 +19,7 @@ export const CONTENT_TYPES = [
 export const SENSITIVITIES = ['Sensitive', 'Non-Sensitive'];
 
 export const ROLE_LABELS: Record<string, string> = {
-  user: 'User',
+  user: 'Employee',
   admin: 'Admin',
   'system-admin': 'System Admin',
 };

@@ -6,6 +6,7 @@ import { DocumentUpload } from '../DocumentUpload';
 import { DocumentList } from '../DocumentList';
 import { UserManagementTable } from '../UserManagementTable';
 import { AddUserModal } from '../AddUserModal';
+import { ConfirmDialog } from '../ConfirmDialog';
 import { MaterialIcon } from '../MaterialIcon';
 import { useToast } from '../ToastProvider';
 import {
@@ -99,6 +100,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
   const [documents, setDocuments] = useState<Document[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [pendingPermanentDeleteDoc, setPendingPermanentDeleteDoc] = useState<Document | null>(null);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -206,6 +208,15 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     userStorage.delete(userId);
     refreshData();
     showToast(user ? `${user.name} removed` : 'User removed', 'success');
+  };
+
+  const handleUserRoleChange = (userId: string, newRole: User['role']) => {
+    const user = userStorage.getById(userId);
+    if (user) {
+      userStorage.save({ ...user, role: newRole });
+      refreshData();
+      showToast(`${user.name}'s role changed to ${ROLE_LABELS[newRole]}`, 'success');
+    }
   };
 
   const handleUserCreate = (newUser: Omit<User, 'id' | 'createdAt'>) => {
@@ -371,13 +382,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
                             Restore
                           </button>
                           <button
-                            onClick={() => {
-                              if (confirm(`Permanently delete "${doc.name}"?`)) {
-                                documentStorage.delete(doc.id);
-                                refreshData();
-                                showToast(`"${doc.name}" permanently deleted`, 'success');
-                              }
-                            }}
+                            onClick={() => setPendingPermanentDeleteDoc(doc)}
                             style={{ background: 'none', border: 'none', cursor: 'pointer', color: colors['error-red'] }}
                           >
                             <MaterialIcon name="delete_forever" size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
@@ -393,6 +398,22 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        isOpen={!!pendingPermanentDeleteDoc}
+        title="Permanently Delete Document"
+        message={`Permanently delete "${pendingPermanentDeleteDoc?.name}"? This cannot be undone.`}
+        confirmLabel="Delete Permanently"
+        onConfirm={() => {
+          if (pendingPermanentDeleteDoc) {
+            documentStorage.delete(pendingPermanentDeleteDoc.id);
+            refreshData();
+            showToast(`"${pendingPermanentDeleteDoc.name}" permanently deleted`, 'success');
+          }
+          setPendingPermanentDeleteDoc(null);
+        }}
+        onCancel={() => setPendingPermanentDeleteDoc(null)}
+      />
     </div>
   );
 
@@ -410,6 +431,9 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
           showSearch
           showDepartmentFilter={isSystemAdmin}
           deletableRoles={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
+          canEditRoles={isSystemAdmin}
+          roleOptions={['user', 'admin', 'system-admin']}
+          onRoleChange={isSystemAdmin ? handleUserRoleChange : undefined}
           onUserDelete={handleUserDelete}
           onAddUserClick={() => setShowAddUserModal(true)}
         />

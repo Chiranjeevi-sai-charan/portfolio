@@ -36,6 +36,7 @@ export { Avatar, AvatarGroup } from "./Avatar";
 
 // Modal & Overlay Components
 export { Modal, type ModalAction } from "./Modal";
+export { ConfirmDialog } from "./ConfirmDialog";
 export { Dropdown, type DropdownItem } from "./Dropdown";
 export { Alert } from "./Alert";
 export { Toast } from "./Toast";

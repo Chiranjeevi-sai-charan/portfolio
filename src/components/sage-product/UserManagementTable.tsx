@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
 import { User } from '../../utils/storage';
+import { ROLE_LABELS } from '../../utils/sageConstants';
 import { Input } from './Input';
 import { Button } from './Button';
 import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
+import { ConfirmDialog } from './ConfirmDialog';
 
 interface UserManagementTableProps {
   users: User[];
@@ -13,16 +15,20 @@ interface UserManagementTableProps {
   showDepartmentFilter?: boolean;
   /** Roles the current viewer is allowed to delete (e.g. an Admin cannot remove a System Admin) */
   deletableRoles?: Array<User['role']>;
+  /** Whether the viewer can change a user's role inline (System Admin only) */
+  canEditRoles?: boolean;
+  /** Roles assignable when editing (used alongside canEditRoles) */
+  roleOptions?: Array<User['role']>;
   onUserDelete?: (userId: string) => void;
-  onUserUpdate?: (user: User) => void;
+  onRoleChange?: (userId: string, newRole: User['role']) => void;
   onAddUserClick?: () => void;
 }
 
 const ROLE_TABS: { id: 'all' | User['role']; label: string }[] = [
   { id: 'all', label: 'All' },
-  { id: 'user', label: 'User' },
-  { id: 'admin', label: 'Admin' },
-  { id: 'system-admin', label: 'System Admin' },
+  { id: 'user', label: ROLE_LABELS['user'] },
+  { id: 'admin', label: ROLE_LABELS['admin'] },
+  { id: 'system-admin', label: ROLE_LABELS['system-admin'] },
 ];
 
 export const UserManagementTable: React.FC<UserManagementTableProps> = ({
@@ -30,13 +36,16 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   showSearch = true,
   showDepartmentFilter = false,
   deletableRoles = ['user', 'admin', 'system-admin'],
+  canEditRoles = false,
+  roleOptions = ['user', 'admin', 'system-admin'],
   onUserDelete,
-  onUserUpdate,
+  onRoleChange,
   onAddUserClick,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleTab, setRoleTab] = useState<'all' | User['role']>('all');
   const [departmentFilter, setDepartmentFilter] = useState('');
+  const [pendingDeleteUser, setPendingDeleteUser] = useState<User | null>(null);
 
   const departmentOptions = useMemo(
     () => Array.from(new Set(users.map((u) => u.department))).sort(),
@@ -107,14 +116,15 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     width: '32px',
     height: '32px',
     borderRadius: borderRadius.full,
-    backgroundColor: colors['neutral-900'],
-    color: colors['neutral-white'],
+    backgroundColor: colors['neutral-100'],
+    color: colors['neutral-600'],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 600,
     fontSize: '12px',
     marginRight: spacing.sm,
+    flexShrink: 0,
   };
 
   const userNameStyles: React.CSSProperties = {
@@ -146,6 +156,10 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
       display: 'inline-block',
       textTransform: 'uppercase' as const,
     };
+  };
+
+  const roleSelectStyles: React.CSSProperties = {
+    width: '160px',
   };
 
   const departmentPillStyles: React.CSSProperties = {
@@ -280,9 +294,17 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                     </div>
                   </td>
                   <td style={tbodyTdStyles}>
-                    <div style={getRoleBadgeStyle(user.role)}>
-                      {user.role === 'system-admin' ? 'System Admin' : user.role}
-                    </div>
+                    {canEditRoles && onRoleChange ? (
+                      <div style={roleSelectStyles}>
+                        <Select
+                          value={user.role}
+                          onChange={(e) => onRoleChange(user.id, e.target.value as User['role'])}
+                          options={roleOptions.map((r) => ({ label: ROLE_LABELS[r], value: r }))}
+                        />
+                      </div>
+                    ) : (
+                      <div style={getRoleBadgeStyle(user.role)}>{ROLE_LABELS[user.role] || user.role}</div>
+                    )}
                   </td>
                   <td style={tbodyTdStyles}>
                     <div style={departmentPillStyles}>{user.department}</div>
@@ -291,11 +313,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                     <div style={{ display: 'flex', gap: spacing.sm }}>
                       {onUserDelete && deletableRoles.includes(user.role) && (
                         <button
-                          onClick={() => {
-                            if (confirm(`Delete user "${user.name}"?`)) {
-                              onUserDelete?.(user.id);
-                            }
-                          }}
+                          onClick={() => setPendingDeleteUser(user)}
                           style={{
                             ...actionButtonStyles,
                             color: colors['error-red'],
@@ -319,6 +337,18 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
           </table>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!pendingDeleteUser}
+        title="Delete User"
+        message={`Delete user "${pendingDeleteUser?.name}"? This cannot be undone.`}
+        confirmLabel="Delete"
+        onConfirm={() => {
+          if (pendingDeleteUser) onUserDelete?.(pendingDeleteUser.id);
+          setPendingDeleteUser(null);
+        }}
+        onCancel={() => setPendingDeleteUser(null)}
+      />
     </div>
   );
 };

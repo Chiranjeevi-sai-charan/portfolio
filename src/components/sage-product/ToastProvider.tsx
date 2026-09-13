@@ -49,11 +49,10 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const stackStyles: React.CSSProperties = {
     position: 'fixed',
     bottom: spacing.xl,
-    left: '50%',
-    transform: 'translateX(-50%)',
+    right: spacing.xl,
     display: 'flex',
     flexDirection: 'column-reverse',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: spacing.sm,
     zIndex: 9999,
     pointerEvents: 'none',

@@ -5,6 +5,7 @@ import { Input } from './Input';
 import { Button } from './Button';
 import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
+import { ConfirmDialog } from './ConfirmDialog';
 
 interface DocumentListProps {
   documents: Document[];
@@ -26,6 +27,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   const [departmentFilter, setDepartmentFilter] = useState('');
   const [sensitivityFilter, setSensitivityFilter] = useState('');
   const [contentTypeFilter, setContentTypeFilter] = useState('');
+  const [pendingDeleteDoc, setPendingDeleteDoc] = useState<Document | null>(null);
 
   const departmentOptions = useMemo(
     () => Array.from(new Set(documents.map((d) => d.department))).sort(),
@@ -252,11 +254,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                       </button>
                       {onDocumentDelete && (
                         <button
-                          onClick={() => {
-                            if (confirm(`Delete "${doc.name}"?`)) {
-                              onDocumentDelete?.(doc.id);
-                            }
-                          }}
+                          onClick={() => setPendingDeleteDoc(doc)}
                           style={{
                             ...actionButtonStyles,
                             background: 'none',
@@ -277,6 +275,18 @@ export const DocumentList: React.FC<DocumentListProps> = ({
           </table>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!pendingDeleteDoc}
+        title="Delete Document"
+        message={`Delete "${pendingDeleteDoc?.name}"? This cannot be undone.`}
+        confirmLabel="Delete"
+        onConfirm={() => {
+          if (pendingDeleteDoc) onDocumentDelete?.(pendingDeleteDoc.id);
+          setPendingDeleteDoc(null);
+        }}
+        onCancel={() => setPendingDeleteDoc(null)}
+      />
     </div>
   );
 };
