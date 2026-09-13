@@ -436,7 +436,7 @@ export default function CaseStudy() {
 
           <Reveal delay={0.1}>
             <div style={{ marginTop: 64 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 24, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 24, fontWeight: 700, color: "var(--ink)" }}>
               Project Overview
             </h2>
             <div style={{
@@ -535,7 +535,7 @@ export default function CaseStudy() {
       {caseStudy.problem && (
         <Reveal delay={0.2}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               The Problem
             </h2>
 
@@ -716,7 +716,7 @@ export default function CaseStudy() {
       {caseStudy.research && (
         <Reveal delay={0.3}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               Research
             </h2>
 
@@ -1119,7 +1119,7 @@ export default function CaseStudy() {
       {caseStudy.ideation && (
         <Reveal delay={0.35}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               Ideation
             </h2>
 
@@ -1225,7 +1225,7 @@ export default function CaseStudy() {
             {/* WIREFRAMES SECTION */}
             <div style={{ marginBottom: 48 }}>
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
-                Wireframes (v1)
+                Wireframes (V 1)
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
                 {caseStudy.ideation.wireframes.status}
@@ -1259,7 +1259,7 @@ export default function CaseStudy() {
       {caseStudy.design && (
         <Reveal delay={0.4}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               Design
             </h2>
 
