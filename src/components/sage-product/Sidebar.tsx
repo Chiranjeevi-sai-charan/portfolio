@@ -173,6 +173,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const menuStyles: React.CSSProperties = {
     flex: 1,
     overflowY: 'auto',
+    overflowX: 'hidden',
     padding: `0 ${spacing.sm}`,
     display: 'flex',
     flexDirection: 'column',
@@ -273,15 +274,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     margin: `${spacing.xs} 0`,
   };
 
-  const ITEM_MENU_ACTIONS = [
-    { id: 'share', label: 'Share', icon: 'ios_share' },
-    { id: 'rename', label: 'Rename', icon: 'edit' },
-  ];
-
-  const ITEM_MENU_ACTIONS_2 = [
-    { id: 'pin', label: 'Pin chat', icon: 'push_pin' },
-    { id: 'archive', label: 'Archive', icon: 'archive' },
-  ];
+  const ITEM_MENU_ACTIONS = [{ id: 'rename', label: 'Rename', icon: 'edit' }];
 
   const badgeStyles: React.CSSProperties = {
     backgroundColor: colors['neutral-900'],
@@ -383,26 +376,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {openItemMenuKey === key && (
           <div style={itemMenuPopupStyles} data-sidebar-item-menu>
             {ITEM_MENU_ACTIONS.map((action) => (
-              <button
-                key={action.id}
-                style={itemMenuActionStyles()}
-                onClick={() => {
-                  setOpenItemMenuKey(null);
-                  onItemMenuAction?.(item, action.id);
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                }}
-              >
-                <MaterialIcon name={action.icon} size={18} color={colors['neutral-700']} />
-                {action.label}
-              </button>
-            ))}
-            <div style={itemMenuDividerStyles} />
-            {ITEM_MENU_ACTIONS_2.map((action) => (
               <button
                 key={action.id}
                 style={itemMenuActionStyles()}

@@ -256,24 +256,39 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           )}
         </div>
 
-        {/* Message Actions */}
-        {!loading && !isUser && (isHovering || feedback) && (
-          <MessageActions
-            liked={feedback === 'liked'}
-            disliked={feedback === 'disliked'}
-            onLike={handleLike}
-            onDislike={handleDislike}
-            onComment={onComment}
-            onCopy={handleCopy}
-            onSpeak={handleSpeak}
-            onShare={handleShare}
-            onRegenerate={handleRegenerate}
-            compact
-          />
+        {/* Message Actions — always reserve the same height so hovering never
+            shifts the content below (visibility is toggled, not mounting) */}
+        {!loading && !isUser && (
+          <div
+            style={{
+              height: '30px',
+              visibility: isHovering || feedback ? 'visible' : 'hidden',
+            }}
+          >
+            <MessageActions
+              liked={feedback === 'liked'}
+              disliked={feedback === 'disliked'}
+              onLike={handleLike}
+              onDislike={handleDislike}
+              onComment={onComment}
+              onCopy={handleCopy}
+              onSpeak={handleSpeak}
+              onShare={handleShare}
+              onRegenerate={handleRegenerate}
+              compact
+            />
+          </div>
         )}
 
-        {!loading && isUser && isHovering && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {!loading && isUser && (
+          <div
+            style={{
+              height: '30px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              visibility: isHovering ? 'visible' : 'hidden',
+            }}
+          >
             <MessageActions onCopy={handleCopy} onShare={handleShare} onEdit={handleEdit} compact />
           </div>
         )}
