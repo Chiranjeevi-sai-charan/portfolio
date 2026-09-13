@@ -199,15 +199,15 @@ const CASE_STUDY_DATA = {
       conceptDevelopment: {
         intro: "Brainstorming gave us eight solutions. The next question: How do these live together in a coherent system?",
         rejectedDirections: [
-          { name: "Concept A: Unified Chat-First", premise: "Everything funnels through the conversational interface.", strength: "Simplicity.", weakness: "Admin features feel bolted-on.", reason: "Rejected" },
-          { name: "Concept B: Three Separate Products", premise: "Three completely separate interfaces.", strength: "Each optimized for its user.", weakness: "Lack of coherence. Users feel like three products.", reason: "Rejected" }
+          { name: "Concept A: Unified Chat-First", premise: "Everything funnels through the conversational interface.", strength: "Simplicity.", weakness: "Complex admin workflows lose efficiency when forced through a conversational interface.", reason: "Rejected" },
+          { name: "Concept B: Three Separate Products", premise: "Three completely separate interfaces.", strength: "Each optimized for its user.", weakness: "Lack of coherence. Users feel like two separate products.", reason: "Rejected" }
         ],
         selectedConcept: {
-          name: "Concept C: Progressive Disclosure with Unified Header",
-          premise: "Same Sage system with unified header. Different experiences based on role.",
+          name: "Concept C: Unified System with Role-Based Features",
+          premise: "One unified system where all users access the chatbot and admins unlock additional management tools.",
           strength: "Unified system identity.",
-          description: "All users share a common header. Employees see chatbot. Admins see management tools. System admins see full dashboard.",
-          keyInterfaces: ["Chatbot Canvas with source document sidebar", "Admin Dashboard with navigation and quick actions", "Role-Based Entry Points for different user types"]
+          description: "Keeping the interface clean for everyday users while giving admins the controls they need.",
+          keyInterfaces: ["Chatbot Canvas with source document sidebar", "Admin Dashboard with navigation and quick actions", "Role-Based Menu Access for management features"]
         }
       },
       wireframes: {
