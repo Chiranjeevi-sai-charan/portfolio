@@ -18,6 +18,9 @@ export { Sidebar, type SidebarItem } from "./Sidebar";
 export { Tabs } from "./Tabs";
 export { Breadcrumbs } from "./Breadcrumbs";
 
+// Icons
+export { MaterialIcon } from "./MaterialIcon";
+
 // Content Display Components
 export { ChatBubble } from "./ChatBubble";
 export { MessageActions } from "./MessageActions";

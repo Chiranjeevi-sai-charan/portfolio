@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard } from '../../components/sage-product';
+import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon } from '../../components/sage-product';
 
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
@@ -9,21 +9,21 @@ export default function SageApp() {
     {
       id: 'employee',
       label: 'Employee',
-      icon: '👤',
+      icon: 'person',
       description: 'Try the AI-powered chatbot',
       component: EmployeeChatbot,
     },
     {
       id: 'hr-admin',
       label: 'HR Admin',
-      icon: '👥',
+      icon: 'group',
       description: 'Manage employees & policies',
       component: AdminDashboard,
     },
     {
       id: 'system-admin',
       label: 'System Admin',
-      icon: '⚙️',
+      icon: 'settings',
       description: 'System controls & settings',
       component: SystemAdminDashboard,
     },
@@ -68,7 +68,7 @@ export default function SageApp() {
 
         {/* Center: Logo/Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#111827', fontSize: '14px' }}>
-          <span style={{ fontSize: '18px' }}>🧠</span>
+          <MaterialIcon name="psychology" size={18} color="#2E7D32" />
           Sage Product Demo
         </div>
 
@@ -105,7 +105,8 @@ export default function SageApp() {
                 }
               }}
             >
-              {role.icon} {role.label}
+              <MaterialIcon name={role.icon} size={16} />
+              {role.label}
             </button>
           ))}
         </div>

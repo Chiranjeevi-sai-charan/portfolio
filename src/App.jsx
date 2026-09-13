@@ -47,6 +47,7 @@ function AppContent() {
 
   return (
     <>
+      {!isSageRoute && <CustomCursor />}
       {!isSageRoute && <Nav />}
       <AnimatedRoutes />
     </>
@@ -56,7 +57,6 @@ function AppContent() {
 export default function App() {
   return (
     <SmoothScroll>
-      <CustomCursor />
       <BrowserRouter>
         <AppContent />
       </BrowserRouter>
