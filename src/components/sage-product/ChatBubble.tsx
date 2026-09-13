@@ -3,6 +3,7 @@ import { colors, spacing, borderRadius, shadows } from '../../styles/sage/tokens
 import { MessageActions } from './MessageActions';
 import { MaterialIcon } from './MaterialIcon';
 import { useToast } from './ToastProvider';
+import { localizeCitation, Language } from '../../utils/mockAIResponses';
 
 /**
  * ChatBubble Component
@@ -41,6 +42,9 @@ interface ChatBubbleProps {
 
   /** Called when a citation link is clicked, to open the source document viewer */
   onCitationClick?: (citation: string) => void;
+
+  /** Display language for citation labels */
+  language?: Language;
 
   /** Timestamp of the message */
   timestamp?: string;
@@ -101,6 +105,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   message,
   citations,
   onCitationClick,
+  language = 'en',
   loading = false,
   onLike,
   onDislike,
@@ -301,7 +306,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
               {citations && citations.length > 0 && !isUser && (
                 <div style={citationsContainerStyles}>
-                  <div style={citationsHeaderStyles}>Sources</div>
+                  <div style={citationsHeaderStyles}>{language === 'ja' ? '出典' : 'Sources'}</div>
                   {citations.map((citation, idx) => (
                     <a
                       key={idx}
@@ -311,7 +316,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                         e.preventDefault();
                         onCitationClick?.(citation);
                       }}
-                      title={`View source: ${citation}`}
+                      title={`${language === 'ja' ? '出典を見る' : 'View source'}: ${localizeCitation(citation, language)}`}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = colors['neutral-100'];
                       }}
@@ -319,7 +324,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                         e.currentTarget.style.backgroundColor = 'transparent';
                       }}
                     >
-                      <MaterialIcon name="attach_file" size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {citation}
+                      <MaterialIcon name="attach_file" size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {localizeCitation(citation, language)}
                     </a>
                   ))}
                 </div>

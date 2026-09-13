@@ -30,10 +30,10 @@ interface Conversation {
 }
 
 const SEED_CONVERSATIONS: Conversation[] = [
-  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'beach_access' },
-  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'local_hospital' },
-  { id: 'chat-3', title: 'Performance Review Process', icon: 'bar_chart' },
-  { id: 'chat-4', title: 'Work from Home Policy', icon: 'home' },
+  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'chat' },
+  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'chat' },
+  { id: 'chat-3', title: 'Performance Review Process', icon: 'chat' },
+  { id: 'chat-4', title: 'Work from Home Policy', icon: 'chat' },
 ];
 
 /**
@@ -49,6 +49,7 @@ export const EmployeeChatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>(SEED_CONVERSATIONS);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
+  const [language, setLanguage] = useState<'en' | 'ja'>('en');
 
   const chatHistory: SidebarItem[] = conversations.map((c) => ({
     id: c.id,
@@ -105,7 +106,7 @@ export const EmployeeChatbot: React.FC = () => {
 
     // Simulate AI response delay
     setTimeout(() => {
-      const response = generateAIResponse(userMessage);
+      const response = generateAIResponse(userMessage, language);
       const aiMsg: Message = {
         id: String(Date.now() + 1),
         type: 'ai',
@@ -127,14 +128,16 @@ export const EmployeeChatbot: React.FC = () => {
     <div style={containerStyles}>
       <ChatLayout
         userRole="Employee"
-        userName="Sai Ganesh"
+        userName="Aditya"
         userDepartment="Human Resources (HR)"
-        userInitials="SG"
+        userInitials="A"
         messages={messages}
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}
         onNewChat={handleNewChat}
         onChatMenuAction={handleChatMenuAction}
+        language={language}
+        onLanguageChange={setLanguage}
       />
     </div>
   );

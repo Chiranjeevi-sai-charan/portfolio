@@ -75,14 +75,43 @@ interface ChatLayoutProps {
 
   /** CSS class name */
   className?: string;
+
+  /** Current interface language */
+  language?: 'en' | 'ja';
+
+  /** Called when the user switches the language toggle */
+  onLanguageChange?: (language: 'en' | 'ja') => void;
 }
 
-const SUGGESTIONS = [
-  { icon: 'event_available', label: 'How many vacation days do I have left?' },
-  { icon: 'health_and_safety', label: 'What does our health insurance cover?' },
-  { icon: 'home_work', label: 'What is the work-from-home policy?' },
-  { icon: 'menu_book', label: 'Where can I find the employee handbook?' },
-];
+const SUGGESTIONS: Record<'en' | 'ja', { icon: string; label: string }[]> = {
+  en: [
+    { icon: 'event_available', label: 'How many vacation days do I have left?' },
+    { icon: 'health_and_safety', label: 'What does our health insurance cover?' },
+    { icon: 'home_work', label: 'What is the work-from-home policy?' },
+    { icon: 'menu_book', label: 'Where can I find the employee handbook?' },
+  ],
+  ja: [
+    { icon: 'event_available', label: '残りの有給休暇は何日ありますか？' },
+    { icon: 'health_and_safety', label: '健康保険の保障内容を教えてください' },
+    { icon: 'home_work', label: '在宅勤務の規定を教えてください' },
+    { icon: 'menu_book', label: '従業員ハンドブックはどこで見られますか？' },
+  ],
+};
+
+const STRINGS = {
+  en: {
+    newChat: 'New Chat',
+    chats: 'Chats',
+    greeting: "What's on your mind today?",
+    placeholder: 'Ask anything',
+  },
+  ja: {
+    newChat: '新しいチャット',
+    chats: 'チャット',
+    greeting: '今日は何について知りたいですか？',
+    placeholder: '何でも聞いてください',
+  },
+};
 
 /**
  * ChatLayout - Employee chatbot layout
@@ -107,10 +136,13 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   managementLinks,
   onUserMenuAction,
   className = '',
+  language = 'en',
+  onLanguageChange,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(sidebarCollapsed);
   const [selectedCitation, setSelectedCitation] = useState<string | null>(null);
+  const t = STRINGS[language];
 
   const handleSendMessage = (text?: string) => {
     const value = (text ?? inputValue).trim();
@@ -225,7 +257,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const sendButtonStyles = (enabled: boolean): React.CSSProperties => ({
     ...roundIconButtonStyles,
-    backgroundColor: enabled ? colors['accent-blue'] : colors['neutral-200'],
+    backgroundColor: enabled ? colors['neutral-900'] : colors['neutral-200'],
     color: colors['neutral-white'],
     cursor: enabled ? 'pointer' : 'not-allowed',
   });
@@ -267,15 +299,13 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const defaultSidebarItems: SidebarItem[] = [
     {
-      label: 'New Chat',
+      id: 'new-chat',
+      label: t.newChat,
       icon: 'add',
     },
     {
-      label: 'Saved',
-      icon: 'bookmark',
-    },
-    {
-      label: 'Chats',
+      id: 'chats',
+      label: t.chats,
       icon: 'chat',
       children: chatHistory,
     },
@@ -285,7 +315,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     <div style={pillInputWrapperStyles}>
       <input
         style={pillInputStyles}
-        placeholder="Ask anything"
+        placeholder={t.placeholder}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={(e) => {
@@ -332,7 +362,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           onCollapseToggle={() => setIsCollapsed(!isCollapsed)}
           activeItemId={chatHistory[0]?.id}
           onItemClick={(item) => {
-            if (item.label === 'New Chat') {
+            if (item.id === 'new-chat') {
               onNewChat?.();
             } else {
               console.log('Chat selected:', item);
@@ -342,6 +372,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           onUserMenuAction={onUserMenuAction ?? ((action) => console.log('User menu action:', action))}
           onItemMenuAction={onChatMenuAction}
           managementLinks={managementLinks}
+          language={language}
+          onLanguageChange={onLanguageChange}
         />
 
         {/* Main Chat Area */}
@@ -350,10 +382,10 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
             children
           ) : messages.length === 0 ? (
             <div style={emptyStateStyles}>
-              <div style={greetingStyles}>What's on your mind today?</div>
+              <div style={greetingStyles}>{t.greeting}</div>
               <div style={pillFormStyles}>{renderPillInput()}</div>
               <div style={suggestionsListStyles}>
-                {SUGGESTIONS.map((s) => (
+                {SUGGESTIONS[language].map((s) => (
                   <button
                     key={s.label}
                     style={suggestionRowItemStyles}
@@ -382,6 +414,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     message={msg.content}
                     type={msg.type}
                     citations={msg.citations}
+                    language={language}
                     loading={msg.type === 'ai' && !msg.content}
                     timestamp={msg.timestamp}
                     liked={(msg as any).liked}
@@ -401,7 +434,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
             </>
           )}
 
-          <DocumentPanel citation={selectedCitation} onClose={() => setSelectedCitation(null)} />
+          <DocumentPanel citation={selectedCitation} onClose={() => setSelectedCitation(null)} language={language} />
         </div>
       </div>
     </div>

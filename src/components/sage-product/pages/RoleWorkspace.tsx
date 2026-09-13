@@ -48,21 +48,24 @@ type ActiveView = 'chat' | 'documents' | 'user-management';
 interface RoleWorkspaceProps {
   role: 'admin' | 'system-admin';
   userName: string;
+  /** Recorded as the uploader on documents this user uploads */
+  userEmail?: string;
   /** Required for admin (their own department); ignored for system-admin, who sees every department */
   department?: string;
 }
 
 const SEED_CONVERSATIONS: Conversation[] = [
-  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'beach_access' },
-  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'local_hospital' },
+  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'chat' },
+  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'chat' },
 ];
 
-export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, department }) => {
+export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, userEmail, department }) => {
   const isSystemAdmin = role === 'system-admin';
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>(SEED_CONVERSATIONS);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
+  const [language, setLanguage] = useState<'en' | 'ja'>('en');
   const [activeView, setActiveView] = useState<ActiveView>('chat');
   const [documentTab, setDocumentTab] = useState<'upload' | 'active' | 'archived' | 'deleted'>('upload');
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -80,7 +83,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     const allDocs = documentStorage.getAll();
     const allUsers = userStorage.getAll();
     setDocuments(isSystemAdmin ? allDocs : allDocs.filter((d) => d.department === department));
-    setUsers(isSystemAdmin ? allUsers : allUsers.filter((u) => u.department === department));
+    setUsers(isSystemAdmin ? allUsers : allUsers.filter((u) => u.departments.includes(department || '')));
   };
 
   const chatHistory: SidebarItem[] = conversations.map((c) => ({
@@ -134,7 +137,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     setMessages((prev) => [...prev, userMsg]);
 
     setTimeout(() => {
-      const response = generateAIResponse(userMessage);
+      const response = generateAIResponse(userMessage, language);
       const aiMsg: Message = {
         id: String(Date.now() + 1),
         type: 'ai',
@@ -198,10 +201,16 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     showToast(`${newUser.name} added as ${ROLE_LABELS[newUser.role]}`, 'success');
   };
 
-  const managementLinks = [
-    { id: 'documents', label: 'Documents', icon: 'description' },
-    { id: 'user-management', label: 'User Management', icon: 'group' },
-  ];
+  const managementLinks =
+    language === 'ja'
+      ? [
+          { id: 'documents', label: 'ドキュメント', icon: 'description' },
+          { id: 'user-management', label: 'ユーザー管理', icon: 'group' },
+        ]
+      : [
+          { id: 'documents', label: 'Documents', icon: 'description' },
+          { id: 'user-management', label: 'User Management', icon: 'group' },
+        ];
 
   const activeDocuments = documents.filter((d) => d.status === 'active');
   const archivedDocuments = documents.filter((d) => d.status === 'archived');
@@ -242,17 +251,13 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     overflowY: 'auto',
   };
 
-  // Admins only view Active Documents for their own department; System Admin
-  // additionally sees Archived and Deleted (and can restore/permanently delete).
+  // Both Admins and System Admin can view Active, Archived, and Deleted
+  // documents (scoped to their own department for Admins).
   const docTabs: { id: typeof documentTab; label: string; icon: string }[] = [
     { id: 'upload', label: 'Upload Document', icon: 'upload_file' },
     { id: 'active', label: 'Active Documents', icon: 'check_circle' },
-    ...(isSystemAdmin
-      ? [
-          { id: 'archived' as const, label: 'Archived Documents', icon: 'archive' },
-          { id: 'deleted' as const, label: 'Deleted Documents', icon: 'delete' },
-        ]
-      : []),
+    { id: 'archived', label: 'Archived Documents', icon: 'archive' },
+    { id: 'deleted', label: 'Deleted Documents', icon: 'delete' },
   ];
 
   const renderDocumentsView = () => (
@@ -294,6 +299,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
             contentTypes={CONTENT_TYPES}
             sensitivities={SENSITIVITIES}
             lockedDepartment={isSystemAdmin ? undefined : department}
+            uploadedBy={userEmail || userName}
             onUploadSuccess={refreshData}
           />
         )}
@@ -306,16 +312,16 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}
-        {documentTab === 'archived' && isSystemAdmin && (
+        {documentTab === 'archived' && (
           <DocumentList
             documents={archivedDocuments}
             showSearch
-            showDepartmentFilter
+            showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={handleDocumentDelete}
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}
-        {documentTab === 'deleted' && isSystemAdmin && (
+        {documentTab === 'deleted' && (
           <div style={{ padding: spacing.lg }}>
             <div style={{ fontSize: typography.fontSize['h3'], fontWeight: 600, marginBottom: spacing.md }}>
               Deleted Documents
@@ -400,9 +406,9 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
           showSearch
           showDepartmentFilter={isSystemAdmin}
           deletableRoles={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
-          canEditRoles={isSystemAdmin}
-          roleOptions={['user', 'admin', 'system-admin']}
-          onRoleChange={isSystemAdmin ? handleUserRoleChange : undefined}
+          canEditRoles
+          roleOptions={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
+          onRoleChange={handleUserRoleChange}
           onUserDelete={handleUserDelete}
           onAddUserClick={() => setShowAddUserModal(true)}
         />
@@ -431,6 +437,8 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
         onChatMenuAction={handleChatMenuAction}
         managementLinks={managementLinks}
         onUserMenuAction={handleUserMenuAction}
+        language={language}
+        onLanguageChange={setLanguage}
       >
         {activeView === 'chat'
           ? undefined

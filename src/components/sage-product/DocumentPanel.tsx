@@ -2,6 +2,7 @@ import React from 'react';
 import { colors, spacing, typography, borderRadius, shadows } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 import { getMockDocument } from '../../utils/mockDocuments';
+import { Language } from '../../utils/mockAIResponses';
 import { useToast } from './ToastProvider';
 
 /**
@@ -25,16 +26,22 @@ interface DocumentPanelProps {
   /** Citation name to look up mock content for. Panel is hidden when null. */
   citation: string | null;
   onClose: () => void;
+  /** Language to render the source document in */
+  language?: Language;
 }
 
-export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose }) => {
+export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose, language = 'en' }) => {
   const isOpen = !!citation;
-  const doc = citation ? getMockDocument(citation) : null;
+  const doc = citation ? getMockDocument(citation, language) : null;
   const { showToast } = useToast();
+  const isJa = language === 'ja';
 
   const handleDownload = () => {
     if (!doc) return;
-    showToast(`Downloading "${doc.title}.pdf"...`, 'info');
+    showToast(
+      isJa ? `"${doc.title}.pdf" をダウンロード中...` : `Downloading "${doc.title}.pdf"...`,
+      'info'
+    );
   };
 
   const overlayStyles: React.CSSProperties = {
@@ -160,8 +167,8 @@ export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose 
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
               }}
-              title="Download PDF"
-              aria-label="Download PDF"
+              title={isJa ? 'PDFをダウンロード' : 'Download PDF'}
+              aria-label={isJa ? 'PDFをダウンロード' : 'Download PDF'}
             >
               <MaterialIcon name="download" size={20} />
             </button>
@@ -174,8 +181,8 @@ export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose 
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
               }}
-              title="Close"
-              aria-label="Close document viewer"
+              title={isJa ? '閉じる' : 'Close'}
+              aria-label={isJa ? '閉じる' : 'Close document viewer'}
             >
               <MaterialIcon name="close" size={20} />
             </button>
@@ -197,7 +204,9 @@ export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose 
                 )
               )}
               <div style={footerNoteStyles}>
-                Highlighted passage is the source for the assistant's answer.
+                {isJa
+                  ? 'ハイライトされた箇所がアシスタントの回答の出典です。'
+                  : "Highlighted passage is the source for the assistant's answer."}
               </div>
             </div>
           )}

@@ -48,7 +48,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   const [pendingDeleteUser, setPendingDeleteUser] = useState<User | null>(null);
 
   const departmentOptions = useMemo(
-    () => Array.from(new Set(users.map((u) => u.department))).sort(),
+    () => Array.from(new Set(users.flatMap((u) => u.departments))).sort(),
     [users]
   );
 
@@ -62,7 +62,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
 
   const filteredUsers = users.filter((user) => {
     const matchesRole = roleTab === 'all' || user.role === roleTab;
-    const matchesDepartment = !departmentFilter || user.department === departmentFilter;
+    const matchesDepartment = !departmentFilter || user.departments.includes(departmentFilter);
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase());
@@ -307,7 +307,9 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                     )}
                   </td>
                   <td style={tbodyTdStyles}>
-                    <div style={departmentPillStyles}>{user.department}</div>
+                    {user.departments.map((dept) => (
+                      <div key={dept} style={departmentPillStyles}>{dept}</div>
+                    ))}
                   </td>
                   <td style={tbodyTdStyles}>
                     <div style={{ display: 'flex', gap: spacing.sm }}>

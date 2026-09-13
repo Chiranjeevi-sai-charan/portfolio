@@ -24,7 +24,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   sensitivities,
   onUploadSuccess,
   lockedDepartment,
-  uploadedBy = 'current.user@motherson.com',
+  uploadedBy,
 }) => {
   const [selectedDepartment, setSelectedDepartment] = useState(lockedDepartment || '');
   const [selectedType, setSelectedType] = useState('');
@@ -259,7 +259,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
         department: selectedDepartment,
         sensitivity: selectedSensitivity,
         date: documentDate,
-        uploadedBy,
+        uploadedBy: uploadedBy || '',
         status: 'active',
         uploadedAt: Date.now(),
       };

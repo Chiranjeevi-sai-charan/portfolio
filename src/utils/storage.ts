@@ -44,7 +44,8 @@ export interface User {
   name: string;
   email: string;
   role: 'user' | 'admin' | 'system-admin';
-  department: string;
+  /** Departments this user can access. 'General' is available to everyone and is always included. */
+  departments: string[];
   createdAt: number;
 }
 
@@ -293,7 +294,11 @@ export const userStorage = {
   getAll: (): User[] => {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.USERS);
-      return data ? JSON.parse(data) : [];
+      const users = data ? JSON.parse(data) : [];
+      // Migrate stale records saved under the old single `department` field
+      return users.map((u: any) =>
+        Array.isArray(u.departments) ? u : { ...u, departments: u.department ? [u.department] : ['General'] }
+      );
     } catch (err) {
       console.error('Error getting users:', err);
       return [];
@@ -313,7 +318,7 @@ export const userStorage = {
   getByDepartment: (department: string): User[] => {
     try {
       const users = userStorage.getAll();
-      return users.filter((u) => u.department === department);
+      return users.filter((u) => u.departments.includes(department));
     } catch (err) {
       console.error('Error getting users by department:', err);
       return [];
@@ -381,34 +386,34 @@ export const initializeMockData = () => {
     const mockUsers: User[] = [
       {
         id: '1',
-        name: 'Sai Ganesh',
-        email: 'Sai.Ganesh@motherson.com',
+        name: 'Chiranjeevi',
+        email: 'Chiranjeevi.Kondaka@motherson.com',
         role: 'system-admin',
-        department: 'General',
+        departments: ['General'],
         createdAt: Date.now(),
       },
       {
         id: '2',
-        name: 'Kiruthiga Ramaswami',
-        email: 'Kiruthiga.Ramaswami@motherson.com',
+        name: 'Sai Ganesh',
+        email: 'Sai.Ganesh@motherson.com',
         role: 'admin',
-        department: 'Human Resources (HR)',
+        departments: ['General', 'Human Resources (HR)'],
         createdAt: Date.now(),
       },
       {
         id: '3',
-        name: 'Chiranjeevi Kondaka',
-        email: 'Chiranjeevi.Kondaka@motherson.com',
-        role: 'user',
-        department: 'Human Resources (HR)',
+        name: 'Pragati',
+        email: 'Pragati@motherson.com',
+        role: 'admin',
+        departments: ['General', 'Human Resources (HR)'],
         createdAt: Date.now(),
       },
       {
         id: '4',
-        name: 'Rahul Pal',
-        email: 'Rahul.pal02@motherson.com',
+        name: 'Shreyash',
+        email: 'Shreyash@motherson.com',
         role: 'admin',
-        department: 'General',
+        departments: ['General'],
         createdAt: Date.now(),
       },
     ];
@@ -424,7 +429,7 @@ export const initializeMockData = () => {
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-21',
-        uploadedBy: 'Rahul.pal02@motherson.com',
+        uploadedBy: 'Sai.Ganesh@motherson.com',
         status: 'active',
         uploadedAt: Date.now() - 86400000 * 2,
       },
@@ -436,7 +441,7 @@ export const initializeMockData = () => {
         department: 'General',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-20',
-        uploadedBy: 'Rahul.pal02@motherson.com',
+        uploadedBy: 'Sai.Ganesh@motherson.com',
         status: 'active',
         uploadedAt: Date.now() - 86400000 * 1,
       },

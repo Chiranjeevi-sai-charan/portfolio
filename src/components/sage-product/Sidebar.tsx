@@ -72,6 +72,12 @@ interface SidebarProps {
 
   /** Called when a chat item's context menu action is clicked ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
   onItemMenuAction?: (item: SidebarItem, action: string) => void;
+
+  /** Current interface language, shown selected in the language toggle */
+  language?: 'en' | 'ja';
+
+  /** Called when the user switches the language toggle */
+  onLanguageChange?: (language: 'en' | 'ja') => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -86,10 +92,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onUserMenuAction,
   onItemMenuAction,
   managementLinks = [],
+  language = 'en',
+  onLanguageChange,
 }) => {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
-  const [language, setLanguage] = React.useState<'en' | 'ja'>('en');
   const [hoveredItemKey, setHoveredItemKey] = React.useState<string | null>(null);
   const [openItemMenuKey, setOpenItemMenuKey] = React.useState<string | null>(null);
   const userMenuRef = React.useRef<HTMLDivElement>(null);
@@ -451,8 +458,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     width: '28px',
     height: '28px',
     borderRadius: '50%',
-    backgroundColor: colors['neutral-900'],
-    color: colors['neutral-white'],
+    backgroundColor: colors['neutral-200'],
+    color: colors['neutral-600'],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -561,11 +568,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
       .toUpperCase()
       .slice(0, 2);
 
-  const menuActions = [
-    { id: 'personalization', label: 'Personalization', icon: 'tune' },
-    { id: 'profile', label: 'Profile', icon: 'account_circle' },
-    { id: 'settings', label: 'Settings', icon: 'settings' },
-  ];
+  const menuActions =
+    language === 'ja'
+      ? [
+          { id: 'personalization', label: 'パーソナライズ', icon: 'tune' },
+          { id: 'profile', label: 'プロフィール', icon: 'account_circle' },
+          { id: 'settings', label: '設定', icon: 'settings' },
+        ]
+      : [
+          { id: 'personalization', label: 'Personalization', icon: 'tune' },
+          { id: 'profile', label: 'Profile', icon: 'account_circle' },
+          { id: 'settings', label: 'Settings', icon: 'settings' },
+        ];
 
   return (
     <div style={sidebarStyles}>
@@ -617,13 +631,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div style={languageRowStyles}>
                 <div style={languageLabelStyles}>
                   <MaterialIcon name="language" size={18} color={colors['neutral-700']} />
-                  Language
+                  {language === 'ja' ? '言語' : 'Language'}
                 </div>
                 <div style={langToggleGroupStyles}>
-                  <button style={langButtonStyles(language === 'en')} onClick={() => setLanguage('en')}>
+                  <button style={langButtonStyles(language === 'en')} onClick={() => onLanguageChange?.('en')}>
                     EN
                   </button>
-                  <button style={langButtonStyles(language === 'ja')} onClick={() => setLanguage('ja')}>
+                  <button style={langButtonStyles(language === 'ja')} onClick={() => onLanguageChange?.('ja')}>
                     JA
                   </button>
                 </div>
@@ -687,7 +701,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }}
               >
                 <MaterialIcon name="logout" size={18} color={colors['neutral-700']} />
-                Log out
+                {language === 'ja' ? 'ログアウト' : 'Log out'}
               </button>
             </div>
           )}

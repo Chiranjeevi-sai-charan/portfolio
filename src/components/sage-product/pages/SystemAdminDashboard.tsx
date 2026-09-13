@@ -13,7 +13,7 @@ import { RoleWorkspace } from './RoleWorkspace';
  * <SystemAdminDashboard />
  */
 export const SystemAdminDashboard: React.FC = () => (
-  <RoleWorkspace role="system-admin" userName="Sai Ganesh" />
+  <RoleWorkspace role="system-admin" userName="Chiranjeevi" userEmail="Chiranjeevi.Kondaka@motherson.com" />
 );
 
 SystemAdminDashboard.displayName = 'SystemAdminDashboard';

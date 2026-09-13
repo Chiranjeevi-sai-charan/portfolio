@@ -38,6 +38,7 @@ export default function SageApp() {
       {/* Header Bar */}
       <div
         style={{
+          position: 'relative',
           backgroundColor: '#ffffff',
           borderBottom: '1px solid #e5e7eb',
           padding: '12px 24px',
@@ -68,8 +69,21 @@ export default function SageApp() {
         </Link>
 
         {/* Center: Logo/Title */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#111827', fontSize: '14px' }}>
-          <MaterialIcon name="psychology" size={18} color="#111827" />
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontWeight: 600,
+            color: '#111827',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+          }}
+        >
           Sage Product Demo
         </div>
 

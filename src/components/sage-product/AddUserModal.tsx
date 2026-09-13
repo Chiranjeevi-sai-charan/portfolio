@@ -12,9 +12,9 @@ interface AddUserModalProps {
   onCreate: (user: Omit<User, 'id' | 'createdAt'>) => void;
   /** Roles the current viewer is allowed to assign */
   availableRoles: Array<User['role']>;
-  /** Departments the current viewer is allowed to assign */
+  /** Departments the current viewer is allowed to assign, beyond 'General' (which every user gets) */
   availableDepartments: string[];
-  /** When set, department is locked to this value (e.g. an Admin adding a user in their own department) */
+  /** When set, departments are locked to General + this value (e.g. an Admin adding a user in their own department) */
   lockedDepartment?: string;
 }
 
@@ -29,14 +29,24 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<User['role']>(availableRoles[0] || 'user');
-  const [department, setDepartment] = useState(lockedDepartment || availableDepartments[0] || '');
+  const assignableDepartments = availableDepartments.filter((d) => d !== 'General');
+  const [selectedDepartments, setSelectedDepartments] = useState<string[]>(
+    lockedDepartment && lockedDepartment !== 'General' ? [lockedDepartment] : []
+  );
   const [error, setError] = useState('');
+
+  const toggleDepartment = (dept: string) => {
+    if (lockedDepartment) return;
+    setSelectedDepartments((prev) =>
+      prev.includes(dept) ? prev.filter((d) => d !== dept) : [...prev, dept]
+    );
+  };
 
   const reset = () => {
     setName('');
     setEmail('');
     setRole(availableRoles[0] || 'user');
-    setDepartment(lockedDepartment || availableDepartments[0] || '');
+    setSelectedDepartments(lockedDepartment && lockedDepartment !== 'General' ? [lockedDepartment] : []);
     setError('');
   };
 
@@ -59,7 +69,8 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
       name: name.trim(),
       email: email.trim(),
       role,
-      department: lockedDepartment || department,
+      // 'General' is common to every user, plus any additional departments selected
+      departments: Array.from(new Set(['General', ...selectedDepartments])),
     });
     reset();
     onClose();
@@ -92,13 +103,26 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
           onChange={(e) => setRole(e.target.value as User['role'])}
           options={availableRoles.map((r) => ({ label: ROLE_LABELS[r], value: r }))}
         />
-        <Select
-          label="Department"
-          value={lockedDepartment || department}
-          onChange={(e) => setDepartment(e.target.value)}
-          disabled={!!lockedDepartment}
-          options={availableDepartments.map((d) => ({ label: d, value: d }))}
-        />
+        <div>
+          <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>Departments</label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.xs }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: spacing.xs, color: colors['neutral-500'] }}>
+              <input type="checkbox" checked disabled />
+              General (all users)
+            </label>
+            {assignableDepartments.map((dept) => (
+              <label key={dept} style={{ display: 'flex', alignItems: 'center', gap: spacing.xs }}>
+                <input
+                  type="checkbox"
+                  checked={!!lockedDepartment || selectedDepartments.includes(dept)}
+                  disabled={!!lockedDepartment}
+                  onChange={() => toggleDepartment(dept)}
+                />
+                {dept}
+              </label>
+            ))}
+          </div>
+        </div>
         {error && (
           <div style={{ fontSize: typography.fontSize['body-xs'], color: colors['error-red'] }}>{error}</div>
         )}
