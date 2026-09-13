@@ -63,8 +63,11 @@ interface SidebarProps {
   /** User pinned to the bottom of the sidebar, with a dropdown menu */
   user?: SidebarUser;
 
-  /** Called when a dropdown menu item is clicked ('personalization' | 'profile' | 'settings' | 'help' | 'logout') */
+  /** Called when a dropdown menu item is clicked ('personalization' | 'profile' | 'settings' | 'help' | 'logout' | a managementLinks id) */
   onUserMenuAction?: (action: string) => void;
+
+  /** Extra links shown at the top of the user dropdown (e.g. Documents, User Management) — role-gated by the caller */
+  managementLinks?: { id: string; label: string; icon: string }[];
 
   /** Called when a chat item's context menu action is clicked ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
   onItemMenuAction?: (item: SidebarItem, action: string) => void;
@@ -81,6 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   user,
   onUserMenuAction,
   onItemMenuAction,
+  managementLinks = [],
 }) => {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
@@ -612,6 +616,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </button>
                 </div>
               </div>
+              {managementLinks.length > 0 && (
+                <>
+                  <div style={userMenuDividerStyles} />
+                  {managementLinks.map((link) => (
+                    <button
+                      key={link.id}
+                      style={userMenuItemStyles}
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        onUserMenuAction?.(link.id);
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      <MaterialIcon name={link.icon} size={18} color={colors['neutral-700']} />
+                      {link.label}
+                    </button>
+                  ))}
+                </>
+              )}
               <div style={userMenuDividerStyles} />
               {menuActions.map((action) => (
                 <button

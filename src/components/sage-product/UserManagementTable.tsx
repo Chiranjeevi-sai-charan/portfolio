@@ -1,35 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
-import { User, userStorage } from '../../utils/storage';
+import { User } from '../../utils/storage';
 import { Input } from './Input';
 import { Button } from './Button';
+import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
 
 interface UserManagementTableProps {
   users: User[];
-  filterRole?: string;
   showSearch?: boolean;
+  /** Show a department filter dropdown (useful when users span multiple departments, e.g. System Admin) */
+  showDepartmentFilter?: boolean;
+  /** Roles the current viewer is allowed to delete (e.g. an Admin cannot remove a System Admin) */
+  deletableRoles?: Array<User['role']>;
   onUserDelete?: (userId: string) => void;
   onUserUpdate?: (user: User) => void;
   onAddUserClick?: () => void;
 }
 
+const ROLE_TABS: { id: 'all' | User['role']; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'user', label: 'User' },
+  { id: 'admin', label: 'Admin' },
+  { id: 'system-admin', label: 'System Admin' },
+];
+
 export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   users,
-  filterRole,
   showSearch = true,
+  showDepartmentFilter = false,
+  deletableRoles = ['user', 'admin', 'system-admin'],
   onUserDelete,
   onUserUpdate,
   onAddUserClick,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [roleTab, setRoleTab] = useState<'all' | User['role']>('all');
+  const [departmentFilter, setDepartmentFilter] = useState('');
+
+  const departmentOptions = useMemo(
+    () => Array.from(new Set(users.map((u) => u.department))).sort(),
+    [users]
+  );
+
+  const roleCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: users.length, user: 0, admin: 0, 'system-admin': 0 };
+    users.forEach((u) => {
+      counts[u.role] = (counts[u.role] || 0) + 1;
+    });
+    return counts;
+  }, [users]);
 
   const filteredUsers = users.filter((user) => {
-    const matchesRole = !filterRole || user.role === filterRole;
+    const matchesRole = roleTab === 'all' || user.role === roleTab;
+    const matchesDepartment = !departmentFilter || user.department === departmentFilter;
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesRole && matchesSearch;
+    return matchesRole && matchesDepartment && matchesSearch;
   });
 
   const containerStyles: React.CSSProperties = {
@@ -145,6 +173,23 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     color: colors['neutral-500'],
   };
 
+  const roleTabsStyles: React.CSSProperties = {
+    display: 'flex',
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
+  };
+
+  const roleTabButtonStyles = (active: boolean): React.CSSProperties => ({
+    padding: `${spacing.xs} ${spacing.md}`,
+    borderRadius: borderRadius.full,
+    border: `1px solid ${active ? colors['neutral-900'] : colors['neutral-200']}`,
+    backgroundColor: active ? colors['neutral-900'] : colors['neutral-white'],
+    color: active ? colors['neutral-white'] : colors['neutral-700'],
+    fontSize: typography.fontSize['body-sm'],
+    fontWeight: typography.fontWeight.semibold,
+    cursor: 'pointer',
+  });
+
   return (
     <div style={containerStyles}>
       <div style={headerStyles}>
@@ -155,6 +200,18 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
           </div>
         </div>
         <div style={{ display: 'flex', gap: spacing.md, alignItems: 'center' }}>
+          {showDepartmentFilter && departmentOptions.length > 1 && (
+            <div style={{ width: '190px' }}>
+              <Select
+                value={departmentFilter}
+                onChange={(e) => setDepartmentFilter(e.target.value)}
+                options={[
+                  { label: 'All Departments', value: '' },
+                  ...departmentOptions.map((d) => ({ label: d, value: d })),
+                ]}
+              />
+            </div>
+          )}
           {showSearch && (
             <div style={{ width: '250px' }}>
               <Input
@@ -172,6 +229,18 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
             </Button>
           )}
         </div>
+      </div>
+
+      <div style={roleTabsStyles}>
+        {ROLE_TABS.map((tab) => (
+          <button
+            key={tab.id}
+            style={roleTabButtonStyles(roleTab === tab.id)}
+            onClick={() => setRoleTab(tab.id)}
+          >
+            {tab.label} ({roleCounts[tab.id] || 0})
+          </button>
+        ))}
       </div>
 
       {filteredUsers.length === 0 ? (
@@ -220,7 +289,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                   </td>
                   <td style={tbodyTdStyles}>
                     <div style={{ display: 'flex', gap: spacing.sm }}>
-                      {onUserDelete && (
+                      {onUserDelete && deletableRoles.includes(user.role) && (
                         <button
                           onClick={() => {
                             if (confirm(`Delete user "${user.name}"?`)) {

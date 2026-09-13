@@ -64,6 +64,12 @@ interface ChatLayoutProps {
   /** Called when a chat's context menu action is used ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
   onChatMenuAction?: (item: SidebarItem, action: string) => void;
 
+  /** Extra links shown at the top of the user dropdown (e.g. Documents, User Management) */
+  managementLinks?: { id: string; label: string; icon: string }[];
+
+  /** Called when a dropdown menu item (including managementLinks) is clicked */
+  onUserMenuAction?: (action: string) => void;
+
   /** CSS class name */
   className?: string;
 }
@@ -94,6 +100,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   children,
   onNewChat,
   onChatMenuAction,
+  managementLinks,
+  onUserMenuAction,
   className = '',
 }) => {
   const [inputValue, setInputValue] = useState('');
@@ -327,8 +335,9 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
             }
           }}
           user={{ name: userName, role: userRole }}
-          onUserMenuAction={(action) => console.log('User menu action:', action)}
+          onUserMenuAction={onUserMenuAction ?? ((action) => console.log('User menu action:', action))}
           onItemMenuAction={onChatMenuAction}
+          managementLinks={managementLinks}
         />
 
         {/* Main Chat Area */}

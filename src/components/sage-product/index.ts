@@ -28,6 +28,7 @@ export { DocumentPanel } from "./DocumentPanel";
 export { DocumentUpload } from "./DocumentUpload";
 export { DocumentList } from "./DocumentList";
 export { UserManagementTable } from "./UserManagementTable";
+export { AddUserModal } from "./AddUserModal";
 export { Card } from "./Card";
 export { Table, type TableColumn } from "./Table";
 export { Badge } from "./Badge";
@@ -52,5 +53,6 @@ export { SystemAdminLayout } from "./layouts/SystemAdminLayout";
 
 // Pages
 export { EmployeeChatbot } from "./pages/EmployeeChatbot";
+export { RoleWorkspace } from "./pages/RoleWorkspace";
 export { AdminDashboard } from "./pages/AdminDashboard";
 export { SystemAdminDashboard } from "./pages/SystemAdminDashboard";

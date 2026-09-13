@@ -11,6 +11,10 @@ interface DocumentUploadProps {
   contentTypes: string[];
   sensitivities: string[];
   onUploadSuccess?: (doc: Document) => void;
+  /** When set, the department field is locked to this value (e.g. an Admin uploading for their own department) */
+  lockedDepartment?: string;
+  /** Who to record as the uploader */
+  uploadedBy?: string;
 }
 
 export const DocumentUpload: React.FC<DocumentUploadProps> = ({
@@ -18,8 +22,10 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   contentTypes,
   sensitivities,
   onUploadSuccess,
+  lockedDepartment,
+  uploadedBy = 'current.user@motherson.com',
 }) => {
-  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState(lockedDepartment || '');
   const [selectedType, setSelectedType] = useState('');
   const [selectedSensitivity, setSelectedSensitivity] = useState('');
   const [documentDate, setDocumentDate] = useState('');
@@ -228,20 +234,30 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   };
 
   const handleUpload = () => {
-    if (selectedFiles.length === 0 || !selectedDepartment || !selectedType || !selectedSensitivity) {
-      alert('Please fill all fields and select at least one file');
+    if (
+      selectedFiles.length === 0 ||
+      !selectedDepartment ||
+      !selectedType ||
+      !selectedSensitivity ||
+      !documentDate
+    ) {
+      alert('Please fill all fields, choose a document date, and select at least one file');
       return;
     }
 
     selectedFiles.forEach((file) => {
+      // Uploading a file with the same name for this department retires the older active version
+      documentStorage.archiveOlderVersions(file.name, selectedDepartment, documentDate);
+
       const newDoc: Document = {
         id: `doc_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
         name: file.name,
         type: file.name.split('.').pop() || 'unknown',
+        contentType: selectedType,
         department: selectedDepartment,
         sensitivity: selectedSensitivity,
         date: documentDate,
-        uploadedBy: 'current.user@motherson.com',
+        uploadedBy,
         status: 'active',
         uploadedAt: Date.now(),
       };
@@ -254,7 +270,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
     // Reset form
     setSelectedFiles([]);
-    setSelectedDepartment('');
+    setSelectedDepartment(lockedDepartment || '');
     setSelectedType('');
     setSelectedSensitivity('');
     setDocumentDate('');
@@ -277,6 +293,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
           <Select
             value={selectedDepartment}
             onChange={(e) => setSelectedDepartment(e.target.value)}
+            disabled={!!lockedDepartment}
             options={[
               { label: 'Select Department', value: '' },
               ...departments.map((d) => ({ label: d, value: d })),
@@ -426,7 +443,13 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
         <Button
           variant="primary"
           onClick={handleUpload}
-          disabled={selectedFiles.length === 0 || !selectedDepartment || !selectedType || !selectedSensitivity}
+          disabled={
+            selectedFiles.length === 0 ||
+            !selectedDepartment ||
+            !selectedType ||
+            !selectedSensitivity ||
+            !documentDate
+          }
         >
           Upload{selectedFiles.length > 1 ? ` (${selectedFiles.length})` : ''}
         </Button>

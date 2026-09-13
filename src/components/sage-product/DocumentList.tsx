@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
 import { Document, documentStorage } from '../../utils/storage';
 import { Input } from './Input';
 import { Button } from './Button';
+import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
 
 interface DocumentListProps {
   documents: Document[];
   showSearch?: boolean;
+  /** Show a department filter dropdown (useful when documents span multiple departments, e.g. System Admin) */
+  showDepartmentFilter?: boolean;
   onDocumentDelete?: (docId: string) => void;
   onDocumentArchive?: (docId: string) => void;
   onDocumentDownload?: (doc: Document) => void;
@@ -16,17 +19,34 @@ interface DocumentListProps {
 export const DocumentList: React.FC<DocumentListProps> = ({
   documents,
   showSearch = true,
+  showDepartmentFilter = false,
   onDocumentDelete,
   onDocumentArchive,
   onDocumentDownload,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [departmentFilter, setDepartmentFilter] = useState('');
+  const [sensitivityFilter, setSensitivityFilter] = useState('');
+  const [contentTypeFilter, setContentTypeFilter] = useState('');
 
-  const filteredDocs = documents.filter(
-    (doc) =>
-      doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.department.toLowerCase().includes(searchQuery.toLowerCase())
+  const departmentOptions = useMemo(
+    () => Array.from(new Set(documents.map((d) => d.department))).sort(),
+    [documents]
   );
+  const contentTypeOptions = useMemo(
+    () => Array.from(new Set(documents.map((d) => d.contentType).filter(Boolean))).sort(),
+    [documents]
+  );
+
+  const filteredDocs = documents.filter((doc) => {
+    const matchesSearch =
+      doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      doc.department.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDepartment = !departmentFilter || doc.department === departmentFilter;
+    const matchesSensitivity = !sensitivityFilter || doc.sensitivity === sensitivityFilter;
+    const matchesContentType = !contentTypeFilter || doc.contentType === contentTypeFilter;
+    return matchesSearch && matchesDepartment && matchesSensitivity && matchesContentType;
+  });
 
   const containerStyles: React.CSSProperties = {
     padding: spacing.lg,
@@ -107,16 +127,53 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     <div style={containerStyles}>
       <div style={headerStyles}>
         <div style={titleStyles}>Uploaded Files ({documents.length})</div>
-        {showSearch && (
-          <div style={{ width: '300px' }}>
-            <Input
-              type="search"
-              placeholder="Search files..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+        <div style={{ display: 'flex', gap: spacing.sm, alignItems: 'center', flexWrap: 'wrap' }}>
+          {showDepartmentFilter && departmentOptions.length > 1 && (
+            <div style={{ width: '190px' }}>
+              <Select
+                value={departmentFilter}
+                onChange={(e) => setDepartmentFilter(e.target.value)}
+                options={[
+                  { label: 'All Departments', value: '' },
+                  ...departmentOptions.map((d) => ({ label: d, value: d })),
+                ]}
+              />
+            </div>
+          )}
+          {contentTypeOptions.length > 1 && (
+            <div style={{ width: '170px' }}>
+              <Select
+                value={contentTypeFilter}
+                onChange={(e) => setContentTypeFilter(e.target.value)}
+                options={[
+                  { label: 'All Content Types', value: '' },
+                  ...contentTypeOptions.map((t) => ({ label: t, value: t })),
+                ]}
+              />
+            </div>
+          )}
+          <div style={{ width: '150px' }}>
+            <Select
+              value={sensitivityFilter}
+              onChange={(e) => setSensitivityFilter(e.target.value)}
+              options={[
+                { label: 'All Sensitivity', value: '' },
+                { label: 'Sensitive', value: 'Sensitive' },
+                { label: 'Non-Sensitive', value: 'Non-Sensitive' },
+              ]}
             />
           </div>
-        )}
+          {showSearch && (
+            <div style={{ width: '220px' }}>
+              <Input
+                type="search"
+                placeholder="Search files..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {filteredDocs.length === 0 ? (

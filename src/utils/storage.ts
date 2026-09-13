@@ -30,6 +30,7 @@ export interface Document {
   id: string;
   name: string;
   type: string;
+  contentType: string;
   department: string;
   sensitivity: string;
   date: string;
@@ -185,6 +186,19 @@ export const documentStorage = {
     }
   },
 
+  /** Active documents an employee may see: their own department plus General. */
+  getVisibleForEmployee: (department: string): Document[] => {
+    try {
+      const documents = documentStorage.getAll();
+      return documents.filter(
+        (d) => d.status === 'active' && (d.department === department || d.department === 'General')
+      );
+    } catch (err) {
+      console.error('Error getting employee-visible documents:', err);
+      return [];
+    }
+  },
+
   delete: (id: string) => {
     try {
       const documents = documentStorage.getAll();
@@ -216,6 +230,36 @@ export const documentStorage = {
       }
     } catch (err) {
       console.error('Error restoring document:', err);
+    }
+  },
+
+  /**
+   * Archives any active document in the same department with the same name
+   * whose document date is older than `newDate` — treats a re-upload of the
+   * same file as a newer version and retires the prior one automatically.
+   */
+  archiveOlderVersions: (name: string, department: string, newDate: string) => {
+    try {
+      if (!newDate) return;
+      const documents = documentStorage.getAll();
+      let changed = false;
+      documents.forEach((d) => {
+        if (
+          d.status === 'active' &&
+          d.name === name &&
+          d.department === department &&
+          d.date &&
+          d.date < newDate
+        ) {
+          d.status = 'archived';
+          changed = true;
+        }
+      });
+      if (changed) {
+        localStorage.setItem(STORAGE_KEYS.DOCUMENTS, JSON.stringify(documents));
+      }
+    } catch (err) {
+      console.error('Error auto-archiving older document versions:', err);
     }
   },
 
@@ -388,6 +432,7 @@ export const initializeMockData = () => {
         id: 'doc1',
         name: 'yachiyo_queries.docx',
         type: 'docx',
+        contentType: 'Manual',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-21',
@@ -399,6 +444,7 @@ export const initializeMockData = () => {
         id: 'doc2',
         name: 'Supplier B-Maruti 2.xlsx',
         type: 'xlsx',
+        contentType: 'Report',
         department: 'General',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-20',
