@@ -60,6 +60,9 @@ interface ChatLayoutProps {
   /** Called when the user clicks "New Chat" in the sidebar */
   onNewChat?: () => void;
 
+  /** Called when a chat's context menu action is used ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
+  onChatMenuAction?: (item: SidebarItem, action: string) => void;
+
   /** CSS class name */
   className?: string;
 }
@@ -89,6 +92,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   onSearch,
   children,
   onNewChat,
+  onChatMenuAction,
   className = '',
 }) => {
   const [inputValue, setInputValue] = useState('');
@@ -320,6 +324,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           }}
           user={{ name: userName, role: userRole }}
           onUserMenuAction={(action) => console.log('User menu action:', action)}
+          onItemMenuAction={onChatMenuAction}
         />
 
         {/* Main Chat Area */}

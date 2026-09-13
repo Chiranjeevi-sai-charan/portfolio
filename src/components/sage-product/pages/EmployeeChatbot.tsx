@@ -53,11 +53,34 @@ export const EmployeeChatbot: React.FC = () => {
     id: c.id,
     label: c.title,
     icon: c.icon,
+    hasMenu: true,
   }));
 
   const handleNewChat = () => {
     setMessages([]);
     setActiveConversationId(null);
+  };
+
+  const handleChatMenuAction = (item: SidebarItem, action: string) => {
+    switch (action) {
+      case 'delete':
+        setConversations((prev) => prev.filter((c) => c.id !== item.id));
+        if (item.id === activeConversationId) {
+          handleNewChat();
+        }
+        break;
+      case 'rename': {
+        const newTitle = window.prompt('Rename chat', item.label);
+        if (newTitle && newTitle.trim()) {
+          setConversations((prev) =>
+            prev.map((c) => (c.id === item.id ? { ...c, title: newTitle.trim() } : c))
+          );
+        }
+        break;
+      }
+      default:
+        console.log(`Chat action "${action}" on:`, item.label);
+    }
   };
 
   const handleSendMessage = (userMessage: string) => {
@@ -152,6 +175,7 @@ export const EmployeeChatbot: React.FC = () => {
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}
         onNewChat={handleNewChat}
+        onChatMenuAction={handleChatMenuAction}
       />
     </div>
   );

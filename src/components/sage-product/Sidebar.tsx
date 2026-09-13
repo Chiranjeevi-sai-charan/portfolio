@@ -29,6 +29,8 @@ export interface SidebarItem {
   badge?: number;
   disabled?: boolean;
   children?: SidebarItem[];
+  /** Show a "..." context menu (Share, Rename, Pin chat, Archive, Delete) on hover */
+  hasMenu?: boolean;
 }
 
 interface SidebarUser {
@@ -63,6 +65,9 @@ interface SidebarProps {
 
   /** Called when a dropdown menu item is clicked ('personalization' | 'profile' | 'settings' | 'help' | 'logout') */
   onUserMenuAction?: (action: string) => void;
+
+  /** Called when a chat item's context menu action is clicked ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
+  onItemMenuAction?: (item: SidebarItem, action: string) => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -75,10 +80,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   logo,
   user,
   onUserMenuAction,
+  onItemMenuAction,
 }) => {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
   const [language, setLanguage] = React.useState<'en' | 'ja'>('en');
+  const [hoveredItemKey, setHoveredItemKey] = React.useState<string | null>(null);
+  const [openItemMenuKey, setOpenItemMenuKey] = React.useState<string | null>(null);
   const userMenuRef = React.useRef<HTMLDivElement>(null);
 
   const toggleExpanded = (label: string) => {
@@ -97,6 +105,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [userMenuOpen]);
+
+  React.useEffect(() => {
+    if (!openItemMenuKey) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-sidebar-item-menu]')) {
+        setOpenItemMenuKey(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openItemMenuKey]);
 
   const sidebarStyles: React.CSSProperties = {
     display: 'flex',
@@ -205,6 +225,64 @@ export const Sidebar: React.FC<SidebarProps> = ({
     letterSpacing: '0.4px',
   };
 
+  const itemMenuTriggerStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '24px',
+    height: '24px',
+    borderRadius: borderRadius.sm,
+    border: 'none',
+    background: 'transparent',
+    color: colors['neutral-600'],
+    cursor: 'pointer',
+    flexShrink: 0,
+  };
+
+  const itemMenuPopupStyles: React.CSSProperties = {
+    position: 'absolute',
+    top: '100%',
+    right: 0,
+    marginTop: '2px',
+    backgroundColor: colors['neutral-white'],
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.md,
+    boxShadow: shadows.lg,
+    padding: spacing.xs,
+    zIndex: 60,
+    minWidth: '180px',
+  };
+
+  const itemMenuActionStyles = (destructive = false): React.CSSProperties => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+    width: '100%',
+    padding: `${spacing.sm} ${spacing.md}`,
+    background: 'none',
+    border: 'none',
+    borderRadius: borderRadius.sm,
+    cursor: 'pointer',
+    fontSize: typography.fontSize['body-sm'],
+    color: destructive ? colors['error-red'] : colors['neutral-900'],
+    textAlign: 'left',
+  });
+
+  const itemMenuDividerStyles: React.CSSProperties = {
+    borderTop: `1px solid ${colors['neutral-200']}`,
+    margin: `${spacing.xs} 0`,
+  };
+
+  const ITEM_MENU_ACTIONS = [
+    { id: 'share', label: 'Share', icon: 'ios_share' },
+    { id: 'rename', label: 'Rename', icon: 'edit' },
+  ];
+
+  const ITEM_MENU_ACTIONS_2 = [
+    { id: 'pin', label: 'Pin chat', icon: 'push_pin' },
+    { id: 'archive', label: 'Archive', icon: 'archive' },
+  ];
+
   const badgeStyles: React.CSSProperties = {
     backgroundColor: colors['neutral-900'],
     color: colors['neutral-white'],
@@ -218,12 +296,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const renderMenuItem = (item: SidebarItem, level = 0) => {
+    const key = item.id || item.label;
     const isActive = item.id ? item.id === activeItemId : activeItem === item.label;
     const isExpanded = expandedItems.includes(item.label);
     const hasChildren = item.children && item.children.length > 0;
+    const showMenuTrigger =
+      item.hasMenu && !collapsed && (hoveredItemKey === key || openItemMenuKey === key);
 
     return (
-      <div key={item.id || item.label}>
+      <div
+        key={key}
+        style={{ position: 'relative' }}
+        onMouseEnter={() => setHoveredItemKey(key)}
+        onMouseLeave={() => setHoveredItemKey((prev) => (prev === key ? null : prev))}
+      >
         <button
           style={{
             ...menuItemStyles,
@@ -272,6 +358,88 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </>
           )}
         </button>
+
+        {showMenuTrigger && (
+          <button
+            style={{
+              ...itemMenuTriggerStyles,
+              position: 'absolute',
+              right: spacing.sm,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              backgroundColor: openItemMenuKey === key ? colors['neutral-200'] : colors['neutral-white'],
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenItemMenuKey((prev) => (prev === key ? null : key));
+            }}
+            title="More options"
+            aria-label="More options"
+          >
+            <MaterialIcon name="more_horiz" size={18} />
+          </button>
+        )}
+
+        {openItemMenuKey === key && (
+          <div style={itemMenuPopupStyles} data-sidebar-item-menu>
+            {ITEM_MENU_ACTIONS.map((action) => (
+              <button
+                key={action.id}
+                style={itemMenuActionStyles()}
+                onClick={() => {
+                  setOpenItemMenuKey(null);
+                  onItemMenuAction?.(item, action.id);
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                }}
+              >
+                <MaterialIcon name={action.icon} size={18} color={colors['neutral-700']} />
+                {action.label}
+              </button>
+            ))}
+            <div style={itemMenuDividerStyles} />
+            {ITEM_MENU_ACTIONS_2.map((action) => (
+              <button
+                key={action.id}
+                style={itemMenuActionStyles()}
+                onClick={() => {
+                  setOpenItemMenuKey(null);
+                  onItemMenuAction?.(item, action.id);
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                }}
+              >
+                <MaterialIcon name={action.icon} size={18} color={colors['neutral-700']} />
+                {action.label}
+              </button>
+            ))}
+            <div style={itemMenuDividerStyles} />
+            <button
+              style={itemMenuActionStyles(true)}
+              onClick={() => {
+                setOpenItemMenuKey(null);
+                onItemMenuAction?.(item, 'delete');
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+              }}
+            >
+              <MaterialIcon name="delete" size={18} color={colors['error-red']} />
+              Delete
+            </button>
+          </div>
+        )}
 
         {/* Nested Items */}
         {hasChildren && isExpanded && !collapsed && (
