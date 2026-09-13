@@ -51,25 +51,35 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
     marginBottom: spacing.lg,
   };
 
-  const fullWidthStyles: React.CSSProperties = {
-    gridColumn: '1 / -1',
+  const UPLOAD_PANEL_HEIGHT = '220px';
+
+  const uploadRowStyles: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: spacing.lg,
+    marginBottom: spacing.lg,
+    alignItems: 'stretch',
   };
 
   const dropzoneStyles: React.CSSProperties = {
+    height: UPLOAD_PANEL_HEIGHT,
     border: `2px dashed ${isDragging ? colors['neutral-900'] : colors['neutral-300']}`,
     borderRadius: borderRadius.lg,
-    padding: spacing.xl,
+    padding: spacing.lg,
     textAlign: 'center',
     backgroundColor: isDragging ? colors['neutral-100'] : colors['neutral-50'],
     cursor: 'pointer',
     transition: 'all 0.2s ease',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
   const dropzoneContentStyles: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: spacing.md,
+    gap: spacing.sm,
   };
 
   const iconStyles: React.CSSProperties = {
@@ -95,18 +105,42 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
     justifyContent: 'center',
   };
 
-  const fileListStyles: React.CSSProperties = {
-    marginTop: spacing.lg,
+  const fileListPanelStyles: React.CSSProperties = {
+    height: UPLOAD_PANEL_HEIGHT,
     display: 'flex',
     flexDirection: 'column',
-    gap: spacing.sm,
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.lg,
+    overflow: 'hidden',
   };
 
   const fileListHeaderStyles: React.CSSProperties = {
     fontSize: typography.fontSize['label-md'],
     fontWeight: typography.fontWeight.semibold,
     color: colors['neutral-900'],
-    marginBottom: spacing.xs,
+    padding: `${spacing.sm} ${spacing.md}`,
+    borderBottom: `1px solid ${colors['neutral-200']}`,
+    backgroundColor: colors['neutral-50'],
+    flexShrink: 0,
+  };
+
+  const fileListBodyStyles: React.CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+  };
+
+  const fileListEmptyStyles: React.CSSProperties = {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: typography.fontSize['body-sm'],
+    color: colors['neutral-400'],
+    textAlign: 'center',
+    padding: spacing.lg,
   };
 
   const fileRowStyles: React.CSSProperties = {
@@ -114,9 +148,9 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
     alignItems: 'center',
     gap: spacing.md,
     padding: `${spacing.sm} ${spacing.md}`,
-    border: `1px solid ${colors['neutral-200']}`,
-    borderRadius: borderRadius.md,
+    borderBottom: `1px solid ${colors['neutral-100']}`,
     backgroundColor: colors['neutral-white'],
+    flexShrink: 0,
   };
 
   const fileRowNameStyles: React.CSSProperties = {
@@ -291,16 +325,16 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
         </div>
       </div>
 
-      {/* File Upload Area */}
-      <div
-        style={{ ...formRowStyles, ...fullWidthStyles }}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-      >
-        <div style={{ ...dropzoneStyles, ...fullWidthStyles }}>
+      {/* File Upload Area: dropzone + uploaded files, side by side */}
+      <div style={uploadRowStyles}>
+        <div
+          style={dropzoneStyles}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+        >
           <div style={dropzoneContentStyles}>
-            <MaterialIcon name="folder" size={48} color={colors['neutral-400']} />
+            <MaterialIcon name="folder" size={36} color={colors['neutral-400']} />
             <div style={dropzoneTextStyles}>Drag & drop files</div>
             <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
               OR
@@ -318,7 +352,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
                 input.click();
               }}
               style={{
-                padding: `${spacing.md} ${spacing.lg}`,
+                padding: `${spacing.sm} ${spacing.lg}`,
                 backgroundColor: colors['neutral-900'],
                 color: colors['neutral-white'],
                 border: 'none',
@@ -342,46 +376,50 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Selected Files List */}
-      {selectedFiles.length > 0 && (
-        <div style={fileListStyles}>
+        {/* Uploaded Files List */}
+        <div style={fileListPanelStyles}>
           <div style={fileListHeaderStyles}>
-            Selected Files ({selectedFiles.length})
+            Uploaded Files ({selectedFiles.length})
           </div>
-          {selectedFiles.map((file, index) => {
-            const ext = file.name.split('.').pop()?.toLowerCase() || '';
-            return (
-              <div key={`${file.name}-${index}`} style={fileRowStyles}>
-                <MaterialIcon
-                  name={fileIconMap[ext] || 'description'}
-                  size={20}
-                  color={colors['neutral-500']}
-                />
-                <div style={fileRowNameStyles}>{file.name}</div>
-                <div style={fileRowSizeStyles}>{formatFileSize(file.size)}</div>
-                <button
-                  style={fileRowRemoveStyles}
-                  onClick={() => removeFile(index)}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
-                    (e.currentTarget as HTMLButtonElement).style.color = colors['error-red'];
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                    (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-500'];
-                  }}
-                  title={`Remove ${file.name}`}
-                  aria-label={`Remove ${file.name}`}
-                >
-                  <MaterialIcon name="close" size={18} />
-                </button>
-              </div>
-            );
-          })}
+          <div style={fileListBodyStyles}>
+            {selectedFiles.length === 0 ? (
+              <div style={fileListEmptyStyles}>No files added yet</div>
+            ) : (
+              selectedFiles.map((file, index) => {
+                const ext = file.name.split('.').pop()?.toLowerCase() || '';
+                return (
+                  <div key={`${file.name}-${index}`} style={fileRowStyles}>
+                    <MaterialIcon
+                      name={fileIconMap[ext] || 'description'}
+                      size={20}
+                      color={colors['neutral-500']}
+                    />
+                    <div style={fileRowNameStyles}>{file.name}</div>
+                    <div style={fileRowSizeStyles}>{formatFileSize(file.size)}</div>
+                    <button
+                      style={fileRowRemoveStyles}
+                      onClick={() => removeFile(index)}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                        (e.currentTarget as HTMLButtonElement).style.color = colors['error-red'];
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                        (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-500'];
+                      }}
+                      title={`Remove ${file.name}`}
+                      aria-label={`Remove ${file.name}`}
+                    >
+                      <MaterialIcon name="close" size={18} />
+                    </button>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
-      )}
+      </div>
 
       {/* Action Buttons */}
       <div style={buttonGroupStyles}>
