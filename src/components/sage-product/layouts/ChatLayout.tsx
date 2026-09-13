@@ -3,6 +3,7 @@ import { colors, spacing, typography, borderRadius, shadows } from '../../../sty
 import { Sidebar, SidebarItem } from '../Sidebar';
 import { ChatBubble } from '../ChatBubble';
 import { MaterialIcon } from '../MaterialIcon';
+import { DocumentPanel } from '../DocumentPanel';
 
 /**
  * ChatLayout Component
@@ -97,6 +98,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(sidebarCollapsed);
+  const [selectedCitation, setSelectedCitation] = useState<string | null>(null);
 
   const handleSendMessage = (text?: string) => {
     const value = (text ?? inputValue).trim();
@@ -128,6 +130,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     backgroundColor: colors['neutral-white'],
     minWidth: 0,
     minHeight: 0,
+    position: 'relative',
+    overflow: 'hidden',
   };
 
   const READING_WIDTH = '760px';
@@ -371,6 +375,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     disliked={(msg as any).disliked}
                     onShare={() => console.log('Share message:', msg.id)}
                     onRegenerate={() => console.log('Regenerate message:', msg.id)}
+                    onCitationClick={(citation) => setSelectedCitation(citation)}
                   />
                 ))}
                 </div>
@@ -382,6 +387,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
               </div>
             </>
           )}
+
+          <DocumentPanel citation={selectedCitation} onClose={() => setSelectedCitation(null)} />
         </div>
       </div>
     </div>

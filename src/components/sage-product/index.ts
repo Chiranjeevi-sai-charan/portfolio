@@ -24,6 +24,7 @@ export { MaterialIcon } from "./MaterialIcon";
 // Content Display Components
 export { ChatBubble } from "./ChatBubble";
 export { MessageActions } from "./MessageActions";
+export { DocumentPanel } from "./DocumentPanel";
 export { DocumentUpload } from "./DocumentUpload";
 export { DocumentList } from "./DocumentList";
 export { UserManagementTable } from "./UserManagementTable";

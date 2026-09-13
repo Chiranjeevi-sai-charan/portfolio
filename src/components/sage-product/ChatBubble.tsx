@@ -37,6 +37,9 @@ interface ChatBubbleProps {
   /** Optional source citations for AI responses (array of strings) */
   citations?: string[];
 
+  /** Called when a citation link is clicked, to open the source document viewer */
+  onCitationClick?: (citation: string) => void;
+
   /** Timestamp of the message */
   timestamp?: string;
 
@@ -89,6 +92,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   type,
   message,
   citations,
+  onCitationClick,
   loading = false,
   onLike,
   onDislike,
@@ -237,7 +241,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
                       style={citationStyles}
                       onClick={(e) => {
                         e.preventDefault();
-                        console.log('Viewing source:', citation);
+                        onCitationClick?.(citation);
                       }}
                       title={`View source: ${citation}`}
                       onMouseEnter={(e) => {
