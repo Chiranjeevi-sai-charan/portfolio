@@ -421,6 +421,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
       <ChatLayout
         userRole={ROLE_LABELS[role]}
         userName={userName}
+        userDepartment={isSystemAdmin ? 'All Departments' : department}
         messages={messages}
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}

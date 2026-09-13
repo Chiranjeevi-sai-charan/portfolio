@@ -36,6 +36,7 @@ export interface SidebarItem {
 interface SidebarUser {
   name: string;
   role: string;
+  department?: string;
 }
 
 interface SidebarProps {
@@ -472,6 +473,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const userRoleStyles: React.CSSProperties = {
     fontSize: typography.fontSize['body-xs'],
     color: colors['neutral-500'],
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  };
+
+  const userDepartmentStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-xs'],
+    color: colors['neutral-400'],
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   };
 
   const userMenuStyles: React.CSSProperties = {
@@ -692,9 +704,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <div style={userAvatarStyles}>{getUserInitials(user.name)}</div>
             {!collapsed && (
-              <div style={{ overflow: 'hidden' }}>
+              <div style={{ overflow: 'hidden', minWidth: 0 }} title={user.department ? `${user.role} · ${user.department}` : user.role}>
                 <div style={userNameStyles}>{user.name}</div>
                 <div style={userRoleStyles}>{user.role}</div>
+                {user.department && <div style={userDepartmentStyles}>{user.department}</div>}
               </div>
             )}
           </button>

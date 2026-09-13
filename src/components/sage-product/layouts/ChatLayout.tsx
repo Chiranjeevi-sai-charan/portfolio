@@ -37,6 +37,9 @@ interface ChatLayoutProps {
   /** User's name */
   userName?: string;
 
+  /** User's department, shown under their role in the sidebar footer */
+  userDepartment?: string;
+
   /** User initials (for avatar) */
   userInitials?: string;
 
@@ -91,6 +94,7 @@ const SUGGESTIONS = [
 export const ChatLayout: React.FC<ChatLayoutProps> = ({
   userRole = 'Employee',
   userName = 'User',
+  userDepartment,
   userInitials = 'U',
   messages = [],
   onSendMessage,
@@ -334,7 +338,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
               console.log('Chat selected:', item);
             }
           }}
-          user={{ name: userName, role: userRole }}
+          user={{ name: userName, role: userRole, department: userDepartment }}
           onUserMenuAction={onUserMenuAction ?? ((action) => console.log('User menu action:', action))}
           onItemMenuAction={onChatMenuAction}
           managementLinks={managementLinks}

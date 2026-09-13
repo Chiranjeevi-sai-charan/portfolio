@@ -170,6 +170,7 @@ export const EmployeeChatbot: React.FC = () => {
       <ChatLayout
         userRole="Employee"
         userName="Sai Ganesh"
+        userDepartment="Human Resources (HR)"
         userInitials="SG"
         messages={messages}
         onSendMessage={handleSendMessage}
