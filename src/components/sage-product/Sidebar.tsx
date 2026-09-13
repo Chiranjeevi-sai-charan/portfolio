@@ -72,6 +72,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
+  const [language, setLanguage] = React.useState<'en' | 'ja'>('en');
   const userMenuRef = React.useRef<HTMLDivElement>(null);
 
   const toggleExpanded = (label: string) => {
@@ -106,11 +107,41 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const logoSectionStyles: React.CSSProperties = {
-    padding: spacing.lg,
+    padding: `${spacing.md} ${spacing.md}`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: collapsed ? 'center' : 'space-between',
+    minHeight: '56px',
+    gap: spacing.sm,
+  };
+
+  const brandTextStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['h4'],
+    fontWeight: typography.fontWeight.bold,
+    color: colors['neutral-900'],
+    letterSpacing: '0.5px',
+    whiteSpace: 'nowrap',
+  };
+
+  const logoActionsStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '2px',
+  };
+
+  const iconButtonStyles: React.CSSProperties = {
+    width: '32px',
+    height: '32px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '56px',
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderRadius: borderRadius.md,
+    cursor: 'pointer',
+    transition: 'background-color 0.15s ease-in-out',
+    color: colors['neutral-700'],
+    flexShrink: 0,
   };
 
   const menuStyles: React.CSSProperties = {
@@ -178,26 +209,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     minWidth: '24px',
     textAlign: 'center',
     flexShrink: 0,
-  };
-
-  const collapseSectionStyles: React.CSSProperties = {
-    padding: spacing.sm,
-    display: 'flex',
-    justifyContent: 'center',
-  };
-
-  const collapseButtonStyles: React.CSSProperties = {
-    width: '36px',
-    height: '36px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    border: 'none',
-    borderRadius: borderRadius.md,
-    cursor: 'pointer',
-    transition: 'background-color 0.15s ease-in-out',
-    color: colors['neutral-600'],
   };
 
   const renderMenuItem = (item: SidebarItem, level = 0) => {
@@ -346,6 +357,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
     margin: `${spacing.xs} 0`,
   };
 
+  const languageRowStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+    width: '100%',
+    padding: `${spacing.sm} ${spacing.md}`,
+  };
+
+  const languageLabelStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+    fontSize: typography.fontSize['body-sm'],
+    color: colors['neutral-900'],
+  };
+
+  const langToggleGroupStyles: React.CSSProperties = {
+    display: 'flex',
+    gap: '4px',
+  };
+
+  const langButtonStyles = (active: boolean): React.CSSProperties => ({
+    padding: `2px ${spacing.sm}`,
+    borderRadius: borderRadius.sm,
+    border: 'none',
+    fontSize: typography.fontSize['body-xs'],
+    fontWeight: typography.fontWeight.semibold,
+    cursor: 'pointer',
+    backgroundColor: active ? colors['neutral-900'] : colors['neutral-100'],
+    color: active ? colors['neutral-white'] : colors['neutral-600'],
+  });
+
   const getUserInitials = (name: string) =>
     name
       .split(' ')
@@ -364,36 +408,64 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <div style={sidebarStyles}>
       {/* Logo Section */}
       <div style={logoSectionStyles}>
-        {logo || <MaterialIcon name="psychology" size={22} color={colors['neutral-900']} />}
+        {!collapsed && (logo || <div style={brandTextStyles}>SAGE</div>)}
+        <div style={logoActionsStyles}>
+          {!collapsed && (
+            <button
+              style={iconButtonStyles}
+              onClick={() => console.log('Search clicked')}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+              }}
+              title="Search"
+              aria-label="Search"
+            >
+              <MaterialIcon name="search" size={20} />
+            </button>
+          )}
+          <button
+            style={iconButtonStyles}
+            onClick={onCollapseToggle}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+            }}
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            <MaterialIcon name="left_panel_close" size={20} />
+          </button>
+        </div>
       </div>
-
-      {!collapsed && <div style={sectionLabelStyles}>Chats</div>}
 
       {/* Menu Items */}
       <div style={menuStyles}>{items.map((item) => renderMenuItem(item))}</div>
-
-      {/* Collapse Toggle */}
-      <div style={collapseSectionStyles}>
-        <button
-          style={collapseButtonStyles}
-          onClick={onCollapseToggle}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-          }}
-          title={collapsed ? 'Expand' : 'Collapse'}
-        >
-          <MaterialIcon name={collapsed ? 'chevron_right' : 'chevron_left'} size={20} />
-        </button>
-      </div>
 
       {/* User Footer */}
       {user && (
         <div style={userFooterStyles} ref={userMenuRef}>
           {userMenuOpen && (
             <div style={userMenuStyles}>
+              <div style={languageRowStyles}>
+                <div style={languageLabelStyles}>
+                  <MaterialIcon name="language" size={18} color={colors['neutral-700']} />
+                  Language
+                </div>
+                <div style={langToggleGroupStyles}>
+                  <button style={langButtonStyles(language === 'en')} onClick={() => setLanguage('en')}>
+                    EN
+                  </button>
+                  <button style={langButtonStyles(language === 'ja')} onClick={() => setLanguage('ja')}>
+                    JA
+                  </button>
+                </div>
+              </div>
+              <div style={userMenuDividerStyles} />
               {menuActions.map((action) => (
                 <button
                   key={action.id}

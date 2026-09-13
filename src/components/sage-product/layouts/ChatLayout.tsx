@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { colors, spacing, typography, componentSizes, borderRadius, shadows } from '../../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius, shadows } from '../../../styles/sage/tokens';
 import { Sidebar, SidebarItem } from '../Sidebar';
 import { ChatBubble } from '../ChatBubble';
 import { MaterialIcon } from '../MaterialIcon';
@@ -71,8 +71,7 @@ const SUGGESTIONS = [
  * ChatLayout - Employee chatbot layout
  *
  * Components:
- * - Header: Brand, search, language
- * - Sidebar: Chat filter, chat history, pinned user footer
+ * - Sidebar: Brand, search, chats/saved, pinned user footer (with language toggle)
  * - Main: Empty-state greeting + pill input, or chat messages and input area
  */
 export const ChatLayout: React.FC<ChatLayoutProps> = ({
@@ -104,41 +103,6 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     backgroundColor: colors['neutral-white'],
     flexDirection: 'column',
   };
-
-  const headerStyles: React.CSSProperties = {
-    height: '56px',
-    flexShrink: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: `0 ${spacing.lg}`,
-    borderBottom: `1px solid ${colors['neutral-200']}`,
-    backgroundColor: colors['neutral-white'],
-  };
-
-  const brandStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['h4'],
-    fontWeight: typography.fontWeight.bold,
-    color: colors['neutral-900'],
-    letterSpacing: '0.5px',
-  };
-
-  const headerActionsStyles: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: spacing.sm,
-  };
-
-  const langButtonStyles = (active: boolean): React.CSSProperties => ({
-    padding: `4px ${spacing.sm}`,
-    borderRadius: borderRadius.sm,
-    border: 'none',
-    fontSize: typography.fontSize['body-xs'],
-    fontWeight: typography.fontWeight.semibold,
-    cursor: 'pointer',
-    backgroundColor: active ? colors['neutral-900'] : colors['neutral-100'],
-    color: active ? colors['neutral-white'] : colors['neutral-600'],
-  });
 
   const contentWrapperStyles: React.CSSProperties = {
     display: 'flex',
@@ -263,12 +227,18 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const defaultSidebarItems: SidebarItem[] = [
     {
-      id: 'new-chat',
       label: 'New Chat',
       icon: 'add',
-      onClick: () => console.log('New chat'),
     },
-    ...chatHistory,
+    {
+      label: 'Saved',
+      icon: 'bookmark',
+    },
+    {
+      label: 'Chats',
+      icon: 'chat',
+      children: chatHistory,
+    },
   ];
 
   const renderPillInput = () => (
@@ -313,22 +283,6 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   return (
     <div style={layoutStyles} className={className}>
-      {/* Header */}
-      <div style={headerStyles}>
-        <div style={brandStyles}>SAGE</div>
-        <div style={headerActionsStyles}>
-          <button style={langButtonStyles(true)}>EN</button>
-          <button style={langButtonStyles(false)}>JA</button>
-          <button
-            style={{ ...roundIconButtonStyles, color: colors['neutral-700'] }}
-            title="Notifications"
-            aria-label="Notifications"
-          >
-            <MaterialIcon name="notifications" size={20} />
-          </button>
-        </div>
-      </div>
-
       {/* Content Area */}
       <div style={contentWrapperStyles}>
         {/* Sidebar */}
