@@ -39,6 +39,7 @@ export { Modal, type ModalAction } from "./Modal";
 export { Dropdown, type DropdownItem } from "./Dropdown";
 export { Alert } from "./Alert";
 export { Toast } from "./Toast";
+export { ToastProvider, useToast } from "./ToastProvider";
 
 // Utility Components
 export { LoadingSpinner } from "./LoadingSpinner";

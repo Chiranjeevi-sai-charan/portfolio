@@ -2,6 +2,7 @@ import React from 'react';
 import { colors, spacing, typography, borderRadius, shadows } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 import { getMockDocument } from '../../utils/mockDocuments';
+import { useToast } from './ToastProvider';
 
 /**
  * DocumentPanel Component
@@ -29,6 +30,12 @@ interface DocumentPanelProps {
 export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose }) => {
   const isOpen = !!citation;
   const doc = citation ? getMockDocument(citation) : null;
+  const { showToast } = useToast();
+
+  const handleDownload = () => {
+    if (!doc) return;
+    showToast(`Downloading "${doc.title}.pdf"...`, 'info');
+  };
 
   const overlayStyles: React.CSSProperties = {
     position: 'absolute',
@@ -143,20 +150,36 @@ export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose 
             <MaterialIcon name="description" size={20} color={colors['neutral-700']} />
             <span>{doc?.title || ''}</span>
           </div>
-          <button
-            style={closeButtonStyles}
-            onClick={onClose}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-            }}
-            title="Close"
-            aria-label="Close document viewer"
-          >
-            <MaterialIcon name="close" size={20} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: spacing.xs, flexShrink: 0 }}>
+            <button
+              style={closeButtonStyles}
+              onClick={handleDownload}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+              }}
+              title="Download PDF"
+              aria-label="Download PDF"
+            >
+              <MaterialIcon name="download" size={20} />
+            </button>
+            <button
+              style={closeButtonStyles}
+              onClick={onClose}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+              }}
+              title="Close"
+              aria-label="Close document viewer"
+            >
+              <MaterialIcon name="close" size={20} />
+            </button>
+          </div>
         </div>
 
         <div style={bodyStyles}>

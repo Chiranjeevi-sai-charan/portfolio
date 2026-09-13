@@ -435,7 +435,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const userRowStyles: React.CSSProperties = {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: spacing.sm,
     padding: spacing.sm,
     borderRadius: borderRadius.md,

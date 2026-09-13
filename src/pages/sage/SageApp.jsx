@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon } from '../../components/sage-product';
+import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon, ToastProvider } from '../../components/sage-product';
 
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
@@ -33,6 +33,7 @@ export default function SageApp() {
   const ActiveComponent = activeRoleData?.component;
 
   return (
+    <ToastProvider>
     <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' }}>
       {/* Header Bar */}
       <div
@@ -117,5 +118,6 @@ export default function SageApp() {
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>
+    </ToastProvider>
   );
 }

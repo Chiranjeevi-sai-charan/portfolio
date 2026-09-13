@@ -7,6 +7,7 @@ import { DocumentList } from '../DocumentList';
 import { UserManagementTable } from '../UserManagementTable';
 import { AddUserModal } from '../AddUserModal';
 import { MaterialIcon } from '../MaterialIcon';
+import { useToast } from '../ToastProvider';
 import {
   Document,
   documentStorage,
@@ -98,6 +99,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
   const [documents, setDocuments] = useState<Document[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     initializeMockData();
@@ -188,22 +190,29 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
       doc.status = 'deleted';
       documentStorage.save(doc);
       refreshData();
+      showToast(`"${doc.name}" deleted`, 'success');
     }
   };
 
   const handleDocumentArchive = (docId: string) => {
+    const doc = documentStorage.getById(docId);
     documentStorage.archive(docId);
     refreshData();
+    if (doc) showToast(`"${doc.name}" archived`, 'success');
   };
 
   const handleDocumentRestore = (docId: string) => {
+    const doc = documentStorage.getById(docId);
     documentStorage.restore(docId);
     refreshData();
+    if (doc) showToast(`"${doc.name}" restored`, 'success');
   };
 
   const handleUserDelete = (userId: string) => {
+    const user = users.find((u) => u.id === userId);
     userStorage.delete(userId);
     refreshData();
+    showToast(user ? `${user.name} removed` : 'User removed', 'success');
   };
 
   const handleUserCreate = (newUser: Omit<User, 'id' | 'createdAt'>) => {
@@ -213,6 +222,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
       createdAt: Date.now(),
     });
     refreshData();
+    showToast(`${newUser.name} added as ${ROLE_LABELS[newUser.role]}`, 'success');
   };
 
   const managementLinks = [
@@ -315,7 +325,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={isSystemAdmin ? handleDocumentDelete : undefined}
             onDocumentArchive={handleDocumentArchive}
-            onDocumentDownload={(doc) => alert(`Document "${doc.name}" would be downloaded here`)}
+            onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}
         {documentTab === 'archived' && (
@@ -324,7 +334,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
             showSearch
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={isSystemAdmin ? handleDocumentDelete : undefined}
-            onDocumentDownload={(doc) => alert(`Document "${doc.name}" would be downloaded here`)}
+            onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}
         {documentTab === 'deleted' && isSystemAdmin && (
@@ -367,6 +377,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
                               if (confirm(`Permanently delete "${doc.name}"?`)) {
                                 documentStorage.delete(doc.id);
                                 refreshData();
+                                showToast(`"${doc.name}" permanently deleted`, 'success');
                               }
                             }}
                             style={{ background: 'none', border: 'none', cursor: 'pointer', color: colors['error-red'] }}

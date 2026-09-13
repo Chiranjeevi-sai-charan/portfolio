@@ -5,6 +5,7 @@ import { Select } from './Select';
 import { Input } from './Input';
 import { Document, documentStorage } from '../../utils/storage';
 import { MaterialIcon } from './MaterialIcon';
+import { useToast } from './ToastProvider';
 
 interface DocumentUploadProps {
   departments: string[];
@@ -31,6 +32,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const [documentDate, setDocumentDate] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const { showToast } = useToast();
 
   const containerStyles: React.CSSProperties = {
     padding: spacing.lg,
@@ -241,7 +243,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
       !selectedSensitivity ||
       !documentDate
     ) {
-      alert('Please fill all fields, choose a document date, and select at least one file');
+      showToast('Please fill all fields, choose a document date, and select at least one file', 'warning');
       return;
     }
 
@@ -275,7 +277,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
     setSelectedSensitivity('');
     setDocumentDate('');
 
-    alert(`${count} document${count > 1 ? 's' : ''} uploaded successfully!`);
+    showToast(`${count} document${count > 1 ? 's' : ''} uploaded successfully`, 'success');
   };
 
   return (

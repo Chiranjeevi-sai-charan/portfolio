@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { colors, spacing, borderRadius, shadows } from '../../styles/sage/tokens';
 import { MessageActions } from './MessageActions';
 import { MaterialIcon } from './MaterialIcon';
+import { useToast } from './ToastProvider';
 
 /**
  * ChatBubble Component
@@ -105,6 +106,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   const isUser = type === 'user';
   const [isHovering, setIsHovering] = useState(false);
   const [feedback, setFeedback] = useState<'liked' | 'disliked' | null>(null);
+  const { showToast } = useToast();
 
   const bubbleContainerStyles: React.CSSProperties = {
     display: 'flex',
@@ -184,7 +186,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   const handleCopy = () => {
     if (message) {
       navigator.clipboard.writeText(message);
-      console.log('Message copied to clipboard');
+      showToast('Copied to clipboard', 'success');
     }
   };
 
@@ -192,13 +194,13 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     if (message) {
       navigator.clipboard.writeText(message);
     }
-    console.log('Sharing message');
     onShare?.();
+    showToast('Share link copied to clipboard', 'success');
   };
 
   const handleRegenerate = () => {
-    console.log('Regenerating response');
     onRegenerate?.();
+    showToast('Regenerating response...', 'info');
   };
 
   const handleEdit = () => {
@@ -206,10 +208,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   };
 
   const handleSpeak = () => {
-    console.log('Text-to-speech: Playing audio for message');
     if ('speechSynthesis' in window && message) {
-      const utterance = new SpeechSynthesisUtterance(message);
-      window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
     }
   };
 
