@@ -16,10 +16,11 @@ import { useToast } from './ToastProvider';
  * // User message
  * <ChatBubble type="user" message="What is the leave policy?" timestamp="2024-09-13 10:30" />
  *
- * // AI response with citations
+ * // AI response with citations — inline markers like "[[1]]" in the message
+ * // render as clickable numbered references tied to the citations array
  * <ChatBubble
  *   type="ai"
- *   message="The leave policy allows 20 days of paid leave per year."
+ *   message="The leave policy allows 20 days of paid leave per year.[[1]]"
  *   citations={["Leave Policy Document", "HR Portal - Vacation Request Guide"]}
  *   timestamp="2024-09-13 10:31"
  * />
@@ -68,6 +69,12 @@ interface ChatBubbleProps {
   /** Whether message is disliked */
   disliked?: boolean;
 }
+
+/** Matches inline citation markers like "[[1]]" embedded in mock AI response text. */
+const CITATION_MARKER_REGEX = /\[\[(\d+)\]\]/g;
+
+/** Removes inline citation markers — used when copying/sharing/speaking the raw message text. */
+const stripCitationMarkers = (text: string) => text.replace(CITATION_MARKER_REGEX, '').trim();
 
 /**
  * ChatBubble - Message container for chat interface
@@ -158,6 +165,26 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     transition: 'background-color 0.2s ease',
   };
 
+  const citationMarkerStyles: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: '16px',
+    height: '16px',
+    padding: '0 4px',
+    marginLeft: '2px',
+    fontSize: '10px',
+    fontWeight: 700,
+    color: colors['accent-blue'],
+    backgroundColor: `${colors['accent-blue']}1A`,
+    border: 'none',
+    borderRadius: borderRadius.full,
+    cursor: 'pointer',
+    verticalAlign: 'super',
+    lineHeight: 1,
+    transition: 'background-color 0.15s ease',
+  };
+
   const loadingDotsStyles: React.CSSProperties = {
     display: 'flex',
     gap: '4px',
@@ -185,14 +212,14 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
   const handleCopy = () => {
     if (message) {
-      navigator.clipboard.writeText(message);
+      navigator.clipboard.writeText(stripCitationMarkers(message));
       showToast('Copied to clipboard', 'success');
     }
   };
 
   const handleShare = () => {
     if (message) {
-      navigator.clipboard.writeText(message);
+      navigator.clipboard.writeText(stripCitationMarkers(message));
     }
     onShare?.();
     showToast('Share link copied to clipboard', 'success');
@@ -209,8 +236,49 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
   const handleSpeak = () => {
     if ('speechSynthesis' in window && message) {
-      window.speechSynthesis.speak(new SpeechSynthesisUtterance(message));
+      window.speechSynthesis.speak(new SpeechSynthesisUtterance(stripCitationMarkers(message)));
     }
+  };
+
+  /** Renders message text, turning "[[n]]" markers into clickable citation numbers. */
+  const renderMessageContent = (text: string): React.ReactNode[] => {
+    const nodes: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+    let key = 0;
+    CITATION_MARKER_REGEX.lastIndex = 0;
+    while ((match = CITATION_MARKER_REGEX.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        nodes.push(text.slice(lastIndex, match.index));
+      }
+      const citation = citations?.[parseInt(match[1], 10) - 1];
+      if (citation) {
+        nodes.push(
+          <button
+            key={`cite-${key++}`}
+            style={citationMarkerStyles}
+            onClick={() => onCitationClick?.(citation)}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['accent-blue'];
+              (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-white'];
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = `${colors['accent-blue']}1A`;
+              (e.currentTarget as HTMLButtonElement).style.color = colors['accent-blue'];
+            }}
+            title={`View source: ${citation}`}
+            aria-label={`View source ${match[1]}: ${citation}`}
+          >
+            {match[1]}
+          </button>
+        );
+      }
+      lastIndex = CITATION_MARKER_REGEX.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      nodes.push(text.slice(lastIndex));
+    }
+    return nodes;
   };
 
   return (
@@ -229,7 +297,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
             </div>
           ) : (
             <>
-              {message && <p style={messageStyles}>{message}</p>}
+              {message && <p style={messageStyles}>{renderMessageContent(message)}</p>}
 
               {citations && citations.length > 0 && !isUser && (
                 <div style={citationsContainerStyles}>

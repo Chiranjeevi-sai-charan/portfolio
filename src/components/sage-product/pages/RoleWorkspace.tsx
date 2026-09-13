@@ -17,6 +17,7 @@ import {
   initializeMockData,
 } from '../../../utils/storage';
 import { DEPARTMENTS, CONTENT_TYPES, SENSITIVITIES, ROLE_LABELS } from '../../../utils/sageConstants';
+import { generateAIResponse } from '../../../utils/mockAIResponses';
 
 /**
  * RoleWorkspace Page
@@ -55,39 +56,6 @@ const SEED_CONVERSATIONS: Conversation[] = [
   { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'beach_access' },
   { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'local_hospital' },
 ];
-
-const generateAIResponse = (userMessage: string): string => {
-  const responses: Record<string, string> = {
-    vacation:
-      'You have 20 days of paid vacation per year, which resets on January 1st. You can request time off through the HR portal up to 30 days in advance.',
-    sick: 'You have 10 paid sick days per year for illness or medical appointments. Extended absences may require medical documentation.',
-    insurance:
-      'We offer comprehensive health insurance with 80% coverage of premiums. Open enrollment is in November each year.',
-    benefits:
-      'Benefits include health insurance, 401(k) matching, gym membership reimbursement, and professional development budget.',
-    remote:
-      'Our work-from-home policy allows up to 3 days per week remote work. Please coordinate with your manager and ensure regular team presence.',
-  };
-  const lowerMessage = userMessage.toLowerCase();
-  for (const [key, response] of Object.entries(responses)) {
-    if (lowerMessage.includes(key)) return response;
-  }
-  return "That's a great question! Based on our company policies, I recommend reaching out to the HR team at hr@company.com for detailed information.";
-};
-
-const generateCitations = (userMessage: string): string[] => {
-  const citations: Record<string, string[]> = {
-    vacation: ['Company Handbook - Time Off Policy', 'HR Portal - Vacation Request Guide'],
-    sick: ['Company Handbook - Sick Leave', 'Employee Benefits Summary'],
-    insurance: ['Company Handbook - Health Benefits', 'Open Enrollment Guide 2024'],
-    benefits: ['Employee Benefits Summary', 'Compensation & Benefits Package'],
-    remote: ['Company Handbook - Work Arrangements', 'Remote Work Policy v2.0'],
-  };
-  for (const [key, cits] of Object.entries(citations)) {
-    if (userMessage.toLowerCase().includes(key)) return cits;
-  }
-  return ['Company Handbook', 'HR Portal'];
-};
 
 export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, department }) => {
   const isSystemAdmin = role === 'system-admin';
@@ -166,12 +134,13 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     setMessages((prev) => [...prev, userMsg]);
 
     setTimeout(() => {
+      const response = generateAIResponse(userMessage);
       const aiMsg: Message = {
         id: String(Date.now() + 1),
         type: 'ai',
-        content: generateAIResponse(userMessage),
+        content: response.text,
         timestamp: new Date().toLocaleTimeString(),
-        citations: generateCitations(userMessage),
+        citations: response.citations,
       };
       setMessages((prev) => [...prev, aiMsg]);
     }, 1000);
