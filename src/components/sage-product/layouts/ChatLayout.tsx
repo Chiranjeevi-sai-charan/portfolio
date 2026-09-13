@@ -310,7 +310,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           items={defaultSidebarItems}
           collapsed={isCollapsed}
           onCollapseToggle={() => setIsCollapsed(!isCollapsed)}
-          activeItem={chatHistory[0]?.label}
+          activeItemId={chatHistory[0]?.id}
           onItemClick={(item) => {
             if (item.label === 'New Chat') {
               onNewChat?.();

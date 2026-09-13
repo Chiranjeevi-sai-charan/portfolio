@@ -89,7 +89,6 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   type,
   message,
   citations,
-  timestamp,
   loading = false,
   onLike,
   onDislike,
@@ -110,7 +109,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   };
 
   const bubbleStyles: React.CSSProperties = {
-    maxWidth: isUser ? '70%' : '100%',
+    maxWidth: isUser ? '480px' : '100%',
+    width: 'fit-content',
     padding: isUser ? `${spacing.sm} ${spacing.lg}` : 0,
     borderRadius: borderRadius.lg,
     backgroundColor: isUser ? colors['neutral-100'] : 'transparent',
@@ -150,14 +150,6 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     padding: spacing.xs,
     borderRadius: borderRadius.sm,
     transition: 'background-color 0.2s ease',
-  };
-
-  const timestampStyles: React.CSSProperties = {
-    fontSize: '11px',
-    color: colors['neutral-500'],
-    marginTop: spacing.xs,
-    whiteSpace: 'nowrap',
-    textAlign: isUser ? 'right' : 'left',
   };
 
   const loadingDotsStyles: React.CSSProperties = {
@@ -203,6 +195,10 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   const handleRegenerate = () => {
     console.log('Regenerating response');
     onRegenerate?.();
+  };
+
+  const handleEdit = () => {
+    console.log('Editing message');
   };
 
   const handleSpeak = () => {
@@ -260,9 +256,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           )}
         </div>
 
-        {timestamp && !loading && <div style={timestampStyles}>{timestamp}</div>}
-
-        {/* Message Actions - Show for AI responses */}
+        {/* Message Actions */}
         {!loading && !isUser && (isHovering || feedback) && (
           <MessageActions
             liked={feedback === 'liked'}
@@ -276,6 +270,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
             onRegenerate={handleRegenerate}
             compact
           />
+        )}
+
+        {!loading && isUser && isHovering && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <MessageActions onCopy={handleCopy} onShare={handleShare} onEdit={handleEdit} compact />
+          </div>
         )}
       </div>
     </div>

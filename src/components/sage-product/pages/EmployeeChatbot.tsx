@@ -50,6 +50,7 @@ export const EmployeeChatbot: React.FC = () => {
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
 
   const chatHistory: SidebarItem[] = conversations.map((c) => ({
+    id: c.id,
     label: c.title,
     icon: c.icon,
   }));

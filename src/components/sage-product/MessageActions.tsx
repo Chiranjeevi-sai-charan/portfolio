@@ -10,6 +10,7 @@ interface MessageActionsProps {
   onSpeak?: () => void;
   onShare?: () => void;
   onRegenerate?: () => void;
+  onEdit?: () => void;
   liked?: boolean;
   disliked?: boolean;
   compact?: boolean;
@@ -23,6 +24,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
   onSpeak,
   onShare,
   onRegenerate,
+  onEdit,
   liked = false,
   disliked = false,
   compact = false,
@@ -193,6 +195,24 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           aria-label="Try again"
         >
           <MaterialIcon name="refresh" size={compact ? 16 : 18} />
+        </button>
+      )}
+
+      {/* Edit Button */}
+      {onEdit && (
+        <button
+          onClick={onEdit}
+          style={buttonStyle}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = colors['neutral-700'];
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = colors['neutral-500'];
+          }}
+          title="Edit message"
+          aria-label="Edit message"
+        >
+          <MaterialIcon name="edit" size={compact ? 16 : 18} />
         </button>
       )}
     </div>

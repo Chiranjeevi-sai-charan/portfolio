@@ -21,6 +21,8 @@ import { MaterialIcon } from './MaterialIcon';
  */
 
 export interface SidebarItem {
+  /** Unique identifier, used to determine the active item. Falls back to label matching if omitted. */
+  id?: string;
   icon: string;
   label: string;
   href?: string;
@@ -38,8 +40,11 @@ interface SidebarProps {
   /** Menu items to display */
   items: SidebarItem[];
 
-  /** Currently active item label */
+  /** Currently active item label (fallback matching when items have no id) */
   activeItem?: string;
+
+  /** Currently active item id (preferred — avoids matching multiple items with the same label) */
+  activeItemId?: string;
 
   /** Menu item click handler */
   onItemClick?: (item: SidebarItem) => void;
@@ -63,6 +68,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   items,
   activeItem,
+  activeItemId,
   onItemClick,
   collapsed = false,
   onCollapseToggle,
@@ -212,12 +218,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const renderMenuItem = (item: SidebarItem, level = 0) => {
-    const isActive = activeItem === item.label;
+    const isActive = item.id ? item.id === activeItemId : activeItem === item.label;
     const isExpanded = expandedItems.includes(item.label);
     const hasChildren = item.children && item.children.length > 0;
 
     return (
-      <div key={item.label}>
+      <div key={item.id || item.label}>
         <button
           style={{
             ...menuItemStyles,
