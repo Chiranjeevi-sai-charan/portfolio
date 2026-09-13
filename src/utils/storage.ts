@@ -209,18 +209,6 @@ export const documentStorage = {
     }
   },
 
-  archive: (id: string) => {
-    try {
-      const doc = documentStorage.getById(id);
-      if (doc) {
-        doc.status = 'archived';
-        documentStorage.save(doc);
-      }
-    } catch (err) {
-      console.error('Error archiving document:', err);
-    }
-  },
-
   restore: (id: string) => {
     try {
       const doc = documentStorage.getById(id);

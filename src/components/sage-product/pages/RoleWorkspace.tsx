@@ -194,13 +194,6 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     }
   };
 
-  const handleDocumentArchive = (docId: string) => {
-    const doc = documentStorage.getById(docId);
-    documentStorage.archive(docId);
-    refreshData();
-    if (doc) showToast(`"${doc.name}" archived`, 'success');
-  };
-
   const handleDocumentRestore = (docId: string) => {
     const doc = documentStorage.getById(docId);
     documentStorage.restore(docId);
@@ -269,11 +262,17 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
     overflowY: 'auto',
   };
 
+  // Admins only view Active Documents for their own department; System Admin
+  // additionally sees Archived and Deleted (and can restore/permanently delete).
   const docTabs: { id: typeof documentTab; label: string; icon: string }[] = [
     { id: 'upload', label: 'Upload Document', icon: 'upload_file' },
     { id: 'active', label: 'Active Documents', icon: 'check_circle' },
-    { id: 'archived', label: 'Archived Documents', icon: 'archive' },
-    ...(isSystemAdmin ? [{ id: 'deleted' as const, label: 'Deleted Documents', icon: 'delete' }] : []),
+    ...(isSystemAdmin
+      ? [
+          { id: 'archived' as const, label: 'Archived Documents', icon: 'archive' },
+          { id: 'deleted' as const, label: 'Deleted Documents', icon: 'delete' },
+        ]
+      : []),
   ];
 
   const renderDocumentsView = () => (
@@ -324,16 +323,15 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, de
             showSearch
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={isSystemAdmin ? handleDocumentDelete : undefined}
-            onDocumentArchive={handleDocumentArchive}
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}
-        {documentTab === 'archived' && (
+        {documentTab === 'archived' && isSystemAdmin && (
           <DocumentList
             documents={archivedDocuments}
             showSearch
-            showDepartmentFilter={isSystemAdmin}
-            onDocumentDelete={isSystemAdmin ? handleDocumentDelete : undefined}
+            showDepartmentFilter
+            onDocumentDelete={handleDocumentDelete}
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}

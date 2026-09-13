@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
-import { Document, documentStorage } from '../../utils/storage';
+import { Document } from '../../utils/storage';
 import { Input } from './Input';
 import { Button } from './Button';
 import { Select } from './Select';
@@ -12,7 +12,6 @@ interface DocumentListProps {
   /** Show a department filter dropdown (useful when documents span multiple departments, e.g. System Admin) */
   showDepartmentFilter?: boolean;
   onDocumentDelete?: (docId: string) => void;
-  onDocumentArchive?: (docId: string) => void;
   onDocumentDownload?: (doc: Document) => void;
 }
 
@@ -21,7 +20,6 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   showSearch = true,
   showDepartmentFilter = false,
   onDocumentDelete,
-  onDocumentArchive,
   onDocumentDownload,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -252,21 +250,6 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                       >
                         <MaterialIcon name="download" size={18} />
                       </button>
-                      {onDocumentArchive && (
-                        <button
-                          onClick={() => onDocumentArchive?.(doc.id)}
-                          style={{
-                            ...actionButtonStyles,
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            color: colors['warning-amber'],
-                          }}
-                          title="Archive"
-                        >
-                          <MaterialIcon name="archive" size={18} />
-                        </button>
-                      )}
                       {onDocumentDelete && (
                         <button
                           onClick={() => {
