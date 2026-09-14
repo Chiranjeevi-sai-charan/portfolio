@@ -59,7 +59,7 @@
   transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 .links a:not(.cta):hover {
-  color: var(--accent-text);
+  color: var(--ink);
   border-color: var(--accent);
 }
 .cta {
@@ -86,7 +86,7 @@
 }
 .links a.resumeCta:hover {
   border-color: var(--accent);
-  color: var(--accent-text);
+  color: var(--ink);
 }
 .externalLinkIcon {
   width: 13px;
@@ -125,7 +125,7 @@
 }
 .links a.iconLink:hover {
   border-color: var(--accent);
-  color: var(--accent-text);
+  color: var(--ink);
 }
 @media (max-width: 1100px) {
   .secondary { display: none; }

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { colors, spacing, typography } from '../../../styles/sage/tokens';
-import { Header } from '../Header';
+import { colors, spacing, typography, borderRadius, shadows } from '../../../styles/sage/tokens';
 import { Sidebar, SidebarItem } from '../Sidebar';
-import { Input } from '../Input';
-import { Button } from '../Button';
 import { ChatBubble } from '../ChatBubble';
+import { MaterialIcon } from '../MaterialIcon';
+import { DocumentPanel } from '../DocumentPanel';
 
 /**
  * ChatLayout Component
  *
- * Main layout for employee chatbot interface.
+ * Main layout for employee chatbot interface, styled after ChatGPT's
+ * minimal black & white interface.
  *
  * @component
  * @example
@@ -37,6 +37,9 @@ interface ChatLayoutProps {
   /** User's name */
   userName?: string;
 
+  /** User's department, shown under their role in the sidebar footer */
+  userDepartment?: string;
+
   /** User initials (for avatar) */
   userInitials?: string;
 
@@ -58,28 +61,69 @@ interface ChatLayoutProps {
   /** Children (additional content) */
   children?: React.ReactNode;
 
+  /** Called when the user clicks "New Chat" in the sidebar */
+  onNewChat?: () => void;
+
+  /** Called when a chat's context menu action is used ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
+  onChatMenuAction?: (item: SidebarItem, action: string) => void;
+
+  /** Extra links shown at the top of the user dropdown (e.g. Documents, User Management) */
+  managementLinks?: { id: string; label: string; icon: string }[];
+
+  /** Called when a dropdown menu item (including managementLinks) is clicked */
+  onUserMenuAction?: (action: string) => void;
+
   /** CSS class name */
   className?: string;
+
+  /** Current interface language */
+  language?: 'en' | 'ja';
+
+  /** Called when the user switches the language toggle */
+  onLanguageChange?: (language: 'en' | 'ja') => void;
 }
+
+const SUGGESTIONS: Record<'en' | 'ja', { icon: string; label: string }[]> = {
+  en: [
+    { icon: 'event_available', label: 'How many vacation days do I have left?' },
+    { icon: 'health_and_safety', label: 'What does our health insurance cover?' },
+    { icon: 'home_work', label: 'What is the work-from-home policy?' },
+    { icon: 'menu_book', label: 'Where can I find the employee handbook?' },
+  ],
+  ja: [
+    { icon: 'event_available', label: '残りの有給休暇は何日ありますか？' },
+    { icon: 'health_and_safety', label: '健康保険の保障内容を教えてください' },
+    { icon: 'home_work', label: '在宅勤務の規定を教えてください' },
+    { icon: 'menu_book', label: '従業員ハンドブックはどこで見られますか？' },
+  ],
+};
+
+const STRINGS = {
+  en: {
+    newChat: 'New Chat',
+    chats: 'Chats',
+    greeting: "What's on your mind today?",
+    placeholder: 'Ask anything',
+  },
+  ja: {
+    newChat: '新しいチャット',
+    chats: 'チャット',
+    greeting: '今日は何について知りたいですか？',
+    placeholder: '何でも聞いてください',
+  },
+};
 
 /**
  * ChatLayout - Employee chatbot layout
  *
  * Components:
- * - Header: Logo, search, language, notifications, profile
- * - Sidebar: Chat history, new chat button, collapse toggle
- * - Main: Chat messages and input area
- *
- * Features:
- * - Responsive design
- * - Persistent chat history
- * - User profile display
- * - Notification badge
- * - Language toggle
+ * - Sidebar: Brand, search, chats/saved, pinned user footer (with language toggle)
+ * - Main: Empty-state greeting + pill input, or chat messages and input area
  */
 export const ChatLayout: React.FC<ChatLayoutProps> = ({
   userRole = 'Employee',
   userName = 'User',
+  userDepartment,
   userInitials = 'U',
   messages = [],
   onSendMessage,
@@ -87,29 +131,40 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   sidebarCollapsed = false,
   onSearch,
   children,
+  onNewChat,
+  onChatMenuAction,
+  managementLinks,
+  onUserMenuAction,
   className = '',
+  language = 'en',
+  onLanguageChange,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(sidebarCollapsed);
+  const [selectedCitation, setSelectedCitation] = useState<string | null>(null);
+  const t = STRINGS[language];
 
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      onSendMessage?.(inputValue);
+  const handleSendMessage = (text?: string) => {
+    const value = (text ?? inputValue).trim();
+    if (value) {
+      onSendMessage?.(value);
       setInputValue('');
     }
   };
 
   const layoutStyles: React.CSSProperties = {
     display: 'flex',
-    height: '100vh',
-    backgroundColor: colors['neutral-50'],
+    height: '100%',
+    backgroundColor: colors['neutral-white'],
     flexDirection: 'column',
+    minHeight: 0,
   };
 
   const contentWrapperStyles: React.CSSProperties = {
     display: 'flex',
     flex: 1,
     overflow: 'hidden',
+    minHeight: 0,
   };
 
   const mainStyles: React.CSSProperties = {
@@ -117,115 +172,269 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: colors['neutral-white'],
+    minWidth: 0,
+    minHeight: 0,
+    position: 'relative',
+    overflow: 'hidden',
+  };
+
+  const READING_WIDTH = '760px';
+
+  const messagesScrollStyles: React.CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
   };
 
   const messagesContainerStyles: React.CSSProperties = {
-    flex: 1,
-    overflowY: 'auto',
-    padding: spacing.lg,
+    maxWidth: READING_WIDTH,
+    margin: '0 auto',
+    padding: `${spacing.lg} ${spacing.xl}`,
     display: 'flex',
     flexDirection: 'column',
     gap: spacing.lg,
   };
 
-  const inputAreaStyles: React.CSSProperties = {
-    borderTop: `1px solid ${colors['neutral-200']}`,
-    padding: spacing.lg,
-    backgroundColor: colors['neutral-white'],
+  const emptyStateStyles: React.CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
     display: 'flex',
-    gap: spacing.md,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: spacing.xl,
+    gap: spacing.xl,
   };
 
-  const inputGroupStyles: React.CSSProperties = {
+  const greetingStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['h2'],
+    fontWeight: typography.fontWeight.semibold,
+    color: colors['neutral-900'],
+    textAlign: 'center',
+  };
+
+  const pillFormStyles: React.CSSProperties = {
+    width: '100%',
+    maxWidth: READING_WIDTH,
+  };
+
+  const pillInputWrapperStyles: React.CSSProperties = {
     display: 'flex',
-    gap: spacing.md,
+    alignItems: 'center',
+    gap: spacing.sm,
+    padding: `${spacing.sm} ${spacing.sm} ${spacing.sm} ${spacing.lg}`,
+    border: `1px solid ${colors['neutral-300']}`,
+    borderRadius: '16px',
+    backgroundColor: colors['neutral-white'],
+    boxShadow: shadows.sm,
+  };
+
+  const pillInputStyles: React.CSSProperties = {
     flex: 1,
+    border: 'none',
+    outline: 'none',
+    fontSize: typography.fontSize['body-md'],
+    fontFamily: typography.fontFamily.primary,
+    color: colors['neutral-900'],
+    backgroundColor: 'transparent',
+  };
+
+  const roundIconButtonStyles: React.CSSProperties = {
+    width: '36px',
+    height: '36px',
+    borderRadius: '50%',
+    border: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    backgroundColor: 'transparent',
+    color: colors['neutral-600'],
+    transition: 'background-color 0.15s ease',
+    flexShrink: 0,
+  };
+
+  const sendButtonStyles = (enabled: boolean): React.CSSProperties => ({
+    ...roundIconButtonStyles,
+    backgroundColor: enabled ? colors['neutral-900'] : colors['neutral-200'],
+    color: colors['neutral-white'],
+    cursor: enabled ? 'pointer' : 'not-allowed',
+  });
+
+  const suggestionsListStyles: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '520px',
+    display: 'flex',
+    flexDirection: 'column',
+  };
+
+  const suggestionRowItemStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.md,
+    padding: `${spacing.sm} ${spacing.sm}`,
+    border: 'none',
+    background: 'transparent',
+    color: colors['neutral-600'],
+    fontSize: typography.fontSize['body-md'],
+    cursor: 'pointer',
+    borderRadius: borderRadius.md,
+    transition: 'background-color 0.15s ease',
+    textAlign: 'left',
+    width: '100%',
+  };
+
+  const inputAreaStyles: React.CSSProperties = {
+    padding: `${spacing.md} ${spacing.xl} ${spacing.lg}`,
+    backgroundColor: colors['neutral-white'],
+    display: 'flex',
+    justifyContent: 'center',
+  };
+
+  const inputAreaInnerStyles: React.CSSProperties = {
+    width: '100%',
+    maxWidth: READING_WIDTH,
   };
 
   const defaultSidebarItems: SidebarItem[] = [
     {
       id: 'new-chat',
-      label: 'New Chat',
-      icon: '➕',
-      onClick: () => console.log('New chat'),
+      label: t.newChat,
+      icon: 'add',
     },
-    ...chatHistory,
+    {
+      id: 'chats',
+      label: t.chats,
+      icon: 'chat',
+      children: chatHistory,
+    },
   ];
+
+  const renderPillInput = () => (
+    <div style={pillInputWrapperStyles}>
+      <input
+        style={pillInputStyles}
+        placeholder={t.placeholder}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+          }
+        }}
+      />
+      <button
+        style={roundIconButtonStyles}
+        onClick={() => console.log('Voice input clicked')}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = colors['neutral-100'];
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent';
+        }}
+        title="Use voice input"
+        aria-label="Voice input"
+      >
+        <MaterialIcon name="mic" size={20} />
+      </button>
+      <button
+        style={sendButtonStyles(!!inputValue.trim())}
+        onClick={() => handleSendMessage()}
+        disabled={!inputValue.trim()}
+        title="Send"
+        aria-label="Send"
+      >
+        <MaterialIcon name="arrow_upward" size={18} />
+      </button>
+    </div>
+  );
 
   return (
     <div style={layoutStyles} className={className}>
-      {/* Header */}
-      <Header />
-
       {/* Content Area */}
       <div style={contentWrapperStyles}>
         {/* Sidebar */}
         <Sidebar
           items={defaultSidebarItems}
           collapsed={isCollapsed}
-          onCollapse={setIsCollapsed}
+          onCollapseToggle={() => setIsCollapsed(!isCollapsed)}
           activeItemId={chatHistory[0]?.id}
+          onItemClick={(item) => {
+            if (item.id === 'new-chat') {
+              onNewChat?.();
+            } else {
+              console.log('Chat selected:', item);
+            }
+          }}
+          user={{ name: userName, role: userRole, department: userDepartment }}
+          onUserMenuAction={onUserMenuAction ?? ((action) => console.log('User menu action:', action))}
+          onItemMenuAction={onChatMenuAction}
+          managementLinks={managementLinks}
+          language={language}
+          onLanguageChange={onLanguageChange}
         />
 
         {/* Main Chat Area */}
         <div style={mainStyles}>
           {children ? (
             children
+          ) : messages.length === 0 ? (
+            <div style={emptyStateStyles}>
+              <div style={greetingStyles}>{t.greeting}</div>
+              <div style={pillFormStyles}>{renderPillInput()}</div>
+              <div style={suggestionsListStyles}>
+                {SUGGESTIONS[language].map((s) => (
+                  <button
+                    key={s.label}
+                    style={suggestionRowItemStyles}
+                    onClick={() => handleSendMessage(s.label)}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = colors['neutral-50'];
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    <MaterialIcon name={s.icon} size={20} color={colors['neutral-500']} />
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           ) : (
             <>
               {/* Messages */}
-              <div style={messagesContainerStyles}>
-                {messages.length === 0 ? (
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: '100%',
-                      color: colors['neutral-400'],
-                      fontSize: typography.fontSize['body-md'],
-                    }}
-                  >
-                    Start a conversation
-                  </div>
-                ) : (
-                  messages.map((msg) => (
-                    <ChatBubble
-                      key={msg.id}
-                      message={msg.content}
-                      isUser={msg.type === 'user'}
-                      citations={msg.citations}
-                      loading={msg.type === 'ai' && !msg.content}
-                    />
-                  ))
-                )}
+              <div style={messagesScrollStyles}>
+                <div style={messagesContainerStyles}>
+                {messages.map((msg) => (
+                  <ChatBubble
+                    key={msg.id}
+                    message={msg.content}
+                    type={msg.type}
+                    citations={msg.citations}
+                    language={language}
+                    loading={msg.type === 'ai' && !msg.content}
+                    timestamp={msg.timestamp}
+                    liked={(msg as any).liked}
+                    disliked={(msg as any).disliked}
+                    onShare={() => console.log('Share message:', msg.id)}
+                    onRegenerate={() => console.log('Regenerate message:', msg.id)}
+                    onCitationClick={(citation) => setSelectedCitation(citation)}
+                  />
+                ))}
+                </div>
               </div>
 
               {/* Input Area */}
               <div style={inputAreaStyles}>
-                <div style={inputGroupStyles}>
-                  <Input
-                    placeholder="Ask me anything..."
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSendMessage();
-                      }
-                    }}
-                  />
-                  <Button
-                    variant="primary"
-                    onClick={handleSendMessage}
-                    disabled={!inputValue.trim()}
-                  >
-                    Send
-                  </Button>
-                </div>
+                <div style={inputAreaInnerStyles}>{renderPillInput()}</div>
               </div>
             </>
           )}
+
+          <DocumentPanel citation={selectedCitation} onClose={() => setSelectedCitation(null)} language={language} />
         </div>
       </div>
     </div>

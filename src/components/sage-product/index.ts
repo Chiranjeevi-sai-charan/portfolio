@@ -18,8 +18,17 @@ export { Sidebar, type SidebarItem } from "./Sidebar";
 export { Tabs } from "./Tabs";
 export { Breadcrumbs } from "./Breadcrumbs";
 
+// Icons
+export { MaterialIcon } from "./MaterialIcon";
+
 // Content Display Components
 export { ChatBubble } from "./ChatBubble";
+export { MessageActions } from "./MessageActions";
+export { DocumentPanel } from "./DocumentPanel";
+export { DocumentUpload } from "./DocumentUpload";
+export { DocumentList } from "./DocumentList";
+export { UserManagementTable } from "./UserManagementTable";
+export { AddUserModal } from "./AddUserModal";
 export { Card } from "./Card";
 export { Table, type TableColumn } from "./Table";
 export { Badge } from "./Badge";
@@ -27,9 +36,11 @@ export { Avatar, AvatarGroup } from "./Avatar";
 
 // Modal & Overlay Components
 export { Modal, type ModalAction } from "./Modal";
+export { ConfirmDialog } from "./ConfirmDialog";
 export { Dropdown, type DropdownItem } from "./Dropdown";
 export { Alert } from "./Alert";
 export { Toast } from "./Toast";
+export { ToastProvider, useToast } from "./ToastProvider";
 
 // Utility Components
 export { LoadingSpinner } from "./LoadingSpinner";
@@ -44,5 +55,6 @@ export { SystemAdminLayout } from "./layouts/SystemAdminLayout";
 
 // Pages
 export { EmployeeChatbot } from "./pages/EmployeeChatbot";
+export { RoleWorkspace } from "./pages/RoleWorkspace";
 export { AdminDashboard } from "./pages/AdminDashboard";
 export { SystemAdminDashboard } from "./pages/SystemAdminDashboard";

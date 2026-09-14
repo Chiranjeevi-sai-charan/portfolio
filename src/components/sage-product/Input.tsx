@@ -96,9 +96,11 @@ export const Input: React.FC<InputProps> = ({
     typeof value === 'string' ? value.length : 0
   );
 
+  const { onChange, ...restProps } = props;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCharCount(e.target.value.length);
-    props.onChange?.(e);
+    onChange?.(e);
   };
 
   const containerStyles: React.CSSProperties = {
@@ -192,8 +194,8 @@ export const Input: React.FC<InputProps> = ({
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.currentTarget.style.borderColor = colors['sage-green-500'];
-    e.currentTarget.style.boxShadow = `0 0 0 3px ${colors['sage-green-50']}`;
+    e.currentTarget.style.borderColor = colors['neutral-900'];
+    e.currentTarget.style.boxShadow = `0 0 0 3px ${colors['neutral-100']}`;
     props.onFocus?.(e);
   };
 
@@ -219,10 +221,11 @@ export const Input: React.FC<InputProps> = ({
           style={inputStyles}
           disabled={disabled}
           maxLength={maxLength}
+          value={value}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleChange}
-          {...props}
+          {...restProps}
         />
 
         {icon && iconPosition === 'right' && <div style={iconStyles}>{icon}</div>}

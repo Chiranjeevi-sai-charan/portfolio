@@ -45,21 +45,29 @@ function AppContent() {
   const location = useLocation();
   const isSageRoute = location.pathname === '/sage';
 
+  // The Sage product is an app-like UI with its own internal scroll
+  // regions, not a page-scroll storytelling experience — Lenis
+  // (SmoothScroll) hijacks wheel events globally, which breaks internal
+  // scrolling there (native scrollbar drag still works since that
+  // bypasses wheel events, which is why only wheel/touchpad scroll
+  // appeared broken). So it's excluded on this route entirely.
+  if (isSageRoute) {
+    return <AnimatedRoutes />;
+  }
+
   return (
-    <>
-      {!isSageRoute && <Nav />}
+    <SmoothScroll>
+      <CustomCursor />
+      <Nav />
       <AnimatedRoutes />
-    </>
+    </SmoothScroll>
   );
 }
 
 export default function App() {
   return (
-    <SmoothScroll>
-      <CustomCursor />
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </SmoothScroll>
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }

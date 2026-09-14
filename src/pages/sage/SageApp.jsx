@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard } from '../../components/sage-product';
+import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon, ToastProvider } from '../../components/sage-product';
 
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
@@ -9,21 +9,21 @@ export default function SageApp() {
     {
       id: 'employee',
       label: 'Employee',
-      icon: '👤',
+      icon: 'person',
       description: 'Try the AI-powered chatbot',
       component: EmployeeChatbot,
     },
     {
       id: 'hr-admin',
       label: 'HR Admin',
-      icon: '👥',
+      icon: 'group',
       description: 'Manage employees & policies',
       component: AdminDashboard,
     },
     {
       id: 'system-admin',
       label: 'System Admin',
-      icon: '⚙️',
+      icon: 'settings',
       description: 'System controls & settings',
       component: SystemAdminDashboard,
     },
@@ -33,10 +33,12 @@ export default function SageApp() {
   const ActiveComponent = activeRoleData?.component;
 
   return (
+    <ToastProvider>
     <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' }}>
       {/* Header Bar */}
       <div
         style={{
+          position: 'relative',
           backgroundColor: '#ffffff',
           borderBottom: '1px solid #e5e7eb',
           padding: '12px 24px',
@@ -51,7 +53,7 @@ export default function SageApp() {
         <Link
           to="/case-studies/sage"
           style={{
-            color: '#4CAF50',
+            color: '#111827',
             textDecoration: 'none',
             fontWeight: 600,
             fontSize: '13px',
@@ -67,8 +69,21 @@ export default function SageApp() {
         </Link>
 
         {/* Center: Logo/Title */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: '#111827', fontSize: '14px' }}>
-          <span style={{ fontSize: '18px' }}>🧠</span>
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontWeight: 600,
+            color: '#111827',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+          }}
+        >
           Sage Product Demo
         </div>
 
@@ -80,7 +95,7 @@ export default function SageApp() {
               onClick={() => setActiveRole(role.id)}
               style={{
                 padding: '6px 14px',
-                backgroundColor: activeRole === role.id ? '#2E7D32' : '#f3f4f6',
+                backgroundColor: activeRole === role.id ? '#111827' : '#f3f4f6',
                 color: activeRole === role.id ? 'white' : '#374151',
                 border: 'none',
                 borderRadius: '6px',
@@ -105,16 +120,18 @@ export default function SageApp() {
                 }
               }}
             >
-              {role.icon} {role.label}
+              <MaterialIcon name={role.icon} size={16} />
+              {role.label}
             </button>
           ))}
         </div>
       </div>
 
       {/* Product Content */}
-      <div style={{ flex: 1, overflow: 'hidden', backgroundColor: '#ffffff' }}>
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', backgroundColor: '#ffffff' }}>
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>
+    </ToastProvider>
   );
 }

@@ -108,7 +108,7 @@ export const Button: React.FC<ButtonProps> = ({
   // Variant styles
   const variantStyles: Record<string, React.CSSProperties> = {
     primary: {
-      backgroundColor: colors['sage-green-500'],
+      backgroundColor: colors['neutral-900'],
       color: colors['neutral-white'],
       boxShadow: shadows.sm,
     },
@@ -119,8 +119,8 @@ export const Button: React.FC<ButtonProps> = ({
     },
     tertiary: {
       backgroundColor: 'transparent',
-      color: colors['sage-green-500'],
-      border: `2px solid ${colors['sage-green-500']}`,
+      color: colors['neutral-900'],
+      border: `2px solid ${colors['neutral-900']}`,
     },
     destructive: {
       backgroundColor: colors['error-red'],
@@ -132,7 +132,7 @@ export const Button: React.FC<ButtonProps> = ({
   // Hover states
   const hoverStyles: Record<string, React.CSSProperties> = {
     primary: {
-      backgroundColor: colors['sage-green-600'],
+      backgroundColor: colors['neutral-700'],
       boxShadow: shadows.md,
     },
     secondary: {
@@ -140,7 +140,7 @@ export const Button: React.FC<ButtonProps> = ({
       boxShadow: shadows.sm,
     },
     tertiary: {
-      backgroundColor: colors['sage-green-50'],
+      backgroundColor: colors['neutral-100'],
     },
     destructive: {
       backgroundColor: '#DC2626', // Darker error

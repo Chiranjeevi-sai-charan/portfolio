@@ -199,15 +199,15 @@ const CASE_STUDY_DATA = {
       conceptDevelopment: {
         intro: "Brainstorming gave us eight solutions. The next question: How do these live together in a coherent system?",
         rejectedDirections: [
-          { name: "Concept A: Unified Chat-First", premise: "Everything funnels through the conversational interface.", strength: "Simplicity.", weakness: "Admin features feel bolted-on.", reason: "Rejected" },
-          { name: "Concept B: Three Separate Products", premise: "Three completely separate interfaces.", strength: "Each optimized for its user.", weakness: "Lack of coherence. Users feel like three products.", reason: "Rejected" }
+          { name: "Concept A: Unified Chat-First", premise: "Everything funnels through the conversational interface.", strength: "Simplicity.", weakness: "Complex admin workflows lose efficiency when forced through a conversational interface.", reason: "Rejected" },
+          { name: "Concept B: Three Separate Products", premise: "Three completely separate interfaces.", strength: "Each optimized for its user.", weakness: "Lack of coherence. Users feel like two separate products.", reason: "Rejected" }
         ],
         selectedConcept: {
-          name: "Concept C: Progressive Disclosure with Unified Header",
-          premise: "Same Sage system with unified header. Different experiences based on role.",
+          name: "Concept C: Unified System with Role-Based Features",
+          premise: "One unified system where all users access the chatbot and admins unlock additional management tools.",
           strength: "Unified system identity.",
-          description: "All users share a common header. Employees see chatbot. Admins see management tools. System admins see full dashboard.",
-          keyInterfaces: ["Chatbot Canvas with source document sidebar", "Admin Dashboard with navigation and quick actions", "Role-Based Entry Points for different user types"]
+          description: "Keeping the interface clean for everyday users while giving admins the controls they need.",
+          keyInterfaces: ["Chatbot Canvas with source document sidebar", "Admin Dashboard with navigation and quick actions", "Role-Based Menu Access for management features"]
         }
       },
       wireframes: {
@@ -296,13 +296,48 @@ export default function CaseStudy() {
           }
         }
       `}</style>
+
+      {slug === "sage" && (
+        <Link
+          to="/sage"
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: 0,
+            transform: "translateY(-50%) rotate(180deg)",
+            writingMode: "vertical-rl",
+            backgroundColor: "var(--accent)",
+            color: "white",
+            textDecoration: "none",
+            fontWeight: 600,
+            fontSize: 14,
+            letterSpacing: "0.4px",
+            padding: "18px 10px",
+            borderRadius: "0 8px 8px 0",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+            zIndex: 100,
+            transition: "background-color 0.2s ease-in-out, padding 0.2s ease-in-out",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#2E7D32";
+            e.currentTarget.style.padding = "18px 14px";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "var(--accent)";
+            e.currentTarget.style.padding = "18px 10px";
+          }}
+        >
+          Explore Sage
+        </Link>
+      )}
+
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
       <Reveal>
         <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)", display: "inline-block", marginTop: -30 }}>
           ← Back home
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 32, marginBottom: 16 }}>
-          <img src={sageLogo} alt="Sage Logo" style={{ height: 60, width: "auto" }} />
+          {/* <img src={sageLogo} alt="Sage Logo" style={{ height: 60, width: "auto" }} /> */}
           <h1 style={{ fontSize: "var(--fs-h1)", margin: 0 }}>
             {caseStudy.title.replace(" - ", ": ")}
           </h1>
@@ -436,7 +471,7 @@ export default function CaseStudy() {
 
           <Reveal delay={0.1}>
             <div style={{ marginTop: 64 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 24, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 24, fontWeight: 700, color: "var(--ink)" }}>
               Project Overview
             </h2>
             <div style={{
@@ -512,7 +547,6 @@ export default function CaseStudy() {
             </div>
           </div>
 
-          {/* PROJECT OVERVIEW IMAGE */}
           <div style={{ marginTop: 64, marginBottom: 96 }}>
             <img
               src={projectOverviewImage}
@@ -535,7 +569,7 @@ export default function CaseStudy() {
       {caseStudy.problem && (
         <Reveal delay={0.2}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               The Problem
             </h2>
 
@@ -716,7 +750,7 @@ export default function CaseStudy() {
       {caseStudy.research && (
         <Reveal delay={0.3}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               Research
             </h2>
 
@@ -791,10 +825,12 @@ export default function CaseStudy() {
                     src={personaAdityaSticker}
                     alt="Persona: Aditya - Operations Supervisor"
                     style={{
-                      width: "100%",
+                      width: "60%",
+                      maxWidth: 200,
                       height: "auto",
-                      borderRadius: 8,
-                      marginBottom: 24
+                      display: "block",
+                      margin: "0 auto 24px",
+                      borderRadius: 8
                     }}
                   />
                   <div style={{ marginBottom: 20 }}>
@@ -893,10 +929,12 @@ export default function CaseStudy() {
                     src={personaPriyaSticker}
                     alt="Persona: Priya - HR Manager"
                     style={{
-                      width: "100%",
+                      width: "60%",
+                      maxWidth: 200,
                       height: "auto",
-                      borderRadius: 8,
-                      marginBottom: 24
+                      display: "block",
+                      margin: "0 auto 24px",
+                      borderRadius: 8
                     }}
                   />
                   <div style={{ marginBottom: 20 }}>
@@ -1083,7 +1121,7 @@ export default function CaseStudy() {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
                       <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
-                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Receives 15th identical question of the day</p>
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Receives the 15th question of the day</p>
                     </div>
 
                     {/* Stage 2 */}
@@ -1097,7 +1135,7 @@ export default function CaseStudy() {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Finds Answer (Unsure)</p>
                       <img src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
-                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Worried answer is outdated or inconsistent</p>
+                      <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Worried the question is affecting her productivity</p>
                     </div>
 
                     {/* Stage 4 - SOLUTION */}
@@ -1119,7 +1157,7 @@ export default function CaseStudy() {
       {caseStudy.ideation && (
         <Reveal delay={0.35}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               Ideation
             </h2>
 
@@ -1225,7 +1263,7 @@ export default function CaseStudy() {
             {/* WIREFRAMES SECTION */}
             <div style={{ marginBottom: 48 }}>
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
-                Wireframes (v1)
+                Wireframes (V 1)
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
                 {caseStudy.ideation.wireframes.status}
@@ -1259,7 +1297,7 @@ export default function CaseStudy() {
       {caseStudy.design && (
         <Reveal delay={0.4}>
           <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--accent)" }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
               Design
             </h2>
 

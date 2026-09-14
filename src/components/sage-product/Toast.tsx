@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { colors, spacing, borderRadius, shadows, typography } from '../../styles/sage/tokens';
+import { MaterialIcon } from './MaterialIcon';
 
 /**
  * Toast Component
@@ -32,6 +33,9 @@ interface ToastProps {
   /** Position on screen */
   position?: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
+  /** Render as a plain stack item instead of self-positioning with `position: fixed` — used by ToastProvider to stack multiple toasts inside its own fixed container */
+  inline?: boolean;
+
   /** CSS class name */
   className?: string;
 }
@@ -62,6 +66,7 @@ export const Toast: React.FC<ToastProps> = ({
   duration = 3000,
   onClose,
   position = 'bottom-right',
+  inline = false,
   className = '',
 }) => {
   useEffect(() => {
@@ -106,8 +111,7 @@ export const Toast: React.FC<ToastProps> = ({
   };
 
   const toastStyles: React.CSSProperties = {
-    position: 'fixed',
-    ...positionMap[position],
+    ...(inline ? {} : { position: 'fixed', ...positionMap[position] }),
     backgroundColor: config.bg,
     border: `1px solid ${config.border}`,
     borderRadius: borderRadius.md,
@@ -140,10 +144,10 @@ export const Toast: React.FC<ToastProps> = ({
   };
 
   const iconMap: Record<string, string> = {
-    info: 'ℹ',
-    success: '✓',
-    warning: '⚠',
-    error: '✕',
+    info: 'info',
+    success: 'check_circle',
+    warning: 'warning',
+    error: 'error',
   };
 
   return (
@@ -161,7 +165,7 @@ export const Toast: React.FC<ToastProps> = ({
         }
       `}</style>
       <div style={toastStyles} className={className} role="status" aria-live="polite">
-        <span style={{ fontSize: '16px', fontWeight: 600 }}>{iconMap[variant]}</span>
+        <MaterialIcon name={iconMap[variant]} size={20} filled />
         <span style={{ flex: 1 }}>{message}</span>
         <button
           style={closeButtonStyles}
@@ -174,7 +178,7 @@ export const Toast: React.FC<ToastProps> = ({
           }}
           aria-label="Close toast"
         >
-          ✕
+          <MaterialIcon name="close" size={16} />
         </button>
       </div>
     </>
