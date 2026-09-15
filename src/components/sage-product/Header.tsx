@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, shadows, typography, componentSizes } from '../../styles/sage/tokens';
+import { colors, spacing, shadows, typography, componentSizes, borderRadius } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 
 /**
@@ -140,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
     maxWidth: '400px',
     padding: `0 ${spacing.lg}`,
     border: `1px solid ${colors['neutral-200']}`,
-    borderRadius: '8px',
+    borderRadius: borderRadius.md,
     backgroundColor: colors['neutral-50'],
     transition: 'all 0.2s ease-in-out',
   };
@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
     padding: `${spacing.sm} ${spacing.md}`,
     backgroundColor: language === 'en' ? colors['sage-green-50'] : colors['neutral-100'],
     border: `1px solid ${colors['neutral-200']}`,
-    borderRadius: '6px',
+    borderRadius: borderRadius.sm,
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
     cursor: 'pointer',
@@ -206,7 +206,7 @@ export const Header: React.FC<HeaderProps> = ({
     alignItems: 'center',
     gap: spacing.md,
     padding: `${spacing.sm} ${spacing.md}`,
-    borderRadius: '8px',
+    borderRadius: borderRadius.md,
     cursor: 'pointer',
     transition: 'background-color 0.2s ease-in-out',
   };
@@ -227,7 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
   const userInfoStyles: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '2px',
+    gap: spacing.xs,
   };
 
   const userNameStyles: React.CSSProperties = {
@@ -245,7 +245,7 @@ export const Header: React.FC<HeaderProps> = ({
     padding: `2px ${spacing.sm}`,
     backgroundColor: colors['sage-green-50'],
     color: colors['sage-green-700'],
-    borderRadius: '4px',
+    borderRadius: borderRadius.sm,
     fontSize: typography.fontSize['body-xs'],
     fontWeight: typography.fontWeight.semibold,
     whiteSpace: 'nowrap',

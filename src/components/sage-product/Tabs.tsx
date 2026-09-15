@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, typography } from '../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
 
 /**
  * Tabs Component
@@ -127,7 +127,7 @@ export const Tabs: React.FC<TabsProps> = ({
     backgroundColor: colors['error-red'],
     color: colors['neutral-white'],
     padding: `0 ${spacing.sm}`,
-    borderRadius: '12px',
+    borderRadius: borderRadius.lg,
     fontSize: typography.fontSize['body-xs'],
     fontWeight: typography.fontWeight.bold,
     minWidth: '20px',

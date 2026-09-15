@@ -4,7 +4,7 @@ import { Modal } from './Modal';
 import { Input } from './Input';
 import { Select } from './Select';
 import { User } from '../../utils/storage';
-import { ROLE_LABELS } from '../../utils/sageConstants';
+import { t, Lang, getRoleLabel } from '../../utils/sageStrings';
 
 interface AddUserModalProps {
   isOpen: boolean;
@@ -16,6 +16,7 @@ interface AddUserModalProps {
   availableDepartments: string[];
   /** When set, departments are locked to General + this value (e.g. an Admin adding a user in their own department) */
   lockedDepartment?: string;
+  language?: Lang;
 }
 
 export const AddUserModal: React.FC<AddUserModalProps> = ({
@@ -25,6 +26,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
   availableRoles,
   availableDepartments,
   lockedDepartment,
+  language,
 }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -57,11 +59,11 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
 
   const handleSubmit = () => {
     if (!name.trim() || !email.trim()) {
-      setError('Please fill in name and email.');
+      setError(t(language, 'fillNameEmail'));
       return;
     }
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
-      setError('Please enter a valid email address.');
+      setError(t(language, 'invalidEmail'));
       return;
     }
 
@@ -80,17 +82,17 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="Add User"
+      title={t(language, 'addUserTitle')}
       size="sm"
       actions={[
-        { label: 'Cancel', variant: 'secondary', onClick: handleClose },
-        { label: 'Add User', variant: 'primary', onClick: handleSubmit },
+        { label: t(language, 'cancel'), variant: 'secondary', onClick: handleClose },
+        { label: t(language, 'addUser'), variant: 'primary', onClick: handleSubmit },
       ]}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.md }}>
-        <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Jane Doe" />
+        <Input label={t(language, 'name')} value={name} onChange={(e) => setName(e.target.value)} required placeholder="Jane Doe" />
         <Input
-          label="Email"
+          label={t(language, 'email')}
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -98,17 +100,17 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
           placeholder="jane.doe@gmail.com"
         />
         <Select
-          label="Role"
+          label={t(language, 'role')}
           value={role}
           onChange={(e) => setRole(e.target.value as User['role'])}
-          options={availableRoles.map((r) => ({ label: ROLE_LABELS[r], value: r }))}
+          options={availableRoles.map((r) => ({ label: getRoleLabel(r, language), value: r }))}
         />
         <div>
-          <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>Departments</label>
+          <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>{t(language, 'departmentsLabel')}</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.xs }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: spacing.xs, color: colors['neutral-500'] }}>
               <input type="checkbox" checked disabled />
-              General (all users)
+              {t(language, 'generalAllUsers')}
             </label>
             {assignableDepartments.map((dept) => (
               <label key={dept} style={{ display: 'flex', alignItems: 'center', gap: spacing.xs }}>

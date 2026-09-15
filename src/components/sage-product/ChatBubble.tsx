@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { colors, spacing, borderRadius, shadows } from '../../styles/sage/tokens';
+import { colors, spacing, borderRadius, shadows, interactionTints } from '../../styles/sage/tokens';
 import { MessageActions } from './MessageActions';
 import { MaterialIcon } from './MaterialIcon';
 import { useToast } from './ToastProvider';
@@ -150,24 +150,48 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   };
 
   const citationsHeaderStyles: React.CSSProperties = {
-    fontSize: '12px',
-    fontWeight: 600,
-    color: colors['neutral-600'],
+    fontSize: '11px',
+    fontWeight: 700,
+    color: colors['neutral-500'],
     marginBottom: spacing.sm,
     textTransform: 'uppercase',
-    letterSpacing: '0.5px',
+    letterSpacing: '0.6px',
+  };
+
+  const citationsListStyles: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
   };
 
   const citationStyles: React.CSSProperties = {
-    fontSize: '12px',
-    color: colors['accent-blue'],
+    fontSize: '13px',
+    fontWeight: 500,
+    color: colors['neutral-700'],
     textDecoration: 'none',
     cursor: 'pointer',
-    marginBottom: spacing.xs,
-    display: 'block',
-    padding: spacing.xs,
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing.sm,
+    padding: `${spacing.sm} ${spacing.md}`,
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.md,
+    backgroundColor: colors['neutral-white'],
+    maxWidth: '260px',
+    transition: 'border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease',
+  };
+
+  const citationIconBadgeStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '28px',
+    height: '28px',
     borderRadius: borderRadius.sm,
-    transition: 'background-color 0.2s ease',
+    backgroundColor: interactionTints.accentSubtle,
+    color: colors['accent-blue'],
+    flexShrink: 0,
   };
 
   const citationMarkerStyles: React.CSSProperties = {
@@ -177,7 +201,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     minWidth: '16px',
     height: '16px',
     padding: '0 4px',
-    marginLeft: '2px',
+    marginLeft: spacing.xs,
     fontSize: '10px',
     fontWeight: 700,
     color: colors['accent-blue'],
@@ -307,26 +331,40 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
               {citations && citations.length > 0 && !isUser && (
                 <div style={citationsContainerStyles}>
                   <div style={citationsHeaderStyles}>{language === 'ja' ? '出典' : 'Sources'}</div>
-                  {citations.map((citation, idx) => (
-                    <a
-                      key={idx}
-                      href="#"
-                      style={citationStyles}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onCitationClick?.(citation);
-                      }}
-                      title={`${language === 'ja' ? '出典を見る' : 'View source'}: ${localizeCitation(citation, language)}`}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = colors['neutral-100'];
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }}
-                    >
-                      <MaterialIcon name="attach_file" size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {localizeCitation(citation, language)}
-                    </a>
-                  ))}
+                  <div style={citationsListStyles}>
+                    {citations.map((citation, idx) => (
+                      <a
+                        key={idx}
+                        href="#"
+                        style={citationStyles}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onCitationClick?.(citation);
+                        }}
+                        title={`${language === 'ja' ? '出典を見る' : 'View source'}: ${localizeCitation(citation, language)}`}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = colors['accent-blue'];
+                          e.currentTarget.style.backgroundColor = interactionTints.accentSubtle;
+                          e.currentTarget.style.boxShadow = shadows.xs;
+                          e.currentTarget.style.color = colors['neutral-700'];
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = colors['neutral-200'];
+                          e.currentTarget.style.backgroundColor = colors['neutral-white'];
+                          e.currentTarget.style.boxShadow = 'none';
+                          e.currentTarget.style.color = colors['neutral-700'];
+                        }}
+                      >
+                        <span style={citationIconBadgeStyles}>
+                          <MaterialIcon name="description" size={15} />
+                        </span>
+                        <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {localizeCitation(citation, language)}
+                        </span>
+                        <MaterialIcon name="north_east" size={14} color={colors['neutral-400']} />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               )}
             </>
@@ -338,7 +376,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         {!loading && !isUser && (
           <div
             style={{
-              height: '30px',
+              height: '32px',
               visibility: isHovering || feedback ? 'visible' : 'hidden',
             }}
           >
@@ -360,7 +398,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         {!loading && isUser && (
           <div
             style={{
-              height: '30px',
+              height: '32px',
               display: 'flex',
               justifyContent: 'flex-end',
               visibility: isHovering ? 'visible' : 'hidden',

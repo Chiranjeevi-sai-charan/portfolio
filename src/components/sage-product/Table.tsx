@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, typography, shadows } from '../../styles/sage/tokens';
+import { colors, spacing, typography, shadows, borderRadius } from '../../styles/sage/tokens';
 
 /**
  * Table Component
@@ -96,7 +96,7 @@ export const Table: React.FC<TableProps<any>> = ({
     fontSize: typography.fontSize['body-sm'],
     backgroundColor: colors['neutral-white'],
     boxShadow: shadows.sm,
-    borderRadius: '8px',
+    borderRadius: borderRadius.md,
     overflow: 'hidden',
   };
 

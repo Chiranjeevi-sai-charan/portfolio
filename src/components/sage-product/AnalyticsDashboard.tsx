@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { colors, spacing, typography, borderRadius, shadows } from '../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius, shadows, interactionTints, chartPalette } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 import { BarChart, DonutChart, RadarChart, Sparkline } from './Charts';
 import { CreateEventModal } from './CreateEventModal';
@@ -25,32 +25,20 @@ interface AnalyticsDashboardProps {
 type DateRange = '7d' | '30d' | 'all';
 type RoleFilterKey = 'user' | 'admin' | 'system-admin';
 
-/** Pastel palette used across all Analytics charts — kept soft/desaturated for a calmer, more professional read */
-const PASTEL = {
-  blue: '#A9C6F5',
-  green: '#B7E4C7',
-  amber: '#F7DFA0',
-  cyan: '#A9DDE6',
-  purple: '#CBC1EE',
-  pink: '#F3BFD3',
-  teal: '#A9E0D4',
-  slate: '#C4CAD6',
-};
-
 const ROLE_FILTER_OPTIONS: { key: RoleFilterKey; label: string; color: string }[] = [
-  { key: 'user', label: 'Employee', color: PASTEL.blue },
-  { key: 'admin', label: 'Admin', color: PASTEL.amber },
-  { key: 'system-admin', label: 'System Admin', color: PASTEL.slate },
+  { key: 'user', label: 'Employee', color: chartPalette.blue },
+  { key: 'admin', label: 'Admin', color: chartPalette.amber },
+  { key: 'system-admin', label: 'System Admin', color: chartPalette.slate },
 ];
 
 const TOPIC_COLOR_ORDER = [
-  PASTEL.blue,
-  PASTEL.green,
-  PASTEL.amber,
-  PASTEL.cyan,
-  PASTEL.purple,
-  PASTEL.pink,
-  PASTEL.teal,
+  chartPalette.blue,
+  chartPalette.green,
+  chartPalette.amber,
+  chartPalette.cyan,
+  chartPalette.purple,
+  chartPalette.pink,
+  chartPalette.teal,
   colors['neutral-300'],
 ];
 
@@ -307,7 +295,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
     minHeight: 0,
     overflowY: 'auto',
     padding: spacing.lg,
-    backgroundColor: colors['neutral-white'],
+    backgroundColor: 'transparent',
   };
   const backBarStyles: React.CSSProperties = {
     display: 'flex',
@@ -337,39 +325,58 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
     alignItems: 'center',
     gap: spacing.xl,
     padding: spacing.md,
-    backgroundColor: colors['neutral-50'],
-    border: `1px solid ${colors['neutral-200']}`,
+    backgroundColor: 'rgba(255, 255, 255, 0.45)',
+    backdropFilter: 'blur(10px)',
+    WebkitBackdropFilter: 'blur(10px)',
+    border: `1px solid ${interactionTints.accentSubtle}`,
     borderRadius: borderRadius.md,
     marginBottom: spacing.xl,
     flexWrap: 'wrap',
   };
   const filterGroupLabelStyles: React.CSSProperties = { fontSize: typography.fontSize['label-sm'], fontWeight: 700, color: colors['neutral-500'], textTransform: 'uppercase', letterSpacing: '0.4px', marginRight: spacing.sm };
-  const pillStyles = (active: boolean, color: string): React.CSSProperties => ({
+  const pillStyles = (active: boolean): React.CSSProperties => ({
     padding: `4px ${spacing.md}`,
     borderRadius: borderRadius.full,
-    border: `1px solid ${active ? color : colors['neutral-300']}`,
-    backgroundColor: active ? color : colors['neutral-white'],
-    color: active ? colors['neutral-white'] : colors['neutral-600'],
+    border: `1px solid ${active ? colors['accent-blue'] : colors['neutral-300']}`,
+    backgroundColor: active ? interactionTints.accentSubtle : colors['neutral-white'],
+    color: active ? colors['accent-blue'] : colors['neutral-600'],
     fontSize: typography.fontSize['body-xs'],
     fontWeight: 600,
     cursor: 'pointer',
   });
 
   const kpiGridStyles: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: spacing.md, marginBottom: spacing.xl };
-  const kpiCardStyles: React.CSSProperties = { padding: spacing.lg, border: `1px solid ${colors['neutral-200']}`, borderRadius: borderRadius.lg, backgroundColor: colors['neutral-white'] };
+  const kpiCardStyles: React.CSSProperties = {
+    padding: spacing.lg,
+    border: `1px solid ${interactionTints.accentSubtle}`,
+    borderRadius: borderRadius.lg,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'blur(10px)',
+    WebkitBackdropFilter: 'blur(10px)',
+    boxShadow: shadows.cardHover,
+    transition: 'box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease',
+  };
   const kpiValueStyles: React.CSSProperties = { fontSize: typography.fontSize['h1'], fontWeight: 700, color: colors['neutral-900'] };
   const kpiLabelStyles: React.CSSProperties = { fontSize: typography.fontSize['body-xs'], color: colors['neutral-500'], marginTop: spacing.xs };
 
   const panelGridStyles: React.CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: spacing.lg, marginBottom: spacing.lg };
-  const panelStyles: React.CSSProperties = { padding: spacing.lg, border: `1px solid ${colors['neutral-200']}`, borderRadius: borderRadius.lg, backgroundColor: colors['neutral-white'] };
+  const panelStyles: React.CSSProperties = {
+    padding: spacing.lg,
+    border: `1px solid ${interactionTints.accentSubtle}`,
+    borderRadius: borderRadius.lg,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'blur(10px)',
+    WebkitBackdropFilter: 'blur(10px)',
+    boxShadow: shadows.cardHover,
+  };
   const panelTitleStyles: React.CSSProperties = { fontSize: typography.fontSize['h4'], fontWeight: 600, color: colors['neutral-900'], marginBottom: spacing.md };
-  const emptyStyles: React.CSSProperties = { fontSize: typography.fontSize['body-sm'], color: colors['neutral-400'], padding: spacing.lg, textAlign: 'center' };
+  const emptyStyles: React.CSSProperties = { fontSize: typography.fontSize['body-sm'], color: colors['neutral-500'], padding: spacing.lg, textAlign: 'center' };
 
   const insightsPanelStyles: React.CSSProperties = {
     padding: spacing.xl,
     borderRadius: borderRadius.lg,
     border: `1px solid ${colors['neutral-200']}`,
-    background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.06) 0%, rgba(37, 99, 235, 0.02) 100%)',
+    background: 'linear-gradient(135deg, rgba(26, 117, 219, 0.06) 0%, rgba(26, 117, 219, 0.02) 100%)',
   };
   const insightsHeaderStyles: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs };
 
@@ -404,7 +411,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
           <span style={filterGroupLabelStyles}>{t.role}</span>
           <div style={{ display: 'flex', gap: spacing.xs }}>
             <button
-              style={pillStyles(isAllRolesSelected, colors['neutral-900'])}
+              style={pillStyles(isAllRolesSelected)}
               onClick={selectAllRoles}
             >
               {t.allRoles}
@@ -412,7 +419,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
             {ROLE_FILTER_OPTIONS.map((opt) => (
               <button
                 key={opt.key}
-                style={pillStyles(!isAllRolesSelected && roleFilter.has(opt.key), colors['neutral-900'])}
+                style={pillStyles(!isAllRolesSelected && roleFilter.has(opt.key))}
                 onClick={() => toggleRole(opt.key)}
               >
                 {opt.label}
@@ -426,7 +433,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
             {(['7d', '30d', 'all'] as DateRange[]).map((r) => (
               <button
                 key={r}
-                style={pillStyles(dateRange === r, colors['neutral-900'])}
+                style={pillStyles(dateRange === r)}
                 onClick={() => setDateRange(r)}
               >
                 {r === '7d' ? t.last7 : r === '30d' ? t.last30 : t.allTime}
@@ -438,22 +445,36 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
 
       {/* KPIs */}
       <div style={kpiGridStyles}>
-        <div style={kpiCardStyles}>
-          <div style={kpiValueStyles}>{events.length}</div>
-          <div style={kpiLabelStyles}>{t.kpiTotal}</div>
-        </div>
-        <div style={kpiCardStyles}>
-          <div style={{ ...kpiValueStyles, fontSize: typography.fontSize['h3'] }}>{topTopic ? topTopic.label : '-'}</div>
-          <div style={kpiLabelStyles}>{t.kpiTopTopic}</div>
-        </div>
-        <div style={kpiCardStyles}>
-          <div style={kpiValueStyles}>{totalDocsReferenced}</div>
-          <div style={kpiLabelStyles}>{t.kpiDocsReferenced}</div>
-        </div>
-        <div style={kpiCardStyles}>
-          <div style={{ ...kpiValueStyles, color: fallbackRate >= 10 ? colors['warning-amber'] : colors['neutral-900'] }}>{fallbackRate}%</div>
-          <div style={kpiLabelStyles}>{t.kpiFallbackRate}</div>
-        </div>
+        {[
+          { value: events.length, label: t.kpiTotal },
+          { value: topTopic ? topTopic.label : '-', label: t.kpiTopTopic, small: true },
+          { value: totalDocsReferenced, label: t.kpiDocsReferenced },
+          {
+            value: `${fallbackRate}%`,
+            label: t.kpiFallbackRate,
+            color: fallbackRate >= 10 ? colors['warning-amber'] : colors['neutral-900'],
+          },
+        ].map((kpi, idx) => (
+          <div
+            key={idx}
+            style={kpiCardStyles}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(26, 117, 219, 0.12)';
+              e.currentTarget.style.borderColor = interactionTints.accentSoft;
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = shadows.cardHover;
+              e.currentTarget.style.borderColor = interactionTints.accentSubtle;
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <div style={{ ...kpiValueStyles, fontSize: kpi.small ? typography.fontSize['h3'] : kpiValueStyles.fontSize, color: kpi.color ?? kpiValueStyles.color }}>
+              {kpi.value}
+            </div>
+            <div style={kpiLabelStyles}>{kpi.label}</div>
+          </div>
+        ))}
       </div>
 
       {/* Panels */}
@@ -517,8 +538,8 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
           {events.length > 0 ? (
             <DonutChart
               data={[
-                { label: 'English', value: langCounts.en, color: PASTEL.blue },
-                { label: '日本語 (Japanese)', value: langCounts.ja, color: PASTEL.green },
+                { label: 'English', value: langCounts.en, color: chartPalette.blue },
+                { label: '日本語 (Japanese)', value: langCounts.ja, color: chartPalette.green },
               ]}
             />
           ) : (
@@ -578,7 +599,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
                 alignItems: 'center',
                 gap: spacing.sm,
                 padding: `${spacing.sm} ${spacing.lg}`,
-                backgroundColor: colors['neutral-900'],
+                backgroundColor: colors['accent-blue'],
                 color: colors['neutral-white'],
                 border: 'none',
                 borderRadius: borderRadius.md,

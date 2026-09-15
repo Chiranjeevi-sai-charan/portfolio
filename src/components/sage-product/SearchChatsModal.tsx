@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius, shadows, zIndex } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 import { SidebarItem } from './Sidebar';
 
@@ -107,13 +107,13 @@ export const SearchChatsModal: React.FC<SearchChatsModalProps> = ({
     alignItems: 'flex-start',
     justifyContent: 'center',
     paddingTop: '12vh',
-    zIndex: 1000,
+    zIndex: zIndex.modal,
   };
 
   const panelStyles: React.CSSProperties = {
     backgroundColor: colors['neutral-white'],
     borderRadius: borderRadius.lg,
-    boxShadow: '0 20px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.06)',
+    boxShadow: shadows.xl,
     width: '90vw',
     maxWidth: '560px',
     maxHeight: '70vh',
@@ -207,7 +207,7 @@ export const SearchChatsModal: React.FC<SearchChatsModalProps> = ({
     padding: spacing.xl,
     textAlign: 'center',
     fontSize: typography.fontSize['body-sm'],
-    color: colors['neutral-400'],
+    color: colors['neutral-500'],
   };
 
   let lastSection: string | undefined;

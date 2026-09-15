@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, borderRadius, shadows, typography, zIndex } from '../../styles/sage/tokens';
+import { colors, spacing, borderRadius, shadows, typography, zIndex, interactionTints } from '../../styles/sage/tokens';
 import { Button } from './Button';
 
 /**
@@ -72,6 +72,9 @@ interface ModalProps {
  * - Focus trap
  * - Keyboard accessible (Esc to close)
  */
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
@@ -82,21 +85,60 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnBackdropClick = true,
   className = '',
 }) => {
+  const titleId = React.useId();
+  const modalRef = React.useRef<HTMLDivElement>(null);
+  const previouslyFocusedElement = React.useRef<HTMLElement | null>(null);
+
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (!isOpen) return;
+      if (e.key === 'Escape') {
         onClose();
+        return;
+      }
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = Array.from(
+          modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+        ).filter((el) => el.offsetParent !== null);
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
 
     if (isOpen) {
+      previouslyFocusedElement.current = document.activeElement as HTMLElement;
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+
+      // Move focus into the modal (its first focusable element, falling back to the modal itself).
+      const focusFirst = () => {
+        const focusable = modalRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+        if (focusable && focusable.length > 0) {
+          focusable[0].focus();
+        } else {
+          modalRef.current?.focus();
+        }
+      };
+      const raf = requestAnimationFrame(focusFirst);
+
+      return () => {
+        cancelAnimationFrame(raf);
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'unset';
+        previouslyFocusedElement.current?.focus?.();
+      };
     }
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
 
@@ -114,29 +156,34 @@ export const Modal: React.FC<ModalProps> = ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(17, 24, 39, 0.45)',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: zIndex.modal,
+    animation: 'sage-modal-backdrop-in 0.15s ease-out',
   };
 
   const modalStyles: React.CSSProperties = {
     backgroundColor: colors['neutral-white'],
     borderRadius: borderRadius.lg,
     overflow: 'hidden',
-    boxShadow: shadows.xl,
+    border: `1px solid ${colors['neutral-200']}`,
+    boxShadow: shadows.modal,
     maxWidth: sizeMap[size],
     width: '90vw',
     maxHeight: '90vh',
     display: 'flex',
     flexDirection: 'column',
     zIndex: zIndex.modal + 1,
+    animation: 'sage-modal-in 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
   };
 
   const headerStyles: React.CSSProperties = {
     padding: spacing.lg,
-    borderBottom: `1px solid ${colors['neutral-200']}`,
+    borderBottom: `1px solid ${colors['neutral-100']}`,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -175,11 +222,11 @@ export const Modal: React.FC<ModalProps> = ({
 
   const footerStyles: React.CSSProperties = {
     padding: spacing.lg,
-    borderTop: `1px solid ${colors['neutral-200']}`,
+    borderTop: `1px solid ${colors['neutral-100']}`,
     display: 'flex',
     gap: spacing.md,
     justifyContent: 'flex-end',
-    backgroundColor: colors['neutral-50'],
+    backgroundColor: colors['neutral-white'],
   };
 
   return (
@@ -192,17 +239,34 @@ export const Modal: React.FC<ModalProps> = ({
       }}
       className={className}
     >
-      <div style={modalStyles}>
+      <style>{`
+        @keyframes sage-modal-backdrop-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes sage-modal-in {
+          from { opacity: 0; transform: scale(0.96) translateY(4px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+      `}</style>
+      <div
+        style={modalStyles}
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        tabIndex={-1}
+      >
         {title && (
           <div style={headerStyles}>
-            <h2 style={titleStyles}>{title}</h2>
+            <h2 id={titleId} style={titleStyles}>{title}</h2>
             <button
               style={closeButtonStyles}
               onClick={onClose}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  colors['neutral-200'];
-                (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-900'];
+                  interactionTints.accentSoft;
+                (e.currentTarget as HTMLButtonElement).style.color = colors['accent-blue'];
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';

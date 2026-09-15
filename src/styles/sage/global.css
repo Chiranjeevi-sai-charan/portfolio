@@ -33,7 +33,7 @@
   --warning-amber: #F59E0B;
   --error-red: #EF4444;
   --info-cyan: #06B6D4;
-  --accent-blue: #2563EB;
+  --accent-blue: #1A75DB;
 
   /* ---- Semantic Text Colors ---- */
   --text-primary: var(--neutral-900);
@@ -199,10 +199,6 @@
   color: var(--accent-blue);
   text-decoration: none;
   transition: color var(--transition-fast);
-}
-
-.sage-app a:hover {
-  color: var(--sage-green-600);
 }
 
 /* ---- Form Elements Reset ---- */

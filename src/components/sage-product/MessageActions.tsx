@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, iconSizes } from '../../styles/sage/tokens';
+import { colors, spacing, iconSizes, borderRadius } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 
 interface MessageActionsProps {
@@ -62,7 +62,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onClick={onLike}
           style={
             liked
-              ? { ...buttonStyle, backgroundColor: colors['neutral-200'], borderRadius: '6px' }
+              ? { ...buttonStyle, backgroundColor: colors['neutral-200'], borderRadius: borderRadius.sm }
               : buttonStyle
           }
           onMouseEnter={(e) => {
@@ -88,7 +88,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onClick={onDislike}
           style={
             disliked
-              ? { ...buttonStyle, backgroundColor: colors['neutral-200'], borderRadius: '6px' }
+              ? { ...buttonStyle, backgroundColor: colors['neutral-200'], borderRadius: borderRadius.sm }
               : buttonStyle
           }
           onMouseEnter={(e) => {

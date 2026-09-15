@@ -6,6 +6,7 @@ import { MaterialIcon } from '../MaterialIcon';
 import { generateAIResponse } from '../../../utils/mockAIResponses';
 import { analyticsStorage, documentStorage } from '../../../utils/storage';
 import { colors, spacing, typography, borderRadius } from '../../../styles/sage/tokens';
+import { t } from '../../../utils/sageStrings';
 
 /**
  * EmployeeChatbot Page
@@ -210,13 +211,13 @@ export const EmployeeChatbot: React.FC = () => {
           }}
         >
           <MaterialIcon name="arrow_back" size={16} />
-          Back to Chat
+          {t(language, 'backToChat')}
         </button>
       </div>
       <div style={{ padding: `${spacing.sm} ${spacing.lg} 0` }}>
-        <h1 style={pageTitleStyles}>My Documents</h1>
+        <h1 style={pageTitleStyles}>{t(language, 'myDocumentsTitle')}</h1>
         <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'], marginTop: spacing.xs }}>
-          Policies and resources available to you, from Human Resources (HR) and General.
+          {t(language, 'myDocumentsDesc')}
         </div>
       </div>
       <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
@@ -224,6 +225,7 @@ export const EmployeeChatbot: React.FC = () => {
           documents={visibleDocuments}
           showSearch
           onDocumentDownload={(doc) => console.log(`Downloading "${doc.name}"...`)}
+          language={language}
         />
       </div>
     </div>
@@ -239,7 +241,7 @@ export const EmployeeChatbot: React.FC = () => {
         messages={messages}
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}
-        activeConversationId={activeView === 'chat' ? activeConversationId : null}
+        activeConversationId={activeView === 'chat' ? activeConversationId : activeView}
         onNewChat={handleNewChat}
         onChatMenuAction={handleChatMenuAction}
         managementLinks={managementLinks}

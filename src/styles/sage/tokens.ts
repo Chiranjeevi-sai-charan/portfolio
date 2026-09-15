@@ -32,8 +32,17 @@ export const colors = {
   "success-green": "#10B981",
   "warning-amber": "#F59E0B",
   "error-red": "#EF4444",
+  "error-red-dark": "#DC2626",
   "info-cyan": "#06B6D4",
-  "accent-blue": "#2563EB",
+  // Highlight annotation (e.g. cited passage in a document preview)
+  "highlight-yellow-bg": "#FEF9C3",
+  "highlight-yellow-border": "#FDE68A",
+  // Primary brand blue (electric blue, smallcase-inspired) — used for
+  // primary actions, active nav/tab states, and the brand mark.
+  "accent-blue-light": "#5FA3EA",
+  "accent-blue": "#1A75DB",
+  "accent-blue-hover": "#1964B8",
+  "accent-blue-dark": "#155093",
 };
 
 // ============================================================================
@@ -53,9 +62,9 @@ export const statusColors = {
 // ============================================================================
 
 export const interactionTints = {
-  accentSubtle: "rgba(37, 99, 235, 0.06)",
-  accentSoft: "rgba(37, 99, 235, 0.08)",
-  accentRing: "rgba(37, 99, 235, 0.12)",
+  accentSubtle: "rgba(26, 117, 219, 0.06)",
+  accentSoft: "rgba(26, 117, 219, 0.08)",
+  accentRing: "rgba(26, 117, 219, 0.12)",
   neutralHover: "rgba(17, 24, 39, 0.06)",
   dangerHover: "rgba(220, 38, 38, 0.08)",
 };
@@ -138,6 +147,7 @@ export const borderRadius = {
   "sm": "4px",
   "md": "8px",
   "lg": "12px",
+  "xl": "16px",
   "full": "9999px",
 };
 
@@ -151,6 +161,47 @@ export const shadows = {
   "md": "0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)",
   "lg": "0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)",
   "xl": "0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04)",
+  // Named elevation shadows for specific components (kept exact so existing
+  // visuals don't shift — these just give the values a token home)
+  "cardHover": "0 1px 3px rgba(16, 24, 40, 0.04)",
+  "dropdown": "0 12px 24px rgba(16, 24, 40, 0.12), 0 2px 6px rgba(16, 24, 40, 0.06)",
+  "modal": "0 20px 48px rgba(16, 24, 40, 0.18), 0 2px 8px rgba(16, 24, 40, 0.08)",
+  "glowInput": "0 0 1px rgba(26, 117, 219, 0.1), 0 0 24px rgba(26, 117, 219, 0.14)",
+  "spinner": "0 4px 12px rgba(0, 0, 0, 0.15)",
+};
+
+// ============================================================================
+// CHART PALETTE (Analytics data-viz — soft/desaturated, kept separate from
+// the brand/UI colors above since these are categorical data colors, not
+// interface state colors)
+// ============================================================================
+
+export const chartPalette = {
+  blue: "#A9C6F5",
+  green: "#B7E4C7",
+  amber: "#F7DFA0",
+  cyan: "#A9DDE6",
+  purple: "#CBC1EE",
+  pink: "#F3BFD3",
+  teal: "#A9E0D4",
+  slate: "#C4CAD6",
+  defaultBar: "#8FB3E8",
+};
+
+// ============================================================================
+// FILE TYPE COLORS (document/file-type icon fills — brand-representative
+// colors for common file extensions, e.g. Word blue, Excel green)
+// ============================================================================
+
+export const fileTypeColors = {
+  pdf: { fill: "#E5482F", fold: "#F5806A" },
+  doc: { fill: "#2B579A", fold: "#5B8AD1" },
+  docx: { fill: "#2B579A", fold: "#5B8AD1" },
+  xls: { fill: "#1D6F42", fold: "#57A97E" },
+  xlsx: { fill: "#1D6F42", fold: "#57A97E" },
+  ppt: { fill: "#D24726", fold: "#E88863" },
+  pptx: { fill: "#D24726", fold: "#E88863" },
+  default: { fill: "#9AA1AC", fold: "#C3C9D1" },
 };
 
 // ============================================================================
@@ -314,6 +365,8 @@ export const tokensJSON = {
   spacing,
   borderRadius,
   shadows,
+  chartPalette,
+  fileTypeColors,
   iconSizes,
   textColors,
   bgColors,

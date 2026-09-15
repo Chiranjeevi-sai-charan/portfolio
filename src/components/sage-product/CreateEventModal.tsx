@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { spacing, typography, colors } from '../../styles/sage/tokens';
+import { spacing, typography, colors, borderRadius } from '../../styles/sage/tokens';
 import { Modal } from './Modal';
 import { Input } from './Input';
 import { useToast } from './ToastProvider';
@@ -150,7 +150,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
               width: '100%',
               padding: spacing.sm,
               border: `1px solid ${colors['neutral-300']}`,
-              borderRadius: '8px',
+              borderRadius: borderRadius.md,
               fontFamily: typography.fontFamily.primary,
               fontSize: typography.fontSize['body-sm'],
               color: colors['neutral-900'],

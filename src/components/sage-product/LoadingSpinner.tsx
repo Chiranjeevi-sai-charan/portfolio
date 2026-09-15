@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing } from '../../styles/sage/tokens';
+import { colors, spacing, shadows } from '../../styles/sage/tokens';
 
 /**
  * LoadingSpinner Component
@@ -102,10 +102,10 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
     const contentStyles: React.CSSProperties = {
       backgroundColor: colors['neutral-white'],
-      borderRadius: '8px',
+      borderRadius: borderRadius.md,
       padding: spacing.xl,
       textAlign: 'center',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+      boxShadow: shadows.spinner,
     };
 
     return (

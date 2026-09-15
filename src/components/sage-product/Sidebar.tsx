@@ -1,6 +1,8 @@
 import React from 'react';
-import { colors, spacing, typography, componentSizes, shadows, borderRadius } from '../../styles/sage/tokens';
+import { colors, spacing, typography, componentSizes, shadows, borderRadius, interactionTints } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
+import sageLogoMark from '../../assets/SAGE Standalone Logo.png';
+import sageLogoWordmark from '../../assets/SAGE Icon and Wordmark.png';
 
 /**
  * Sidebar Component
@@ -154,7 +156,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     flexShrink: 0,
     height: 'calc(100% - 16px)',
     margin: spacing.sm,
-    backgroundColor: colors['neutral-50'],
+    backgroundColor: 'rgba(255, 255, 255, 0.45)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
     border: `1px solid ${colors['neutral-200']}`,
     borderRadius: borderRadius.md,
     boxShadow: shadows.md,
@@ -177,7 +181,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const logoActionsStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: '2px',
+    gap: spacing.xs,
   };
 
   const iconButtonStyles: React.CSSProperties = {
@@ -203,24 +207,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
     width: '32px',
     height: '32px',
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors['neutral-900'],
+    background: 'none',
     border: 'none',
     borderRadius: borderRadius.sm,
     cursor: 'pointer',
-    color: colors['neutral-white'],
     flexShrink: 0,
     padding: 0,
     lineHeight: 1,
   };
 
-  const logoMarkLineStyles: React.CSSProperties = {
-    fontSize: '9px',
-    fontWeight: typography.fontWeight.bold,
-    letterSpacing: '0.3px',
-    lineHeight: '11px',
+  const logoMarkImageStyles: React.CSSProperties = {
+    width: '32px',
+    height: '32px',
+    display: 'block',
+    objectFit: 'contain',
+  };
+
+  const logoWordmarkImageStyles: React.CSSProperties = {
+    height: '28px',
+    width: 'auto',
+    display: 'block',
+    objectFit: 'contain',
   };
 
   const menuStyles: React.CSSProperties = {
@@ -230,7 +239,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     padding: `${spacing.sm} ${spacing.sm} 0`,
     display: 'flex',
     flexDirection: 'column',
-    gap: '2px',
+    gap: spacing.xs,
   };
 
   const menuItemStyles: React.CSSProperties = {
@@ -245,11 +254,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     transition: 'background-color 0.15s ease-in-out',
     width: '100%',
     textAlign: 'left',
-  };
-
-  const activeMenuItemStyles: React.CSSProperties = {
-    backgroundColor: colors['neutral-200'],
-    color: colors['neutral-900'],
   };
 
   const menuItemIconStyles: React.CSSProperties = {
@@ -297,7 +301,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     position: 'absolute',
     top: '100%',
     right: 0,
-    marginTop: '2px',
+    marginTop: spacing.xs,
     backgroundColor: colors['neutral-white'],
     border: `1px solid ${colors['neutral-200']}`,
     borderRadius: borderRadius.md,
@@ -330,10 +334,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const ITEM_MENU_ACTIONS = [{ id: 'rename', label: 'Rename', icon: 'edit' }];
 
   const badgeStyles: React.CSSProperties = {
-    backgroundColor: colors['neutral-900'],
+    backgroundColor: colors['accent-blue'],
     color: colors['neutral-white'],
     padding: `0 ${spacing.sm}`,
-    borderRadius: '12px',
+    borderRadius: borderRadius.lg,
     fontSize: typography.fontSize['body-xs'],
     fontWeight: typography.fontWeight.bold,
     minWidth: '24px',
@@ -344,6 +348,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const renderMenuItem = (item: SidebarItem, level = 0) => {
     const key = item.id || item.label;
     const isActive = item.id ? item.id === activeItemId : activeItem === item.label;
+    const isHovered = hoveredItemKey === key;
+    const isHighlighted = isActive || isHovered;
     const isExpanded = expandedItems.includes(item.label);
     const hasChildren = item.children && item.children.length > 0;
     const showMenuTrigger =
@@ -359,8 +365,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           style={{
             ...menuItemStyles,
-            ...(isActive && activeMenuItemStyles),
+            backgroundColor: isActive
+              ? interactionTints.accentSoft
+              : isHovered
+              ? colors['neutral-100']
+              : 'transparent',
             marginLeft: `${level * 12}px`,
+            paddingLeft: `calc(${spacing.md} - 3px)`,
+            borderLeft: isActive ? `3px solid ${colors['accent-blue']}` : '3px solid transparent',
+            boxShadow: isActive ? '0 1px 2px rgba(26, 117, 219, 0.12)' : 'none',
             opacity: item.disabled ? 0.5 : 1,
             cursor: item.disabled ? 'not-allowed' : 'pointer',
           }}
@@ -372,25 +385,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
               }
             }
           }}
-          onMouseEnter={(e) => {
-            if (!item.disabled && !isActive) {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                colors['neutral-100'];
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!item.disabled && !isActive) {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-            }
-          }}
           disabled={item.disabled}
         >
-          <div style={menuItemIconStyles}>
-            <MaterialIcon name={item.icon} size={20} />
+          <div style={{ ...menuItemIconStyles, color: isHighlighted ? colors['accent-blue'] : colors['neutral-700'] }}>
+            <MaterialIcon name={item.icon} size={20} filled={isHighlighted} />
           </div>
           {expanded && (
             <>
-              <div style={menuItemLabelStyles}>{item.label}</div>
+              <div
+                style={{
+                  ...menuItemLabelStyles,
+                  color: isHighlighted ? colors['accent-blue'] : colors['neutral-900'],
+                  fontWeight: isActive ? typography.fontWeight.semibold : typography.fontWeight.medium,
+                }}
+              >
+                {item.label}
+              </div>
               {item.badge && expanded && (
                 <div style={badgeStyles}>{item.badge > 99 ? '99+' : item.badge}</div>
               )}
@@ -413,8 +423,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               right: spacing.sm,
               top: '50%',
               transform: 'translateY(-50%)',
-              width: '26px',
-              height: '26px',
             }}
             onClick={(e) => {
               e.stopPropagation();
@@ -539,15 +547,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const userAvatarStyles: React.CSSProperties = {
-    width: '28px',
-    height: '28px',
+    width: '40px',
+    height: '40px',
     borderRadius: '50%',
     backgroundColor: colors['neutral-200'],
     color: colors['neutral-600'],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '12px',
+    fontSize: '14px',
     fontWeight: 700,
     flexShrink: 0,
   };
@@ -571,7 +579,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const userDepartmentStyles: React.CSSProperties = {
     fontSize: typography.fontSize['body-xs'],
-    color: colors['neutral-400'],
+    color: colors['neutral-500'],
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -634,14 +642,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const langButtonStyles = (active: boolean): React.CSSProperties => ({
-    padding: `2px ${spacing.sm}`,
-    borderRadius: borderRadius.sm,
-    border: 'none',
+    padding: `${spacing.xs} ${spacing.sm}`,
+    borderRadius: borderRadius.full,
+    border: `1px solid ${active ? colors['accent-blue'] : colors['neutral-300']}`,
     fontSize: typography.fontSize['body-xs'],
     fontWeight: typography.fontWeight.semibold,
     cursor: 'pointer',
-    backgroundColor: active ? colors['neutral-900'] : colors['neutral-100'],
-    color: active ? colors['neutral-white'] : colors['neutral-600'],
+    backgroundColor: active ? interactionTints.accentSubtle : colors['neutral-white'],
+    color: active ? colors['accent-blue'] : colors['neutral-600'],
   });
 
   const getUserInitials = (name: string) =>
@@ -667,9 +675,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div style={logoSectionStyles}>
         <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm, minWidth: 0 }}>
           {logo || (
-            <button style={logoMarkStyles} onClick={onLogoClick} title="SAGE" aria-label="SAGE">
-              <span style={logoMarkLineStyles}>SA</span>
-              <span style={logoMarkLineStyles}>GE</span>
+            <button
+              style={{ ...logoMarkStyles, width: expanded ? 'auto' : '32px' }}
+              onClick={onLogoClick}
+              title="SAGE"
+              aria-label="SAGE"
+            >
+              <img
+                src={expanded ? sageLogoWordmark : sageLogoMark}
+                alt=""
+                style={expanded ? logoWordmarkImageStyles : logoMarkImageStyles}
+              />
             </button>
           )}
         </div>
@@ -694,7 +710,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Menu Items */}
-      <div style={menuStyles}>{items.map((item) => renderMenuItem(item))}</div>
+      <div style={menuStyles}>
+        {items.map((item, idx) => {
+          const CONVERSATION_IDS = new Set(['new-chat', 'chats']);
+          const prevItem = items[idx - 1];
+          const isFirstManagementItem =
+            idx > 0 &&
+            prevItem &&
+            CONVERSATION_IDS.has(prevItem.id || '') &&
+            !CONVERSATION_IDS.has(item.id || '');
+          return (
+            <React.Fragment key={item.id || item.label}>
+              {isFirstManagementItem && (
+                <div
+                  style={{
+                    borderTop: `1px solid ${colors['neutral-200']}`,
+                    margin: `${spacing.xs} ${spacing.sm}`,
+                  }}
+                />
+              )}
+              {renderMenuItem(item)}
+            </React.Fragment>
+          );
+        })}
+      </div>
 
       {/* User Footer */}
       {user && (

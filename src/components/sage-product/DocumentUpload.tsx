@@ -6,6 +6,7 @@ import { Input } from './Input';
 import { Document, documentStorage } from '../../utils/storage';
 import { MaterialIcon } from './MaterialIcon';
 import { useToast } from './ToastProvider';
+import { t, Lang } from '../../utils/sageStrings';
 
 interface DocumentUploadProps {
   departments: string[];
@@ -16,6 +17,7 @@ interface DocumentUploadProps {
   lockedDepartment?: string;
   /** Who to record as the uploader */
   uploadedBy?: string;
+  language?: Lang;
 }
 
 export const DocumentUpload: React.FC<DocumentUploadProps> = ({
@@ -25,6 +27,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   onUploadSuccess,
   lockedDepartment,
   uploadedBy,
+  language,
 }) => {
   const [selectedDepartment, setSelectedDepartment] = useState(lockedDepartment || '');
   const [selectedType, setSelectedType] = useState('');
@@ -36,7 +39,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
   const containerStyles: React.CSSProperties = {
     padding: spacing.lg,
-    backgroundColor: colors['neutral-white'],
+    backgroundColor: 'transparent',
   };
 
   const titleStyles: React.CSSProperties = {
@@ -148,10 +151,12 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const fileListEmptyStyles: React.CSSProperties = {
     flex: 1,
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: spacing.sm,
     fontSize: typography.fontSize['body-sm'],
-    color: colors['neutral-400'],
+    color: colors['neutral-500'],
     textAlign: 'center',
     padding: spacing.lg,
   };
@@ -287,22 +292,22 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
   return (
     <div style={containerStyles}>
-      <div style={titleStyles}>Upload Document</div>
+      <div style={titleStyles}>{t(language, 'uploadDocumentTitle')}</div>
       <div style={descriptionStyles}>
-        Upload your documents for AI-powered analysis and insights.
+        {t(language, 'uploadDocumentDesc')}
       </div>
 
       <div style={formRowStyles}>
         <div>
           <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>
-            Department
+            {t(language, 'department')}
           </label>
           <Select
             value={selectedDepartment}
             onChange={(e) => setSelectedDepartment(e.target.value)}
             disabled={!!lockedDepartment}
             options={[
-              { label: 'Select Department', value: '' },
+              { label: t(language, 'selectDepartment'), value: '' },
               ...departments.map((d) => ({ label: d, value: d })),
             ]}
           />
@@ -310,27 +315,27 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
         <div>
           <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>
-            Content Type
+            {t(language, 'contentType')}
           </label>
           <Select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
             options={[
-              { label: 'Select a Content Type', value: '' },
-              ...contentTypes.map((t) => ({ label: t, value: t })),
+              { label: t(language, 'selectContentType'), value: '' },
+              ...contentTypes.map((ct) => ({ label: ct, value: ct })),
             ]}
           />
         </div>
 
         <div>
           <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>
-            Sensitivity
+            {t(language, 'sensitivityLabel')}
           </label>
           <Select
             value={selectedSensitivity}
             onChange={(e) => setSelectedSensitivity(e.target.value)}
             options={[
-              { label: 'Select Sensitivity', value: '' },
+              { label: t(language, 'selectSensitivity'), value: '' },
               ...sensitivities.map((s) => ({ label: s, value: s })),
             ]}
           />
@@ -338,7 +343,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
         <div>
           <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600 }}>
-            Document Date
+            {t(language, 'documentDate')}
           </label>
           <Input
             type="date"
@@ -360,9 +365,9 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
           >
             <div style={dropzoneContentStyles}>
               <MaterialIcon name="folder" size={36} color={colors['neutral-400']} />
-              <div style={dropzoneTextStyles}>Drag & drop documents</div>
+              <div style={dropzoneTextStyles}>{t(language, 'dragDrop')}</div>
               <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-                OR
+                {t(language, 'or')}
               </div>
               <button
                 onClick={() => {
@@ -378,26 +383,26 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
                 }}
                 style={{
                   padding: `${spacing.sm} ${spacing.lg}`,
-                  backgroundColor: colors['neutral-900'],
+                  backgroundColor: colors['accent-blue'],
                   color: colors['neutral-white'],
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: borderRadius.sm,
                   cursor: 'pointer',
                   fontWeight: 600,
                   fontSize: typography.fontSize['body-sm'],
                   transition: 'all 0.2s ease',
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-700'];
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['accent-blue-hover'];
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-900'];
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['accent-blue'];
                 }}
               >
-                Browse documents
+                {t(language, 'browseDocuments')}
               </button>
               <div style={supportedFormatsStyles}>
-                Supported: PDF, DOCX • Up to 200MB/document
+                {t(language, 'supportedFormats')}
               </div>
             </div>
           </div>
@@ -415,7 +420,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
                 !documentDate
               }
             >
-              Upload{selectedFiles.length > 1 ? ` (${selectedFiles.length})` : ''}
+              {t(language, 'upload')}{selectedFiles.length > 1 ? ` (${selectedFiles.length})` : ''}
             </Button>
           </div>
         </div>
@@ -423,11 +428,14 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
         {/* Selected Documents List */}
         <div style={fileListPanelStyles}>
           <div style={fileListHeaderStyles}>
-            Selected Documents ({selectedFiles.length})
+            {t(language, 'selectedDocuments')(selectedFiles.length)}
           </div>
           <div style={fileListBodyStyles}>
             {selectedFiles.length === 0 ? (
-              <div style={fileListEmptyStyles}>No documents added yet</div>
+              <div style={fileListEmptyStyles}>
+                <MaterialIcon name="draft" size={28} color={colors['neutral-300']} />
+                {t(language, 'noDocumentsAdded')}
+              </div>
             ) : (
               selectedFiles.map((file, index) => {
                 const ext = file.name.split('.').pop()?.toLowerCase() || '';

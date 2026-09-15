@@ -7,6 +7,7 @@ import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
 import { FileTypeIcon } from './FileTypeIcon';
 import { ConfirmDialog } from './ConfirmDialog';
+import { t, Lang } from '../../utils/sageStrings';
 
 interface DocumentListProps {
   documents: Document[];
@@ -15,6 +16,7 @@ interface DocumentListProps {
   showDepartmentFilter?: boolean;
   onDocumentDelete?: (docId: string) => void;
   onDocumentDownload?: (doc: Document) => void;
+  language?: Lang;
 }
 
 const PAGE_SIZE = 8;
@@ -25,6 +27,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   showDepartmentFilter = false,
   onDocumentDelete,
   onDocumentDownload,
+  language,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('');
@@ -92,17 +95,27 @@ export const DocumentList: React.FC<DocumentListProps> = ({
 
   const containerStyles: React.CSSProperties = {
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 0,
     padding: spacing.lg,
-    backgroundColor: colors['neutral-white'],
+    backgroundColor: 'transparent',
   };
 
   const headerStyles: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.lg,
     flexWrap: 'wrap',
     gap: spacing.sm,
+    flexShrink: 0,
+    marginBottom: spacing.lg,
+  };
+
+  const scrollAreaStyles: React.CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    overflow: 'auto',
   };
 
   const titleStyles: React.CSSProperties = {
@@ -114,7 +127,6 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   const tableCardStyles: React.CSSProperties = {
     border: `1px solid ${colors['neutral-200']}`,
     borderRadius: borderRadius.md,
-    overflow: 'hidden',
   };
 
   const tableStyles: React.CSSProperties = {
@@ -127,12 +139,23 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     borderBottom: `1px solid ${colors['neutral-200']}`,
   };
 
+  const stickyTheadStyles: React.CSSProperties = {
+    ...theadStyles,
+    position: 'sticky',
+    top: 0,
+    zIndex: 2,
+  };
+
   const thStyles: React.CSSProperties = {
     padding: `${spacing.md} ${spacing.md}`,
     textAlign: 'left',
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
     color: colors['neutral-600'],
+    position: 'sticky',
+    top: 0,
+    zIndex: 2,
+    backgroundColor: colors['neutral-50'],
   };
 
   const tbodyTrStyles: React.CSSProperties = {
@@ -154,6 +177,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     justifyContent: 'space-between',
     padding: `${spacing.sm} ${spacing.md}`,
     marginTop: spacing.md,
+    flexShrink: 0,
     fontSize: typography.fontSize['body-sm'],
     color: colors['neutral-500'],
   };
@@ -163,8 +187,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     height: '28px',
     padding: '0 6px',
     borderRadius: borderRadius.sm,
-    border: `1px solid ${active ? colors['neutral-900'] : colors['neutral-200']}`,
-    backgroundColor: active ? colors['neutral-900'] : colors['neutral-white'],
+    border: `1px solid ${active ? colors['accent-blue'] : colors['neutral-200']}`,
+    backgroundColor: active ? colors['accent-blue'] : colors['neutral-white'],
     color: active ? colors['neutral-white'] : colors['neutral-700'],
     fontSize: '12px',
     fontWeight: 600,
@@ -192,17 +216,45 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     minHeight: 'auto',
   };
 
+  const iconActionButtonStyles: React.CSSProperties = {
+    width: '32px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: borderRadius.md,
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.15s ease, transform 0.1s ease',
+  };
+
   const emptyStateStyles: React.CSSProperties = {
     textAlign: 'center',
-    padding: spacing.xl,
+    padding: `${spacing['3xl']} ${spacing.xl}`,
     color: colors['neutral-500'],
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: spacing.sm,
+  };
+
+  const emptyStateIconWrapStyles: React.CSSProperties = {
+    width: '56px',
+    height: '56px',
+    borderRadius: borderRadius.full,
+    backgroundColor: interactionTints.accentSubtle,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.xs,
   };
 
   const checkboxStyles: React.CSSProperties = {
     width: '16px',
     height: '16px',
     cursor: 'pointer',
-    accentColor: colors['neutral-900'],
+    accentColor: colors['accent-blue'],
   };
 
   const bulkBarStyles: React.CSSProperties = {
@@ -233,7 +285,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   return (
     <div style={containerStyles}>
       <div style={headerStyles}>
-        <div style={titleStyles}>Documents ({documents.length})</div>
+        <div style={titleStyles}>{t(language, 'documentsCount')(documents.length)}</div>
         <div style={{ display: 'flex', gap: spacing.sm, alignItems: 'center', flexWrap: 'wrap' }}>
           {showDepartmentFilter && departmentOptions.length > 1 && (
             <div style={{ width: '220px' }}>
@@ -241,7 +293,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
                 options={[
-                  { label: 'All Departments', value: '' },
+                  { label: t(language, 'allDepartments'), value: '' },
                   ...departmentOptions.map((d) => ({ label: d, value: d })),
                 ]}
               />
@@ -253,8 +305,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                 value={contentTypeFilter}
                 onChange={(e) => setContentTypeFilter(e.target.value)}
                 options={[
-                  { label: 'All Content Types', value: '' },
-                  ...contentTypeOptions.map((t) => ({ label: t, value: t })),
+                  { label: t(language, 'allContentTypes'), value: '' },
+                  ...contentTypeOptions.map((ct) => ({ label: ct, value: ct })),
                 ]}
               />
             </div>
@@ -264,9 +316,9 @@ export const DocumentList: React.FC<DocumentListProps> = ({
               value={sensitivityFilter}
               onChange={(e) => setSensitivityFilter(e.target.value)}
               options={[
-                { label: 'All Sensitivity', value: '' },
-                { label: 'Sensitive', value: 'Sensitive' },
-                { label: 'Non-Sensitive', value: 'Non-Sensitive' },
+                { label: t(language, 'allSensitivity'), value: '' },
+                { label: t(language, 'sensitive'), value: 'Sensitive' },
+                { label: t(language, 'nonSensitive'), value: 'Non-Sensitive' },
               ]}
             />
           </div>
@@ -274,7 +326,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
             <div style={{ width: '220px' }}>
               <Input
                 type="search"
-                placeholder="Search documents..."
+                placeholder={t(language, 'searchDocuments')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -285,14 +337,17 @@ export const DocumentList: React.FC<DocumentListProps> = ({
 
       {filteredDocs.length === 0 ? (
         <div style={emptyStateStyles}>
-          {searchQuery ? 'No documents found matching your search.' : 'No documents uploaded yet.'}
+          <div style={emptyStateIconWrapStyles}>
+            <MaterialIcon name={searchQuery ? 'search_off' : 'folder_open'} size={26} color={colors['accent-blue']} />
+          </div>
+          {searchQuery ? t(language, 'noDocumentsFound') : t(language, 'noDocumentsUploaded')}
         </div>
       ) : (
+        <div style={scrollAreaStyles}>
         <div style={tableCardStyles}>
-        <div style={{ overflowX: 'auto' }}>
           <table style={tableStyles}>
             {selectedIds.size > 0 ? (
-              <thead>
+              <thead style={{ position: 'sticky', top: 0, zIndex: 2 }}>
                 <tr>
                   <th colSpan={7} style={{ padding: 0, border: 'none' }}>
                     <div style={bulkBarStyles}>
@@ -308,10 +363,10 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                           aria-label="Select all on this page"
                         />
                         <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
-                          {selectedIds.size} selected
+                          {t(language, 'selectedCount')(selectedIds.size)}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', gap: spacing.xs, alignItems: 'center' }}>
                         {onDocumentDownload && (
                           <button
                             onClick={() => selectedDocs.forEach((doc) => onDocumentDownload(doc))}
@@ -324,7 +379,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                             }}
                           >
                             <MaterialIcon name="download" size={16} />
-                            Download
+                            {t(language, 'download')}
                           </button>
                         )}
                         {onDocumentDelete && (
@@ -339,7 +394,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                             }}
                           >
                             <MaterialIcon name="delete" size={16} />
-                            Delete
+                            {t(language, 'delete')}
                           </button>
                         )}
                         <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
@@ -353,7 +408,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                             (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
                           }}
                         >
-                          Clear
+                          {t(language, 'clear')}
                         </button>
                       </div>
                     </div>
@@ -361,7 +416,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                 </tr>
               </thead>
             ) : (
-              <thead style={theadStyles}>
+              <thead style={stickyTheadStyles}>
                 <tr>
                   <th style={{ ...thStyles, width: '36px' }}>
                     <input
@@ -375,12 +430,12 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                       aria-label="Select all on this page"
                     />
                   </th>
-                  <th style={thStyles}>Document</th>
-                  <th style={thStyles}>Department</th>
-                  <th style={thStyles}>Sensitivity</th>
-                  <th style={thStyles}>Last Updated</th>
-                  <th style={thStyles}>Uploaded By</th>
-                  <th style={thStyles}>Actions</th>
+                  <th style={thStyles}>{t(language, 'documentColumn')}</th>
+                  <th style={thStyles}>{t(language, 'departmentColumn')}</th>
+                  <th style={thStyles}>{t(language, 'sensitivityColumn')}</th>
+                  <th style={thStyles}>{t(language, 'lastUpdatedColumn')}</th>
+                  <th style={thStyles}>{t(language, 'uploadedByColumn')}</th>
+                  <th style={thStyles}>{t(language, 'actionsColumn')}</th>
                 </tr>
               </thead>
             )}
@@ -414,8 +469,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: '30px',
-                          height: '30px',
+                          width: '32px',
+                          height: '32px',
                           borderRadius: borderRadius.sm,
                           backgroundColor: colors['neutral-100'],
                           flexShrink: 0,
@@ -430,7 +485,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                   <td style={tbodyTdStyles}>
                     <span
                       style={{
-                        padding: '2px 10px',
+                        padding: '4px 12px',
                         borderRadius: borderRadius.full,
                         fontSize: '11px',
                         fontWeight: 600,
@@ -445,7 +500,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                         display: 'inline-block',
                       }}
                     >
-                      {doc.sensitivity}
+                      {doc.sensitivity === 'Sensitive' ? t(language, 'sensitive') : t(language, 'nonSensitive')}
                     </span>
                   </td>
                   <td style={tbodyTdStyles}>
@@ -456,12 +511,12 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                     <div style={{ display: 'flex', gap: spacing.sm }}>
                       <button
                         onClick={() => onDocumentDownload?.(doc)}
-                        style={{
-                          ...actionButtonStyles,
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          color: colors['accent-blue'],
+                        style={{ ...iconActionButtonStyles, color: colors['accent-blue'] }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = interactionTints.accentSoft;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'transparent';
                         }}
                         title="Download"
                         aria-label={`Download ${doc.name}`}
@@ -471,12 +526,12 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                       {onDocumentDelete && (
                         <button
                           onClick={() => setPendingDeleteDoc(doc)}
-                          style={{
-                            ...actionButtonStyles,
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            color: colors['error-red'],
+                          style={{ ...iconActionButtonStyles, color: colors['error-red'] }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = interactionTints.dangerHover;
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
                           }}
                           title="Delete"
                           aria-label={`Delete ${doc.name}`}
@@ -497,9 +552,11 @@ export const DocumentList: React.FC<DocumentListProps> = ({
       {totalPages > 1 && (
         <div style={paginationBarStyles}>
           <span>
-            Showing {(currentPage - 1) * PAGE_SIZE + 1}
-            {'–'}
-            {Math.min(currentPage * PAGE_SIZE, filteredDocs.length)} of {filteredDocs.length}
+            {t(language, 'showingRange')(
+              (currentPage - 1) * PAGE_SIZE + 1,
+              Math.min(currentPage * PAGE_SIZE, filteredDocs.length),
+              filteredDocs.length
+            )}
           </span>
           <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
             <button
@@ -527,9 +584,9 @@ export const DocumentList: React.FC<DocumentListProps> = ({
 
       <ConfirmDialog
         isOpen={!!pendingDeleteDoc}
-        title="Delete Document"
-        message={`Delete "${pendingDeleteDoc?.name}"? It will be moved to Deleted Documents, where it can be restored.`}
-        confirmLabel="Delete"
+        title={t(language, 'deleteDocumentTitle')}
+        message={t(language, 'deleteDocumentMsg')(pendingDeleteDoc?.name)}
+        confirmLabel={t(language, 'delete')}
         onConfirm={() => {
           if (pendingDeleteDoc) onDocumentDelete?.(pendingDeleteDoc.id);
           setPendingDeleteDoc(null);
@@ -539,9 +596,9 @@ export const DocumentList: React.FC<DocumentListProps> = ({
 
       <ConfirmDialog
         isOpen={bulkDeleteConfirm}
-        title="Delete Documents"
-        message={`Delete ${selectedIds.size} selected document${selectedIds.size === 1 ? '' : 's'}? They will be moved to Deleted Documents, where they can be restored.`}
-        confirmLabel="Delete"
+        title={t(language, 'deleteDocumentsTitle')}
+        message={t(language, 'deleteDocumentsMsg')(selectedIds.size)}
+        confirmLabel={t(language, 'delete')}
         onConfirm={() => {
           selectedDocs.forEach((doc) => onDocumentDelete?.(doc.id));
           setSelectedIds(new Set());

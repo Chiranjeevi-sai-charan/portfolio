@@ -114,7 +114,7 @@ export const Alert: React.FC<AlertProps> = ({
     fontWeight: 600,
     color: config.border,
     minWidth: '20px',
-    marginTop: '2px',
+    marginTop: spacing.xs,
   };
 
   const contentStyles: React.CSSProperties = {

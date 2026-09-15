@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, typography } from '../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
 
 /**
  * Breadcrumbs Component
@@ -83,14 +83,14 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
     cursor: 'pointer',
     transition: 'color 0.2s ease-in-out',
     padding: `2px ${spacing.sm}`,
-    borderRadius: '4px',
+    borderRadius: borderRadius.sm,
   };
 
   const currentItemStyles: React.CSSProperties = {
     color: colors['neutral-900'],
     fontWeight: typography.fontWeight.semibold,
     padding: `2px ${spacing.sm}`,
-    borderRadius: '4px',
+    borderRadius: borderRadius.sm,
   };
 
   const separatorStyles: React.CSSProperties = {
