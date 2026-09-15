@@ -37,6 +37,30 @@ export const colors = {
 };
 
 // ============================================================================
+// STATUS COLORS (e.g. document sensitivity badges)
+// Darker text than the raw success-green/error-red tokens on purpose — those
+// are sized for white-on-solid buttons, these need to clear WCAG AA 4.5:1
+// text contrast against their own light `bg`.
+// ============================================================================
+
+export const statusColors = {
+  sensitive: { text: "#B91C1C", bg: "rgba(220, 38, 38, 0.12)" },
+  nonSensitive: { text: "#166534", bg: "rgba(22, 101, 52, 0.12)" },
+};
+
+// ============================================================================
+// INTERACTION TINTS (hover states, selection bars, focus rings)
+// ============================================================================
+
+export const interactionTints = {
+  accentSubtle: "rgba(37, 99, 235, 0.06)",
+  accentSoft: "rgba(37, 99, 235, 0.08)",
+  accentRing: "rgba(37, 99, 235, 0.12)",
+  neutralHover: "rgba(17, 24, 39, 0.06)",
+  dangerHover: "rgba(220, 38, 38, 0.08)",
+};
+
+// ============================================================================
 // TYPOGRAPHY
 // ============================================================================
 
@@ -247,7 +271,7 @@ export const componentSizes = {
     height: "64px",
   },
   sidebar: {
-    width: "200px",
+    width: "240px",
   },
 };
 
@@ -273,6 +297,9 @@ export const zIndex = {
   modal: 400,
   tooltip: 500,
   notification: 600,
+  // Popovers (e.g. a Select's open menu) must stay on top even when the
+  // control is rendered inside a modal, so this sits above `modal`.
+  popover: 1500,
 };
 
 // ============================================================================
@@ -281,6 +308,8 @@ export const zIndex = {
 
 export const tokensJSON = {
   colors,
+  statusColors,
+  interactionTints,
   typography,
   spacing,
   borderRadius,

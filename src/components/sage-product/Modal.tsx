@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, borderRadius, shadows, typography } from '../../styles/sage/tokens';
+import { colors, spacing, borderRadius, shadows, typography, zIndex } from '../../styles/sage/tokens';
 import { Button } from './Button';
 
 /**
@@ -118,19 +118,20 @@ export const Modal: React.FC<ModalProps> = ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1000,
+    zIndex: zIndex.modal,
   };
 
   const modalStyles: React.CSSProperties = {
     backgroundColor: colors['neutral-white'],
     borderRadius: borderRadius.lg,
+    overflow: 'hidden',
     boxShadow: shadows.xl,
     maxWidth: sizeMap[size],
     width: '90vw',
     maxHeight: '90vh',
     display: 'flex',
     flexDirection: 'column',
-    zIndex: 1001,
+    zIndex: zIndex.modal + 1,
   };
 
   const headerStyles: React.CSSProperties = {

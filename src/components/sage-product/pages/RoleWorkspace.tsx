@@ -7,6 +7,7 @@ import { DocumentList } from '../DocumentList';
 import { UserManagementTable } from '../UserManagementTable';
 import { AddUserModal } from '../AddUserModal';
 import { ConfirmDialog } from '../ConfirmDialog';
+import { AnalyticsDashboard } from '../AnalyticsDashboard';
 import { MaterialIcon } from '../MaterialIcon';
 import { useToast } from '../ToastProvider';
 import {
@@ -15,6 +16,7 @@ import {
   User,
   userStorage,
   initializeMockData,
+  analyticsStorage,
 } from '../../../utils/storage';
 import { DEPARTMENTS, CONTENT_TYPES, SENSITIVITIES, ROLE_LABELS } from '../../../utils/sageConstants';
 import { generateAIResponse } from '../../../utils/mockAIResponses';
@@ -41,9 +43,10 @@ interface Conversation {
   id: string;
   title: string;
   icon: string;
+  createdAt: number;
 }
 
-type ActiveView = 'chat' | 'documents' | 'user-management';
+type ActiveView = 'chat' | 'documents' | 'user-management' | 'analytics';
 
 interface RoleWorkspaceProps {
   role: 'admin' | 'system-admin';
@@ -54,10 +57,16 @@ interface RoleWorkspaceProps {
   department?: string;
 }
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 const SEED_CONVERSATIONS: Conversation[] = [
-  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'chat' },
-  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'chat' },
+  { id: 'chat-1', title: 'Vacation Policy Questions', icon: 'chat', createdAt: Date.now() - 2 * DAY_MS },
+  { id: 'chat-2', title: 'Health Insurance Coverage', icon: 'chat', createdAt: Date.now() - 3 * DAY_MS },
 ];
+
+/** Groups a conversation into "Today" or "Previous 7 Days" based on its createdAt */
+const conversationSection = (createdAt: number): string =>
+  Date.now() - createdAt < DAY_MS ? 'Today' : 'Previous 7 Days';
 
 export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, userEmail, department }) => {
   const isSystemAdmin = role === 'system-admin';
@@ -91,6 +100,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
     label: c.title,
     icon: c.icon,
     hasMenu: true,
+    section: conversationSection(c.createdAt),
   }));
 
   const handleNewChat = () => {
@@ -124,7 +134,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
     if (!activeConversationId) {
       const newId = String(Date.now());
       const title = userMessage.length > 40 ? `${userMessage.slice(0, 40).trim()}...` : userMessage;
-      setConversations((prev) => [{ id: newId, title, icon: 'chat' }, ...prev]);
+      setConversations((prev) => [{ id: newId, title, icon: 'chat', createdAt: Date.now() }, ...prev]);
       setActiveConversationId(newId);
     }
 
@@ -146,12 +156,22 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
         citations: response.citations,
       };
       setMessages((prev) => [...prev, aiMsg]);
+
+      // Privacy-safe analytics: log the matched topic and cited documents,
+      // never the raw question text.
+      analyticsStorage.log({
+        topic: response.topic,
+        citations: response.citations,
+        role,
+        department: isSystemAdmin ? 'All Departments' : department || 'General',
+        language,
+      });
     }, 1000);
   };
 
   const handleUserMenuAction = (action: string) => {
-    if (action === 'documents' || action === 'user-management') {
-      setActiveView(action);
+    if (action === 'documents' || action === 'user-management' || action === 'analytics') {
+      setActiveView(action as ActiveView);
       if (action === 'documents') setDocumentTab('upload');
     } else {
       console.log('User menu action:', action);
@@ -206,22 +226,37 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
       ? [
           { id: 'documents', label: 'ドキュメント', icon: 'description' },
           { id: 'user-management', label: 'ユーザー管理', icon: 'group' },
+          ...(isSystemAdmin ? [{ id: 'analytics', label: '分析', icon: 'monitoring' }] : []),
         ]
       : [
           { id: 'documents', label: 'Documents', icon: 'description' },
           { id: 'user-management', label: 'User Management', icon: 'group' },
+          ...(isSystemAdmin ? [{ id: 'analytics', label: 'Analytics', icon: 'monitoring' }] : []),
         ];
 
   const activeDocuments = documents.filter((d) => d.status === 'active');
   const archivedDocuments = documents.filter((d) => d.status === 'archived');
   const deletedDocuments = documents.filter((d) => d.status === 'deleted');
 
-  const backBarStyles: React.CSSProperties = {
+  const backRowStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing.sm,
-    padding: `${spacing.md} ${spacing.lg}`,
+    padding: `${spacing.md} ${spacing.lg} 0`,
+  };
+
+  const titleRowStyles: React.CSSProperties = {
+    padding: `${spacing.sm} ${spacing.lg} ${spacing.md}`,
+  };
+
+  const tabBarStyles: React.CSSProperties = {
+    display: 'flex',
+    padding: `0 ${spacing.lg}`,
     borderBottom: `1px solid ${colors['neutral-200']}`,
+  };
+
+  const headerDividerStyles: React.CSSProperties = {
+    borderBottom: `1px solid ${colors['neutral-200']}`,
+    margin: `0 ${spacing.lg} ${spacing.sm}`,
   };
 
   const backButtonStyles: React.CSSProperties = {
@@ -236,7 +271,38 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
     fontWeight: typography.fontWeight.semibold,
     padding: `${spacing.xs} ${spacing.sm}`,
     borderRadius: borderRadius.sm,
+    transition: 'background-color 0.15s ease-in-out',
   };
+
+  const pageTitleStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['h1'],
+    fontWeight: 700,
+    color: colors['neutral-900'],
+    margin: 0,
+  };
+
+  const renderPageHeader = (title: string) => (
+    <>
+      <div style={backRowStyles}>
+        <button
+          style={backButtonStyles}
+          onClick={() => setActiveView('chat')}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+          }}
+        >
+          <MaterialIcon name="arrow_back" size={16} />
+          Back to Chat
+        </button>
+      </div>
+      <div style={titleRowStyles}>
+        <h1 style={pageTitleStyles}>{title}</h1>
+      </div>
+    </>
+  );
 
   const viewWrapperStyles: React.CSSProperties = {
     height: '100%',
@@ -262,35 +328,44 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
 
   const renderDocumentsView = () => (
     <div style={viewWrapperStyles}>
-      <div style={backBarStyles}>
-        <button style={backButtonStyles} onClick={() => setActiveView('chat')}>
-          <MaterialIcon name="arrow_back" size={18} />
-          Back to Chat
-        </button>
-        <div style={{ display: 'flex', gap: spacing.sm, marginLeft: spacing.lg }}>
-          {docTabs.map((tab) => (
+      {renderPageHeader('Documents')}
+      <div style={tabBarStyles}>
+        {docTabs.map((tab) => {
+          const active = documentTab === tab.id;
+          return (
             <button
               key={tab.id}
               onClick={() => setDocumentTab(tab.id)}
               style={{
+                flex: 1,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: `${spacing.xs} ${spacing.md}`,
-                borderRadius: borderRadius.full,
-                border: `1px solid ${documentTab === tab.id ? colors['neutral-900'] : colors['neutral-200']}`,
-                backgroundColor: documentTab === tab.id ? colors['neutral-900'] : colors['neutral-white'],
-                color: documentTab === tab.id ? colors['neutral-white'] : colors['neutral-700'],
-                fontSize: typography.fontSize['body-sm'],
-                fontWeight: 600,
+                justifyContent: 'center',
+                gap: '8px',
+                padding: `${spacing.md} ${spacing.sm}`,
+                marginBottom: '-1px',
+                borderRadius: 0,
+                border: 'none',
+                borderBottom: `3px solid ${active ? colors['neutral-900'] : 'transparent'}`,
+                backgroundColor: active ? colors['neutral-50'] : 'transparent',
+                color: active ? colors['neutral-900'] : colors['neutral-500'],
+                fontSize: typography.fontSize['body-md'],
+                fontWeight: active ? 700 : 600,
                 cursor: 'pointer',
+                transition: 'color 0.15s ease-in-out, border-color 0.15s ease-in-out, background-color 0.15s ease-in-out',
+              }}
+              onMouseEnter={(e) => {
+                if (!active) (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-50'];
+              }}
+              onMouseLeave={(e) => {
+                if (!active) (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
               }}
             >
-              <MaterialIcon name={tab.icon} size={16} />
+              <MaterialIcon name={tab.icon} size={18} />
               {tab.label}
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
       <div style={viewScrollStyles}>
         {documentTab === 'upload' && (
@@ -308,7 +383,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
             documents={activeDocuments}
             showSearch
             showDepartmentFilter={isSystemAdmin}
-            onDocumentDelete={isSystemAdmin ? handleDocumentDelete : undefined}
+            onDocumentDelete={handleDocumentDelete}
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
           />
         )}
@@ -335,7 +410,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
                 <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
                   <thead style={{ backgroundColor: colors['neutral-100'], borderBottom: `2px solid ${colors['neutral-200']}` }}>
                     <tr>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>File</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Document</th>
                       <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Department</th>
                       <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Actions</th>
                     </tr>
@@ -394,12 +469,8 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
 
   const renderUserManagementView = () => (
     <div style={viewWrapperStyles}>
-      <div style={backBarStyles}>
-        <button style={backButtonStyles} onClick={() => setActiveView('chat')}>
-          <MaterialIcon name="arrow_back" size={18} />
-          Back to Chat
-        </button>
-      </div>
+      {renderPageHeader('User Management')}
+      <div style={headerDividerStyles} />
       <div style={viewScrollStyles}>
         <UserManagementTable
           users={users}
@@ -433,6 +504,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
         messages={messages}
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}
+        activeConversationId={activeView === 'chat' ? activeConversationId : null}
         onNewChat={handleNewChat}
         onChatMenuAction={handleChatMenuAction}
         managementLinks={managementLinks}
@@ -444,7 +516,14 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
           ? undefined
           : activeView === 'documents'
           ? renderDocumentsView()
-          : renderUserManagementView()}
+          : activeView === 'user-management'
+          ? renderUserManagementView()
+          : (
+              <AnalyticsDashboard
+                onBackToChat={() => setActiveView('chat')}
+                language={language}
+              />
+            )}
       </ChatLayout>
     </div>
   );

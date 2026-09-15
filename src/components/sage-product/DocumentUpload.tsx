@@ -109,8 +109,13 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const buttonGroupStyles: React.CSSProperties = {
     display: 'flex',
     gap: spacing.md,
-    marginTop: spacing.lg,
-    justifyContent: 'center',
+    marginTop: spacing.md,
+    justifyContent: 'flex-end',
+  };
+
+  const dropzoneColumnStyles: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
   };
 
   const fileListPanelStyles: React.CSSProperties = {
@@ -346,64 +351,83 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
       {/* File Upload Area: dropzone + uploaded files, side by side */}
       <div style={uploadRowStyles}>
-        <div
-          style={dropzoneStyles}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-        >
-          <div style={dropzoneContentStyles}>
-            <MaterialIcon name="folder" size={36} color={colors['neutral-400']} />
-            <div style={dropzoneTextStyles}>Drag & drop files</div>
-            <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-              OR
+        <div style={dropzoneColumnStyles}>
+          <div
+            style={dropzoneStyles}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            <div style={dropzoneContentStyles}>
+              <MaterialIcon name="folder" size={36} color={colors['neutral-400']} />
+              <div style={dropzoneTextStyles}>Drag & drop documents</div>
+              <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
+                OR
+              </div>
+              <button
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.multiple = true;
+                  input.accept = '.pdf,.docx';
+                  input.onchange = (e) => {
+                    const files = (e.target as HTMLInputElement).files;
+                    if (files && files.length > 0) addFiles(files);
+                  };
+                  input.click();
+                }}
+                style={{
+                  padding: `${spacing.sm} ${spacing.lg}`,
+                  backgroundColor: colors['neutral-900'],
+                  color: colors['neutral-white'],
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: typography.fontSize['body-sm'],
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-700'];
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-900'];
+                }}
+              >
+                Browse documents
+              </button>
+              <div style={supportedFormatsStyles}>
+                Supported: PDF, DOCX • Up to 200MB/document
+              </div>
             </div>
-            <button
-              onClick={() => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.multiple = true;
-                input.accept = '.pdf,.docx';
-                input.onchange = (e) => {
-                  const files = (e.target as HTMLInputElement).files;
-                  if (files && files.length > 0) addFiles(files);
-                };
-                input.click();
-              }}
-              style={{
-                padding: `${spacing.sm} ${spacing.lg}`,
-                backgroundColor: colors['neutral-900'],
-                color: colors['neutral-white'],
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: typography.fontSize['body-sm'],
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-700'];
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-900'];
-              }}
+          </div>
+
+          {/* Action Buttons: right-aligned under the dropzone */}
+          <div style={buttonGroupStyles}>
+            <Button
+              variant="primary"
+              onClick={handleUpload}
+              disabled={
+                selectedFiles.length === 0 ||
+                !selectedDepartment ||
+                !selectedType ||
+                !selectedSensitivity ||
+                !documentDate
+              }
             >
-              Browse files
-            </button>
-            <div style={supportedFormatsStyles}>
-              Supported: PDF, DOCX • Up to 200MB/file
-            </div>
+              Upload{selectedFiles.length > 1 ? ` (${selectedFiles.length})` : ''}
+            </Button>
           </div>
         </div>
 
-        {/* Uploaded Files List */}
+        {/* Selected Documents List */}
         <div style={fileListPanelStyles}>
           <div style={fileListHeaderStyles}>
-            Uploaded Files ({selectedFiles.length})
+            Selected Documents ({selectedFiles.length})
           </div>
           <div style={fileListBodyStyles}>
             {selectedFiles.length === 0 ? (
-              <div style={fileListEmptyStyles}>No files added yet</div>
+              <div style={fileListEmptyStyles}>No documents added yet</div>
             ) : (
               selectedFiles.map((file, index) => {
                 const ext = file.name.split('.').pop()?.toLowerCase() || '';
@@ -438,23 +462,6 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
             )}
           </div>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div style={buttonGroupStyles}>
-        <Button
-          variant="primary"
-          onClick={handleUpload}
-          disabled={
-            selectedFiles.length === 0 ||
-            !selectedDepartment ||
-            !selectedType ||
-            !selectedSensitivity ||
-            !documentDate
-          }
-        >
-          Upload{selectedFiles.length > 1 ? ` (${selectedFiles.length})` : ''}
-        </Button>
       </div>
     </div>
   );

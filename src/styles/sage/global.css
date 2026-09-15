@@ -143,105 +143,103 @@
 
 /* ============================================================================
    GLOBAL STYLES
+   Scoped under .sage-app — this file is imported at the app root (App.jsx)
+   and must not leak resets/hover colors onto the rest of the portfolio site.
+   Apply the "sage-app" class to the Sage product's own root element only.
    ============================================================================ */
 
-* {
+.sage-app,
+.sage-app * {
   box-sizing: border-box;
 }
 
-html {
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  margin: 0;
-  padding: 0;
+.sage-app {
   font-family: var(--font-primary);
   font-size: var(--fs-body-md);
   line-height: var(--lh-normal);
   color: var(--text-primary);
   background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ---- Typography Reset ---- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.sage-app h1,
+.sage-app h2,
+.sage-app h3,
+.sage-app h4,
+.sage-app h5,
+.sage-app h6 {
   margin: 0;
   font-weight: var(--fw-bold);
   line-height: var(--lh-tight);
 }
 
-h1 {
+.sage-app h1 {
   font-size: var(--fs-h1);
 }
 
-h2 {
+.sage-app h2 {
   font-size: var(--fs-h2);
 }
 
-h3 {
+.sage-app h3 {
   font-size: var(--fs-h3);
 }
 
-h4 {
+.sage-app h4 {
   font-size: var(--fs-h4);
 }
 
-p {
+.sage-app p {
   margin: 0;
 }
 
-a {
+.sage-app a {
   color: var(--accent-blue);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-a:hover {
+.sage-app a:hover {
   color: var(--sage-green-600);
 }
 
 /* ---- Form Elements Reset ---- */
-button,
-input,
-select,
-textarea {
+.sage-app button,
+.sage-app input,
+.sage-app select,
+.sage-app textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
 }
 
-button {
+.sage-app button {
   cursor: pointer;
   background: none;
   border: none;
   padding: 0;
 }
 
-input,
-textarea,
-select {
+.sage-app input,
+.sage-app textarea,
+.sage-app select {
   padding: 0;
   border: none;
   background: transparent;
 }
 
 /* ---- Lists ---- */
-ul,
-ol {
+.sage-app ul,
+.sage-app ol {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 /* ---- Images ---- */
-img {
+.sage-app img {
   max-width: 100%;
   height: auto;
   display: block;
@@ -252,7 +250,7 @@ img {
    ============================================================================ */
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  .sage-app {
     /* Override with dark mode colors if needed */
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
@@ -309,11 +307,11 @@ img {
    UTILITY: FOCUS STATES (Accessibility)
    ============================================================================ */
 
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-a:focus-visible {
+.sage-app button:focus-visible,
+.sage-app input:focus-visible,
+.sage-app select:focus-visible,
+.sage-app textarea:focus-visible,
+.sage-app a:focus-visible {
   outline: 2px solid var(--neutral-900);
   outline-offset: 2px;
 }
@@ -322,21 +320,21 @@ a:focus-visible {
    SCROLLBAR STYLING (Optional)
    ============================================================================ */
 
-::-webkit-scrollbar {
+.sage-app ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
+.sage-app ::-webkit-scrollbar-track {
   background: var(--bg-secondary);
 }
 
-::-webkit-scrollbar-thumb {
+.sage-app ::-webkit-scrollbar-thumb {
   background: var(--neutral-400);
   border-radius: var(--radius-sm);
 }
 
-::-webkit-scrollbar-thumb:hover {
+.sage-app ::-webkit-scrollbar-thumb:hover {
   background: var(--neutral-500);
 }
 

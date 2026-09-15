@@ -31,6 +31,8 @@ export interface SidebarItem {
   children?: SidebarItem[];
   /** Show a "..." context menu (Share, Rename, Pin chat, Archive, Delete) on hover */
   hasMenu?: boolean;
+  /** Group label to render above this item when it differs from the previous sibling's (e.g. "Today", "Previous 7 Days") */
+  section?: string;
 }
 
 interface SidebarUser {
@@ -61,14 +63,17 @@ interface SidebarProps {
   /** Logo/brand element */
   logo?: React.ReactNode;
 
+  /** Called when the SAGE logo/wordmark is clicked (e.g. to start a new chat) */
+  onLogoClick?: () => void;
+
+  /** Called when the search icon next to "New Chat" is clicked */
+  onSearchClick?: () => void;
+
   /** User pinned to the bottom of the sidebar, with a dropdown menu */
   user?: SidebarUser;
 
-  /** Called when a dropdown menu item is clicked ('personalization' | 'profile' | 'settings' | 'help' | 'logout' | a managementLinks id) */
+  /** Called when a dropdown menu item is clicked ('help' | 'logout') */
   onUserMenuAction?: (action: string) => void;
-
-  /** Extra links shown at the top of the user dropdown (e.g. Documents, User Management) — role-gated by the caller */
-  managementLinks?: { id: string; label: string; icon: string }[];
 
   /** Called when a chat item's context menu action is clicked ('share' | 'rename' | 'pin' | 'archive' | 'delete') */
   onItemMenuAction?: (item: SidebarItem, action: string) => void;
@@ -88,10 +93,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   collapsed = false,
   onCollapseToggle,
   logo,
+  onLogoClick,
+  onSearchClick,
   user,
   onUserMenuAction,
   onItemMenuAction,
-  managementLinks = [],
   language = 'en',
   onLanguageChange,
 }) => {
@@ -100,6 +106,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [hoveredItemKey, setHoveredItemKey] = React.useState<string | null>(null);
   const [openItemMenuKey, setOpenItemMenuKey] = React.useState<string | null>(null);
   const userMenuRef = React.useRef<HTMLDivElement>(null);
+
+  /**
+   * `collapsed` is the pinned base state (toggled by clicking the pin icon).
+   * `isHovering` is a transient state for the flyout-on-hover behavior: when
+   * the sidebar is pinned collapsed, hovering over it temporarily expands it,
+   * and it snaps back to the icon rail the moment the cursor leaves — unless
+   * the user has pinned it open, in which case it stays expanded regardless
+   * of the cursor.
+   */
+  const [isHovering, setIsHovering] = React.useState(false);
+  const expanded = !collapsed || isHovering;
 
   const toggleExpanded = (label: string) => {
     setExpandedItems((prev) =>
@@ -133,11 +150,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const sidebarStyles: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    width: collapsed ? '64px' : componentSizes.sidebar.width,
+    width: expanded ? componentSizes.sidebar.width : '64px',
     flexShrink: 0,
-    height: '100%',
+    height: 'calc(100% - 16px)',
+    margin: spacing.sm,
     backgroundColor: colors['neutral-50'],
-    borderRight: `1px solid ${colors['neutral-200']}`,
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.md,
+    boxShadow: shadows.md,
     transition: 'width 0.3s ease-in-out',
     overflow: 'visible',
     position: 'relative',
@@ -148,17 +168,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     padding: `${spacing.md} ${spacing.md}`,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: collapsed ? 'center' : 'space-between',
+    justifyContent: expanded ? 'space-between' : 'center',
     minHeight: '56px',
     gap: spacing.sm,
-  };
-
-  const brandTextStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['h4'],
-    fontWeight: typography.fontWeight.bold,
-    color: colors['neutral-900'],
-    letterSpacing: '0.5px',
-    whiteSpace: 'nowrap',
+    borderBottom: `1px solid ${colors['neutral-200']}`,
   };
 
   const logoActionsStyles: React.CSSProperties = {
@@ -182,11 +195,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
     flexShrink: 0,
   };
 
+  /** Small square wordmark ("SA" / "GE" stacked), always shown at the top of
+   * the sidebar — same square footprint as the other icon buttons, so it
+   * sits flush among them in the collapsed icon rail, and doubles as the
+   * brand mark next to the "SAGE" text when expanded. */
+  const logoMarkStyles: React.CSSProperties = {
+    width: '32px',
+    height: '32px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors['neutral-900'],
+    border: 'none',
+    borderRadius: borderRadius.sm,
+    cursor: 'pointer',
+    color: colors['neutral-white'],
+    flexShrink: 0,
+    padding: 0,
+    lineHeight: 1,
+  };
+
+  const logoMarkLineStyles: React.CSSProperties = {
+    fontSize: '9px',
+    fontWeight: typography.fontWeight.bold,
+    letterSpacing: '0.3px',
+    lineHeight: '11px',
+  };
+
   const menuStyles: React.CSSProperties = {
     flex: 1,
     overflowY: 'auto',
     overflowX: 'hidden',
-    padding: `0 ${spacing.sm}`,
+    padding: `${spacing.sm} ${spacing.sm} 0`,
     display: 'flex',
     flexDirection: 'column',
     gap: '2px',
@@ -306,7 +347,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const isExpanded = expandedItems.includes(item.label);
     const hasChildren = item.children && item.children.length > 0;
     const showMenuTrigger =
-      item.hasMenu && !collapsed && (hoveredItemKey === key || openItemMenuKey === key);
+      item.hasMenu && expanded && (hoveredItemKey === key || openItemMenuKey === key);
 
     return (
       <div
@@ -347,10 +388,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div style={menuItemIconStyles}>
             <MaterialIcon name={item.icon} size={20} />
           </div>
-          {!collapsed && (
+          {expanded && (
             <>
               <div style={menuItemLabelStyles}>{item.label}</div>
-              {item.badge && !collapsed && (
+              {item.badge && expanded && (
                 <div style={badgeStyles}>{item.badge > 99 ? '99+' : item.badge}</div>
               )}
               {hasChildren && (
@@ -363,6 +404,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </>
           )}
         </button>
+
+        {item.id === 'new-chat' && expanded && (
+          <button
+            style={{
+              ...itemMenuTriggerStyles,
+              position: 'absolute',
+              right: spacing.sm,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '26px',
+              height: '26px',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSearchClick?.();
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-200'];
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+            }}
+            title="Search chats"
+            aria-label="Search chats"
+          >
+            <MaterialIcon name="search" size={16} />
+          </button>
+        )}
 
         {showMenuTrigger && (
           <button
@@ -427,8 +496,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         {/* Nested Items */}
-        {hasChildren && isExpanded && !collapsed && (
-          <div>{item.children!.map((child) => renderMenuItem(child, level + 1))}</div>
+        {hasChildren && isExpanded && expanded && (
+          <div>
+            {item.children!.map((child, idx) => {
+              const prevSection = idx > 0 ? item.children![idx - 1].section : undefined;
+              const showSectionLabel = child.section && child.section !== prevSection;
+              return (
+                <React.Fragment key={child.id || child.label}>
+                  {showSectionLabel && (
+                    <div style={{ ...sectionLabelStyles, marginLeft: `${(level + 1) * 12}px`, padding: `${spacing.sm} ${spacing.md} ${spacing.xs}` }}>
+                      {child.section}
+                    </div>
+                  )}
+                  {renderMenuItem(child, level + 1)}
+                </React.Fragment>
+              );
+            })}
+          </div>
         )}
       </div>
     );
@@ -570,54 +654,43 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const menuActions =
     language === 'ja'
-      ? [
-          { id: 'personalization', label: 'パーソナライズ', icon: 'tune' },
-          { id: 'profile', label: 'プロフィール', icon: 'account_circle' },
-          { id: 'settings', label: '設定', icon: 'settings' },
-        ]
-      : [
-          { id: 'personalization', label: 'Personalization', icon: 'tune' },
-          { id: 'profile', label: 'Profile', icon: 'account_circle' },
-          { id: 'settings', label: 'Settings', icon: 'settings' },
-        ];
+      ? [{ id: 'help', label: 'ヘルプセンター', icon: 'help' }]
+      : [{ id: 'help', label: 'Help Center', icon: 'help' }];
 
   return (
-    <div style={sidebarStyles}>
+    <div
+      style={sidebarStyles}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       {/* Logo Section */}
       <div style={logoSectionStyles}>
-        {!collapsed && (logo || <div style={brandTextStyles}>SAGE</div>)}
-        <div style={logoActionsStyles}>
-          {!collapsed && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm, minWidth: 0 }}>
+          {logo || (
+            <button style={logoMarkStyles} onClick={onLogoClick} title="SAGE" aria-label="SAGE">
+              <span style={logoMarkLineStyles}>SA</span>
+              <span style={logoMarkLineStyles}>GE</span>
+            </button>
+          )}
+        </div>
+        {expanded && (
+          <div style={logoActionsStyles}>
             <button
               style={iconButtonStyles}
-              onClick={() => console.log('Search clicked')}
+              onClick={onCollapseToggle}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
               }}
-              title="Search"
-              aria-label="Search"
+              title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
-              <MaterialIcon name="search" size={20} />
+              <MaterialIcon name={collapsed ? 'left_panel_open' : 'left_panel_close'} size={20} />
             </button>
-          )}
-          <button
-            style={iconButtonStyles}
-            onClick={onCollapseToggle}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-            }}
-            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            <MaterialIcon name="left_panel_close" size={20} />
-          </button>
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Menu Items */}
@@ -642,30 +715,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </button>
                 </div>
               </div>
-              {managementLinks.length > 0 && (
-                <>
-                  <div style={userMenuDividerStyles} />
-                  {managementLinks.map((link) => (
-                    <button
-                      key={link.id}
-                      style={userMenuItemStyles}
-                      onClick={() => {
-                        setUserMenuOpen(false);
-                        onUserMenuAction?.(link.id);
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                      }}
-                    >
-                      <MaterialIcon name={link.icon} size={18} color={colors['neutral-700']} />
-                      {link.label}
-                    </button>
-                  ))}
-                </>
-              )}
               <div style={userMenuDividerStyles} />
               {menuActions.map((action) => (
                 <button
@@ -688,19 +737,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
               ))}
               <div style={userMenuDividerStyles} />
               <button
-                style={userMenuItemStyles}
+                style={{ ...userMenuItemStyles, color: colors['neutral-700'] }}
                 onClick={() => {
                   setUserMenuOpen(false);
                   onUserMenuAction?.('logout');
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-100'];
+                  (e.currentTarget as HTMLButtonElement).style.color = colors['error-red'];
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-700'];
                 }}
               >
-                <MaterialIcon name="logout" size={18} color={colors['neutral-700']} />
+                <MaterialIcon name="logout" size={18} />
                 {language === 'ja' ? 'ログアウト' : 'Log out'}
               </button>
             </div>
@@ -717,7 +768,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             }}
           >
             <div style={userAvatarStyles}>{getUserInitials(user.name)}</div>
-            {!collapsed && (
+            {expanded && (
               <div style={{ overflow: 'hidden', minWidth: 0 }} title={user.department ? `${user.role} · ${user.department}` : user.role}>
                 <div style={userNameStyles}>{user.name}</div>
                 <div style={userRoleStyles}>{user.role}</div>

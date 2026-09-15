@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { spacing, typography, colors } from '../../styles/sage/tokens';
 import { Modal } from './Modal';
 import { Input } from './Input';
@@ -95,7 +95,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          placeholder="jane.doe@motherson.com"
+          placeholder="jane.doe@gmail.com"
         />
         <Select
           label="Role"

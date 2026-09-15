@@ -3,8 +3,8 @@
  *
  * Maps each citation name (as generated in EmployeeChatbot's
  * generateCitations) to a document with paragraphs of realistic-looking
- * policy text. One paragraph is marked as the "highlight" — the specific
- * excerpt the AI's answer was drawn from — so the DocumentPanel can show
+ * policy text. One paragraph is marked as the "highlight" - the specific
+ * excerpt the AI's answer was drawn from - so the DocumentPanel can show
  * it with a light-yellow highlight, matching how a real citation-lookup
  * experience would jump straight to the relevant passage.
  *
@@ -30,8 +30,8 @@ interface LocalizedMockDocument {
 export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
   'Company Handbook - Time Off Policy': {
     title: {
-      en: 'Company Handbook — Time Off Policy',
-      ja: '従業員ハンドブック — 休暇規定',
+      en: 'Company Handbook - Time Off Policy',
+      ja: '従業員ハンドブック - 休暇規定',
     },
     paragraphs: {
       en: [
@@ -53,8 +53,8 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
   },
   'HR Portal - Vacation Request Guide': {
     title: {
-      en: 'HR Portal — Vacation Request Guide',
-      ja: '人事ポータル — 休暇申請ガイド',
+      en: 'HR Portal - Vacation Request Guide',
+      ja: '人事ポータル - 休暇申請ガイド',
     },
     paragraphs: {
       en: [
@@ -74,8 +74,8 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
   },
   'Company Handbook - Sick Leave': {
     title: {
-      en: 'Company Handbook — Sick Leave',
-      ja: '従業員ハンドブック — 病気休暇',
+      en: 'Company Handbook - Sick Leave',
+      ja: '従業員ハンドブック - 病気休暇',
     },
     paragraphs: {
       en: [
@@ -118,8 +118,8 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
   },
   'Company Handbook - Health Benefits': {
     title: {
-      en: 'Company Handbook — Health Benefits',
-      ja: '従業員ハンドブック — 健康保険',
+      en: 'Company Handbook - Health Benefits',
+      ja: '従業員ハンドブック - 健康保険',
     },
     paragraphs: {
       en: [
@@ -181,8 +181,8 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
   },
   'Company Handbook - Work Arrangements': {
     title: {
-      en: 'Company Handbook — Work Arrangements',
-      ja: '従業員ハンドブック — 勤務形態',
+      en: 'Company Handbook - Work Arrangements',
+      ja: '従業員ハンドブック - 勤務形態',
     },
     paragraphs: {
       en: [
@@ -210,7 +210,7 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
         'Remote Work Guidelines',
         'This policy defines expectations for employees working outside of the primary office location.',
         'Employees may work remotely up to 3 days per week, coordinated in advance with their manager. Core collaboration hours (10am–3pm local time) should be maintained regardless of work location.',
-        'Equipment and expense reimbursement for home office setup is available up to $300 per year — see the Expense Policy for details.',
+        'Equipment and expense reimbursement for home office setup is available up to $300 per year - see the Expense Policy for details.',
       ],
       ja: [
         'リモートワークガイドライン',
@@ -223,8 +223,8 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
   },
   'Employee Handbook - Compensation Policy': {
     title: {
-      en: 'Employee Handbook — Compensation Policy',
-      ja: '従業員ハンドブック — 給与規定',
+      en: 'Employee Handbook - Compensation Policy',
+      ja: '従業員ハンドブック - 給与規定',
     },
     paragraphs: {
       en: [
@@ -270,12 +270,12 @@ export const MOCK_DOCUMENTS: Record<string, LocalizedMockDocument> = {
     },
     paragraphs: {
       en: [
-        'HR Portal — Self-Service Center',
+        'HR Portal - Self-Service Center',
         'The HR Portal is your central resource for managing time off, benefits elections, pay stubs, and company policies.',
         'If you can’t find what you’re looking for, reach out to the HR team at hr@company.com for detailed information and personalized guidance.',
       ],
       ja: [
-        '人事ポータル — セルフサービスセンター',
+        '人事ポータル - セルフサービスセンター',
         '人事ポータルは、休暇管理、福利厚生の選択、給与明細、社内規定を一元的に確認できる窓口です。',
         'お探しの情報が見つからない場合は、人事チーム（hr@company.com）までお問い合わせください。詳細と個別のご案内をいたします。',
       ],
