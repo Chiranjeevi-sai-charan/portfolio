@@ -19,7 +19,10 @@ import priyaStage3 from "../assets/persona-priya-stage3.png";
 import priyaStage4 from "../assets/persona-priya-stage4.png";
 import wireframeBasicV1 from "../assets/wireframe-basic-v1.jpg";
 import wireframeLoFiV1 from "../assets/wireframe-lofi-v1.png";
-import designHiFiV2 from "../assets/design-hifi-v2-tabs.png";
+import designHiFiFinal from "../assets/design-hifi-final-live-ui.png";
+import designHiFiAdminUI from "../assets/design-hifi-admin-ui.png";
+import analyticsDashboardTop from "../assets/analytics-dashboard-top.png";
+import analyticsDashboardInsights from "../assets/analytics-dashboard-insights.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -218,8 +221,8 @@ const CASE_STUDY_DATA = {
     },
     design: {
       lowFidelity: {
-        title: "Low-Fidelity Prototype",
-        description: "Building on the initial wireframe, the low-fidelity prototype refined the layout with proper typography hierarchy, sidebar navigation, department filtering, and structured file list. Shows emerging visual structure before high-fidelity polish.",
+        title: "Low-Fidelity Wireframe",
+        description: "Building on the initial wireframe, the low-fidelity prototype refined the layout with proper typography hierarchy, sidebar navigation, department filtering, and structured document list. Shows emerging visual structure before high-fidelity polish.",
         annotation: "Refined structure with navigation, filters, and proper spacing",
         image: wireframeLoFiV1
       },
@@ -233,10 +236,25 @@ const CASE_STUDY_DATA = {
         ]
       },
       highFidelity: {
-        title: "High-Fidelity Design - Final Version",
+        title: "High-Fidelity UI",
         description: "The final design incorporates all feedback and refinements. Tab-based navigation provides complete document lifecycle management. Department selection, content type, and sensitivity classifications enable fine-grained access control while maintaining a clean, focused interface.",
         annotations: ["Tab-based layout for document lifecycle tracking", "Department and sensitivity filtering", "Admin-only upload and user management"],
-        image: designHiFiV2
+        image: designHiFiFinal
+      },
+      visualDesign: {
+        title: "Visual Design",
+        description: "Beyond the employee chatbot, the same design system extends to the Admin workspace, where HR Admins manage documents through their full lifecycle. Active, Archived, and Deleted states share one consistent visual language, with sensitivity badges and department metadata surfaced directly in the table for quick scanning.",
+        annotations: ["Consistent tab pattern across document states", "Sensitivity and department metadata inline", "Role-scoped: Admins only see their own department's documents"],
+        image: designHiFiAdminUI
+      }
+    },
+    testing: {
+      usabilityTesting: "With the high-fidelity design in place, we walked System Admin and HR Admin stakeholders through the working product, chatbot, document management, user management, against their real day-to-day responsibilities.",
+      participants: "System Admins and HR Admins, reviewing the live product rather than mockups.",
+      findings: "The strongest feedback was about what admins couldn't see: what employees actually ask about, which policies get cited most, how often the bot fails to find an answer, and whether the multilingual investment is even being used. Admins had full control over documents and users, but zero visibility into usage, a real gap before this could be called done.",
+      iterations: {
+        description: "In response, we built the Analytics and AI Insights dashboard, shown below: topic breakdown, fallback rate, department/role/language splits, and activity over time, logged in a privacy-safe way (topic categories and cited documents only, never the raw question). The AI Insights panel goes further, turning data into a recommendation (\"26% of questions are about Vacation & Time Off, consider an awareness session\") that becomes a calendar invite in one click, moving from \"we can't see what's happening\" to \"here's what to do about it.\"",
+        images: [analyticsDashboardTop, analyticsDashboardInsights]
       }
     },
     tools: [
@@ -474,6 +492,7 @@ export default function CaseStudy() {
             <h2 style={{ fontSize: "2rem", marginBottom: 24, fontWeight: 700, color: "var(--ink)" }}>
               Project Overview
             </h2>
+            {false && (
             <div style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -545,6 +564,7 @@ export default function CaseStudy() {
                 </ul>
               </div>
             </div>
+            )}
           </div>
 
           <div style={{ marginTop: 64, marginBottom: 96 }}>
@@ -1263,7 +1283,7 @@ export default function CaseStudy() {
             {/* WIREFRAMES SECTION */}
             <div style={{ marginBottom: 48 }}>
               <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
-                Wireframes (V 1)
+                Basic Wireframe
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
                 {caseStudy.ideation.wireframes.status}
@@ -1389,6 +1409,100 @@ export default function CaseStudy() {
                   <p style={{ fontSize: 15, color: "var(--ink-soft)", margin: 0 }}>
                     ✨ High-fidelity design coming soon.
                   </p>
+                </div>
+              )}
+            </div>
+
+            {/* VISUAL DESIGN SECTION */}
+            {caseStudy.design.visualDesign && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  {caseStudy.design.visualDesign.title}
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                  {caseStudy.design.visualDesign.description}
+                </p>
+
+                {caseStudy.design.visualDesign.annotations && caseStudy.design.visualDesign.annotations.length > 0 && (
+                  <div style={{ marginBottom: 24, padding: 20, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: "8px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                    <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)", marginBottom: 12 }}>
+                      Key Design Annotations
+                    </p>
+                    <ul style={{ margin: 0, paddingLeft: 24, fontSize: 14, color: "var(--ink-soft)", lineHeight: "1.8" }}>
+                      {caseStudy.design.visualDesign.annotations.map((annotation, idx) => (
+                        <li key={idx}>{annotation}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {caseStudy.design.visualDesign.image && (
+                  <div style={{ marginTop: 24 }}>
+                    <img
+                      src={caseStudy.design.visualDesign.image}
+                      alt="Sage Admin Document Management UI"
+                      style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.testing && (
+        <Reveal delay={0.45}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
+              Testing
+            </h2>
+
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Usability Testing
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                {caseStudy.testing.usabilityTesting}
+              </p>
+            </div>
+
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Participants
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                {caseStudy.testing.participants}
+              </p>
+            </div>
+
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Findings
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                {caseStudy.testing.findings}
+              </p>
+            </div>
+
+            <div style={{ marginBottom: 48 }}>
+              <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                Iterations
+              </h3>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                {caseStudy.testing.iterations.description}
+              </p>
+
+              {caseStudy.testing.iterations.images && caseStudy.testing.iterations.images.length > 0 && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {caseStudy.testing.iterations.images.map((img, idx) => (
+                    <img
+                      key={idx}
+                      src={img}
+                      alt="Sage Analytics and AI Insights Dashboard"
+                      style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                    />
+                  ))}
                 </div>
               )}
             </div>

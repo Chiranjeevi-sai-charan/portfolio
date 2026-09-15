@@ -19,13 +19,32 @@ export type Language = 'en' | 'ja';
 export interface AIResponse {
   text: string;
   citations: string[];
+  /** Topic category this response was matched under — used for privacy-safe analytics (never the raw question text) */
+  topic: string;
 }
 
 interface LocalizedResponse {
+  /** Topic id, doubles as the analytics category key */
+  topic: string;
   /** Keywords (in either language) that trigger this response */
   keywords: string[];
   text: Record<Language, string>;
   citations: string[];
+}
+
+export const TOPIC_LABELS: Record<string, Record<Language, string>> = {
+  vacation: { en: 'Vacation & Time Off', ja: '有給休暇' },
+  sick: { en: 'Sick Leave', ja: '病気休暇' },
+  insurance: { en: 'Health Insurance', ja: '健康保険' },
+  benefits: { en: 'Benefits', ja: '福利厚生' },
+  remote: { en: 'Remote Work', ja: '在宅勤務' },
+  salary: { en: 'Salary & Compensation', ja: '給与' },
+  handbook: { en: 'Employee Handbook', ja: '従業員ハンドブック' },
+  uncategorized: { en: 'Other / Uncategorized', ja: 'その他' },
+};
+
+export function localizeTopic(topic: string, language: Language): string {
+  return TOPIC_LABELS[topic]?.[language] || topic;
 }
 
 const CITATION_LABELS: Record<string, Record<Language, string>> = {
@@ -85,6 +104,7 @@ export function localizeCitation(citation: string, language: Language): string {
 
 const RESPONSES: LocalizedResponse[] = [
   {
+    topic: 'vacation',
     keywords: ['vacation', '有給', '休暇'],
     text: {
       en: 'You have 20 days of paid vacation per year, which resets on January 1st.[[1]] You can request time off through the HR portal up to 30 days in advance.[[2]]',
@@ -93,6 +113,7 @@ const RESPONSES: LocalizedResponse[] = [
     citations: ['Company Handbook - Time Off Policy', 'HR Portal - Vacation Request Guide'],
   },
   {
+    topic: 'sick',
     keywords: ['sick', '病気休暇', '病欠'],
     text: {
       en: 'You have 10 paid sick days per year for illness or medical appointments.[[1]] Extended absences may require medical documentation.[[2]]',
@@ -101,6 +122,7 @@ const RESPONSES: LocalizedResponse[] = [
     citations: ['Company Handbook - Sick Leave', 'Employee Benefits Summary'],
   },
   {
+    topic: 'insurance',
     keywords: ['insurance', '保険'],
     text: {
       en: 'We offer comprehensive health insurance with 80% coverage of premiums.[[1]] Open enrollment is in November each year.[[2]]',
@@ -109,6 +131,7 @@ const RESPONSES: LocalizedResponse[] = [
     citations: ['Company Handbook - Health Benefits', 'Open Enrollment Guide 2024'],
   },
   {
+    topic: 'benefits',
     keywords: ['benefits', '福利厚生'],
     text: {
       en: 'Benefits include health insurance, 401(k) matching, gym membership reimbursement, and professional development budget.[[1]][[2]]',
@@ -117,6 +140,7 @@ const RESPONSES: LocalizedResponse[] = [
     citations: ['Employee Benefits Summary', 'Compensation & Benefits Package'],
   },
   {
+    topic: 'remote',
     keywords: ['remote', 'work-from-home', '在宅勤務', '在宅'],
     text: {
       en: 'Our work-from-home policy allows up to 3 days per week remote work.[[1]] Please coordinate with your manager and ensure regular team presence.[[2]]',
@@ -125,6 +149,7 @@ const RESPONSES: LocalizedResponse[] = [
     citations: ['Company Handbook - Work Arrangements', 'Remote Work Policy v2.0'],
   },
   {
+    topic: 'salary',
     keywords: ['salary', '給与', '報酬'],
     text: {
       en: 'Salary information is confidential.[[1]] Your compensation was discussed during your offer. For adjustments, please discuss with your manager.[[2]]',
@@ -133,6 +158,7 @@ const RESPONSES: LocalizedResponse[] = [
     citations: ['Employee Handbook - Compensation Policy', 'HR Portal'],
   },
   {
+    topic: 'handbook',
     keywords: ['handbook', 'ハンドブック'],
     text: {
       en: 'The employee handbook covers all company policies and is available in the HR Portal.[[1]] Let me know if you have a specific policy question.[[2]]',
@@ -143,6 +169,7 @@ const RESPONSES: LocalizedResponse[] = [
 ];
 
 const DEFAULT_RESPONSE: LocalizedResponse = {
+  topic: 'uncategorized',
   text: {
     en: "That's a great question! Based on our company policies, I recommend reaching out to the HR team at hr@company.com for detailed information.[[1]] They can provide personalized guidance for your situation.[[2]]",
     ja: 'ご質問ありがとうございます。詳細については人事チーム（hr@company.com）にお問い合わせいただくことをお勧めします。[[1]]状況に応じた個別のご案内をいたします。[[2]]',
@@ -161,5 +188,6 @@ export function generateAIResponse(userMessage: string, language: Language = 'en
     // document in mockDocuments. Display labels are localized at render time
     // via `localizeCitation`.
     citations: match.citations,
+    topic: match.topic,
   };
 }

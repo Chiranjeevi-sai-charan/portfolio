@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { RoleWorkspace } from './RoleWorkspace';
 
 /**
@@ -16,7 +16,7 @@ export const AdminDashboard: React.FC = () => (
   <RoleWorkspace
     role="admin"
     userName="Sai Ganesh"
-    userEmail="Sai.Ganesh@motherson.com"
+    userEmail="Sai.Ganesh@gmail.com"
     department="Human Resources (HR)"
   />
 );

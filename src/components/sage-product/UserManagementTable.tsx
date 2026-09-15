@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius, interactionTints } from '../../styles/sage/tokens';
 import { User } from '../../utils/storage';
 import { ROLE_LABELS } from '../../utils/sageConstants';
 import { Input } from './Input';
@@ -46,6 +46,8 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   const [roleTab, setRoleTab] = useState<'all' | User['role']>('all');
   const [departmentFilter, setDepartmentFilter] = useState('');
   const [pendingDeleteUser, setPendingDeleteUser] = useState<User | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
 
   const departmentOptions = useMemo(
     () => Array.from(new Set(users.flatMap((u) => u.departments))).sort(),
@@ -69,7 +71,40 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     return matchesRole && matchesDepartment && matchesSearch;
   });
 
+  React.useEffect(() => {
+    setSelectedIds(new Set());
+  }, [roleTab, departmentFilter, searchQuery]);
+
+  const deletableFilteredUsers = filteredUsers.filter((u) => deletableRoles.includes(u.role));
+  const deletableIds = deletableFilteredUsers.map((u) => u.id);
+  const allSelected = deletableIds.length > 0 && deletableIds.every((id) => selectedIds.has(id));
+  const someSelected = deletableIds.some((id) => selectedIds.has(id));
+
+  const toggleRow = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (allSelected) {
+        deletableIds.forEach((id) => next.delete(id));
+      } else {
+        deletableIds.forEach((id) => next.add(id));
+      }
+      return next;
+    });
+  };
+
+  const selectedUsers = users.filter((u) => selectedIds.has(u.id));
+
   const containerStyles: React.CSSProperties = {
+    height: '100%',
     padding: spacing.lg,
     backgroundColor: colors['neutral-white'],
   };
@@ -81,10 +116,10 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     marginBottom: spacing.lg,
   };
 
-  const titleStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['h3'],
-    fontWeight: typography.fontWeight.semibold,
-    color: colors['neutral-900'],
+  const tableCardStyles: React.CSSProperties = {
+    border: `1px solid ${colors['neutral-200']}`,
+    borderRadius: borderRadius.md,
+    overflow: 'hidden',
   };
 
   const tableStyles: React.CSSProperties = {
@@ -93,23 +128,23 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   };
 
   const theadStyles: React.CSSProperties = {
-    backgroundColor: colors['neutral-100'],
-    borderBottom: `2px solid ${colors['neutral-200']}`,
+    backgroundColor: colors['neutral-50'],
+    borderBottom: `1px solid ${colors['neutral-200']}`,
   };
 
   const thStyles: React.CSSProperties = {
     padding: spacing.md,
     textAlign: 'left',
-    fontSize: typography.fontSize['label-md'],
+    fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
-    color: colors['neutral-900'],
+    color: colors['neutral-600'],
   };
 
   const tbodyTdStyles: React.CSSProperties = {
     padding: spacing.md,
     fontSize: typography.fontSize['body-sm'],
     color: colors['neutral-700'],
-    borderBottom: `1px solid ${colors['neutral-200']}`,
+    borderBottom: `1px solid ${colors['neutral-100']}`,
   };
 
   const avatarStyles: React.CSSProperties = {
@@ -159,7 +194,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   };
 
   const roleSelectStyles: React.CSSProperties = {
-    width: '160px',
+    width: '180px',
   };
 
   const departmentPillStyles: React.CSSProperties = {
@@ -193,6 +228,38 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     marginBottom: spacing.lg,
   };
 
+  const checkboxStyles: React.CSSProperties = {
+    width: '16px',
+    height: '16px',
+    cursor: 'pointer',
+    accentColor: colors['neutral-900'],
+  };
+
+  const bulkBarStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: `${spacing.sm} ${spacing.md}`,
+    backgroundColor: interactionTints.accentSubtle,
+    borderBottom: `1px solid ${colors['neutral-200']}`,
+    color: colors['neutral-900'],
+  };
+
+  const bulkActionButtonStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    padding: `6px ${spacing.sm}`,
+    background: 'transparent',
+    border: 'none',
+    borderRadius: borderRadius.sm,
+    color: colors['neutral-700'],
+    cursor: 'pointer',
+    fontSize: typography.fontSize['body-sm'],
+    fontWeight: 600,
+    transition: 'background-color 0.15s ease',
+  };
+
   const roleTabButtonStyles = (active: boolean): React.CSSProperties => ({
     padding: `${spacing.xs} ${spacing.md}`,
     borderRadius: borderRadius.full,
@@ -207,15 +274,12 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   return (
     <div style={containerStyles}>
       <div style={headerStyles}>
-        <div>
-          <div style={titleStyles}>User Management</div>
-          <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'], marginTop: spacing.sm }}>
-            Manage users and administrator access.
-          </div>
+        <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
+          Manage users and administrator access.
         </div>
         <div style={{ display: 'flex', gap: spacing.md, alignItems: 'center' }}>
           {showDepartmentFilter && departmentOptions.length > 1 && (
-            <div style={{ width: '190px' }}>
+            <div style={{ width: '220px' }}>
               <Select
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
@@ -262,28 +326,110 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
           {searchQuery ? 'No users found matching your search.' : 'No users found.'}
         </div>
       ) : (
+        <div style={tableCardStyles}>
         <div style={{ overflowX: 'auto' }}>
           <table style={tableStyles}>
-            <thead style={theadStyles}>
-              <tr>
-                <th style={thStyles}>User</th>
-                <th style={thStyles}>Role</th>
-                <th style={thStyles}>Departments</th>
-                <th style={thStyles}>Actions</th>
-              </tr>
-            </thead>
+            {selectedIds.size > 0 ? (
+              <thead>
+                <tr>
+                  <th colSpan={5} style={{ padding: 0, border: 'none' }}>
+                    <div style={bulkBarStyles}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
+                        <input
+                          type="checkbox"
+                          style={checkboxStyles}
+                          checked={allSelected}
+                          ref={(el) => {
+                            if (el) el.indeterminate = someSelected && !allSelected;
+                          }}
+                          onChange={toggleAll}
+                          aria-label="Select all"
+                        />
+                        <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
+                          {selectedIds.size} selected
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+                        {onUserDelete && (
+                          <button
+                            onClick={() => setBulkDeleteConfirm(true)}
+                            style={{ ...bulkActionButtonStyles, color: colors['error-red'] }}
+                            onMouseEnter={(e) => {
+                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                            }}
+                          >
+                            <MaterialIcon name="delete" size={16} />
+                            Delete
+                          </button>
+                        )}
+                        <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
+                        <button
+                          onClick={() => setSelectedIds(new Set())}
+                          style={{ ...bulkActionButtonStyles, color: colors['neutral-500'] }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                          }}
+                        >
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+            ) : (
+              <thead style={theadStyles}>
+                <tr>
+                  <th style={{ ...thStyles, width: '36px' }}>
+                    <input
+                      type="checkbox"
+                      style={checkboxStyles}
+                      checked={allSelected}
+                      ref={(el) => {
+                        if (el) el.indeterminate = someSelected && !allSelected;
+                      }}
+                      onChange={toggleAll}
+                      aria-label="Select all"
+                    />
+                  </th>
+                  <th style={thStyles}>User</th>
+                  <th style={thStyles}>Role</th>
+                  <th style={thStyles}>Departments</th>
+                  <th style={thStyles}>Actions</th>
+                </tr>
+              </thead>
+            )}
             <tbody>
               {filteredUsers.map((user) => (
                 <tr
                   key={user.id}
+                  style={{ backgroundColor: colors['neutral-white'] }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLTableRowElement).style.backgroundColor =
                       colors['neutral-50'];
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent';
+                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor =
+                      colors['neutral-white'];
                   }}
                 >
+                  <td style={tbodyTdStyles}>
+                    {deletableRoles.includes(user.role) && (
+                      <input
+                        type="checkbox"
+                        style={checkboxStyles}
+                        checked={selectedIds.has(user.id)}
+                        onChange={() => toggleRow(user.id)}
+                        aria-label={`Select ${user.name}`}
+                      />
+                    )}
+                  </td>
                   <td style={tbodyTdStyles}>
                     <div style={userNameStyles}>
                       <div style={avatarStyles}>{user.name.charAt(0).toUpperCase()}</div>
@@ -321,6 +467,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                             color: colors['error-red'],
                           }}
                           title="Delete user"
+                          aria-label={`Delete ${user.name}`}
                           onMouseEnter={(e) => {
                             (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.2)';
                           }}
@@ -338,6 +485,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
             </tbody>
           </table>
         </div>
+        </div>
       )}
 
       <ConfirmDialog
@@ -350,6 +498,19 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
           setPendingDeleteUser(null);
         }}
         onCancel={() => setPendingDeleteUser(null)}
+      />
+
+      <ConfirmDialog
+        isOpen={bulkDeleteConfirm}
+        title="Delete Users"
+        message={`Delete ${selectedIds.size} selected user${selectedIds.size === 1 ? '' : 's'}? This cannot be undone.`}
+        confirmLabel="Delete"
+        onConfirm={() => {
+          selectedUsers.forEach((user) => onUserDelete?.(user.id));
+          setSelectedIds(new Set());
+          setBulkDeleteConfirm(false);
+        }}
+        onCancel={() => setBulkDeleteConfirm(false)}
       />
     </div>
   );

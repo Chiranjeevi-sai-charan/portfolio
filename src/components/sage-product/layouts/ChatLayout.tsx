@@ -4,6 +4,7 @@ import { Sidebar, SidebarItem } from '../Sidebar';
 import { ChatBubble } from '../ChatBubble';
 import { MaterialIcon } from '../MaterialIcon';
 import { DocumentPanel } from '../DocumentPanel';
+import { SearchChatsModal } from '../SearchChatsModal';
 
 /**
  * ChatLayout Component
@@ -51,6 +52,9 @@ interface ChatLayoutProps {
 
   /** Chat history items for sidebar */
   chatHistory?: SidebarItem[];
+
+  /** id of the conversation currently open (null/undefined when on the "New Chat" empty state) — used to highlight the right item in the sidebar */
+  activeConversationId?: string | null;
 
   /** Sidebar collapsed state */
   sidebarCollapsed?: boolean;
@@ -102,13 +106,15 @@ const STRINGS = {
   en: {
     newChat: 'New Chat',
     chats: 'Chats',
-    greeting: "What's on your mind today?",
+    greeting: 'Hey, what can I help with?',
+    welcomeSubline: "I'm Sage, your HR assistant. Ask me anything, from vacation days to benefits, and I'll point you to the exact policy.",
     placeholder: 'Ask anything',
   },
   ja: {
     newChat: '新しいチャット',
     chats: 'チャット',
-    greeting: '今日は何について知りたいですか？',
+    greeting: 'こんにちは、何かお手伝いできますか？',
+    welcomeSubline: 'HRアシスタントのSageです。休暇のことでも福利厚生のことでも、何でも聞いてください。該当する規定をすぐにお調べします。',
     placeholder: '何でも聞いてください',
   },
 };
@@ -128,6 +134,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   messages = [],
   onSendMessage,
   chatHistory = [],
+  activeConversationId,
   sidebarCollapsed = false,
   onSearch,
   children,
@@ -142,7 +149,12 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(sidebarCollapsed);
   const [selectedCitation, setSelectedCitation] = useState<string | null>(null);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const t = STRINGS[language];
+
+  const handleChatSelect = (item: SidebarItem) => {
+    console.log('Chat selected:', item);
+  };
 
   const handleSendMessage = (text?: string) => {
     const value = (text ?? inputValue).trim();
@@ -204,12 +216,19 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing.xl,
-    gap: spacing.xl,
+  };
+
+  const greetingBlockStyles: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: spacing.xs,
+    marginBottom: spacing.xl,
   };
 
   const greetingStyles: React.CSSProperties = {
-    fontSize: typography.fontSize['h2'],
-    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize['h1'],
+    fontWeight: typography.fontWeight.bold,
     color: colors['neutral-900'],
     textAlign: 'center',
   };
@@ -217,17 +236,19 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   const pillFormStyles: React.CSSProperties = {
     width: '100%',
     maxWidth: READING_WIDTH,
+    marginBottom: spacing.lg,
   };
 
   const pillInputWrapperStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     gap: spacing.sm,
-    padding: `${spacing.sm} ${spacing.sm} ${spacing.sm} ${spacing.lg}`,
-    border: `1px solid ${colors['neutral-300']}`,
+    padding: `${spacing.md} ${spacing.sm} ${spacing.md} ${spacing.lg}`,
+    border: `1px solid ${colors['neutral-200']}`,
     borderRadius: '16px',
     backgroundColor: colors['neutral-white'],
-    boxShadow: shadows.sm,
+    boxShadow: shadows.lg,
+    transition: 'box-shadow 0.15s ease, border-color 0.15s ease',
   };
 
   const pillInputStyles: React.CSSProperties = {
@@ -257,6 +278,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const sendButtonStyles = (enabled: boolean): React.CSSProperties => ({
     ...roundIconButtonStyles,
+    borderRadius: '16px',
     backgroundColor: enabled ? colors['neutral-900'] : colors['neutral-200'],
     color: colors['neutral-white'],
     cursor: enabled ? 'pointer' : 'not-allowed',
@@ -264,25 +286,36 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const suggestionsListStyles: React.CSSProperties = {
     width: '100%',
-    maxWidth: '520px',
-    display: 'flex',
-    flexDirection: 'column',
+    maxWidth: READING_WIDTH,
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: spacing.md,
   };
 
-  const suggestionRowItemStyles: React.CSSProperties = {
+  const suggestionCardStyles: React.CSSProperties = {
     display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    padding: `${spacing.sm} ${spacing.sm}`,
-    border: 'none',
-    background: 'transparent',
-    color: colors['neutral-600'],
+    padding: `${spacing.lg} ${spacing.lg}`,
+    minHeight: '64px',
+    border: `1px solid transparent`,
+    background: colors['neutral-50'],
+    color: colors['neutral-700'],
     fontSize: typography.fontSize['body-md'],
+    fontWeight: 500,
     cursor: 'pointer',
-    borderRadius: borderRadius.md,
-    transition: 'background-color 0.15s ease',
+    borderRadius: borderRadius.lg,
+    transition: 'background-color 0.15s ease, border-color 0.15s ease',
     textAlign: 'left',
     width: '100%',
+  };
+
+  const welcomeSublineStyles: React.CSSProperties = {
+    fontSize: typography.fontSize['body-md'],
+    color: colors['neutral-500'],
+    textAlign: 'center',
+    maxWidth: '480px',
   };
 
   const inputAreaStyles: React.CSSProperties = {
@@ -309,6 +342,11 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
       icon: 'chat',
       children: chatHistory,
     },
+    ...(managementLinks || []).map((link) => ({
+      id: link.id,
+      label: link.label,
+      icon: link.icon,
+    })),
   ];
 
   const renderPillInput = () => (
@@ -346,7 +384,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
         title="Send"
         aria-label="Send"
       >
-        <MaterialIcon name="arrow_upward" size={18} />
+        <MaterialIcon name="send" size={18} />
       </button>
     </div>
   );
@@ -360,18 +398,21 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           items={defaultSidebarItems}
           collapsed={isCollapsed}
           onCollapseToggle={() => setIsCollapsed(!isCollapsed)}
-          activeItemId={chatHistory[0]?.id}
+          onLogoClick={onNewChat}
+          onSearchClick={() => setShowSearchModal(true)}
+          activeItemId={activeConversationId ?? undefined}
           onItemClick={(item) => {
             if (item.id === 'new-chat') {
               onNewChat?.();
+            } else if (managementLinks?.some((link) => link.id === item.id)) {
+              onUserMenuAction?.(item.id!);
             } else {
-              console.log('Chat selected:', item);
+              handleChatSelect(item);
             }
           }}
           user={{ name: userName, role: userRole, department: userDepartment }}
           onUserMenuAction={onUserMenuAction ?? ((action) => console.log('User menu action:', action))}
           onItemMenuAction={onChatMenuAction}
-          managementLinks={managementLinks}
           language={language}
           onLanguageChange={onLanguageChange}
         />
@@ -382,22 +423,25 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
             children
           ) : messages.length === 0 ? (
             <div style={emptyStateStyles}>
-              <div style={greetingStyles}>{t.greeting}</div>
+              <div style={greetingBlockStyles}>
+                <div style={greetingStyles}>{t.greeting}</div>
+                <div style={welcomeSublineStyles}>{t.welcomeSubline}</div>
+              </div>
               <div style={pillFormStyles}>{renderPillInput()}</div>
               <div style={suggestionsListStyles}>
                 {SUGGESTIONS[language].map((s) => (
                   <button
                     key={s.label}
-                    style={suggestionRowItemStyles}
+                    style={suggestionCardStyles}
                     onClick={() => handleSendMessage(s.label)}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = colors['neutral-50'];
+                      e.currentTarget.style.backgroundColor = colors['neutral-100'];
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.backgroundColor = colors['neutral-50'];
                     }}
                   >
-                    <MaterialIcon name={s.icon} size={20} color={colors['neutral-500']} />
+                    <MaterialIcon name={s.icon} size={20} color={colors['neutral-400']} />
                     {s.label}
                   </button>
                 ))}
@@ -437,6 +481,15 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
           <DocumentPanel citation={selectedCitation} onClose={() => setSelectedCitation(null)} language={language} />
         </div>
       </div>
+
+      <SearchChatsModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+        chats={chatHistory}
+        onSelectChat={handleChatSelect}
+        onNewChat={onNewChat}
+        language={language}
+      />
     </div>
   );
 };

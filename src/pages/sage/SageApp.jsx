@@ -34,7 +34,7 @@ export default function SageApp() {
 
   return (
     <ToastProvider>
-    <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' }}>
+    <div className="sage-app" style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' }}>
       {/* Header Bar */}
       <div
         style={{

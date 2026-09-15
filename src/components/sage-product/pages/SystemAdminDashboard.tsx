@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { RoleWorkspace } from './RoleWorkspace';
 
 /**
@@ -13,7 +13,7 @@ import { RoleWorkspace } from './RoleWorkspace';
  * <SystemAdminDashboard />
  */
 export const SystemAdminDashboard: React.FC = () => (
-  <RoleWorkspace role="system-admin" userName="Chiranjeevi" userEmail="Chiranjeevi.Kondaka@motherson.com" />
+  <RoleWorkspace role="system-admin" userName="Chiranjeevi" userEmail="Chiranjeevi.Kondaka@gmail.com" />
 );
 
 SystemAdminDashboard.displayName = 'SystemAdminDashboard';
