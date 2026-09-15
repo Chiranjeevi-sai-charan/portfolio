@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { colors, spacing, typography, borderRadius, interactionTints } from '../../styles/sage/tokens';
 import { User } from '../../utils/storage';
-import { ROLE_LABELS } from '../../utils/sageConstants';
 import { Input } from './Input';
 import { Button } from './Button';
 import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
 import { ConfirmDialog } from './ConfirmDialog';
+import { t, Lang, getRoleLabel } from '../../utils/sageStrings';
 
 interface UserManagementTableProps {
   users: User[];
@@ -22,13 +22,14 @@ interface UserManagementTableProps {
   onUserDelete?: (userId: string) => void;
   onRoleChange?: (userId: string, newRole: User['role']) => void;
   onAddUserClick?: () => void;
+  language?: Lang;
 }
 
-const ROLE_TABS: { id: 'all' | User['role']; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'user', label: ROLE_LABELS['user'] },
-  { id: 'admin', label: ROLE_LABELS['admin'] },
-  { id: 'system-admin', label: ROLE_LABELS['system-admin'] },
+const getRoleTabs = (language?: Lang): { id: 'all' | User['role']; label: string }[] => [
+  { id: 'all', label: t(language, 'all') },
+  { id: 'user', label: t(language, 'employee') },
+  { id: 'admin', label: t(language, 'admin') },
+  { id: 'system-admin', label: t(language, 'systemAdmin') },
 ];
 
 export const UserManagementTable: React.FC<UserManagementTableProps> = ({
@@ -41,7 +42,9 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   onUserDelete,
   onRoleChange,
   onAddUserClick,
+  language,
 }) => {
+  const ROLE_TABS = getRoleTabs(language);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleTab, setRoleTab] = useState<'all' | User['role']>('all');
   const [departmentFilter, setDepartmentFilter] = useState('');
@@ -105,21 +108,30 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
 
   const containerStyles: React.CSSProperties = {
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 0,
     padding: spacing.lg,
-    backgroundColor: colors['neutral-white'],
+    backgroundColor: 'transparent',
   };
 
   const headerStyles: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexShrink: 0,
     marginBottom: spacing.lg,
+  };
+
+  const scrollAreaStyles: React.CSSProperties = {
+    flex: 1,
+    minHeight: 0,
+    overflow: 'auto',
   };
 
   const tableCardStyles: React.CSSProperties = {
     border: `1px solid ${colors['neutral-200']}`,
     borderRadius: borderRadius.md,
-    overflow: 'hidden',
   };
 
   const tableStyles: React.CSSProperties = {
@@ -132,12 +144,23 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     borderBottom: `1px solid ${colors['neutral-200']}`,
   };
 
+  const stickyTheadStyles: React.CSSProperties = {
+    ...theadStyles,
+    position: 'sticky',
+    top: 0,
+    zIndex: 2,
+  };
+
   const thStyles: React.CSSProperties = {
     padding: spacing.md,
     textAlign: 'left',
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
     color: colors['neutral-600'],
+    position: 'sticky',
+    top: 0,
+    zIndex: 2,
+    backgroundColor: colors['neutral-50'],
   };
 
   const tbodyTdStyles: React.CSSProperties = {
@@ -208,31 +231,52 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   };
 
   const actionButtonStyles: React.CSSProperties = {
+    width: '32px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: borderRadius.md,
     background: 'none',
     border: 'none',
     cursor: 'pointer',
     fontSize: '16px',
-    padding: spacing.xs,
-    transition: 'transform 0.2s',
+    transition: 'background-color 0.15s ease',
   };
 
   const emptyStateStyles: React.CSSProperties = {
     textAlign: 'center',
-    padding: spacing.xl,
+    padding: `${spacing['3xl']} ${spacing.xl}`,
     color: colors['neutral-500'],
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: spacing.sm,
+  };
+
+  const emptyStateIconWrapStyles: React.CSSProperties = {
+    width: '56px',
+    height: '56px',
+    borderRadius: borderRadius.full,
+    backgroundColor: interactionTints.accentSubtle,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.xs,
   };
 
   const roleTabsStyles: React.CSSProperties = {
     display: 'flex',
     gap: spacing.sm,
     marginBottom: spacing.lg,
+    flexShrink: 0,
   };
 
   const checkboxStyles: React.CSSProperties = {
     width: '16px',
     height: '16px',
     cursor: 'pointer',
-    accentColor: colors['neutral-900'],
+    accentColor: colors['accent-blue'],
   };
 
   const bulkBarStyles: React.CSSProperties = {
@@ -263,9 +307,9 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   const roleTabButtonStyles = (active: boolean): React.CSSProperties => ({
     padding: `${spacing.xs} ${spacing.md}`,
     borderRadius: borderRadius.full,
-    border: `1px solid ${active ? colors['neutral-900'] : colors['neutral-200']}`,
-    backgroundColor: active ? colors['neutral-900'] : colors['neutral-white'],
-    color: active ? colors['neutral-white'] : colors['neutral-700'],
+    border: `1px solid ${active ? colors['accent-blue'] : colors['neutral-300']}`,
+    backgroundColor: active ? interactionTints.accentSubtle : colors['neutral-white'],
+    color: active ? colors['accent-blue'] : colors['neutral-700'],
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
     cursor: 'pointer',
@@ -275,7 +319,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     <div style={containerStyles}>
       <div style={headerStyles}>
         <div style={{ fontSize: typography.fontSize['body-sm'], color: colors['neutral-600'] }}>
-          Manage users and administrator access.
+          {t(language, 'manageUsersDesc')}
         </div>
         <div style={{ display: 'flex', gap: spacing.md, alignItems: 'center' }}>
           {showDepartmentFilter && departmentOptions.length > 1 && (
@@ -284,17 +328,17 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
                 options={[
-                  { label: 'All Departments', value: '' },
+                  { label: t(language, 'allDepartments'), value: '' },
                   ...departmentOptions.map((d) => ({ label: d, value: d })),
                 ]}
               />
             </div>
           )}
           {showSearch && (
-            <div style={{ width: '250px' }}>
+            <div style={{ width: '248px' }}>
               <Input
                 type="search"
-                placeholder="Search for Admins or System Admin"
+                placeholder={t(language, 'searchUsers')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -302,8 +346,8 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
           )}
           {onAddUserClick && (
             <Button variant="primary" onClick={onAddUserClick}>
-              <MaterialIcon name="person_add" size={16} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
-              Add User
+              <MaterialIcon name="person_add" size={16} style={{ verticalAlign: 'middle', marginRight: spacing.sm }} />
+              {t(language, 'addUser')}
             </Button>
           )}
         </div>
@@ -323,14 +367,17 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
 
       {filteredUsers.length === 0 ? (
         <div style={emptyStateStyles}>
-          {searchQuery ? 'No users found matching your search.' : 'No users found.'}
+          <div style={emptyStateIconWrapStyles}>
+            <MaterialIcon name={searchQuery ? 'search_off' : 'person_search'} size={26} color={colors['accent-blue']} />
+          </div>
+          {searchQuery ? t(language, 'noUsersFound') : t(language, 'noUsersFoundEmpty')}
         </div>
       ) : (
+        <div style={scrollAreaStyles}>
         <div style={tableCardStyles}>
-        <div style={{ overflowX: 'auto' }}>
           <table style={tableStyles}>
             {selectedIds.size > 0 ? (
-              <thead>
+              <thead style={{ position: 'sticky', top: 0, zIndex: 2 }}>
                 <tr>
                   <th colSpan={5} style={{ padding: 0, border: 'none' }}>
                     <div style={bulkBarStyles}>
@@ -346,10 +393,10 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                           aria-label="Select all"
                         />
                         <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
-                          {selectedIds.size} selected
+                          {t(language, 'selectedCount')(selectedIds.size)}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', gap: spacing.xs, alignItems: 'center' }}>
                         {onUserDelete && (
                           <button
                             onClick={() => setBulkDeleteConfirm(true)}
@@ -362,7 +409,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                             }}
                           >
                             <MaterialIcon name="delete" size={16} />
-                            Delete
+                            {t(language, 'delete')}
                           </button>
                         )}
                         <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
@@ -376,7 +423,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                             (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
                           }}
                         >
-                          Clear
+                          {t(language, 'clear')}
                         </button>
                       </div>
                     </div>
@@ -384,7 +431,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                 </tr>
               </thead>
             ) : (
-              <thead style={theadStyles}>
+              <thead style={stickyTheadStyles}>
                 <tr>
                   <th style={{ ...thStyles, width: '36px' }}>
                     <input
@@ -398,10 +445,10 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                       aria-label="Select all"
                     />
                   </th>
-                  <th style={thStyles}>User</th>
-                  <th style={thStyles}>Role</th>
-                  <th style={thStyles}>Departments</th>
-                  <th style={thStyles}>Actions</th>
+                  <th style={thStyles}>{t(language, 'userColumn')}</th>
+                  <th style={thStyles}>{t(language, 'roleColumn')}</th>
+                  <th style={thStyles}>{t(language, 'departmentsColumn')}</th>
+                  <th style={thStyles}>{t(language, 'actionsColumn')}</th>
                 </tr>
               </thead>
             )}
@@ -445,11 +492,11 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                         <Select
                           value={user.role}
                           onChange={(e) => onRoleChange(user.id, e.target.value as User['role'])}
-                          options={roleOptions.map((r) => ({ label: ROLE_LABELS[r], value: r }))}
+                          options={roleOptions.map((r) => ({ label: getRoleLabel(r, language), value: r }))}
                         />
                       </div>
                     ) : (
-                      <div style={getRoleBadgeStyle(user.role)}>{ROLE_LABELS[user.role] || user.role}</div>
+                      <div style={getRoleBadgeStyle(user.role)}>{getRoleLabel(user.role, language)}</div>
                     )}
                   </td>
                   <td style={tbodyTdStyles}>
@@ -469,10 +516,10 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                           title="Delete user"
                           aria-label={`Delete ${user.name}`}
                           onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.2)';
+                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
                           }}
                           onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
                           }}
                         >
                           <MaterialIcon name="delete" size={18} />
@@ -490,9 +537,9 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
 
       <ConfirmDialog
         isOpen={!!pendingDeleteUser}
-        title="Delete User"
-        message={`Delete user "${pendingDeleteUser?.name}"? This cannot be undone.`}
-        confirmLabel="Delete"
+        title={t(language, 'deleteUserTitle')}
+        message={t(language, 'deleteUserMsg')(pendingDeleteUser?.name)}
+        confirmLabel={t(language, 'delete')}
         onConfirm={() => {
           if (pendingDeleteUser) onUserDelete?.(pendingDeleteUser.id);
           setPendingDeleteUser(null);
@@ -502,9 +549,9 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
 
       <ConfirmDialog
         isOpen={bulkDeleteConfirm}
-        title="Delete Users"
-        message={`Delete ${selectedIds.size} selected user${selectedIds.size === 1 ? '' : 's'}? This cannot be undone.`}
-        confirmLabel="Delete"
+        title={t(language, 'deleteUsersTitle')}
+        message={t(language, 'deleteUsersMsg')(selectedIds.size)}
+        confirmLabel={t(language, 'delete')}
         onConfirm={() => {
           selectedUsers.forEach((user) => onUserDelete?.(user.id));
           setSelectedIds(new Set());

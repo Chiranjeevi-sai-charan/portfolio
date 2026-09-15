@@ -90,11 +90,14 @@ export const Input: React.FC<InputProps> = ({
   maxLength,
   value,
   className = '',
+  id,
   ...props
 }) => {
   const [charCount, setCharCount] = React.useState(
     typeof value === 'string' ? value.length : 0
   );
+  const generatedId = React.useId();
+  const inputId = id || generatedId;
 
   const { onChange, ...restProps } = props;
 
@@ -208,7 +211,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div style={containerStyles}>
       {label && (
-        <label style={labelStyles}>
+        <label style={labelStyles} htmlFor={inputId}>
           {label}
           {required && <span style={requiredStyle}>*</span>}
         </label>
@@ -218,6 +221,7 @@ export const Input: React.FC<InputProps> = ({
         {icon && iconPosition === 'left' && <div style={iconStyles}>{icon}</div>}
 
         <input
+          id={inputId}
           style={inputStyles}
           disabled={disabled}
           maxLength={maxLength}

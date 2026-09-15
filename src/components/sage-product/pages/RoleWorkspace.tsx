@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { colors, spacing, typography, borderRadius } from '../../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius, interactionTints } from '../../../styles/sage/tokens';
 import { ChatLayout } from '../layouts/ChatLayout';
 import { SidebarItem } from '../Sidebar';
 import { DocumentUpload } from '../DocumentUpload';
@@ -20,6 +20,7 @@ import {
 } from '../../../utils/storage';
 import { DEPARTMENTS, CONTENT_TYPES, SENSITIVITIES, ROLE_LABELS } from '../../../utils/sageConstants';
 import { generateAIResponse } from '../../../utils/mockAIResponses';
+import { t, getRoleLabel } from '../../../utils/sageStrings';
 
 /**
  * RoleWorkspace Page
@@ -250,8 +251,9 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
 
   const tabBarStyles: React.CSSProperties = {
     display: 'flex',
-    padding: `0 ${spacing.lg}`,
-    borderBottom: `1px solid ${colors['neutral-200']}`,
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    padding: `0 ${spacing.lg} ${spacing.lg}`,
   };
 
   const headerDividerStyles: React.CSSProperties = {
@@ -295,7 +297,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
           }}
         >
           <MaterialIcon name="arrow_back" size={16} />
-          Back to Chat
+          {t(language, 'backToChat')}
         </button>
       </div>
       <div style={titleRowStyles}>
@@ -320,15 +322,15 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
   // Both Admins and System Admin can view Active, Archived, and Deleted
   // documents (scoped to their own department for Admins).
   const docTabs: { id: typeof documentTab; label: string; icon: string }[] = [
-    { id: 'upload', label: 'Upload Document', icon: 'upload_file' },
-    { id: 'active', label: 'Active Documents', icon: 'check_circle' },
-    { id: 'archived', label: 'Archived Documents', icon: 'archive' },
-    { id: 'deleted', label: 'Deleted Documents', icon: 'delete' },
+    { id: 'upload', label: t(language, 'uploadDocumentTab'), icon: 'upload_file' },
+    { id: 'active', label: t(language, 'activeDocumentsTab'), icon: 'check_circle' },
+    { id: 'archived', label: t(language, 'archivedDocumentsTab'), icon: 'archive' },
+    { id: 'deleted', label: t(language, 'deletedDocumentsTab'), icon: 'delete' },
   ];
 
   const renderDocumentsView = () => (
     <div style={viewWrapperStyles}>
-      {renderPageHeader('Documents')}
+      {renderPageHeader(t(language, 'documentsTitle'))}
       <div style={tabBarStyles}>
         {docTabs.map((tab) => {
           const active = documentTab === tab.id;
@@ -337,31 +339,28 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
               key={tab.id}
               onClick={() => setDocumentTab(tab.id)}
               style={{
-                flex: 1,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
                 gap: '8px',
-                padding: `${spacing.md} ${spacing.sm}`,
-                marginBottom: '-1px',
-                borderRadius: 0,
-                border: 'none',
-                borderBottom: `3px solid ${active ? colors['neutral-900'] : 'transparent'}`,
-                backgroundColor: active ? colors['neutral-50'] : 'transparent',
-                color: active ? colors['neutral-900'] : colors['neutral-500'],
-                fontSize: typography.fontSize['body-md'],
-                fontWeight: active ? 700 : 600,
+                padding: `${spacing.sm} ${spacing.lg}`,
+                borderRadius: borderRadius.full,
+                border: `1px solid ${active ? colors['accent-blue'] : colors['neutral-300']}`,
+                backgroundColor: active ? interactionTints.accentSubtle : colors['neutral-white'],
+                color: active ? colors['accent-blue'] : colors['neutral-700'],
+                fontSize: typography.fontSize['body-sm'],
+                fontWeight: 600,
                 cursor: 'pointer',
+                whiteSpace: 'nowrap',
                 transition: 'color 0.15s ease-in-out, border-color 0.15s ease-in-out, background-color 0.15s ease-in-out',
               }}
               onMouseEnter={(e) => {
-                if (!active) (e.currentTarget as HTMLButtonElement).style.backgroundColor = colors['neutral-50'];
+                if (!active) (e.currentTarget as HTMLButtonElement).style.borderColor = colors['neutral-400'];
               }}
               onMouseLeave={(e) => {
-                if (!active) (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                if (!active) (e.currentTarget as HTMLButtonElement).style.borderColor = colors['neutral-300'];
               }}
             >
-              <MaterialIcon name={tab.icon} size={18} />
+              <MaterialIcon name={tab.icon} size={16} />
               {tab.label}
             </button>
           );
@@ -376,6 +375,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
             lockedDepartment={isSystemAdmin ? undefined : department}
             uploadedBy={userEmail || userName}
             onUploadSuccess={refreshData}
+            language={language}
           />
         )}
         {documentTab === 'active' && (
@@ -385,6 +385,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={handleDocumentDelete}
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
+            language={language}
           />
         )}
         {documentTab === 'archived' && (
@@ -394,32 +395,36 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={handleDocumentDelete}
             onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
+            language={language}
           />
         )}
         {documentTab === 'deleted' && (
           <div style={{ padding: spacing.lg }}>
             <div style={{ fontSize: typography.fontSize['h3'], fontWeight: 600, marginBottom: spacing.md }}>
-              Deleted Documents
+              {t(language, 'deletedDocumentsHeading')}
             </div>
             {deletedDocuments.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: spacing.xl, color: colors['neutral-500'] }}>
-                No deleted documents.
+              <div style={{ textAlign: 'center', padding: `${spacing['3xl']} ${spacing.xl}`, color: colors['neutral-500'], display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: borderRadius.full, backgroundColor: interactionTints.accentSubtle, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <MaterialIcon name="delete_sweep" size={26} color={colors['accent-blue']} />
+                </div>
+                {t(language, 'noDeletedDocuments')}
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
                   <thead style={{ backgroundColor: colors['neutral-100'], borderBottom: `2px solid ${colors['neutral-200']}` }}>
                     <tr>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Document</th>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Department</th>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>Actions</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>{t(language, 'documentColumn')}</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>{t(language, 'departmentColumn')}</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>{t(language, 'actionsColumn')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {deletedDocuments.map((doc) => (
                       <tr key={doc.id} style={{ borderBottom: `1px solid ${colors['neutral-200']}` }}>
                         <td style={{ padding: spacing.md }}>
-                          <MaterialIcon name="description" size={16} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+                          <MaterialIcon name="description" size={16} style={{ verticalAlign: 'middle', marginRight: spacing.sm }} />
                           {doc.name}
                         </td>
                         <td style={{ padding: spacing.md }}>{doc.department}</td>
@@ -429,14 +434,14 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
                             style={{ background: 'none', border: 'none', cursor: 'pointer', color: colors['success-green'], marginRight: spacing.md }}
                           >
                             <MaterialIcon name="restore" size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-                            Restore
+                            {t(language, 'restore')}
                           </button>
                           <button
                             onClick={() => setPendingPermanentDeleteDoc(doc)}
                             style={{ background: 'none', border: 'none', cursor: 'pointer', color: colors['error-red'] }}
                           >
                             <MaterialIcon name="delete_forever" size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-                            Delete
+                            {t(language, 'delete')}
                           </button>
                         </td>
                       </tr>
@@ -451,9 +456,9 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
 
       <ConfirmDialog
         isOpen={!!pendingPermanentDeleteDoc}
-        title="Permanently Delete Document"
-        message={`Permanently delete "${pendingPermanentDeleteDoc?.name}"? This cannot be undone.`}
-        confirmLabel="Delete Permanently"
+        title={t(language, 'permanentlyDeleteTitle')}
+        message={t(language, 'permanentlyDeleteMsg')(pendingPermanentDeleteDoc?.name)}
+        confirmLabel={t(language, 'deletePermanently')}
         onConfirm={() => {
           if (pendingPermanentDeleteDoc) {
             documentStorage.delete(pendingPermanentDeleteDoc.id);
@@ -469,7 +474,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
 
   const renderUserManagementView = () => (
     <div style={viewWrapperStyles}>
-      {renderPageHeader('User Management')}
+      {renderPageHeader(t(language, 'userManagementTitle'))}
       <div style={headerDividerStyles} />
       <div style={viewScrollStyles}>
         <UserManagementTable
@@ -482,6 +487,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
           onRoleChange={handleUserRoleChange}
           onUserDelete={handleUserDelete}
           onAddUserClick={() => setShowAddUserModal(true)}
+          language={language}
         />
       </div>
       <AddUserModal
@@ -491,6 +497,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
         availableRoles={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
         availableDepartments={isSystemAdmin ? DEPARTMENTS : [department || '']}
         lockedDepartment={isSystemAdmin ? undefined : department}
+        language={language}
       />
     </div>
   );
@@ -498,13 +505,13 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <ChatLayout
-        userRole={ROLE_LABELS[role]}
+        userRole={getRoleLabel(role, language)}
         userName={userName}
         userDepartment={isSystemAdmin ? 'All Departments' : department}
         messages={messages}
         onSendMessage={handleSendMessage}
         chatHistory={chatHistory}
-        activeConversationId={activeView === 'chat' ? activeConversationId : null}
+        activeConversationId={activeView === 'chat' ? activeConversationId : activeView}
         onNewChat={handleNewChat}
         onChatMenuAction={handleChatMenuAction}
         managementLinks={managementLinks}

@@ -128,10 +128,10 @@ export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose,
     lineHeight: 1.7,
     color: colors['neutral-800'] || colors['neutral-900'],
     marginBottom: spacing.lg,
-    backgroundColor: highlighted ? '#FEF9C3' : 'transparent',
+    backgroundColor: highlighted ? colors['highlight-yellow-bg'] : 'transparent',
     padding: highlighted ? spacing.sm : 0,
     borderRadius: highlighted ? borderRadius.sm : 0,
-    boxShadow: highlighted ? `0 0 0 1px #FDE68A` : 'none',
+    boxShadow: highlighted ? `0 0 0 1px ${colors['highlight-yellow-border']}` : 'none',
   });
 
   const firstParagraphStyles: React.CSSProperties = {

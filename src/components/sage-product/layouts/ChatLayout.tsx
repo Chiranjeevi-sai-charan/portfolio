@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { colors, spacing, typography, borderRadius, shadows } from '../../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius, interactionTints, shadows } from '../../../styles/sage/tokens';
 import { Sidebar, SidebarItem } from '../Sidebar';
 import { ChatBubble } from '../ChatBubble';
 import { MaterialIcon } from '../MaterialIcon';
@@ -168,6 +168,12 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     display: 'flex',
     height: '100%',
     backgroundColor: colors['neutral-white'],
+    backgroundImage: `
+      radial-gradient(ellipse 900px 600px at 12% 8%, rgba(26, 117, 219, 0.07), transparent 60%),
+      radial-gradient(ellipse 800px 700px at 88% 15%, rgba(124, 107, 255, 0.06), transparent 60%),
+      radial-gradient(ellipse 900px 800px at 50% 100%, rgba(26, 117, 219, 0.05), transparent 65%)
+    `,
+    backgroundRepeat: 'no-repeat',
     flexDirection: 'column',
     minHeight: 0,
   };
@@ -183,7 +189,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: colors['neutral-white'],
+    backgroundColor: 'transparent',
     minWidth: 0,
     minHeight: 0,
     position: 'relative',
@@ -236,7 +242,7 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   const pillFormStyles: React.CSSProperties = {
     width: '100%',
     maxWidth: READING_WIDTH,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.xl,
   };
 
   const pillInputWrapperStyles: React.CSSProperties = {
@@ -245,9 +251,9 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     gap: spacing.sm,
     padding: `${spacing.md} ${spacing.sm} ${spacing.md} ${spacing.lg}`,
     border: `1px solid ${colors['neutral-200']}`,
-    borderRadius: '16px',
+    borderRadius: borderRadius.xl,
     backgroundColor: colors['neutral-white'],
-    boxShadow: shadows.lg,
+    boxShadow: shadows.glowInput,
     transition: 'box-shadow 0.15s ease, border-color 0.15s ease',
   };
 
@@ -278,8 +284,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
 
   const sendButtonStyles = (enabled: boolean): React.CSSProperties => ({
     ...roundIconButtonStyles,
-    borderRadius: '16px',
-    backgroundColor: enabled ? colors['neutral-900'] : colors['neutral-200'],
+    borderRadius: borderRadius.xl,
+    backgroundColor: enabled ? colors['accent-blue'] : colors['neutral-200'],
     color: colors['neutral-white'],
     cursor: enabled ? 'pointer' : 'not-allowed',
   });
@@ -299,8 +305,10 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     gap: spacing.md,
     padding: `${spacing.lg} ${spacing.lg}`,
     minHeight: '64px',
-    border: `1px solid transparent`,
-    background: colors['neutral-50'],
+    border: `1px solid ${interactionTints.accentSubtle}`,
+    background: 'rgba(255, 255, 255, 0.35)',
+    backdropFilter: 'blur(6px)',
+    WebkitBackdropFilter: 'blur(6px)',
     color: colors['neutral-700'],
     fontSize: typography.fontSize['body-md'],
     fontWeight: 500,
@@ -435,13 +443,15 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
                     style={suggestionCardStyles}
                     onClick={() => handleSendMessage(s.label)}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = colors['neutral-100'];
+                      e.currentTarget.style.backgroundColor = 'rgba(26, 117, 219, 0.08)';
+                      e.currentTarget.style.borderColor = colors['accent-blue'];
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = colors['neutral-50'];
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';
+                      e.currentTarget.style.borderColor = interactionTints.accentSubtle;
                     }}
                   >
-                    <MaterialIcon name={s.icon} size={20} color={colors['neutral-400']} />
+                    <MaterialIcon name={s.icon} size={20} color={colors['accent-blue']} />
                     {s.label}
                   </button>
                 ))}

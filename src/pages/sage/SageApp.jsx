@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon, ToastProvider } from '../../components/sage-product';
+import sageWordmark from '../../assets/SAGE Icon and Wordmark.png';
 
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
@@ -38,13 +39,12 @@ export default function SageApp() {
       {/* Header Bar */}
       <div
         style={{
-          position: 'relative',
           backgroundColor: '#ffffff',
           borderBottom: '1px solid #e5e7eb',
           padding: '12px 24px',
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
           alignItems: 'center',
-          justifyContent: 'space-between',
           height: '60px',
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
         }}
@@ -59,8 +59,9 @@ export default function SageApp() {
             fontSize: '13px',
             display: 'flex',
             alignItems: 'center',
-            gap: '6px',
+            gap: '8px',
             transition: 'opacity 0.2s',
+            justifySelf: 'start',
           }}
           onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.7')}
           onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
@@ -71,52 +72,45 @@ export default function SageApp() {
         {/* Center: Logo/Title */}
         <div
           style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: '8px',
-            fontWeight: 600,
-            color: '#111827',
-            fontSize: '14px',
-            whiteSpace: 'nowrap',
           }}
         >
-          Sage Product Demo
+          <img src={sageWordmark} alt="Sage" style={{ height: '32px', width: 'auto', display: 'block' }} />
         </div>
 
         {/* Right: Role Selector */}
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px', justifySelf: 'end' }}>
           {roles.map((role) => (
             <button
               key={role.id}
               onClick={() => setActiveRole(role.id)}
               style={{
-                padding: '6px 14px',
-                backgroundColor: activeRole === role.id ? '#111827' : '#f3f4f6',
-                color: activeRole === role.id ? 'white' : '#374151',
-                border: 'none',
-                borderRadius: '6px',
+                padding: '8px 16px',
+                backgroundColor: activeRole === role.id ? 'rgba(26, 117, 219, 0.08)' : '#ffffff',
+                color: activeRole === role.id ? '#1A75DB' : '#374151',
+                border: `1px solid ${activeRole === role.id ? '#1A75DB' : '#d1d5db'}`,
+                borderRadius: '999px',
                 cursor: 'pointer',
                 fontWeight: 500,
                 fontSize: '13px',
                 transition: 'all 0.2s ease-in-out',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '5px',
+                gap: '4px',
                 whiteSpace: 'nowrap',
               }}
               title={role.description}
               onMouseEnter={(e) => {
                 if (activeRole !== role.id) {
-                  e.currentTarget.style.backgroundColor = '#e5e7eb';
+                  e.currentTarget.style.borderColor = '#9ca3af';
                 }
               }}
               onMouseLeave={(e) => {
                 if (activeRole !== role.id) {
-                  e.currentTarget.style.backgroundColor = '#f3f4f6';
+                  e.currentTarget.style.borderColor = '#d1d5db';
                 }
               }}
             >

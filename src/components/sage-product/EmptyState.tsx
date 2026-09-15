@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors, spacing, typography } from '../../styles/sage/tokens';
+import { colors, spacing, typography, borderRadius } from '../../styles/sage/tokens';
 
 /**
  * EmptyState Component
@@ -89,7 +89,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     backgroundColor: colors['sage-green-500'],
     color: colors['neutral-white'],
     border: 'none',
-    borderRadius: '6px',
+    borderRadius: borderRadius.sm,
     padding: `${spacing.md} ${spacing.lg}`,
     fontSize: typography.fontSize['body-md'],
     fontWeight: typography.fontWeight.semibold,

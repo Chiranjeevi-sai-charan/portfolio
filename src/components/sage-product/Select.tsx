@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { spacing, colors, borderRadius, typography, interactionTints, zIndex } from '../../styles/sage/tokens';
+import { spacing, colors, borderRadius, typography, interactionTints, zIndex, shadows } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
 
 /**
@@ -100,10 +100,15 @@ export const Select: React.FC<SelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [isFocused, setIsFocused] = useState(false);
   const [menuRect, setMenuRect] = useState<{ top?: number; bottom?: number; left: number; width: number } | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const generatedId = React.useId();
+  const triggerId = id || generatedId;
+  const listboxId = `${triggerId}-listbox`;
+  const getOptionId = (index: number) => `${triggerId}-option-${index}`;
 
   const selectedOption = options.find((o) => String(o.value) === String(value));
 
@@ -254,9 +259,12 @@ export const Select: React.FC<SelectProps> = ({
     borderRadius: borderRadius.md,
     fontFamily: typography.fontFamily.primary,
     fontWeight: 500,
-    color: selectedOption ? colors['neutral-900'] : colors['neutral-400'],
+    color: selectedOption ? colors['neutral-900'] : colors['neutral-500'],
     backgroundColor: disabled ? colors['neutral-100'] : colors['neutral-white'],
-    boxShadow: isOpen ? `0 0 0 3px ${interactionTints.accentRing}` : '0 1px 2px rgba(16, 24, 40, 0.04)',
+    boxShadow:
+      isOpen || isFocused
+        ? `0 0 0 3px ${interactionTints.accentRing}`
+        : '0 1px 2px rgba(16, 24, 40, 0.04)',
     cursor: disabled ? 'not-allowed' : 'pointer',
     transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out',
     opacity: disabled ? 0.6 : 1,
@@ -290,7 +298,7 @@ export const Select: React.FC<SelectProps> = ({
     backgroundColor: colors['neutral-white'],
     border: `1px solid ${colors['neutral-200']}`,
     borderRadius: borderRadius.md,
-    boxShadow: '0 12px 24px rgba(16, 24, 40, 0.12), 0 2px 6px rgba(16, 24, 40, 0.06)',
+    boxShadow: shadows.dropdown,
     padding: '4px',
     maxHeight: '260px',
     overflowY: 'auto',
@@ -334,7 +342,7 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <div style={containerStyles}>
       {label && (
-        <label style={labelStyles}>
+        <label style={labelStyles} htmlFor={triggerId}>
           {label}
           {required && <span style={requiredStyle}>*</span>}
         </label>
@@ -343,7 +351,7 @@ export const Select: React.FC<SelectProps> = ({
       <div style={wrapperStyles} ref={rootRef}>
         <button
           type="button"
-          id={id}
+          id={triggerId}
           name={name}
           style={triggerStyles}
           disabled={disabled}
@@ -353,6 +361,8 @@ export const Select: React.FC<SelectProps> = ({
             else openMenu();
           }}
           onKeyDown={handleTriggerKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           onMouseEnter={(e) => {
             if (disabled || isOpen) return;
             (e.currentTarget as HTMLButtonElement).style.borderColor = colors['neutral-300'];
@@ -365,6 +375,8 @@ export const Select: React.FC<SelectProps> = ({
           }}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
+          aria-controls={isOpen ? listboxId : undefined}
+          aria-activedescendant={isOpen && highlightedIndex >= 0 ? getOptionId(highlightedIndex) : undefined}
         >
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {selectedOption ? selectedOption.label : placeholder || 'Select...'}
@@ -380,6 +392,7 @@ export const Select: React.FC<SelectProps> = ({
             <div
               style={menuStyles}
               role="listbox"
+              id={listboxId}
               ref={(node) => {
                 (listRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
                 (menuRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
@@ -388,6 +401,7 @@ export const Select: React.FC<SelectProps> = ({
               {options.map((opt, index) => (
                 <div
                   key={opt.value}
+                  id={getOptionId(index)}
                   role="option"
                   aria-selected={String(opt.value) === String(value)}
                   style={optionStyles(opt, index)}

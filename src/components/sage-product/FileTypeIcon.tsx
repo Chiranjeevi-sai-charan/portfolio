@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors, fileTypeColors } from '../../styles/sage/tokens';
 
 interface FileTypeIconProps {
   /** File name, used to infer the extension (e.g. "policy.pdf") */
@@ -18,42 +19,43 @@ const FOLD_PATH = 'M13 3.5L18.5 9H14C13.45 9 13 8.55 13 8V3.5Z';
 export const FileTypeIcon: React.FC<FileTypeIconProps> = ({ fileName, size = 20 }) => {
   const ext = fileName.split('.').pop()?.toLowerCase() || '';
 
-  const variants: Record<string, { fill: string; fold: string; label: string; labelSize: number }> = {
-    pdf: { fill: '#E5482F', fold: '#F5806A', label: 'PDF', labelSize: 6.5 },
-    doc: { fill: '#2B579A', fold: '#5B8AD1', label: 'DOC', labelSize: 6 },
-    docx: { fill: '#2B579A', fold: '#5B8AD1', label: 'DOC', labelSize: 6 },
-    xls: { fill: '#1D6F42', fold: '#57A97E', label: 'XLS', labelSize: 6 },
-    xlsx: { fill: '#1D6F42', fold: '#57A97E', label: 'XLS', labelSize: 6 },
-    ppt: { fill: '#D24726', fold: '#E88863', label: 'PPT', labelSize: 6 },
-    pptx: { fill: '#D24726', fold: '#E88863', label: 'PPT', labelSize: 6 },
+  const labels: Record<string, { label: string; labelSize: number }> = {
+    pdf: { label: 'PDF', labelSize: 6.5 },
+    doc: { label: 'DOC', labelSize: 6 },
+    docx: { label: 'DOC', labelSize: 6 },
+    xls: { label: 'XLS', labelSize: 6 },
+    xlsx: { label: 'XLS', labelSize: 6 },
+    ppt: { label: 'PPT', labelSize: 6 },
+    pptx: { label: 'PPT', labelSize: 6 },
   };
 
-  const variant = variants[ext];
+  const colorVariant = fileTypeColors[ext as keyof typeof fileTypeColors];
+  const labelVariant = labels[ext];
 
-  if (!variant) {
+  if (!colorVariant || !labelVariant) {
     return (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d={FILE_SHAPE_PATH} fill="#9AA1AC" />
-        <path d={FOLD_PATH} fill="#C3C9D1" />
+        <path d={FILE_SHAPE_PATH} fill={fileTypeColors.default.fill} />
+        <path d={FOLD_PATH} fill={fileTypeColors.default.fold} />
       </svg>
     );
   }
 
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d={FILE_SHAPE_PATH} fill={variant.fill} />
-      <path d={FOLD_PATH} fill={variant.fold} />
+      <path d={FILE_SHAPE_PATH} fill={colorVariant.fill} />
+      <path d={FOLD_PATH} fill={colorVariant.fold} />
       <text
         x="12"
         y="17.5"
         textAnchor="middle"
-        fontSize={variant.labelSize}
+        fontSize={labelVariant.labelSize}
         fontWeight="700"
         fontFamily="Arial, Helvetica, sans-serif"
-        fill="#FFFFFF"
+        fill={colors['neutral-white']}
         letterSpacing="0.2"
       >
-        {variant.label}
+        {labelVariant.label}
       </text>
     </svg>
   );

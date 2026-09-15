@@ -1,8 +1,8 @@
 import React from 'react';
-import { colors, typography, spacing, borderRadius } from '../../styles/sage/tokens';
+import { colors, typography, spacing, borderRadius, chartPalette } from '../../styles/sage/tokens';
 
 /** Default pastel accent used when a chart isn't given an explicit color/palette */
-const PASTEL_DEFAULT = '#8FB3E8';
+const PASTEL_DEFAULT = chartPalette.defaultBar;
 
 /**
  * Lightweight, dependency-free SVG chart primitives for the Analytics dashboard.
@@ -44,12 +44,12 @@ export const BarChart: React.FC<{ data: BarDatum[]; defaultColor?: string }> = (
           >
             {d.label}
           </div>
-          <div style={{ flex: 1, backgroundColor: colors['neutral-100'], borderRadius: '4px', height: '18px', position: 'relative' }}>
+          <div style={{ flex: 1, backgroundColor: colors['neutral-100'], borderRadius: borderRadius.sm, height: '20px', position: 'relative' }}>
             <div
               style={{
                 width: `${Math.max(2, (d.value / max) * 100)}%`,
                 height: '100%',
-                borderRadius: '4px',
+                borderRadius: borderRadius.sm,
                 backgroundColor: d.color || defaultColor,
                 transition: 'width 0.3s ease',
               }}
@@ -119,9 +119,9 @@ export const DonutChart: React.FC<{ data: DonutDatum[]; size?: number; strokeWid
       <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.xs }}>
         {data.map((d) => (
           <div key={d.label} style={{ display: 'flex', alignItems: 'center', gap: spacing.xs, fontSize: typography.fontSize['body-xs'], color: colors['neutral-700'] }}>
-            <span style={{ width: '10px', height: '10px', borderRadius: '3px', backgroundColor: d.color, flexShrink: 0 }} />
+            <span style={{ width: '12px', height: '12px', borderRadius: borderRadius.sm, backgroundColor: d.color, flexShrink: 0 }} />
             {d.label}
-            <span style={{ color: colors['neutral-400'] }}>
+            <span style={{ color: colors['neutral-500'] }}>
               ({total > 0 ? Math.round((d.value / total) * 100) : 0}%)
             </span>
           </div>
@@ -231,10 +231,10 @@ export const Sparkline: React.FC<{
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     height,
-    paddingRight: '6px',
+    paddingRight: spacing.sm,
     flexShrink: 0,
     fontSize: typography.fontSize['body-xs'],
-    color: colors['neutral-400'],
+    color: colors['neutral-500'],
   };
 
   const hoveredPoint = hovered !== null ? points[hovered] : null;
@@ -291,7 +291,7 @@ export const Sparkline: React.FC<{
         </div>
       </div>
       {labels && labels.length > 0 && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: typography.fontSize['body-xs'], color: colors['neutral-400'], marginTop: '4px', paddingLeft: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: typography.fontSize['body-xs'], color: colors['neutral-500'], marginTop: '4px', paddingLeft: '24px' }}>
           <span>{labels[0]}</span>
           <span>{labels[labels.length - 1]}</span>
         </div>

@@ -1,0 +1,203 @@
+/**
+ * Central i18n dictionary for Sage product UI strings that don't already have
+ * their own local STRINGS object (ChatLayout, AnalyticsDashboard, Sidebar,
+ * DocumentPanel, ChatBubble, SearchChatsModal each localize inline already).
+ *
+ * Add new keys here whenever new UI copy is added anywhere in the product —
+ * never hardcode an English-only string in a component; import `t` and add
+ * the English + Japanese pair here instead.
+ */
+
+export type Lang = 'en' | 'ja';
+
+export const sageStrings = {
+  en: {
+    // Page headers / tabs (RoleWorkspace, EmployeeChatbot)
+    backToChat: 'Back to Chat',
+    documentsTitle: 'Documents',
+    myDocumentsTitle: 'My Documents',
+    myDocumentsDesc: 'Policies and resources available to you, from Human Resources (HR) and General.',
+    userManagementTitle: 'User Management',
+    manageUsersDesc: 'Manage users and administrator access.',
+    uploadDocumentTab: 'Upload Document',
+    activeDocumentsTab: 'Active Documents',
+    archivedDocumentsTab: 'Archived Documents',
+    deletedDocumentsTab: 'Deleted Documents',
+    deletedDocumentsHeading: 'Deleted Documents',
+    noDeletedDocuments: 'No deleted documents.',
+    restore: 'Restore',
+    delete: 'Delete',
+    permanentlyDeleteTitle: 'Permanently Delete Document',
+    permanentlyDeleteMsg: (name?: string) => `Permanently delete "${name}"? This cannot be undone.`,
+    deletePermanently: 'Delete Permanently',
+
+    // DocumentList
+    documentsCount: (n: number) => `Documents (${n})`,
+    documentColumn: 'Document',
+    departmentColumn: 'Department',
+    sensitivityColumn: 'Sensitivity',
+    lastUpdatedColumn: 'Last Updated',
+    uploadedByColumn: 'Uploaded By',
+    actionsColumn: 'Actions',
+    searchDocuments: 'Search documents...',
+    allDepartments: 'All Departments',
+    allContentTypes: 'All Content Types',
+    allSensitivity: 'All Sensitivity',
+    sensitive: 'Sensitive',
+    nonSensitive: 'Non-Sensitive',
+    selectedCount: (n: number) => `${n} selected`,
+    download: 'Download',
+    clear: 'Clear',
+    showingRange: (from: number, to: number, total: number) => `Showing ${from}–${to} of ${total}`,
+    noDocumentsFound: 'No documents found matching your search.',
+    noDocumentsUploaded: 'No documents uploaded yet.',
+    deleteDocumentTitle: 'Delete Document',
+    deleteDocumentMsg: (name?: string) => `Delete "${name}"? It will be moved to Deleted Documents, where it can be restored.`,
+    deleteDocumentsTitle: 'Delete Documents',
+    deleteDocumentsMsg: (n: number) =>
+      `Delete ${n} selected document${n === 1 ? '' : 's'}? They will be moved to Deleted Documents, where they can be restored.`,
+
+    // UserManagementTable
+    userColumn: 'User',
+    roleColumn: 'Role',
+    departmentsColumn: 'Departments',
+    searchUsers: 'Search for Admins or System Admin',
+    addUser: 'Add User',
+    all: 'All',
+    employee: 'Employee',
+    admin: 'Admin',
+    systemAdmin: 'System Admin',
+    noUsersFound: 'No users found matching your search.',
+    noUsersFoundEmpty: 'No users found.',
+    deleteUserTitle: 'Delete User',
+    deleteUserMsg: (name?: string) => `Delete user "${name}"? This cannot be undone.`,
+    deleteUsersTitle: 'Delete Users',
+    deleteUsersMsg: (n: number) => `Delete ${n} selected user${n === 1 ? '' : 's'}? This cannot be undone.`,
+
+    // DocumentUpload
+    uploadDocumentTitle: 'Upload Document',
+    uploadDocumentDesc: 'Upload your documents for AI-powered analysis and insights.',
+    department: 'Department',
+    contentType: 'Content Type',
+    sensitivityLabel: 'Sensitivity',
+    documentDate: 'Document Date',
+    selectDepartment: 'Select Department',
+    selectContentType: 'Select a Content Type',
+    selectSensitivity: 'Select Sensitivity',
+    dragDrop: 'Drag & drop documents',
+    or: 'OR',
+    browseDocuments: 'Browse documents',
+    supportedFormats: 'Supported: PDF, DOCX • Up to 200MB/document',
+    selectedDocuments: (n: number) => `Selected Documents (${n})`,
+    noDocumentsAdded: 'No documents added yet',
+    upload: 'Upload',
+
+    // AddUserModal
+    addUserTitle: 'Add User',
+    name: 'Name',
+    email: 'Email',
+    role: 'Role',
+    cancel: 'Cancel',
+    departmentsLabel: 'Departments',
+    generalAllUsers: 'General (all users)',
+    fillNameEmail: 'Please fill in name and email.',
+    invalidEmail: 'Please enter a valid email address.',
+  },
+  ja: {
+    backToChat: 'チャットに戻る',
+    documentsTitle: 'ドキュメント',
+    myDocumentsTitle: 'マイドキュメント',
+    myDocumentsDesc: '人事部と全社共通のポリシーおよび資料です。',
+    userManagementTitle: 'ユーザー管理',
+    manageUsersDesc: 'ユーザーと管理者アクセスを管理します。',
+    uploadDocumentTab: 'ドキュメントをアップロード',
+    activeDocumentsTab: '有効なドキュメント',
+    archivedDocumentsTab: 'アーカイブ済み',
+    deletedDocumentsTab: '削除済み',
+    deletedDocumentsHeading: '削除済みドキュメント',
+    noDeletedDocuments: '削除されたドキュメントはありません。',
+    restore: '復元',
+    delete: '削除',
+    permanentlyDeleteTitle: 'ドキュメントを完全に削除',
+    permanentlyDeleteMsg: (name?: string) => `「${name}」を完全に削除しますか？この操作は取り消せません。`,
+    deletePermanently: '完全に削除',
+
+    documentsCount: (n: number) => `ドキュメント (${n})`,
+    documentColumn: 'ドキュメント',
+    departmentColumn: '部門',
+    sensitivityColumn: '機密区分',
+    lastUpdatedColumn: '最終更新日',
+    uploadedByColumn: 'アップロード者',
+    actionsColumn: '操作',
+    searchDocuments: 'ドキュメントを検索...',
+    allDepartments: 'すべての部門',
+    allContentTypes: 'すべてのコンテンツタイプ',
+    allSensitivity: 'すべての機密区分',
+    sensitive: '機密',
+    nonSensitive: '非機密',
+    selectedCount: (n: number) => `${n}件選択中`,
+    download: 'ダウンロード',
+    clear: 'クリア',
+    showingRange: (from: number, to: number, total: number) => `${total}件中 ${from}–${to}件を表示`,
+    noDocumentsFound: '検索条件に一致するドキュメントが見つかりません。',
+    noDocumentsUploaded: 'まだドキュメントがアップロードされていません。',
+    deleteDocumentTitle: 'ドキュメントを削除',
+    deleteDocumentMsg: (name?: string) => `「${name}」を削除しますか？削除済みドキュメントに移動され、後で復元できます。`,
+    deleteDocumentsTitle: 'ドキュメントを削除',
+    deleteDocumentsMsg: (n: number) => `選択した${n}件のドキュメントを削除しますか？削除済みドキュメントに移動され、後で復元できます。`,
+
+    userColumn: 'ユーザー',
+    roleColumn: '役割',
+    departmentsColumn: '部門',
+    searchUsers: '管理者またはシステム管理者を検索',
+    addUser: 'ユーザーを追加',
+    all: 'すべて',
+    employee: '従業員',
+    admin: '管理者',
+    systemAdmin: 'システム管理者',
+    noUsersFound: '検索条件に一致するユーザーが見つかりません。',
+    noUsersFoundEmpty: 'ユーザーが見つかりません。',
+    deleteUserTitle: 'ユーザーを削除',
+    deleteUserMsg: (name?: string) => `ユーザー「${name}」を削除しますか？この操作は取り消せません。`,
+    deleteUsersTitle: 'ユーザーを削除',
+    deleteUsersMsg: (n: number) => `選択した${n}人のユーザーを削除しますか？この操作は取り消せません。`,
+
+    uploadDocumentTitle: 'ドキュメントをアップロード',
+    uploadDocumentDesc: 'AIによる分析とインサイトのためにドキュメントをアップロードしてください。',
+    department: '部門',
+    contentType: 'コンテンツタイプ',
+    sensitivityLabel: '機密区分',
+    documentDate: 'ドキュメントの日付',
+    selectDepartment: '部門を選択',
+    selectContentType: 'コンテンツタイプを選択',
+    selectSensitivity: '機密区分を選択',
+    dragDrop: 'ドキュメントをドラッグ＆ドロップ',
+    or: 'または',
+    browseDocuments: 'ドキュメントを参照',
+    supportedFormats: '対応形式：PDF、DOCX • 1ファイルあたり最大200MB',
+    selectedDocuments: (n: number) => `選択されたドキュメント (${n})`,
+    noDocumentsAdded: 'まだドキュメントが追加されていません',
+    upload: 'アップロード',
+
+    addUserTitle: 'ユーザーを追加',
+    name: '名前',
+    email: 'メールアドレス',
+    role: '役割',
+    cancel: 'キャンセル',
+    departmentsLabel: '部門',
+    generalAllUsers: '全社共通（全ユーザー）',
+    fillNameEmail: '名前とメールアドレスを入力してください。',
+    invalidEmail: '有効なメールアドレスを入力してください。',
+  },
+} as const;
+
+export const t = (lang: Lang | undefined, key: keyof typeof sageStrings['en']) => {
+  const dict = sageStrings[lang ?? 'en'] ?? sageStrings.en;
+  return dict[key] ?? sageStrings.en[key];
+};
+
+/** Translates a User['role'] value (e.g. 'user' | 'admin' | 'system-admin') to a localized label. */
+export const getRoleLabel = (role: string, lang?: Lang): string => {
+  const key = role === 'admin' ? 'admin' : role === 'system-admin' ? 'systemAdmin' : 'employee';
+  return t(lang, key) as string;
+};
