@@ -1,6 +1,30 @@
 import React from 'react';
 import { colors, spacing, iconSizes, borderRadius } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
+import { Language } from '../../utils/mockAIResponses';
+
+const STRINGS = {
+  en: {
+    like: 'Like this response',
+    dislike: 'Dislike this response',
+    comment: 'Leave feedback',
+    copy: 'Copy to clipboard',
+    speak: 'Listen to this response',
+    share: 'Share',
+    regenerate: 'Try again',
+    edit: 'Edit message',
+  },
+  ja: {
+    like: 'この回答を高評価',
+    dislike: 'この回答を低評価',
+    comment: 'フィードバックを送る',
+    copy: 'クリップボードにコピー',
+    speak: 'この回答を読み上げる',
+    share: '共有',
+    regenerate: 'もう一度試す',
+    edit: 'メッセージを編集',
+  },
+};
 
 interface MessageActionsProps {
   onLike?: () => void;
@@ -14,6 +38,7 @@ interface MessageActionsProps {
   liked?: boolean;
   disliked?: boolean;
   compact?: boolean;
+  language?: Language;
 }
 
 export const MessageActions: React.FC<MessageActionsProps> = ({
@@ -28,7 +53,9 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
   liked = false,
   disliked = false,
   compact = false,
+  language = 'en',
 }) => {
+  const t = STRINGS[language];
   const buttonStyle: React.CSSProperties = {
     background: 'none',
     border: 'none',
@@ -75,8 +102,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
               e.currentTarget.style.color = colors['neutral-500'];
             }
           }}
-          title="Like this response"
-          aria-label="Like"
+          title={t.like}
+          aria-label={t.like}
         >
           <MaterialIcon name="thumb_up" size={compact ? 16 : 18} filled={liked} />
         </button>
@@ -101,8 +128,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
               e.currentTarget.style.color = colors['neutral-500'];
             }
           }}
-          title="Dislike this response"
-          aria-label="Dislike"
+          title={t.dislike}
+          aria-label={t.dislike}
         >
           <MaterialIcon name="thumb_down" size={compact ? 16 : 18} filled={disliked} />
         </button>
@@ -119,8 +146,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = colors['neutral-500'];
           }}
-          title="Leave feedback"
-          aria-label="Comment"
+          title={t.comment}
+          aria-label={t.comment}
         >
           <MaterialIcon name="chat_bubble" size={compact ? 16 : 18} />
         </button>
@@ -137,8 +164,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = colors['neutral-500'];
           }}
-          title="Copy to clipboard"
-          aria-label="Copy"
+          title={t.copy}
+          aria-label={t.copy}
         >
           <MaterialIcon name="content_copy" size={compact ? 16 : 18} />
         </button>
@@ -155,8 +182,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = colors['neutral-500'];
           }}
-          title="Listen to this response"
-          aria-label="Speak"
+          title={t.speak}
+          aria-label={t.speak}
         >
           <MaterialIcon name="volume_up" size={compact ? 16 : 18} />
         </button>
@@ -173,8 +200,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = colors['neutral-500'];
           }}
-          title="Share"
-          aria-label="Share"
+          title={t.share}
+          aria-label={t.share}
         >
           <MaterialIcon name="ios_share" size={compact ? 16 : 18} />
         </button>
@@ -191,8 +218,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = colors['neutral-500'];
           }}
-          title="Try again"
-          aria-label="Try again"
+          title={t.regenerate}
+          aria-label={t.regenerate}
         >
           <MaterialIcon name="refresh" size={compact ? 16 : 18} />
         </button>
@@ -209,8 +236,8 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           onMouseLeave={(e) => {
             e.currentTarget.style.color = colors['neutral-500'];
           }}
-          title="Edit message"
-          aria-label="Edit message"
+          title={t.edit}
+          aria-label={t.edit}
         >
           <MaterialIcon name="edit" size={compact ? 16 : 18} />
         </button>

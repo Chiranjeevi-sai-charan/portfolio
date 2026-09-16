@@ -1,8 +1,8 @@
 import React from 'react';
 import { colors, spacing, typography, componentSizes, shadows, borderRadius, interactionTints } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
-import sageLogoMark from '../../assets/SAGE Standalone Logo.png';
-import sageLogoWordmark from '../../assets/SAGE Icon and Wordmark.png';
+import sageLogoMark from '../../assets/SAGE Chatbot Solo.png';
+import sageLogoWordmark from '../../assets/SAGE Wordmark Only.png';
 
 /**
  * Sidebar Component
@@ -168,12 +168,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
     zIndex: 10,
   };
 
+  /** Left/right inset matches every other section (menu list, footer) for
+   * consistent edges. Top/bottom padding is tighter (8px) so the 40px logo
+   * fits snugly at the standard 56px header height instead of growing it. */
   const logoSectionStyles: React.CSSProperties = {
-    padding: `${spacing.md} ${spacing.md}`,
+    padding: `${spacing.sm} ${spacing.lg}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: expanded ? 'space-between' : 'center',
     minHeight: '56px',
+    flexShrink: 0,
     gap: spacing.sm,
     borderBottom: `1px solid ${colors['neutral-200']}`,
   };
@@ -199,13 +203,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     flexShrink: 0,
   };
 
-  /** Small square wordmark ("SA" / "GE" stacked), always shown at the top of
-   * the sidebar — same square footprint as the other icon buttons, so it
-   * sits flush among them in the collapsed icon rail, and doubles as the
-   * brand mark next to the "SAGE" text when expanded. */
+  /** Brand mark shown at the top of the sidebar: a fixed 32px square icon
+   * when collapsed, or the wordmark image (auto width) when expanded. */
   const logoMarkStyles: React.CSSProperties = {
-    width: '32px',
-    height: '32px',
+    width: expanded ? 'auto' : '40px',
+    height: '40px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -219,8 +221,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const logoMarkImageStyles: React.CSSProperties = {
-    width: '32px',
-    height: '32px',
+    width: '40px',
+    height: '40px',
     display: 'block',
     objectFit: 'contain',
   };
@@ -236,7 +238,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     flex: 1,
     overflowY: 'auto',
     overflowX: 'hidden',
-    padding: `${spacing.sm} ${spacing.sm} 0`,
+    padding: `${spacing.sm} ${spacing.lg} 0`,
     display: 'flex',
     flexDirection: 'column',
     gap: spacing.xs,
@@ -245,6 +247,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const menuItemStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: expanded ? 'flex-start' : 'center',
     gap: spacing.md,
     padding: `${spacing.sm} ${spacing.md}`,
     backgroundColor: 'transparent',
@@ -434,8 +437,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
             }}
-            title="Search chats"
-            aria-label="Search chats"
+            title={language === 'ja' ? 'チャットを検索' : 'Search chats'}
+            aria-label={language === 'ja' ? 'チャットを検索' : 'Search chats'}
           >
             <MaterialIcon name="search" size={16} />
           </button>
@@ -455,8 +458,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               e.stopPropagation();
               setOpenItemMenuKey((prev) => (prev === key ? null : key));
             }}
-            title="More options"
-            aria-label="More options"
+            title={language === 'ja' ? 'その他のオプション' : 'More options'}
+            aria-label={language === 'ja' ? 'その他のオプション' : 'More options'}
           >
             <MaterialIcon name="more_horiz" size={18} />
           </button>
@@ -529,14 +532,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const userFooterStyles: React.CSSProperties = {
     position: 'relative',
     borderTop: `1px solid ${colors['neutral-200']}`,
-    padding: spacing.sm,
+    padding: spacing.lg,
   };
 
   const userRowStyles: React.CSSProperties = {
     display: 'flex',
     alignItems: 'flex-start',
+    justifyContent: expanded ? 'flex-start' : 'center',
     gap: spacing.sm,
-    padding: spacing.sm,
+    padding: expanded ? spacing.sm : 0,
     borderRadius: borderRadius.md,
     cursor: 'pointer',
     transition: 'background-color 0.15s ease-in-out',
@@ -547,11 +551,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const userAvatarStyles: React.CSSProperties = {
-    width: '40px',
-    height: '40px',
+    width: '36px',
+    height: '36px',
     borderRadius: '50%',
-    backgroundColor: colors['neutral-200'],
-    color: colors['neutral-600'],
+    color: colors['accent-blue'],
+    boxShadow: '0 0 24px 2px rgba(26, 117, 219, 0.08)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -673,10 +677,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
     >
       {/* Logo Section */}
       <div style={logoSectionStyles}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm, minWidth: 0 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: spacing.sm,
+            minWidth: 0,
+            width: expanded ? undefined : '100%',
+          }}
+        >
           {logo || (
             <button
-              style={{ ...logoMarkStyles, width: expanded ? 'auto' : '32px' }}
+              style={logoMarkStyles}
               onClick={onLogoClick}
               title="SAGE"
               aria-label="SAGE"

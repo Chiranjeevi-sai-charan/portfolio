@@ -3,6 +3,36 @@ import { spacing, typography, colors, borderRadius } from '../../styles/sage/tok
 import { Modal } from './Modal';
 import { Input } from './Input';
 import { useToast } from './ToastProvider';
+import { Language } from '../../utils/mockAIResponses';
+
+const STRINGS = {
+  en: {
+    title: 'Schedule Awareness Session',
+    cancel: 'Cancel',
+    downloadIcs: 'Download .ics',
+    addToOutlook: 'Add to Outlook',
+    subject: 'Subject',
+    start: 'Start',
+    duration: 'Duration (minutes)',
+    description: 'Description',
+    helperText: '"Add to Outlook" opens a pre-filled event in Outlook Web (using your current sign-in). "Download .ics" works with any calendar app, including Teams meetings.',
+    openingOutlook: 'Opening Outlook to create the invite...',
+    icsDownloaded: '.ics file downloaded. Import it into Outlook, Teams, or Google Calendar',
+  },
+  ja: {
+    title: '説明会を予定する',
+    cancel: 'キャンセル',
+    downloadIcs: '.icsをダウンロード',
+    addToOutlook: 'Outlookに追加',
+    subject: '件名',
+    start: '開始日時',
+    duration: '所要時間（分）',
+    description: '説明',
+    helperText: '「Outlookに追加」では、現在サインイン中のOutlook Webに入力済みの予定が開きます。「.icsをダウンロード」はTeams会議を含む、あらゆるカレンダーアプリで利用できます。',
+    openingOutlook: 'Outlookで招待状を作成しています...',
+    icsDownloaded: '.icsファイルをダウンロードしました。Outlook、Teams、Googleカレンダーにインポートしてください。',
+  },
+};
 
 /**
  * CreateEventModal Component
@@ -22,6 +52,7 @@ interface CreateEventModalProps {
   onClose: () => void;
   defaultSubject: string;
   defaultBody: string;
+  language?: Language;
 }
 
 const toLocalInputValue = (date: Date) => {
@@ -43,12 +74,14 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
   onClose,
   defaultSubject,
   defaultBody,
+  language = 'en',
 }) => {
   const [subject, setSubject] = useState(defaultSubject);
   const [body, setBody] = useState(defaultBody);
   const [start, setStart] = useState(toLocalInputValue(defaultStart()));
   const [durationMinutes, setDurationMinutes] = useState(30);
   const { showToast } = useToast();
+  const t = STRINGS[language];
 
   React.useEffect(() => {
     if (isOpen) {
@@ -77,7 +110,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
       enddt: endDate.toISOString(),
     });
     window.open(`https://outlook.office.com/calendar/0/deeplink/compose?${params.toString()}`, '_blank', 'noopener,noreferrer');
-    showToast('Opening Outlook to create the invite...', 'info');
+    showToast(t.openingOutlook, 'info');
   };
 
   const handleDownloadICS = () => {
@@ -107,31 +140,32 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('.ics file downloaded. Import it into Outlook, Teams, or Google Calendar', 'success');
+    showToast(t.icsDownloaded, 'success');
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Schedule Awareness Session"
+      language={language}
+      title={t.title}
       size="sm"
       actions={[
-        { label: 'Cancel', variant: 'secondary', onClick: onClose },
-        { label: 'Download .ics', variant: 'secondary', onClick: handleDownloadICS },
-        { label: 'Add to Outlook', variant: 'primary', onClick: handleAddToOutlook },
+        { label: t.cancel, variant: 'secondary', onClick: onClose },
+        { label: t.downloadIcs, variant: 'secondary', onClick: handleDownloadICS },
+        { label: t.addToOutlook, variant: 'primary', onClick: handleAddToOutlook },
       ]}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.md }}>
-        <Input label="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
+        <Input label={t.subject} value={subject} onChange={(e) => setSubject(e.target.value)} />
         <Input
-          label="Start"
+          label={t.start}
           type="datetime-local"
           value={start}
           onChange={(e) => setStart(e.target.value)}
         />
         <Input
-          label="Duration (minutes)"
+          label={t.duration}
           type="number"
           min={15}
           step={15}
@@ -140,7 +174,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         />
         <div>
           <label style={{ display: 'block', marginBottom: spacing.sm, fontWeight: 600, fontSize: typography.fontSize['body-sm'], color: colors['neutral-900'] }}>
-            Description
+            {t.description}
           </label>
           <textarea
             value={body}
@@ -159,7 +193,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
           />
         </div>
         <div style={{ fontSize: typography.fontSize['body-xs'], color: colors['neutral-500'] }}>
-          "Add to Outlook" opens a pre-filled event in Outlook Web (using your current sign-in). "Download .ics" works with any calendar app, including Teams meetings.
+          {t.helperText}
         </div>
       </div>
     </Modal>

@@ -19,10 +19,14 @@ import priyaStage3 from "../assets/persona-priya-stage3.png";
 import priyaStage4 from "../assets/persona-priya-stage4.png";
 import wireframeBasicV1 from "../assets/wireframe-basic-v1.jpg";
 import wireframeLoFiV1 from "../assets/wireframe-lofi-v1.png";
-import designHiFiFinal from "../assets/design-hifi-final-live-ui.png";
-import designHiFiAdminUI from "../assets/design-hifi-admin-ui.png";
-import analyticsDashboardTop from "../assets/analytics-dashboard-top.png";
-import analyticsDashboardInsights from "../assets/analytics-dashboard-insights.png";
+import designHiFiFinal from "../assets/design-hifi-final-live-ui-v1.png";
+import designHiFiAdminUI from "../assets/design-hifi-admin-ui-v1.png";
+import analyticsDashboardTop from "../assets/analytics-dashboard-top-v1.png";
+import analyticsDashboardInsights from "../assets/analytics-dashboard-insights-v1.png";
+import designHiFiFinalV2 from "../assets/design-hifi-final-live-ui-v2.png";
+import designHiFiAdminUIV2 from "../assets/design-hifi-admin-ui-v2.png";
+import analyticsDashboardTopV2 from "../assets/analytics-dashboard-top-v2.png";
+import analyticsDashboardInsightsV2 from "../assets/analytics-dashboard-insights-v2.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -214,8 +218,8 @@ const CASE_STUDY_DATA = {
         }
       },
       wireframes: {
-        status: "Concept C advanced to wireframing with three screen states.",
-        description: "Low-fidelity wireframes for Employee, Admin, and System Admin views.",
+        status: "Concept C advanced to a first hand-sketched wireframe.",
+        description: "Initial paper sketch of the Admin document-upload flow: sidebar navigation, drag-and-drop upload, and a filterable list of uploaded documents.",
         image: wireframeBasicV1
       }
     },
@@ -239,13 +243,17 @@ const CASE_STUDY_DATA = {
         title: "High-Fidelity UI",
         description: "The final design incorporates all feedback and refinements. Tab-based navigation provides complete document lifecycle management. Department selection, content type, and sensitivity classifications enable fine-grained access control while maintaining a clean, focused interface.",
         annotations: ["Tab-based layout for document lifecycle tracking", "Department and sensitivity filtering", "Admin-only upload and user management"],
-        image: designHiFiFinal
+        image: designHiFiFinal,
+        imageV2: designHiFiFinalV2,
+        updateNote: "The first version was a black-and-white prototype used to validate layout before branding. Once approved, the brand's blue became the accent color, the flat white surface became a soft gradient for visual depth, and underline tabs became pill-shaped tabs so the active section reads clearly at a glance."
       },
       visualDesign: {
         title: "Visual Design",
         description: "Beyond the employee chatbot, the same design system extends to the Admin workspace, where HR Admins manage documents through their full lifecycle. Active, Archived, and Deleted states share one consistent visual language, with sensitivity badges and department metadata surfaced directly in the table for quick scanning.",
         annotations: ["Consistent tab pattern across document states", "Sensitivity and department metadata inline", "Role-scoped: Admins only see their own department's documents"],
-        image: designHiFiAdminUI
+        image: designHiFiAdminUI,
+        imageV2: designHiFiAdminUIV2,
+        updateNote: "The documents table picked up the same refresh: sticky column headers keep filters and titles in view while scrolling, and sensitivity badges plus row actions (download/delete) were consolidated into shared Badge and IconButton components, so a future style change to either happens once, not per table."
       }
     },
     testing: {
@@ -254,7 +262,9 @@ const CASE_STUDY_DATA = {
       findings: "The strongest feedback was about what admins couldn't see: what employees actually ask about, which policies get cited most, how often the bot fails to find an answer, and whether the multilingual investment is even being used. Admins had full control over documents and users, but zero visibility into usage, a real gap before this could be called done.",
       iterations: {
         description: "In response, we built the Analytics and AI Insights dashboard, shown below: topic breakdown, fallback rate, department/role/language splits, and activity over time, logged in a privacy-safe way (topic categories and cited documents only, never the raw question). The AI Insights panel goes further, turning data into a recommendation (\"26% of questions are about Vacation & Time Off, consider an awareness session\") that becomes a calendar invite in one click, moving from \"we can't see what's happening\" to \"here's what to do about it.\"",
-        images: [analyticsDashboardTop, analyticsDashboardInsights]
+        images: [analyticsDashboardTop, analyticsDashboardInsights],
+        imagesV2: [analyticsDashboardTopV2, analyticsDashboardInsightsV2],
+        updateNote: "The dashboard itself was rebuilt on the same design-system pass: KPI tiles and chart panels now use the frosted-card treatment with a subtle hover lift, and the full interface, including AI Insights recommendations, is fully bilingual (English/Japanese), audited end to end down to toast messages and screen-reader labels."
       }
     },
     tools: [
@@ -278,6 +288,44 @@ const CASE_STUDY_DATA = {
     title: "MyGHMC App Redesign",
     overview: null,
   },
+};
+
+// Shared styles for the V1/V2 screenshot-pair callouts (High-Fidelity,
+// Visual Design, and Testing/Iterations sections) — kept here once so the
+// version tag and "Since Then" rationale box render identically wherever
+// they're used, rather than being redefined per section.
+const versionTagStyle = {
+  display: "inline-block",
+  fontSize: 12,
+  fontWeight: 700,
+  letterSpacing: "0.04em",
+  textTransform: "uppercase",
+  color: "var(--ink-soft)",
+  marginBottom: 8,
+};
+
+const updateNoteStyle = {
+  margin: "32px 0",
+  padding: 20,
+  backgroundColor: "rgba(59, 130, 246, 0.06)",
+  borderRadius: "8px",
+  border: "1px solid rgba(59, 130, 246, 0.18)",
+};
+
+const updateNoteLabelStyle = {
+  fontSize: 12,
+  fontWeight: 700,
+  letterSpacing: "0.04em",
+  textTransform: "uppercase",
+  color: "#3b82f6",
+  margin: "0 0 8px 0",
+};
+
+const updateNoteTextStyle = {
+  fontSize: 15,
+  lineHeight: "1.7",
+  color: "var(--ink-soft)",
+  margin: 0,
 };
 
 export default function CaseStudy() {
@@ -1296,7 +1344,7 @@ export default function CaseStudy() {
                 <div style={{ marginTop: 24 }}>
                   <img
                     src={caseStudy.ideation.wireframes.image}
-                    alt="Sage Wireframes - Three Concepts"
+                    alt="Sage Wireframe - Admin Document Upload Sketch"
                     style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                   />
                 </div>
@@ -1396,9 +1444,10 @@ export default function CaseStudy() {
 
               {caseStudy.design.highFidelity.image && (
                 <div style={{ marginTop: 24 }}>
+                  <span style={versionTagStyle}>V1 · Initial Ship</span>
                   <img
                     src={caseStudy.design.highFidelity.image}
-                    alt="Sage HR Chatbot High-Fidelity Design"
+                    alt="Sage HR Chatbot High-Fidelity Design — V1, initial ship"
                     style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                   />
                 </div>
@@ -1410,6 +1459,23 @@ export default function CaseStudy() {
                     ✨ High-fidelity design coming soon.
                   </p>
                 </div>
+              )}
+
+              {caseStudy.design.highFidelity.imageV2 && (
+                <>
+                  <div style={updateNoteStyle}>
+                    <p style={updateNoteLabelStyle}>Since Then</p>
+                    <p style={updateNoteTextStyle}>{caseStudy.design.highFidelity.updateNote}</p>
+                  </div>
+                  <div style={{ marginTop: 24 }}>
+                    <span style={versionTagStyle}>V2 · Current</span>
+                    <img
+                      src={caseStudy.design.highFidelity.imageV2}
+                      alt="Sage HR Chatbot High-Fidelity Design — V2, current"
+                      style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                    />
+                  </div>
+                </>
               )}
             </div>
 
@@ -1438,12 +1504,30 @@ export default function CaseStudy() {
 
                 {caseStudy.design.visualDesign.image && (
                   <div style={{ marginTop: 24 }}>
+                    <span style={versionTagStyle}>V1 · Initial Ship</span>
                     <img
                       src={caseStudy.design.visualDesign.image}
-                      alt="Sage Admin Document Management UI"
+                      alt="Sage Admin Document Management UI — V1, initial ship"
                       style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                     />
                   </div>
+                )}
+
+                {caseStudy.design.visualDesign.imageV2 && (
+                  <>
+                    <div style={updateNoteStyle}>
+                      <p style={updateNoteLabelStyle}>Since Then</p>
+                      <p style={updateNoteTextStyle}>{caseStudy.design.visualDesign.updateNote}</p>
+                    </div>
+                    <div style={{ marginTop: 24 }}>
+                      <span style={versionTagStyle}>V2 · Current</span>
+                      <img
+                        src={caseStudy.design.visualDesign.imageV2}
+                        alt="Sage Admin Document Management UI — V2, current"
+                        style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                      />
+                    </div>
+                  </>
                 )}
               </div>
             )}
@@ -1495,15 +1579,36 @@ export default function CaseStudy() {
 
               {caseStudy.testing.iterations.images && caseStudy.testing.iterations.images.length > 0 && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  <span style={versionTagStyle}>V1 · Initial Ship</span>
                   {caseStudy.testing.iterations.images.map((img, idx) => (
                     <img
                       key={idx}
                       src={img}
-                      alt="Sage Analytics and AI Insights Dashboard"
+                      alt="Sage Analytics and AI Insights Dashboard — V1, initial ship"
                       style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                     />
                   ))}
                 </div>
+              )}
+
+              {caseStudy.testing.iterations.imagesV2 && caseStudy.testing.iterations.imagesV2.length > 0 && (
+                <>
+                  <div style={updateNoteStyle}>
+                    <p style={updateNoteLabelStyle}>Since Then</p>
+                    <p style={updateNoteTextStyle}>{caseStudy.testing.iterations.updateNote}</p>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                    <span style={versionTagStyle}>V2 · Current</span>
+                    {caseStudy.testing.iterations.imagesV2.map((img, idx) => (
+                      <img
+                        key={idx}
+                        src={img}
+                        alt="Sage Analytics and AI Insights Dashboard — V2, current"
+                        style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+                      />
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           </div>

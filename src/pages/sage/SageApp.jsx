@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon, ToastProvider } from '../../components/sage-product';
-import sageWordmark from '../../assets/SAGE Icon and Wordmark.png';
+import { resetSageDemoData } from '../../utils/storage';
 
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
+
+  // Public demo: reset users/documents to the known-good baseline on every
+  // page load so nothing a visitor uploads or edits outlives the session.
+  useEffect(() => {
+    resetSageDemoData();
+  }, []);
 
   const roles = [
     {
@@ -69,17 +75,9 @@ export default function SageApp() {
           ← Case Study
         </Link>
 
-        {/* Center: Logo/Title */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-          }}
-        >
-          <img src={sageWordmark} alt="Sage" style={{ height: '32px', width: 'auto', display: 'block' }} />
-        </div>
+        {/* Center column intentionally left empty — keeps the 3-column grid
+            balanced so the role selector stays pinned to the right edge. */}
+        <div />
 
         {/* Right: Role Selector */}
         <div style={{ display: 'flex', gap: '8px', justifySelf: 'end' }}>

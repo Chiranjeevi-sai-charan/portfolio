@@ -57,7 +57,6 @@ const conversationSection = (createdAt: number): string =>
  * - Message citations and source documents
  * - Real-time typing simulation
  */
-const EMPLOYEE_DEPARTMENT = 'Human Resources (HR)';
 
 export const EmployeeChatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -66,10 +65,7 @@ export const EmployeeChatbot: React.FC = () => {
   const [language, setLanguage] = useState<'en' | 'ja'>('en');
   const [activeView, setActiveView] = useState<'chat' | 'documents'>('chat');
 
-  const visibleDocuments = useMemo(
-    () => documentStorage.getVisibleForEmployee(EMPLOYEE_DEPARTMENT),
-    [activeView]
-  );
+  const visibleDocuments = useMemo(() => documentStorage.getVisibleForEmployee(), [activeView]);
 
   const managementLinks =
     language === 'ja'
@@ -107,7 +103,7 @@ export const EmployeeChatbot: React.FC = () => {
         }
         break;
       case 'rename': {
-        const newTitle = window.prompt('Rename chat', item.label);
+        const newTitle = window.prompt(language === 'ja' ? 'チャット名を変更' : 'Rename chat', item.label);
         if (newTitle && newTitle.trim()) {
           setConversations((prev) =>
             prev.map((c) => (c.id === item.id ? { ...c, title: newTitle.trim() } : c))
@@ -158,7 +154,7 @@ export const EmployeeChatbot: React.FC = () => {
         topic: response.topic,
         citations: response.citations,
         role: 'user',
-        department: 'Human Resources (HR)',
+        department: 'General',
         language,
       });
     }, 1000);
@@ -236,7 +232,7 @@ export const EmployeeChatbot: React.FC = () => {
       <ChatLayout
         userRole="Employee"
         userName="Aditya"
-        userDepartment="Human Resources (HR)"
+        userDepartment="All Departments"
         userInitials="A"
         messages={messages}
         onSendMessage={handleSendMessage}

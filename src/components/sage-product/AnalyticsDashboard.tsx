@@ -622,6 +622,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ onBackTo
         onClose={() => setShowEventModal(false)}
         defaultSubject={eventSubject}
         defaultBody={eventBody}
+        language={language}
       />
     </div>
   );

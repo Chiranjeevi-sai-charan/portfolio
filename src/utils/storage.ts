@@ -207,13 +207,11 @@ export const documentStorage = {
     }
   },
 
-  /** Active documents an employee may see: their own department plus General. */
-  getVisibleForEmployee: (department: string): Document[] => {
+  /** Active, non-sensitive documents visible to any employee company-wide. */
+  getVisibleForEmployee: (): Document[] => {
     try {
       const documents = documentStorage.getAll();
-      return documents.filter(
-        (d) => d.status === 'active' && (d.department === department || d.department === 'General')
-      );
+      return documents.filter((d) => d.status === 'active' && d.sensitivity !== 'Sensitive');
     } catch (err) {
       console.error('Error getting employee-visible documents:', err);
       return [];
@@ -437,116 +435,73 @@ export const appStateStorage = {
 // Initialization - Seed with Mock Data
 // ============================================================================
 
-export const initializeMockData = () => {
-  // Only seed if no data exists
-  if (userStorage.getAll().length === 0) {
-    const mockUsers: User[] = [
-      {
-        id: '1',
-        name: 'Chiranjeevi',
-        email: 'Chiranjeevi.Kondaka@gmail.com',
-        role: 'system-admin',
-        departments: ['General'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '2',
-        name: 'Sai Ganesh',
-        email: 'Sai.Ganesh@gmail.com',
-        role: 'admin',
-        departments: ['General', 'Human Resources (HR)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '3',
-        name: 'Pragati',
-        email: 'Pragati@gmail.com',
-        role: 'admin',
-        departments: ['General', 'Human Resources (HR)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '4',
-        name: 'Shreyash',
-        email: 'Shreyash@gmail.com',
-        role: 'admin',
-        departments: ['General'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '5',
-        name: 'Aditya',
-        email: 'Aditya@gmail.com',
-        role: 'user',
-        departments: ['General', 'Human Resources (HR)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '6',
-        name: 'Meera Iyer',
-        email: 'Meera.Iyer@gmail.com',
-        role: 'user',
-        departments: ['General', 'Human Resources (HR)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '7',
-        name: 'Rohan Kapoor',
-        email: 'Rohan.Kapoor@gmail.com',
-        role: 'user',
-        departments: ['General', 'Quality Assurance (QA)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '8',
-        name: 'Neha Verma',
-        email: 'Neha.Verma@gmail.com',
-        role: 'user',
-        departments: ['General'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '9',
-        name: 'Kabir Sharma',
-        email: 'Kabir.Sharma@gmail.com',
-        role: 'user',
-        departments: ['General', 'Quality Assurance (QA)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '10',
-        name: 'Ananya Rao',
-        email: 'Ananya.Rao@gmail.com',
-        role: 'admin',
-        departments: ['General', 'Quality Assurance (QA)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '11',
-        name: 'Vikram Nair',
-        email: 'Vikram.Nair@gmail.com',
-        role: 'user',
-        departments: ['General', 'Human Resources (HR)'],
-        createdAt: Date.now(),
-      },
-      {
-        id: '12',
-        name: 'Ishita Malhotra',
-        email: 'Ishita.Malhotra@gmail.com',
-        role: 'system-admin',
-        departments: ['General'],
-        createdAt: Date.now(),
-      },
-    ];
+/**
+ * Users and documents are reseeded fresh on every app load (see
+ * resetSageDemoData), not just when storage is empty. This is a public demo:
+ * anything a visitor uploads, deletes, or edits during a session must not
+ * outlive that session, so a page reload always returns to this known-good,
+ * privacy-safe baseline.
+ */
+const seedUsersAndDocuments = () => {
+  const mockUsers: User[] = [
+    {
+      id: '1',
+      name: 'Chiranjeevi',
+      email: 'Chiranjeevi.Kondaka@gmail.com',
+      role: 'system-admin',
+      departments: ['General'],
+      createdAt: Date.now(),
+    },
+    {
+      id: '2',
+      name: 'Sai Ganesh',
+      email: 'Sai.Ganesh@gmail.com',
+      role: 'admin',
+      departments: ['General', 'Human Resources (HR)'],
+      createdAt: Date.now(),
+    },
+    {
+      id: '3',
+      name: 'Pragati',
+      email: 'Pragati@gmail.com',
+      role: 'admin',
+      departments: ['General', 'Human Resources (HR)'],
+      createdAt: Date.now(),
+    },
+    {
+      id: '4',
+      name: 'Shreyash',
+      email: 'Shreyash@gmail.com',
+      role: 'admin',
+      departments: ['General', 'Information Technology (IT)'],
+      createdAt: Date.now(),
+    },
+    {
+      id: '5',
+      name: 'Ananya Rao',
+      email: 'Ananya.Rao@gmail.com',
+      role: 'admin',
+      departments: ['General', 'Finance & Accounts'],
+      createdAt: Date.now(),
+    },
+    {
+      id: '6',
+      name: 'Ishita Malhotra',
+      email: 'Ishita.Malhotra@gmail.com',
+      role: 'system-admin',
+      departments: ['General'],
+      createdAt: Date.now(),
+    },
+  ];
 
-    mockUsers.forEach((user) => userStorage.save(user));
+  mockUsers.forEach((user) => userStorage.save(user));
 
     const mockDocuments: Document[] = [
       {
         id: 'doc1',
         name: 'HR Policy FAQ.docx',
         type: 'docx',
-        contentType: 'Manual',
+        contentType: 'FAQ',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-21',
@@ -556,13 +511,13 @@ export const initializeMockData = () => {
       },
       {
         id: 'doc2',
-        name: 'Supplier B-Maruti 2.xlsx',
-        type: 'xlsx',
-        contentType: 'Report',
+        name: 'Company Org Chart.pdf',
+        type: 'pdf',
+        contentType: 'Other',
         department: 'General',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-20',
-        uploadedBy: 'Sai.Ganesh@gmail.com',
+        uploadedBy: 'Shreyash@gmail.com',
         status: 'active',
         uploadedAt: Date.now() - 86400000 * 1,
       },
@@ -582,7 +537,7 @@ export const initializeMockData = () => {
         id: 'doc4',
         name: 'Employee Benefits Handbook.pdf',
         type: 'pdf',
-        contentType: 'Manual',
+        contentType: 'Handbook',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-17',
@@ -618,7 +573,7 @@ export const initializeMockData = () => {
         id: 'doc7',
         name: 'Work From Home Guidelines.docx',
         type: 'docx',
-        contentType: 'Policy',
+        contentType: 'Guide',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-14',
@@ -628,13 +583,13 @@ export const initializeMockData = () => {
       },
       {
         id: 'doc8',
-        name: 'ISO 9001 Audit Checklist.pdf',
+        name: 'IT Security & Acceptable Use Policy.pdf',
         type: 'pdf',
-        contentType: 'Report',
-        department: 'Quality Assurance (QA)',
+        contentType: 'Policy',
+        department: 'Information Technology (IT)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-13',
-        uploadedBy: 'Chiranjeevi.Kondaka@gmail.com',
+        uploadedBy: 'Shreyash@gmail.com',
         status: 'active',
         uploadedAt: Date.now() - 86400000 * 8,
       },
@@ -642,7 +597,7 @@ export const initializeMockData = () => {
         id: 'doc9',
         name: 'Onboarding Checklist - New Hires.pptx',
         type: 'pptx',
-        contentType: 'Manual',
+        contentType: 'Guide',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-12',
@@ -654,8 +609,8 @@ export const initializeMockData = () => {
         id: 'doc10',
         name: 'IT Asset Request Form.docx',
         type: 'docx',
-        contentType: 'Manual',
-        department: 'General',
+        contentType: 'Form',
+        department: 'Information Technology (IT)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-11',
         uploadedBy: 'Shreyash@gmail.com',
@@ -666,7 +621,7 @@ export const initializeMockData = () => {
         id: 'doc11',
         name: 'Performance Review Template.xlsx',
         type: 'xlsx',
-        contentType: 'Report',
+        contentType: 'Form',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-10',
@@ -676,25 +631,25 @@ export const initializeMockData = () => {
       },
       {
         id: 'doc12',
-        name: 'Supplier Quality Manual.pdf',
-        type: 'pdf',
-        contentType: 'Manual',
-        department: 'Quality Assurance (QA)',
+        name: 'Q1 Departmental Budget Report.xlsx',
+        type: 'xlsx',
+        contentType: 'Report',
+        department: 'Finance & Accounts',
         sensitivity: 'Sensitive',
         date: '2024-05-09',
-        uploadedBy: 'Chiranjeevi.Kondaka@gmail.com',
+        uploadedBy: 'Ananya.Rao@gmail.com',
         status: 'active',
         uploadedAt: Date.now() - 86400000 * 12,
       },
       {
         id: 'doc13',
-        name: 'Travel & Expense Policy.pdf',
+        name: 'Travel & Expense Reimbursement Guide.pdf',
         type: 'pdf',
-        contentType: 'Policy',
-        department: 'General',
+        contentType: 'Guide',
+        department: 'Finance & Accounts',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-08',
-        uploadedBy: 'Shreyash@gmail.com',
+        uploadedBy: 'Ananya.Rao@gmail.com',
         status: 'active',
         uploadedAt: Date.now() - 86400000 * 13,
       },
@@ -702,7 +657,7 @@ export const initializeMockData = () => {
         id: 'doc14',
         name: 'Health Insurance Enrollment Guide.docx',
         type: 'docx',
-        contentType: 'Manual',
+        contentType: 'Guide',
         department: 'Human Resources (HR)',
         sensitivity: 'Non-Sensitive',
         date: '2024-05-07',
@@ -760,61 +715,114 @@ export const initializeMockData = () => {
       },
       {
         id: 'doc19',
-        name: 'Duplicate - Supplier B-Maruti.xlsx',
+        name: 'Old IT Onboarding Checklist.xlsx',
         type: 'xlsx',
-        contentType: 'Report',
-        department: 'General',
+        contentType: 'Guide',
+        department: 'Information Technology (IT)',
         sensitivity: 'Non-Sensitive',
         date: '2024-02-14',
-        uploadedBy: 'Sai.Ganesh@gmail.com',
+        uploadedBy: 'Shreyash@gmail.com',
         status: 'deleted',
         uploadedAt: Date.now() - 86400000 * 30,
       },
     ];
 
-    mockDocuments.forEach((doc) => documentStorage.save(doc));
+  mockDocuments.forEach((doc) => documentStorage.save(doc));
 
-    // Seed some demo query events so the Analytics dashboard isn't empty on first load
-    const TOPICS: { topic: string; citations: string[] }[] = [
-      { topic: 'vacation', citations: ['Company Handbook - Time Off Policy', 'HR Portal - Vacation Request Guide'] },
-      { topic: 'sick', citations: ['Company Handbook - Sick Leave', 'Employee Benefits Summary'] },
-      { topic: 'insurance', citations: ['Company Handbook - Health Benefits', 'Open Enrollment Guide 2024'] },
-      { topic: 'benefits', citations: ['Employee Benefits Summary', 'Compensation & Benefits Package'] },
-      { topic: 'remote', citations: ['Company Handbook - Work Arrangements', 'Remote Work Policy v2.0'] },
-      { topic: 'salary', citations: ['Employee Handbook - Compensation Policy', 'HR Portal'] },
-      { topic: 'handbook', citations: ['Company Handbook', 'HR Portal'] },
-      { topic: 'uncategorized', citations: [] },
-    ];
-    const ROLES: Array<'user' | 'admin' | 'system-admin'> = ['user', 'user', 'user', 'user', 'admin', 'admin', 'system-admin'];
-    const DEPARTMENTS = ['General', 'Human Resources (HR)', 'Quality Assurance (QA)'];
-    const WEIGHTS = [8, 5, 4, 3, 3, 1, 2, 1]; // skews toward vacation/sick/insurance, mirrors research findings
-    const weightedPool = TOPICS.flatMap((t, idx) => Array(WEIGHTS[idx]).fill(t));
+  // Initialize default app state
+  appStateStorage.save({
+    currentUser: mockUsers[0],
+    currentRole: 'system-admin',
+    currentConversationId: null,
+    selectedDepartments: ['General'],
+  });
+};
 
-    for (let i = 0; i < 90; i++) {
-      const pick = weightedPool[Math.floor(Math.random() * weightedPool.length)];
-      // Bias toward more recent days (usage ramping up) while still covering
-      // the full 30-day window, so the Activity Over Time chart doesn't show
-      // an artificial flat stretch before a hard cutoff.
-      const daysAgo = Math.floor(Math.min(Math.random(), Math.random()) * 29);
-      analyticsStorage.log({
-        topic: pick.topic,
-        citations: pick.citations,
-        role: ROLES[Math.floor(Math.random() * ROLES.length)],
-        department: DEPARTMENTS[Math.floor(Math.random() * DEPARTMENTS.length)],
-        language: Math.random() < 0.22 ? 'ja' : 'en',
-      });
-      // Backdate the event (log() always stamps "now", so patch it after)
-      const events = analyticsStorage.getAll();
-      events[events.length - 1].timestamp = Date.now() - daysAgo * 86400000 - Math.floor(Math.random() * 86400000);
-      localStorage.setItem('sage_query_events', JSON.stringify(events));
-    }
+/**
+ * Seeds demo Q&A analytics events if none exist yet. resetSageDemoData
+ * clears analyticsStorage before calling this, so in practice this always
+ * reseeds on a real page load; the empty-check just makes this safe to also
+ * call from initializeMockData's safety net without duplicating events.
+ * Real chat activity during a session logs on top of this baseline and
+ * persists until the next reload/reset.
+ */
+const seedAnalyticsIfEmpty = () => {
+  if (analyticsStorage.getAll().length > 0) return;
 
-    // Initialize default app state
-    appStateStorage.save({
-      currentUser: mockUsers[0],
-      currentRole: 'system-admin',
-      currentConversationId: null,
-      selectedDepartments: ['General'],
+  // Anchor events matching the seeded sidebar chats (see SEED_CONVERSATIONS
+  // in RoleWorkspace/EmployeeChatbot) so the Analytics dashboard visibly
+  // reflects the same conversations a viewer sees in the chat history,
+  // rather than showing disconnected random topics.
+  const ANCHORS: { topic: string; citations: string[]; role: 'user' | 'admin'; daysAgo: number }[] = [
+    { topic: 'vacation', citations: ['Company Handbook - Time Off Policy', 'HR Portal - Vacation Request Guide'], role: 'user', daysAgo: 1 },
+    { topic: 'insurance', citations: ['Company Handbook - Health Benefits', 'Open Enrollment Guide 2024'], role: 'user', daysAgo: 2 },
+    { topic: 'remote', citations: ['Company Handbook - Work Arrangements', 'Remote Work Policy v2.0'], role: 'user', daysAgo: 5 },
+    { topic: 'vacation', citations: ['Company Handbook - Time Off Policy', 'HR Portal - Vacation Request Guide'], role: 'admin', daysAgo: 2 },
+    { topic: 'insurance', citations: ['Company Handbook - Health Benefits', 'Open Enrollment Guide 2024'], role: 'admin', daysAgo: 3 },
+  ];
+  ANCHORS.forEach((a) => {
+    analyticsStorage.log({ topic: a.topic, citations: a.citations, role: a.role, department: 'General', language: 'en' });
+    const events = analyticsStorage.getAll();
+    events[events.length - 1].timestamp = Date.now() - a.daysAgo * 86400000;
+    localStorage.setItem('sage_query_events', JSON.stringify(events));
+  });
+
+  const TOPICS: { topic: string; citations: string[] }[] = [
+    { topic: 'vacation', citations: ['Company Handbook - Time Off Policy', 'HR Portal - Vacation Request Guide'] },
+    { topic: 'sick', citations: ['Company Handbook - Sick Leave', 'Employee Benefits Summary'] },
+    { topic: 'insurance', citations: ['Company Handbook - Health Benefits', 'Open Enrollment Guide 2024'] },
+    { topic: 'benefits', citations: ['Employee Benefits Summary', 'Compensation & Benefits Package'] },
+    { topic: 'remote', citations: ['Company Handbook - Work Arrangements', 'Remote Work Policy v2.0'] },
+    { topic: 'salary', citations: ['Employee Handbook - Compensation Policy', 'HR Portal'] },
+    { topic: 'handbook', citations: ['Company Handbook', 'HR Portal'] },
+    { topic: 'uncategorized', citations: [] },
+  ];
+  const ROLES: Array<'user' | 'admin' | 'system-admin'> = ['user', 'user', 'user', 'user', 'admin', 'admin', 'system-admin'];
+  const DEPARTMENTS = ['General', 'Human Resources (HR)', 'Information Technology (IT)', 'Finance & Accounts'];
+  const WEIGHTS = [8, 5, 4, 3, 3, 1, 2, 1]; // skews toward vacation/sick/insurance, mirrors research findings
+  const weightedPool = TOPICS.flatMap((t, idx) => Array(WEIGHTS[idx]).fill(t));
+
+  for (let i = 0; i < 90; i++) {
+    const pick = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+    // Bias toward more recent days (usage ramping up) while still covering
+    // the full 30-day window, so the Activity Over Time chart doesn't show
+    // an artificial flat stretch before a hard cutoff.
+    const daysAgo = Math.floor(Math.min(Math.random(), Math.random()) * 29);
+    analyticsStorage.log({
+      topic: pick.topic,
+      citations: pick.citations,
+      role: ROLES[Math.floor(Math.random() * ROLES.length)],
+      department: DEPARTMENTS[Math.floor(Math.random() * DEPARTMENTS.length)],
+      language: Math.random() < 0.22 ? 'ja' : 'en',
     });
+    // Backdate the event (log() always stamps "now", so patch it after)
+    const events = analyticsStorage.getAll();
+    events[events.length - 1].timestamp = Date.now() - daysAgo * 86400000 - Math.floor(Math.random() * 86400000);
+    localStorage.setItem('sage_query_events', JSON.stringify(events));
   }
+};
+
+/** Safety-net seed used by individual pages: only fills in data if storage is completely empty. */
+export const initializeMockData = () => {
+  if (userStorage.getAll().length === 0) {
+    seedUsersAndDocuments();
+  }
+  seedAnalyticsIfEmpty();
+};
+
+/**
+ * Resets users, documents, and analytics to the known-good demo baseline,
+ * discarding anything a visitor uploaded, edited, or generated by chatting.
+ * Called once per app load so a page reload can never leave real personal
+ * data, a stale record, or a sparse/inconsistent analytics history sitting
+ * in this public demo - every visitor starts from the same known-good
+ * baseline regardless of what was already in their browser's localStorage.
+ */
+export const resetSageDemoData = () => {
+  documentStorage.clear();
+  userStorage.clear();
+  analyticsStorage.clear();
+  appStateStorage.clear();
+  seedUsersAndDocuments();
+  seedAnalyticsIfEmpty();
 };

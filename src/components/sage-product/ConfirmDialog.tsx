@@ -45,6 +45,9 @@ interface ConfirmDialogProps {
 
   /** Called when the user cancels or dismisses the dialog */
   onCancel: () => void;
+
+  /** Interface language, used only for the close button's accessible name */
+  language?: 'en' | 'ja';
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
@@ -56,12 +59,14 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   destructive = true,
   onConfirm,
   onCancel,
+  language,
 }) => (
   <Modal
     isOpen={isOpen}
     onClose={onCancel}
     title={title}
     size="sm"
+    language={language}
     actions={[
       { label: cancelLabel, variant: 'secondary', onClick: onCancel },
       { label: confirmLabel, variant: destructive ? 'destructive' : 'primary', onClick: onConfirm },

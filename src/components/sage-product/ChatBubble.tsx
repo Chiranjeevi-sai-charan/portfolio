@@ -84,8 +84,8 @@ const stripCitationMarkers = (text: string) => text.replace(CITATION_MARKER_REGE
  * ChatBubble - Message container for chat interface
  *
  * Types:
- * - user: Right-aligned, neutral-100 background
- * - ai: Left-aligned, neutral-100 background
+ * - user: Right-aligned, light accent-blue tint background
+ * - ai: Left-aligned, transparent background
  *
  * Features:
  * - User messages: Right-aligned with user initials/avatar
@@ -131,7 +131,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     width: 'fit-content',
     padding: isUser ? `${spacing.sm} ${spacing.lg}` : 0,
     borderRadius: borderRadius.lg,
-    backgroundColor: isUser ? colors['neutral-100'] : 'transparent',
+    backgroundColor: isUser ? interactionTints.accentSubtle : 'transparent',
     color: colors['neutral-900'],
     wordWrap: 'break-word',
   };
@@ -242,7 +242,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   const handleCopy = () => {
     if (message) {
       navigator.clipboard.writeText(stripCitationMarkers(message));
-      showToast('Copied to clipboard', 'success');
+      showToast(language === 'ja' ? 'コピーしました' : 'Copied to clipboard', 'success');
     }
   };
 
@@ -251,12 +251,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       navigator.clipboard.writeText(stripCitationMarkers(message));
     }
     onShare?.();
-    showToast('Share link copied to clipboard', 'success');
+    showToast(language === 'ja' ? '共有リンクをコピーしました' : 'Share link copied to clipboard', 'success');
   };
 
   const handleRegenerate = () => {
     onRegenerate?.();
-    showToast('Regenerating response...', 'info');
+    showToast(language === 'ja' ? '再生成しています...' : 'Regenerating response...', 'info');
   };
 
   const handleEdit = () => {
@@ -295,8 +295,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
               (e.currentTarget as HTMLButtonElement).style.backgroundColor = `${colors['accent-blue']}1A`;
               (e.currentTarget as HTMLButtonElement).style.color = colors['accent-blue'];
             }}
-            title={`View source: ${citation}`}
-            aria-label={`View source ${match[1]}: ${citation}`}
+            title={`${language === 'ja' ? '出典を見る' : 'View source'}: ${localizeCitation(citation, language)}`}
+            aria-label={`${language === 'ja' ? '出典を見る' : 'View source'} ${match[1]}: ${localizeCitation(citation, language)}`}
           >
             {match[1]}
           </button>
@@ -391,6 +391,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
               onShare={handleShare}
               onRegenerate={handleRegenerate}
               compact
+              language={language}
             />
           </div>
         )}
@@ -404,7 +405,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
               visibility: isHovering ? 'visible' : 'hidden',
             }}
           >
-            <MessageActions onCopy={handleCopy} onShare={handleShare} onEdit={handleEdit} compact />
+            <MessageActions onCopy={handleCopy} onShare={handleShare} onEdit={handleEdit} compact language={language} />
           </div>
         )}
       </div>

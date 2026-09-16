@@ -53,6 +53,9 @@ interface ModalProps {
 
   /** CSS class name */
   className?: string;
+
+  /** Interface language, used only for the close button's accessible name */
+  language?: 'en' | 'ja';
 }
 
 /**
@@ -84,6 +87,7 @@ export const Modal: React.FC<ModalProps> = ({
   size = 'md',
   closeOnBackdropClick = true,
   className = '',
+  language = 'en',
 }) => {
   const titleId = React.useId();
   const modalRef = React.useRef<HTMLDivElement>(null);
@@ -272,7 +276,7 @@ export const Modal: React.FC<ModalProps> = ({
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
                 (e.currentTarget as HTMLButtonElement).style.color = colors['neutral-500'];
               }}
-              aria-label="Close modal"
+              aria-label={language === 'ja' ? 'モーダルを閉じる' : 'Close modal'}
             >
               ✕
             </button>

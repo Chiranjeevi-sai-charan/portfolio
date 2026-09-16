@@ -7,6 +7,8 @@ import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
 import { FileTypeIcon } from './FileTypeIcon';
 import { ConfirmDialog } from './ConfirmDialog';
+import { IconButton } from './IconButton';
+import { Badge } from './Badge';
 import { t, Lang } from '../../utils/sageStrings';
 
 interface DocumentListProps {
@@ -118,6 +120,14 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     overflow: 'auto',
   };
 
+  // Shared column template for the header row and every body row, so they
+  // stay aligned without relying on native <table> layout. A native
+  // <table>'s position:sticky <thead> has a persistent Chromium rendering
+  // bug in this scroll setup (tbody rows paint through above the stuck
+  // header) that survives every standard CSS mitigation, so the header is
+  // built as a separate sticky div instead of living inside the table.
+  const GRID_TEMPLATE_COLUMNS = '36px minmax(200px, 2fr) 160px 130px 110px 130px 96px';
+
   const titleStyles: React.CSSProperties = {
     fontSize: typography.fontSize['h3'],
     fontWeight: typography.fontWeight.semibold,
@@ -129,21 +139,10 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     borderRadius: borderRadius.md,
   };
 
-  const tableStyles: React.CSSProperties = {
-    width: '100%',
-    borderCollapse: 'collapse' as const,
-  };
-
-  const theadStyles: React.CSSProperties = {
-    backgroundColor: colors['neutral-50'],
-    borderBottom: `1px solid ${colors['neutral-200']}`,
-  };
-
-  const stickyTheadStyles: React.CSSProperties = {
-    ...theadStyles,
-    position: 'sticky',
-    top: 0,
-    zIndex: 2,
+  const headerRowStyles: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
+    alignItems: 'center',
   };
 
   const thStyles: React.CSSProperties = {
@@ -152,13 +151,13 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
     color: colors['neutral-600'],
-    position: 'sticky',
-    top: 0,
-    zIndex: 2,
     backgroundColor: colors['neutral-50'],
   };
 
   const tbodyTrStyles: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
+    alignItems: 'center',
     borderBottom: `1px solid ${colors['neutral-100']}`,
     backgroundColor: colors['neutral-white'],
     transition: 'background-color 0.15s ease',
@@ -168,7 +167,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     padding: `${spacing.md} ${spacing.md}`,
     fontSize: typography.fontSize['body-sm'],
     color: colors['neutral-700'],
-    verticalAlign: 'middle',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   };
 
   const paginationBarStyles: React.CSSProperties = {
@@ -216,18 +216,6 @@ export const DocumentList: React.FC<DocumentListProps> = ({
     minHeight: 'auto',
   };
 
-  const iconActionButtonStyles: React.CSSProperties = {
-    width: '32px',
-    height: '32px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: borderRadius.md,
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background-color 0.15s ease, transform 0.1s ease',
-  };
 
   const emptyStateStyles: React.CSSProperties = {
     textAlign: 'center',
@@ -344,207 +332,177 @@ export const DocumentList: React.FC<DocumentListProps> = ({
         </div>
       ) : (
         <div style={scrollAreaStyles}>
-        <div style={tableCardStyles}>
-          <table style={tableStyles}>
-            {selectedIds.size > 0 ? (
-              <thead style={{ position: 'sticky', top: 0, zIndex: 2 }}>
-                <tr>
-                  <th colSpan={7} style={{ padding: 0, border: 'none' }}>
-                    <div style={bulkBarStyles}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
-                        <input
-                          type="checkbox"
-                          style={checkboxStyles}
-                          checked={allOnPageSelected}
-                          ref={(el) => {
-                            if (el) el.indeterminate = someOnPageSelected && !allOnPageSelected;
-                          }}
-                          onChange={toggleAllOnPage}
-                          aria-label="Select all on this page"
-                        />
-                        <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
-                          {t(language, 'selectedCount')(selectedIds.size)}
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', gap: spacing.xs, alignItems: 'center' }}>
-                        {onDocumentDownload && (
-                          <button
-                            onClick={() => selectedDocs.forEach((doc) => onDocumentDownload(doc))}
-                            style={bulkActionButtonStyles}
-                            onMouseEnter={(e) => {
-                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
-                            }}
-                            onMouseLeave={(e) => {
-                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                            }}
-                          >
-                            <MaterialIcon name="download" size={16} />
-                            {t(language, 'download')}
-                          </button>
-                        )}
-                        {onDocumentDelete && (
-                          <button
-                            onClick={() => setBulkDeleteConfirm(true)}
-                            style={{ ...bulkActionButtonStyles, color: colors['error-red'] }}
-                            onMouseEnter={(e) => {
-                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
-                            }}
-                            onMouseLeave={(e) => {
-                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                            }}
-                          >
-                            <MaterialIcon name="delete" size={16} />
-                            {t(language, 'delete')}
-                          </button>
-                        )}
-                        <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
-                        <button
-                          onClick={() => setSelectedIds(new Set())}
-                          style={{ ...bulkActionButtonStyles, color: colors['neutral-500'] }}
-                          onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                          }}
-                        >
-                          {t(language, 'clear')}
-                        </button>
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-            ) : (
-              <thead style={stickyTheadStyles}>
-                <tr>
-                  <th style={{ ...thStyles, width: '36px' }}>
-                    <input
-                      type="checkbox"
-                      style={checkboxStyles}
-                      checked={allOnPageSelected}
-                      ref={(el) => {
-                        if (el) el.indeterminate = someOnPageSelected && !allOnPageSelected;
+        <div style={tableCardStyles} role="table" aria-label={t(language, 'documentColumn')}>
+          <div style={{ position: 'sticky', top: 0, zIndex: 2, borderBottom: `1px solid ${colors['neutral-200']}`, backgroundColor: colors['neutral-white'] }}>
+            {selectedIds.size > 0 && (
+              <div style={bulkBarStyles}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
+                  <input
+                    type="checkbox"
+                    style={checkboxStyles}
+                    checked={allOnPageSelected}
+                    ref={(el) => {
+                      if (el) el.indeterminate = someOnPageSelected && !allOnPageSelected;
+                    }}
+                    onChange={toggleAllOnPage}
+                    aria-label={t(language, 'selectAllOnPage')}
+                  />
+                  <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
+                    {t(language, 'selectedCount')(selectedIds.size)}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', gap: spacing.xs, alignItems: 'center' }}>
+                  {onDocumentDownload && (
+                    <button
+                      onClick={() => selectedDocs.forEach((doc) => onDocumentDownload(doc))}
+                      style={bulkActionButtonStyles}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
                       }}
-                      onChange={toggleAllOnPage}
-                      aria-label="Select all on this page"
-                    />
-                  </th>
-                  <th style={thStyles}>{t(language, 'documentColumn')}</th>
-                  <th style={thStyles}>{t(language, 'departmentColumn')}</th>
-                  <th style={thStyles}>{t(language, 'sensitivityColumn')}</th>
-                  <th style={thStyles}>{t(language, 'lastUpdatedColumn')}</th>
-                  <th style={thStyles}>{t(language, 'uploadedByColumn')}</th>
-                  <th style={thStyles}>{t(language, 'actionsColumn')}</th>
-                </tr>
-              </thead>
-            )}
-            <tbody>
-              {pagedDocs.map((doc) => (
-                <tr
-                  key={doc.id}
-                  style={tbodyTrStyles}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor =
-                      colors['neutral-50'];
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor =
-                      colors['neutral-white'];
-                  }}
-                >
-                  <td style={tbodyTdStyles}>
-                    <input
-                      type="checkbox"
-                      style={checkboxStyles}
-                      checked={selectedIds.has(doc.id)}
-                      onChange={() => toggleRow(doc.id)}
-                      aria-label={`Select ${doc.name}`}
-                    />
-                  </td>
-                  <td style={tbodyTdStyles}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: borderRadius.sm,
-                          backgroundColor: colors['neutral-100'],
-                          flexShrink: 0,
-                        }}
-                      >
-                        <FileTypeIcon fileName={doc.name} size={18} />
-                      </div>
-                      <span style={{ fontWeight: 500, color: colors['neutral-900'] }}>{doc.name}</span>
-                    </div>
-                  </td>
-                  <td style={tbodyTdStyles}>{doc.department}</td>
-                  <td style={tbodyTdStyles}>
-                    <span
-                      style={{
-                        padding: '4px 12px',
-                        borderRadius: borderRadius.full,
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        backgroundColor:
-                          doc.sensitivity === 'Sensitive'
-                            ? statusColors.sensitive.bg
-                            : statusColors.nonSensitive.bg,
-                        color:
-                          doc.sensitivity === 'Sensitive'
-                            ? statusColors.sensitive.text
-                            : statusColors.nonSensitive.text,
-                        display: 'inline-block',
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
                       }}
                     >
-                      {doc.sensitivity === 'Sensitive' ? t(language, 'sensitive') : t(language, 'nonSensitive')}
-                    </span>
-                  </td>
-                  <td style={tbodyTdStyles}>
-                    {new Date(doc.uploadedAt).toLocaleDateString()}
-                  </td>
-                  <td style={tbodyTdStyles}>{doc.uploadedBy.split('@')[0]}</td>
-                  <td style={tbodyTdStyles}>
-                    <div style={{ display: 'flex', gap: spacing.sm }}>
-                      <button
-                        onClick={() => onDocumentDownload?.(doc)}
-                        style={{ ...iconActionButtonStyles, color: colors['accent-blue'] }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = interactionTints.accentSoft;
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'transparent';
-                        }}
-                        title="Download"
-                        aria-label={`Download ${doc.name}`}
-                      >
-                        <MaterialIcon name="download" size={18} />
-                      </button>
-                      {onDocumentDelete && (
-                        <button
-                          onClick={() => setPendingDeleteDoc(doc)}
-                          style={{ ...iconActionButtonStyles, color: colors['error-red'] }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = interactionTints.dangerHover;
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                          }}
-                          title="Delete"
-                          aria-label={`Delete ${doc.name}`}
-                        >
-                          <MaterialIcon name="delete" size={18} />
-                        </button>
-                      )}
+                      <MaterialIcon name="download" size={16} />
+                      {t(language, 'download')}
+                    </button>
+                  )}
+                  {onDocumentDelete && (
+                    <button
+                      onClick={() => setBulkDeleteConfirm(true)}
+                      style={{ ...bulkActionButtonStyles, color: colors['error-red'] }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      <MaterialIcon name="delete" size={16} />
+                      {t(language, 'delete')}
+                    </button>
+                  )}
+                  <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
+                  <button
+                    onClick={() => setSelectedIds(new Set())}
+                    style={{ ...bulkActionButtonStyles, color: colors['neutral-500'] }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    {t(language, 'clear')}
+                  </button>
+                </div>
+              </div>
+            )}
+            <div style={headerRowStyles} role="row">
+              <div style={thStyles} role="columnheader">
+                <input
+                  type="checkbox"
+                  style={checkboxStyles}
+                  checked={allOnPageSelected}
+                  ref={(el) => {
+                    if (el) el.indeterminate = someOnPageSelected && !allOnPageSelected;
+                  }}
+                  onChange={toggleAllOnPage}
+                  aria-label={t(language, 'selectAllOnPage')}
+                />
+              </div>
+              <div style={thStyles} role="columnheader">{t(language, 'documentColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'departmentColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'sensitivityColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'lastUpdatedColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'uploadedByColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'actionsColumn')}</div>
+            </div>
+          </div>
+          <div role="rowgroup">
+            {pagedDocs.map((doc) => (
+              <div
+                key={doc.id}
+                style={tbodyTrStyles}
+                role="row"
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                    colors['neutral-50'];
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                    colors['neutral-white'];
+                }}
+              >
+                <div style={tbodyTdStyles} role="cell">
+                  <input
+                    type="checkbox"
+                    style={checkboxStyles}
+                    checked={selectedIds.has(doc.id)}
+                    onChange={() => toggleRow(doc.id)}
+                    aria-label={`Select ${doc.name}`}
+                  />
+                </div>
+                <div style={tbodyTdStyles} role="cell">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: borderRadius.sm,
+                        backgroundColor: colors['neutral-100'],
+                        flexShrink: 0,
+                      }}
+                    >
+                      <FileTypeIcon fileName={doc.name} size={18} />
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <span style={{ fontWeight: 500, color: colors['neutral-900'] }}>{doc.name}</span>
+                  </div>
+                </div>
+                <div style={tbodyTdStyles} role="cell">{doc.department}</div>
+                <div style={tbodyTdStyles} role="cell">
+                  <Badge
+                    size="sm"
+                    backgroundColor={doc.sensitivity === 'Sensitive' ? statusColors.sensitive.bg : statusColors.nonSensitive.bg}
+                    color={doc.sensitivity === 'Sensitive' ? statusColors.sensitive.text : statusColors.nonSensitive.text}
+                  >
+                    {doc.sensitivity === 'Sensitive' ? t(language, 'sensitive') : t(language, 'nonSensitive')}
+                  </Badge>
+                </div>
+                <div style={tbodyTdStyles} role="cell">
+                  {new Date(doc.uploadedAt).toLocaleDateString()}
+                </div>
+                <div style={tbodyTdStyles} role="cell">{doc.uploadedBy.split('@')[0]}</div>
+                <div style={tbodyTdStyles} role="cell">
+                  <div style={{ display: 'flex', gap: spacing.sm }}>
+                    <IconButton
+                      onClick={() => onDocumentDownload?.(doc)}
+                      color={colors['accent-blue']}
+                      hoverBackgroundColor={interactionTints.accentSoft}
+                      title={t(language, 'download')}
+                      aria-label={`${t(language, 'download')} ${doc.name}`}
+                    >
+                      <MaterialIcon name="download" size={18} />
+                    </IconButton>
+                    {onDocumentDelete && (
+                      <IconButton
+                        onClick={() => setPendingDeleteDoc(doc)}
+                        color={colors['error-red']}
+                        hoverBackgroundColor={interactionTints.dangerHover}
+                        title={t(language, 'delete')}
+                        aria-label={`${t(language, 'delete')} ${doc.name}`}
+                      >
+                        <MaterialIcon name="delete" size={18} />
+                      </IconButton>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         </div>
       )}
@@ -583,6 +541,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
       )}
 
       <ConfirmDialog
+        language={language}
+        cancelLabel={t(language, 'cancel')}
         isOpen={!!pendingDeleteDoc}
         title={t(language, 'deleteDocumentTitle')}
         message={t(language, 'deleteDocumentMsg')(pendingDeleteDoc?.name)}
@@ -595,6 +555,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
       />
 
       <ConfirmDialog
+        language={language}
+        cancelLabel={t(language, 'cancel')}
         isOpen={bulkDeleteConfirm}
         title={t(language, 'deleteDocumentsTitle')}
         message={t(language, 'deleteDocumentsMsg')(selectedIds.size)}

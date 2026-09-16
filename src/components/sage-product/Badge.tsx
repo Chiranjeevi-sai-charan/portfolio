@@ -1,187 +1,74 @@
 import React from 'react';
-import { colors, spacing, borderRadius, typography } from '../../styles/sage/tokens';
+import { spacing, borderRadius, typography } from '../../styles/sage/tokens';
 
 /**
  * Badge Component
  *
- * Small label for status, tags, or counts.
+ * Single source of truth for the small pill label used across the product
+ * for status/category tags: document sensitivity (Sensitive/Non-Sensitive),
+ * user role (Admin/System Admin/Employee), and department tags. Previously
+ * each of these was a hand-rolled inline `<span>` duplicated in DocumentList
+ * and UserManagementTable; consolidating the shape/typography here means a
+ * future style change (padding, radius, font) only happens in one place.
+ *
+ * Deliberately presentational-only: it takes an explicit `backgroundColor`/
+ * `color` pair rather than a fixed `variant` enum, so it stays decoupled
+ * from domain concepts (sensitivity levels, roles) — the caller maps its
+ * own data to a color pair (e.g. from `statusColors` or a local role map)
+ * and Badge just renders it consistently.
  *
  * @component
  * @example
- * <Badge variant="success">Active</Badge>
+ * <Badge backgroundColor={statusColors.sensitive.bg} color={statusColors.sensitive.text}>
+ *   Sensitive
+ * </Badge>
  *
- * <Badge variant="warning" size="lg">Archived</Badge>
- *
- * <Badge variant="error">Deleted</Badge>
+ * <Badge backgroundColor={colors['warning-amber']} color={colors['neutral-white']} uppercase>
+ *   Admin
+ * </Badge>
  */
 
 interface BadgeProps {
-  /** Badge content */
   children: React.ReactNode;
 
-  /** Visual variant */
-  variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
+  /** Background color (typically a soft tint or solid brand color) */
+  backgroundColor: string;
 
-  /** Size of badge */
-  size?: 'sm' | 'md' | 'lg';
+  /** Text color, chosen to clear contrast against `backgroundColor` */
+  color: string;
 
-  /** Style variant */
-  style?: 'solid' | 'outline';
+  /** Uppercase, letter-spaced treatment (used for role badges) */
+  uppercase?: boolean;
 
-  /** Leading icon */
-  icon?: React.ReactNode;
+  /** Compact (11px) vs standard (12px) label size — default 'md' */
+  size?: 'sm' | 'md';
 
-  /** Removable badge with close handler */
-  removable?: boolean;
-
-  /** Remove handler */
-  onRemove?: () => void;
-
-  /** CSS class name */
-  className?: string;
+  /** Extra spacing/positioning the caller needs (e.g. marginRight when several pills sit inline) */
+  style?: React.CSSProperties;
 }
 
-/**
- * Badge - Status indicator
- *
- * Variants:
- * - default: Neutral gray
- * - success: Green (Active, Verified)
- * - warning: Amber (Archived, Pending)
- * - error: Red (Deleted, Failed)
- * - info: Cyan (Info, Draft)
- *
- * Sizes:
- * - sm: Compact (11px font)
- * - md: Standard (12px font)
- * - lg: Large (14px font)
- *
- * Styles:
- * - solid: Full background (default)
- * - outline: Bordered only
- *
- * Features:
- * - Optional icon
- * - Removable with close button
- * - Multiple color variants
- * - Flexible sizing
- */
 export const Badge: React.FC<BadgeProps> = ({
   children,
-  variant = 'default',
+  backgroundColor,
+  color,
+  uppercase = false,
   size = 'md',
-  style = 'solid',
-  icon,
-  removable = false,
-  onRemove,
-  className = '',
+  style,
 }) => {
-  const variantStyles: Record<
-    string,
-    { bg: string; text: string; border: string }
-  > = {
-    default: {
-      bg: colors['neutral-200'],
-      text: colors['neutral-900'],
-      border: colors['neutral-300'],
-    },
-    success: {
-      bg: colors['success-green'],
-      text: colors['neutral-white'],
-      border: colors['success-green'],
-    },
-    warning: {
-      bg: colors['warning-amber'],
-      text: colors['neutral-white'],
-      border: colors['warning-amber'],
-    },
-    error: {
-      bg: colors['error-red'],
-      text: colors['neutral-white'],
-      border: colors['error-red'],
-    },
-    info: {
-      bg: colors['info-cyan'],
-      text: colors['neutral-white'],
-      border: colors['info-cyan'],
-    },
-  };
-
-  const sizeStyles: Record<string, React.CSSProperties> = {
-    sm: {
-      padding: `2px ${spacing.sm}`,
-      fontSize: typography.fontSize['label-sm'],
-      height: '20px',
-    },
-    md: {
-      padding: `4px ${spacing.md}`,
-      fontSize: typography.fontSize['label-md'],
-      height: '24px',
-    },
-    lg: {
-      padding: `6px ${spacing.lg}`,
-      fontSize: typography.fontSize['body-sm'],
-      height: '32px',
-    },
-  };
-
-  const { bg, text, border } = variantStyles[variant];
-
   const badgeStyles: React.CSSProperties = {
-    ...sizeStyles[size],
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: spacing.sm,
+    display: 'inline-block',
+    padding: `${spacing.xs} ${spacing.md}`,
     borderRadius: borderRadius.full,
-    backgroundColor: style === 'solid' ? bg : 'transparent',
-    color: style === 'solid' ? text : bg,
-    border: style === 'outline' ? `1px solid ${border}` : 'none',
+    fontSize: size === 'sm' ? '11px' : typography.fontSize['body-xs'],
     fontWeight: typography.fontWeight.semibold,
+    backgroundColor,
+    color,
+    textTransform: uppercase ? 'uppercase' : 'none',
     whiteSpace: 'nowrap',
+    ...style,
   };
 
-  const iconStyles: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: size === 'sm' ? '12px' : size === 'md' ? '14px' : '16px',
-  };
-
-  const closeButtonStyles: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: 'inherit',
-    cursor: 'pointer',
-    padding: '0',
-    marginLeft: spacing.xs,
-    fontSize: size === 'sm' ? '12px' : size === 'md' ? '14px' : '16px',
-    transition: 'opacity 0.2s ease-in-out',
-  };
-
-  return (
-    <span style={badgeStyles} className={className}>
-      {icon && <span style={iconStyles}>{icon}</span>}
-      <span>{children}</span>
-      {removable && (
-        <button
-          style={closeButtonStyles}
-          onClick={onRemove}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.opacity = '0.7';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.opacity = '1';
-          }}
-          title="Remove"
-        >
-          ✕
-        </button>
-      )}
-    </span>
-  );
+  return <span style={badgeStyles}>{children}</span>;
 };
 
 Badge.displayName = 'Badge';
