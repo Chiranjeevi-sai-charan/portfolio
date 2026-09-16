@@ -109,6 +109,8 @@ const STRINGS = {
     greeting: 'Hey, what can I help with?',
     welcomeSubline: "I'm Sage, your HR assistant. Ask me anything, from vacation days to benefits, and I'll point you to the exact policy.",
     placeholder: 'Ask anything',
+    voiceInput: 'Use voice input',
+    send: 'Send',
   },
   ja: {
     newChat: '新しいチャット',
@@ -116,6 +118,8 @@ const STRINGS = {
     greeting: 'こんにちは、何かお手伝いできますか？',
     welcomeSubline: 'HRアシスタントのSageです。休暇のことでも福利厚生のことでも、何でも聞いてください。該当する規定をすぐにお調べします。',
     placeholder: '何でも聞いてください',
+    voiceInput: '音声入力を使う',
+    send: '送信',
   },
 };
 
@@ -380,8 +384,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
         onMouseLeave={(e) => {
           e.currentTarget.style.backgroundColor = 'transparent';
         }}
-        title="Use voice input"
-        aria-label="Voice input"
+        title={t.voiceInput}
+        aria-label={t.voiceInput}
       >
         <MaterialIcon name="mic" size={20} />
       </button>
@@ -389,8 +393,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
         style={sendButtonStyles(!!inputValue.trim())}
         onClick={() => handleSendMessage()}
         disabled={!inputValue.trim()}
-        title="Send"
-        aria-label="Send"
+        title={t.send}
+        aria-label={t.send}
       >
         <MaterialIcon name="send" size={18} />
       </button>

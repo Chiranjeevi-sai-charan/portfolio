@@ -38,7 +38,6 @@ export { Avatar, AvatarGroup } from "./Avatar";
 export { Modal, type ModalAction } from "./Modal";
 export { ConfirmDialog } from "./ConfirmDialog";
 export { Dropdown, type DropdownItem } from "./Dropdown";
-export { Alert } from "./Alert";
 export { Toast } from "./Toast";
 export { ToastProvider, useToast } from "./ToastProvider";
 
@@ -50,8 +49,6 @@ export { Pagination } from "./Pagination";
 
 // Layout Components
 export { ChatLayout } from "./layouts/ChatLayout";
-export { AdminLayout } from "./layouts/AdminLayout";
-export { SystemAdminLayout } from "./layouts/SystemAdminLayout";
 
 // Pages
 export { EmployeeChatbot } from "./pages/EmployeeChatbot";

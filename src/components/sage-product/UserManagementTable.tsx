@@ -6,6 +6,8 @@ import { Button } from './Button';
 import { Select } from './Select';
 import { MaterialIcon } from './MaterialIcon';
 import { ConfirmDialog } from './ConfirmDialog';
+import { IconButton } from './IconButton';
+import { Badge } from './Badge';
 import { t, Lang, getRoleLabel } from '../../utils/sageStrings';
 
 interface UserManagementTableProps {
@@ -27,7 +29,6 @@ interface UserManagementTableProps {
 
 const getRoleTabs = (language?: Lang): { id: 'all' | User['role']; label: string }[] => [
   { id: 'all', label: t(language, 'all') },
-  { id: 'user', label: t(language, 'employee') },
   { id: 'admin', label: t(language, 'admin') },
   { id: 'system-admin', label: t(language, 'systemAdmin') },
 ];
@@ -36,9 +37,9 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   users,
   showSearch = true,
   showDepartmentFilter = false,
-  deletableRoles = ['user', 'admin', 'system-admin'],
+  deletableRoles = ['admin', 'system-admin'],
   canEditRoles = false,
-  roleOptions = ['user', 'admin', 'system-admin'],
+  roleOptions = ['admin', 'system-admin'],
   onUserDelete,
   onRoleChange,
   onAddUserClick,
@@ -134,21 +135,18 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     borderRadius: borderRadius.md,
   };
 
-  const tableStyles: React.CSSProperties = {
-    width: '100%',
-    borderCollapse: 'collapse' as const,
-  };
+  // Shared column template for the header row and every body row, so they
+  // stay aligned without relying on native <table> layout. A native
+  // <table>'s position:sticky <thead> has a persistent Chromium rendering
+  // bug in this scroll setup (tbody rows paint through above the stuck
+  // header) that survives every standard CSS mitigation, so the header is
+  // built as a separate sticky div instead of living inside the table.
+  const GRID_TEMPLATE_COLUMNS = '36px minmax(200px, 2fr) 190px minmax(160px, 1.5fr) 80px';
 
-  const theadStyles: React.CSSProperties = {
-    backgroundColor: colors['neutral-50'],
-    borderBottom: `1px solid ${colors['neutral-200']}`,
-  };
-
-  const stickyTheadStyles: React.CSSProperties = {
-    ...theadStyles,
-    position: 'sticky',
-    top: 0,
-    zIndex: 2,
+  const headerRowStyles: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
+    alignItems: 'center',
   };
 
   const thStyles: React.CSSProperties = {
@@ -157,10 +155,13 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     fontSize: typography.fontSize['body-sm'],
     fontWeight: typography.fontWeight.semibold,
     color: colors['neutral-600'],
-    position: 'sticky',
-    top: 0,
-    zIndex: 2,
     backgroundColor: colors['neutral-50'],
+  };
+
+  const tbodyTrStyles: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
+    alignItems: 'center',
   };
 
   const tbodyTdStyles: React.CSSProperties = {
@@ -196,53 +197,18 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
     color: colors['neutral-500'],
   };
 
-  const roleBadgeMap: Record<string, { bg: string; text: string }> = {
-    user: { bg: colors['neutral-100'], text: colors['neutral-900'] },
-    admin: { bg: colors['warning-amber'], text: colors['neutral-white'] },
-    'system-admin': { bg: colors['neutral-900'], text: colors['neutral-white'] },
+  const roleBadgeMap: Record<string, { backgroundColor: string; color: string }> = {
+    user: { backgroundColor: colors['neutral-100'], color: colors['neutral-900'] },
+    admin: { backgroundColor: colors['warning-amber'], color: colors['neutral-white'] },
+    'system-admin': { backgroundColor: colors['neutral-900'], color: colors['neutral-white'] },
   };
 
-  const getRoleBadgeStyle = (role: string) => {
-    const style = roleBadgeMap[role] || roleBadgeMap['user'];
-    return {
-      padding: '4px 12px',
-      borderRadius: borderRadius.full,
-      fontSize: typography.fontSize['label-sm'],
-      fontWeight: typography.fontWeight.semibold,
-      backgroundColor: style.bg,
-      color: style.text,
-      display: 'inline-block',
-      textTransform: 'uppercase' as const,
-    };
-  };
+  const getRoleBadgeColors = (role: string) => roleBadgeMap[role] || roleBadgeMap['user'];
 
   const roleSelectStyles: React.CSSProperties = {
     width: '180px',
   };
 
-  const departmentPillStyles: React.CSSProperties = {
-    padding: '4px 12px',
-    borderRadius: borderRadius.full,
-    fontSize: typography.fontSize['body-xs'],
-    backgroundColor: colors['neutral-100'],
-    color: colors['neutral-700'],
-    display: 'inline-block',
-    marginRight: spacing.sm,
-  };
-
-  const actionButtonStyles: React.CSSProperties = {
-    width: '32px',
-    height: '32px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: borderRadius.md,
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '16px',
-    transition: 'background-color 0.15s ease',
-  };
 
   const emptyStateStyles: React.CSSProperties = {
     textAlign: 'center',
@@ -374,168 +340,163 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
         </div>
       ) : (
         <div style={scrollAreaStyles}>
-        <div style={tableCardStyles}>
-          <table style={tableStyles}>
-            {selectedIds.size > 0 ? (
-              <thead style={{ position: 'sticky', top: 0, zIndex: 2 }}>
-                <tr>
-                  <th colSpan={5} style={{ padding: 0, border: 'none' }}>
-                    <div style={bulkBarStyles}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
-                        <input
-                          type="checkbox"
-                          style={checkboxStyles}
-                          checked={allSelected}
-                          ref={(el) => {
-                            if (el) el.indeterminate = someSelected && !allSelected;
-                          }}
-                          onChange={toggleAll}
-                          aria-label="Select all"
-                        />
-                        <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
-                          {t(language, 'selectedCount')(selectedIds.size)}
-                        </span>
-                      </div>
-                      <div style={{ display: 'flex', gap: spacing.xs, alignItems: 'center' }}>
-                        {onUserDelete && (
-                          <button
-                            onClick={() => setBulkDeleteConfirm(true)}
-                            style={{ ...bulkActionButtonStyles, color: colors['error-red'] }}
-                            onMouseEnter={(e) => {
-                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
-                            }}
-                            onMouseLeave={(e) => {
-                              (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                            }}
-                          >
-                            <MaterialIcon name="delete" size={16} />
-                            {t(language, 'delete')}
-                          </button>
-                        )}
-                        <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
-                        <button
-                          onClick={() => setSelectedIds(new Set())}
-                          style={{ ...bulkActionButtonStyles, color: colors['neutral-500'] }}
-                          onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                          }}
-                        >
-                          {t(language, 'clear')}
-                        </button>
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-            ) : (
-              <thead style={stickyTheadStyles}>
-                <tr>
-                  <th style={{ ...thStyles, width: '36px' }}>
+        <div style={tableCardStyles} role="table" aria-label={t(language, 'userColumn')}>
+          <div style={{ position: 'sticky', top: 0, zIndex: 2, borderBottom: `1px solid ${colors['neutral-200']}`, backgroundColor: colors['neutral-white'] }}>
+            {selectedIds.size > 0 && (
+              <div style={bulkBarStyles}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}>
+                  <input
+                    type="checkbox"
+                    style={checkboxStyles}
+                    checked={allSelected}
+                    ref={(el) => {
+                      if (el) el.indeterminate = someSelected && !allSelected;
+                    }}
+                    onChange={toggleAll}
+                    aria-label={t(language, 'selectAll')}
+                  />
+                  <span style={{ fontSize: typography.fontSize['body-sm'], fontWeight: 600, color: colors['neutral-900'] }}>
+                    {t(language, 'selectedCount')(selectedIds.size)}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', gap: spacing.xs, alignItems: 'center' }}>
+                  {onUserDelete && (
+                    <button
+                      onClick={() => setBulkDeleteConfirm(true)}
+                      style={{ ...bulkActionButtonStyles, color: colors['error-red'] }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      <MaterialIcon name="delete" size={16} />
+                      {t(language, 'delete')}
+                    </button>
+                  )}
+                  <div style={{ width: '1px', height: '20px', backgroundColor: colors['neutral-200'], margin: `0 ${spacing.xs}` }} />
+                  <button
+                    onClick={() => setSelectedIds(new Set())}
+                    style={{ ...bulkActionButtonStyles, color: colors['neutral-500'] }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.neutralHover;
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    {t(language, 'clear')}
+                  </button>
+                </div>
+              </div>
+            )}
+            <div style={headerRowStyles} role="row">
+              <div style={thStyles} role="columnheader">
+                <input
+                  type="checkbox"
+                  style={checkboxStyles}
+                  checked={allSelected}
+                  ref={(el) => {
+                    if (el) el.indeterminate = someSelected && !allSelected;
+                  }}
+                  onChange={toggleAll}
+                  aria-label={t(language, 'selectAll')}
+                />
+              </div>
+              <div style={thStyles} role="columnheader">{t(language, 'userColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'roleColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'departmentsColumn')}</div>
+              <div style={thStyles} role="columnheader">{t(language, 'actionsColumn')}</div>
+            </div>
+          </div>
+          <div role="rowgroup">
+            {filteredUsers.map((user) => (
+              <div
+                key={user.id}
+                style={{ ...tbodyTrStyles, backgroundColor: colors['neutral-white'] }}
+                role="row"
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                    colors['neutral-50'];
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                    colors['neutral-white'];
+                }}
+              >
+                <div style={tbodyTdStyles} role="cell">
+                  {deletableRoles.includes(user.role) && (
                     <input
                       type="checkbox"
                       style={checkboxStyles}
-                      checked={allSelected}
-                      ref={(el) => {
-                        if (el) el.indeterminate = someSelected && !allSelected;
-                      }}
-                      onChange={toggleAll}
-                      aria-label="Select all"
+                      checked={selectedIds.has(user.id)}
+                      onChange={() => toggleRow(user.id)}
+                      aria-label={`Select ${user.name}`}
                     />
-                  </th>
-                  <th style={thStyles}>{t(language, 'userColumn')}</th>
-                  <th style={thStyles}>{t(language, 'roleColumn')}</th>
-                  <th style={thStyles}>{t(language, 'departmentsColumn')}</th>
-                  <th style={thStyles}>{t(language, 'actionsColumn')}</th>
-                </tr>
-              </thead>
-            )}
-            <tbody>
-              {filteredUsers.map((user) => (
-                <tr
-                  key={user.id}
-                  style={{ backgroundColor: colors['neutral-white'] }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor =
-                      colors['neutral-50'];
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLTableRowElement).style.backgroundColor =
-                      colors['neutral-white'];
-                  }}
-                >
-                  <td style={tbodyTdStyles}>
-                    {deletableRoles.includes(user.role) && (
-                      <input
-                        type="checkbox"
-                        style={checkboxStyles}
-                        checked={selectedIds.has(user.id)}
-                        onChange={() => toggleRow(user.id)}
-                        aria-label={`Select ${user.name}`}
+                  )}
+                </div>
+                <div style={tbodyTdStyles} role="cell">
+                  <div style={userNameStyles}>
+                    <div style={avatarStyles}>{user.name.charAt(0).toUpperCase()}</div>
+                    <div>
+                      <div style={{ fontWeight: 600 }}>{user.name}</div>
+                      <div style={userEmailStyles}>{user.email}</div>
+                    </div>
+                  </div>
+                </div>
+                <div style={tbodyTdStyles} role="cell">
+                  {canEditRoles && onRoleChange ? (
+                    <div style={roleSelectStyles}>
+                      <Select
+                        value={user.role}
+                        onChange={(e) => onRoleChange(user.id, e.target.value as User['role'])}
+                        options={roleOptions.map((r) => ({ label: getRoleLabel(r, language), value: r }))}
                       />
-                    )}
-                  </td>
-                  <td style={tbodyTdStyles}>
-                    <div style={userNameStyles}>
-                      <div style={avatarStyles}>{user.name.charAt(0).toUpperCase()}</div>
-                      <div>
-                        <div style={{ fontWeight: 600 }}>{user.name}</div>
-                        <div style={userEmailStyles}>{user.email}</div>
-                      </div>
                     </div>
-                  </td>
-                  <td style={tbodyTdStyles}>
-                    {canEditRoles && onRoleChange ? (
-                      <div style={roleSelectStyles}>
-                        <Select
-                          value={user.role}
-                          onChange={(e) => onRoleChange(user.id, e.target.value as User['role'])}
-                          options={roleOptions.map((r) => ({ label: getRoleLabel(r, language), value: r }))}
-                        />
-                      </div>
-                    ) : (
-                      <div style={getRoleBadgeStyle(user.role)}>{getRoleLabel(user.role, language)}</div>
+                  ) : (
+                    <Badge {...getRoleBadgeColors(user.role)} uppercase size="sm">
+                      {getRoleLabel(user.role, language)}
+                    </Badge>
+                  )}
+                </div>
+                <div style={tbodyTdStyles} role="cell">
+                  {user.departments.map((dept) => (
+                    <Badge
+                      key={dept}
+                      backgroundColor={colors['neutral-100']}
+                      color={colors['neutral-700']}
+                      style={{ marginRight: spacing.sm }}
+                    >
+                      {dept}
+                    </Badge>
+                  ))}
+                </div>
+                <div style={tbodyTdStyles} role="cell">
+                  <div style={{ display: 'flex', gap: spacing.sm }}>
+                    {onUserDelete && deletableRoles.includes(user.role) && (
+                      <IconButton
+                        onClick={() => setPendingDeleteUser(user)}
+                        color={colors['error-red']}
+                        hoverBackgroundColor={interactionTints.dangerHover}
+                        title={t(language, 'delete')}
+                        aria-label={`${t(language, 'delete')} ${user.name}`}
+                      >
+                        <MaterialIcon name="delete" size={18} />
+                      </IconButton>
                     )}
-                  </td>
-                  <td style={tbodyTdStyles}>
-                    {user.departments.map((dept) => (
-                      <div key={dept} style={departmentPillStyles}>{dept}</div>
-                    ))}
-                  </td>
-                  <td style={tbodyTdStyles}>
-                    <div style={{ display: 'flex', gap: spacing.sm }}>
-                      {onUserDelete && deletableRoles.includes(user.role) && (
-                        <button
-                          onClick={() => setPendingDeleteUser(user)}
-                          style={{
-                            ...actionButtonStyles,
-                            color: colors['error-red'],
-                          }}
-                          title="Delete user"
-                          aria-label={`Delete ${user.name}`}
-                          onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = interactionTints.dangerHover;
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
-                          }}
-                        >
-                          <MaterialIcon name="delete" size={18} />
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         </div>
       )}
 
       <ConfirmDialog
+        language={language}
+        cancelLabel={t(language, 'cancel')}
         isOpen={!!pendingDeleteUser}
         title={t(language, 'deleteUserTitle')}
         message={t(language, 'deleteUserMsg')(pendingDeleteUser?.name)}
@@ -548,6 +509,8 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
       />
 
       <ConfirmDialog
+        language={language}
+        cancelLabel={t(language, 'cancel')}
         isOpen={bulkDeleteConfirm}
         title={t(language, 'deleteUsersTitle')}
         message={t(language, 'deleteUsersMsg')(selectedIds.size)}

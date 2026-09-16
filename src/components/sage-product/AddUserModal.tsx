@@ -82,6 +82,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
+      language={language}
       title={t(language, 'addUserTitle')}
       size="sm"
       actions={[

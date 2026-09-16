@@ -18,7 +18,7 @@ import {
   initializeMockData,
   analyticsStorage,
 } from '../../../utils/storage';
-import { DEPARTMENTS, CONTENT_TYPES, SENSITIVITIES, ROLE_LABELS } from '../../../utils/sageConstants';
+import { DEPARTMENTS, CONTENT_TYPES, SENSITIVITIES } from '../../../utils/sageConstants';
 import { generateAIResponse } from '../../../utils/mockAIResponses';
 import { t, getRoleLabel } from '../../../utils/sageStrings';
 
@@ -117,7 +117,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
         if (item.id === activeConversationId) handleNewChat();
         break;
       case 'rename': {
-        const newTitle = window.prompt('Rename chat', item.label);
+        const newTitle = window.prompt(language === 'ja' ? 'チャット名を変更' : 'Rename chat', item.label);
         if (newTitle && newTitle.trim()) {
           setConversations((prev) =>
             prev.map((c) => (c.id === item.id ? { ...c, title: newTitle.trim() } : c))
@@ -185,7 +185,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
       doc.status = 'deleted';
       documentStorage.save(doc);
       refreshData();
-      showToast(`"${doc.name}" deleted`, 'success');
+      showToast(t(language, 'docDeletedToast')(doc.name), 'success');
     }
   };
 
@@ -193,14 +193,14 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
     const doc = documentStorage.getById(docId);
     documentStorage.restore(docId);
     refreshData();
-    if (doc) showToast(`"${doc.name}" restored`, 'success');
+    if (doc) showToast(t(language, 'docRestoredToast')(doc.name), 'success');
   };
 
   const handleUserDelete = (userId: string) => {
     const user = users.find((u) => u.id === userId);
     userStorage.delete(userId);
     refreshData();
-    showToast(user ? `${user.name} removed` : 'User removed', 'success');
+    showToast(t(language, 'userRemovedToast')(user?.name), 'success');
   };
 
   const handleUserRoleChange = (userId: string, newRole: User['role']) => {
@@ -208,7 +208,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
     if (user) {
       userStorage.save({ ...user, role: newRole });
       refreshData();
-      showToast(`${user.name}'s role changed to ${ROLE_LABELS[newRole]}`, 'success');
+      showToast(t(language, 'userRoleChangedToast')(user.name, getRoleLabel(newRole, language)), 'success');
     }
   };
 
@@ -219,7 +219,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
       createdAt: Date.now(),
     });
     refreshData();
-    showToast(`${newUser.name} added as ${ROLE_LABELS[newUser.role]}`, 'success');
+    showToast(t(language, 'userAddedAsToast')(newUser.name, getRoleLabel(newUser.role, language)), 'success');
   };
 
   const managementLinks =
@@ -313,10 +313,15 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
     overflow: 'hidden',
   };
 
+  // 'hidden', not 'auto' — every view rendered inside this (DocumentList,
+  // UserManagementTable, AnalyticsDashboard) already manages its own
+  // internal header + scroll region. Nesting a second overflow:auto here
+  // caused a Chromium rendering bug where sticky table headers let tbody
+  // rows paint outside the inner scroll container's clip.
   const viewScrollStyles: React.CSSProperties = {
     flex: 1,
     minHeight: 0,
-    overflowY: 'auto',
+    overflow: 'hidden',
   };
 
   // Both Admins and System Admin can view Active, Archived, and Deleted
@@ -384,7 +389,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
             showSearch
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={handleDocumentDelete}
-            onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
+            onDocumentDownload={(doc) => showToast(t(language, 'downloadingToast')(doc.name), 'info')}
             language={language}
           />
         )}
@@ -394,12 +399,12 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
             showSearch
             showDepartmentFilter={isSystemAdmin}
             onDocumentDelete={handleDocumentDelete}
-            onDocumentDownload={(doc) => showToast(`Downloading "${doc.name}"...`, 'info')}
+            onDocumentDownload={(doc) => showToast(t(language, 'downloadingToast')(doc.name), 'info')}
             language={language}
           />
         )}
         {documentTab === 'deleted' && (
-          <div style={{ padding: spacing.lg }}>
+          <div style={{ padding: spacing.lg, height: '100%', overflowY: 'auto' }}>
             <div style={{ fontSize: typography.fontSize['h3'], fontWeight: 600, marginBottom: spacing.md }}>
               {t(language, 'deletedDocumentsHeading')}
             </div>
@@ -455,6 +460,8 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
       </div>
 
       <ConfirmDialog
+        language={language}
+        cancelLabel={t(language, 'cancel')}
         isOpen={!!pendingPermanentDeleteDoc}
         title={t(language, 'permanentlyDeleteTitle')}
         message={t(language, 'permanentlyDeleteMsg')(pendingPermanentDeleteDoc?.name)}
@@ -463,7 +470,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
           if (pendingPermanentDeleteDoc) {
             documentStorage.delete(pendingPermanentDeleteDoc.id);
             refreshData();
-            showToast(`"${pendingPermanentDeleteDoc.name}" permanently deleted`, 'success');
+            showToast(t(language, 'docPermanentlyDeletedToast')(pendingPermanentDeleteDoc.name), 'success');
           }
           setPendingPermanentDeleteDoc(null);
         }}
@@ -481,9 +488,9 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
           users={users}
           showSearch
           showDepartmentFilter={isSystemAdmin}
-          deletableRoles={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
+          deletableRoles={isSystemAdmin ? ['admin', 'system-admin'] : ['admin']}
           canEditRoles
-          roleOptions={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
+          roleOptions={isSystemAdmin ? ['admin', 'system-admin'] : ['admin']}
           onRoleChange={handleUserRoleChange}
           onUserDelete={handleUserDelete}
           onAddUserClick={() => setShowAddUserModal(true)}
@@ -494,7 +501,7 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
         isOpen={showAddUserModal}
         onClose={() => setShowAddUserModal(false)}
         onCreate={handleUserCreate}
-        availableRoles={isSystemAdmin ? ['user', 'admin', 'system-admin'] : ['user', 'admin']}
+        availableRoles={isSystemAdmin ? ['admin', 'system-admin'] : ['admin']}
         availableDepartments={isSystemAdmin ? DEPARTMENTS : [department || '']}
         lockedDepartment={isSystemAdmin ? undefined : department}
         language={language}

@@ -253,7 +253,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
       !selectedSensitivity ||
       !documentDate
     ) {
-      showToast('Please fill all fields, choose a document date, and select at least one file', 'warning');
+      showToast(t(language, 'fillAllFieldsWarning'), 'warning');
       return;
     }
 
@@ -287,7 +287,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
     setSelectedSensitivity('');
     setDocumentDate('');
 
-    showToast(`${count} document${count > 1 ? 's' : ''} uploaded successfully`, 'success');
+    showToast(t(language, 'uploadSuccessToast')(count), 'success');
   };
 
   return (

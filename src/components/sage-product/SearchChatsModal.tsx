@@ -29,12 +29,14 @@ const STRINGS = {
     newChat: 'New chat',
     recent: 'Recent chats',
     noResults: 'No chats found',
+    close: 'Close',
   },
   ja: {
     placeholder: 'チャットを検索...',
     newChat: '新しいチャット',
     recent: '最近のチャット',
     noResults: 'チャットが見つかりません',
+    close: '閉じる',
   },
 };
 
@@ -224,7 +226,7 @@ export const SearchChatsModal: React.FC<SearchChatsModalProps> = ({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button style={closeButtonStyles} onClick={onClose} aria-label="Close" title="Close">
+          <button style={closeButtonStyles} onClick={onClose} aria-label={t.close} title={t.close}>
             <MaterialIcon name="close" size={18} />
           </button>
         </div>
