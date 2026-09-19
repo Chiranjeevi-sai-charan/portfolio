@@ -17,6 +17,7 @@ import chatgptLogoWhite from "../assets/chatgpt-white-logo.png";
 import framerLogo from "../assets/Framer.png";
 import mothersonLogo from "../assets/Motherson Logo.png";
 import deloitteLogo from "../assets/Deloitte Logo.png";
+import sageThumbnail from "../assets/User and Chatbot V1.png";
 import styles from "./Home.module.css";
 
 // Custom glyphs for tools with no real brand icon available (a
@@ -39,6 +40,7 @@ const CASE_STUDIES = [
     tag: "Enterprise AI · Knowledge platform",
     title: "Sage: AI-Powered HR Assistant",
     blurb: "An intelligent knowledge platform for enterprise HR teams, featuring role-based document access, AI chatbot, and multilingual support.",
+    image: sageThumbnail,
   },
   {
     slug: "flowops",
@@ -320,7 +322,9 @@ export default function Home() {
                 className={styles.card}
                 data-cursor-label="View case study"
               >
-                <div className={styles.cardMedia}>{c.title}</div>
+                <div className={styles.cardMedia}>
+                  {c.image ? <img src={c.image} alt={c.title} /> : c.title}
+                </div>
                 <div className={styles.cardBody}>
                   <div className={styles.cardTag}>{c.tag}</div>
                   <h3>{c.title}</h3>
