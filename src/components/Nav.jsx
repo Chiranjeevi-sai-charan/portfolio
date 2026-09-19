@@ -33,12 +33,12 @@ export default function Nav() {
       <div className={styles.links}>
         <Link to="/" data-cursor-label="Home">Home</Link>
         <a href="/#about" data-cursor-label="About">About</a>
-        <a href="/#experience" className={styles.secondary} data-cursor-label="Experience">Experience</a>
+        <a href="/#experience" className={styles.tier3} data-cursor-label="Experience">Experience</a>
         <a href="/#achievements" data-cursor-label="Recognition">Recognition</a>
         <a href="/#work" data-cursor-label="Work">Work</a>
         <a href="/#stack" data-cursor-label="Toolkit">Toolkit</a>
-        <a href="/#testimonials" className={styles.secondary} data-cursor-label="Recommendations">Recommendations</a>
-        <a href="/#certifications" className={styles.secondary} data-cursor-label="Certifications">Certifications</a>
+        <a href="/#testimonials" className={styles.tier2} data-cursor-label="Recommendations">Recommendations</a>
+        <a href="/#certifications" className={styles.tier1} data-cursor-label="Certifications">Certifications</a>
         <a
           href="https://flowcv.com/resume/avbobjk3o6"
           target="_blank"

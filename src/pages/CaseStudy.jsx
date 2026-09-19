@@ -20,13 +20,11 @@ import priyaStage4 from "../assets/persona-priya-stage4.png";
 import wireframeBasicV1 from "../assets/wireframe-basic-v1.jpg";
 import wireframeLoFiV1 from "../assets/wireframe-lofi-v1.png";
 import designHiFiFinal from "../assets/design-hifi-final-live-ui-v1.png";
-import designHiFiAdminUI from "../assets/design-hifi-admin-ui-v1.png";
-import analyticsDashboardTop from "../assets/analytics-dashboard-top-v1.png";
-import analyticsDashboardInsights from "../assets/analytics-dashboard-insights-v1.png";
-import designHiFiFinalV2 from "../assets/design-hifi-final-live-ui-v2.png";
 import designHiFiAdminUIV2 from "../assets/design-hifi-admin-ui-v2.png";
 import analyticsDashboardTopV2 from "../assets/analytics-dashboard-top-v2.png";
 import analyticsDashboardInsightsV2 from "../assets/analytics-dashboard-insights-v2.png";
+import sidebarCollapsedLogoV2 from "../assets/sidebar-collapsed-logo-v2.png";
+import sidebarExpandedLogoV2 from "../assets/sidebar-expanded-logo-v2.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -243,29 +241,46 @@ const CASE_STUDY_DATA = {
         title: "High-Fidelity UI",
         description: "The final design incorporates all feedback and refinements. Tab-based navigation provides complete document lifecycle management. Department selection, content type, and sensitivity classifications enable fine-grained access control while maintaining a clean, focused interface.",
         annotations: ["Tab-based layout for document lifecycle tracking", "Department and sensitivity filtering", "Admin-only upload and user management"],
-        image: designHiFiFinal,
-        imageV2: designHiFiFinalV2,
-        updateNote: "The first version was a black-and-white prototype used to validate layout before branding. Once approved, the brand's blue became the accent color, the flat white surface became a soft gradient for visual depth, and underline tabs became pill-shaped tabs so the active section reads clearly at a glance."
+        image: designHiFiFinal
       },
       visualDesign: {
         title: "Visual Design",
         description: "Beyond the employee chatbot, the same design system extends to the Admin workspace, where HR Admins manage documents through their full lifecycle. Active, Archived, and Deleted states share one consistent visual language, with sensitivity badges and department metadata surfaced directly in the table for quick scanning.",
+        polishNote: "The first version was a black-and-white prototype used to validate layout before branding. Once approved, the brand's blue became the accent color, the flat white surface became a soft gradient for visual depth, and underline tabs became pill-shaped tabs so the active section reads clearly at a glance.",
         annotations: ["Consistent tab pattern across document states", "Sensitivity and department metadata inline", "Role-scoped: Admins only see their own department's documents"],
-        image: designHiFiAdminUI,
-        imageV2: designHiFiAdminUIV2,
-        updateNote: "The documents table picked up the same refresh: sticky column headers keep filters and titles in view while scrolling, and sensitivity badges plus row actions (download/delete) were consolidated into shared Badge and IconButton components, so a future style change to either happens once, not per table."
+        image: designHiFiAdminUIV2,
+        collapsedLogoImage: sidebarCollapsedLogoV2,
+        expandedLogoImage: sidebarExpandedLogoV2,
+        logoNote: "The sidebar's plain text badge became two purpose-built marks: just the character's face when collapsed, since there's no room for a wordmark to read cleanly, and a clean wordmark when expanded, since pairing the full illustration with text made them compete for attention."
       }
     },
     testing: {
       usabilityTesting: "With the high-fidelity design in place, we walked System Admin and HR Admin stakeholders through the working product, chatbot, document management, user management, against their real day-to-day responsibilities.",
       participants: "System Admins and HR Admins, reviewing the live product rather than mockups.",
-      findings: "The strongest feedback was about what admins couldn't see: what employees actually ask about, which policies get cited most, how often the bot fails to find an answer, and whether the multilingual investment is even being used. Admins had full control over documents and users, but zero visibility into usage, a real gap before this could be called done.",
+      findings: {
+        intro: "The strongest feedback was about what admins couldn't see:",
+        items: [
+          "What employees actually ask about",
+          "Which policies get cited most",
+          "How often the bot fails to find an answer",
+          "Whether the multilingual investment is even being used"
+        ],
+        outro: "Admins had full control over documents and users, but zero visibility into usage, a real gap before this could be called done."
+      },
       iterations: {
-        description: "In response, we built the Analytics and AI Insights dashboard, shown below: topic breakdown, fallback rate, department/role/language splits, and activity over time, logged in a privacy-safe way (topic categories and cited documents only, never the raw question). The AI Insights panel goes further, turning data into a recommendation (\"26% of questions are about Vacation & Time Off, consider an awareness session\") that becomes a calendar invite in one click, moving from \"we can't see what's happening\" to \"here's what to do about it.\"",
-        images: [analyticsDashboardTop, analyticsDashboardInsights],
-        imagesV2: [analyticsDashboardTopV2, analyticsDashboardInsightsV2],
-        updateNote: "The dashboard itself was rebuilt on the same design-system pass: KPI tiles and chart panels now use the frosted-card treatment with a subtle hover lift, and the full interface, including AI Insights recommendations, is fully bilingual (English/Japanese), audited end to end down to toast messages and screen-reader labels."
+        polishNote: "KPI tiles and chart panels use the same frosted-card treatment with a subtle hover lift, and the full interface, including AI Insights recommendations, is fully bilingual (English/Japanese), audited end to end down to toast messages and screen-reader labels.",
+        images: [analyticsDashboardTopV2, analyticsDashboardInsightsV2]
       }
+    },
+    implementation: {
+      developmentCollaboration: [
+        "At Motherson Technology Services, working on Yachiyo's My Support Bot, design and development ran in parallel within the same sprint, a fast-paced setup with no room for a slow handoff. I shared Figma links directly with the developer as screens were ready. The collaboration discipline stayed the same as any dev partnership: sprint-aligned design reviews with engineers to flag feasibility early, a shared Teams channel for implementation questions during the build, and staging reviews before ship.",
+        "For this portfolio recreation of Sage, I took on both roles. The implementation was AI-assisted: I used Claude Code as the development partner end to end, reviewing every generated screen against the design intent the same way I'd review a developer's PR, catching interaction gaps and pushing revisions until behavior matched the design."
+      ],
+      designHandoff: [
+        "Handoff ran through Figma dev-mode specs, a documented component library with states and tokens, and short walkthroughs for the trickier interactions, so engineers never had to guess intent.",
+        "For Sage, I tightened that same loop with a modern pipeline: connecting Figma directly to Claude Code through the Figma MCP, so screens hand off as structured context an AI agent can read and translate into React components itself."
+      ]
     },
     tools: [
       { name: "Figma", category: "Design & Prototyping", description: "Created comprehensive design system with components, patterns, and comprehensive documentation for Sage." },
@@ -1444,10 +1459,9 @@ export default function CaseStudy() {
 
               {caseStudy.design.highFidelity.image && (
                 <div style={{ marginTop: 24 }}>
-                  <span style={versionTagStyle}>V1 · Initial Ship</span>
                   <img
                     src={caseStudy.design.highFidelity.image}
-                    alt="Sage HR Chatbot High-Fidelity Design — V1, initial ship"
+                    alt="Sage HR Chatbot High-Fidelity Design"
                     style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                   />
                 </div>
@@ -1460,23 +1474,6 @@ export default function CaseStudy() {
                   </p>
                 </div>
               )}
-
-              {caseStudy.design.highFidelity.imageV2 && (
-                <>
-                  <div style={updateNoteStyle}>
-                    <p style={updateNoteLabelStyle}>Since Then</p>
-                    <p style={updateNoteTextStyle}>{caseStudy.design.highFidelity.updateNote}</p>
-                  </div>
-                  <div style={{ marginTop: 24 }}>
-                    <span style={versionTagStyle}>V2 · Current</span>
-                    <img
-                      src={caseStudy.design.highFidelity.imageV2}
-                      alt="Sage HR Chatbot High-Fidelity Design — V2, current"
-                      style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-                    />
-                  </div>
-                </>
-              )}
             </div>
 
             {/* VISUAL DESIGN SECTION */}
@@ -1485,9 +1482,15 @@ export default function CaseStudy() {
                 <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
                   {caseStudy.design.visualDesign.title}
                 </h3>
-                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
-                  {caseStudy.design.visualDesign.description}
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 24 }}>
+                  Beyond the employee chatbot, the same design system extends to the <strong>Admin workspace</strong>, where HR Admins manage documents through their full lifecycle. Active, Archived, and Deleted states share <strong>one consistent visual language</strong>, with <strong>sensitivity badges</strong> and <strong>department metadata</strong> surfaced directly in the table for quick scanning.
                 </p>
+
+                {caseStudy.design.visualDesign.polishNote && (
+                  <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                    {caseStudy.design.visualDesign.polishNote}
+                  </p>
+                )}
 
                 {caseStudy.design.visualDesign.annotations && caseStudy.design.visualDesign.annotations.length > 0 && (
                   <div style={{ marginBottom: 24, padding: 20, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: "8px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
@@ -1504,30 +1507,44 @@ export default function CaseStudy() {
 
                 {caseStudy.design.visualDesign.image && (
                   <div style={{ marginTop: 24 }}>
-                    <span style={versionTagStyle}>V1 · Initial Ship</span>
                     <img
                       src={caseStudy.design.visualDesign.image}
-                      alt="Sage Admin Document Management UI — V1, initial ship"
+                      alt="Sage Admin Document Management UI, full screen"
                       style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                     />
                   </div>
                 )}
 
-                {caseStudy.design.visualDesign.imageV2 && (
-                  <>
-                    <div style={updateNoteStyle}>
-                      <p style={updateNoteLabelStyle}>Since Then</p>
-                      <p style={updateNoteTextStyle}>{caseStudy.design.visualDesign.updateNote}</p>
-                    </div>
-                    <div style={{ marginTop: 24 }}>
-                      <span style={versionTagStyle}>V2 · Current</span>
-                      <img
-                        src={caseStudy.design.visualDesign.imageV2}
-                        alt="Sage Admin Document Management UI — V2, current"
-                        style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-                      />
-                    </div>
-                  </>
+                {caseStudy.design.visualDesign.logoNote && (
+                  <div style={{ marginTop: 32 }}>
+                    <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
+                      {caseStudy.design.visualDesign.logoNote}
+                    </p>
+                    {(caseStudy.design.visualDesign.collapsedLogoImage || caseStudy.design.visualDesign.expandedLogoImage) && (
+                      <div style={{ display: "flex", gap: 16 }}>
+                        {caseStudy.design.visualDesign.collapsedLogoImage && (
+                          <div style={{ flex: 1 }}>
+                            <img
+                              src={caseStudy.design.visualDesign.collapsedLogoImage}
+                              alt="Sidebar brand mark — collapsed state"
+                              style={{ width: "100%", height: "auto", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
+                            />
+                            <p style={{ fontSize: 11, textAlign: "center", color: "var(--ink-soft)", marginTop: 4 }}>Collapsed</p>
+                          </div>
+                        )}
+                        {caseStudy.design.visualDesign.expandedLogoImage && (
+                          <div style={{ flex: 1 }}>
+                            <img
+                              src={caseStudy.design.visualDesign.expandedLogoImage}
+                              alt="Sidebar brand mark — expanded state"
+                              style={{ width: "100%", height: "auto", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
+                            />
+                            <p style={{ fontSize: 11, textAlign: "center", color: "var(--ink-soft)", marginTop: 4 }}>Expanded</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             )}
@@ -1565,7 +1582,15 @@ export default function CaseStudy() {
                 Findings
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
-                {caseStudy.testing.findings}
+                {caseStudy.testing.findings.intro}
+              </p>
+              <ul style={{ margin: "12px 0", paddingLeft: 24, fontSize: 16, color: "var(--ink-soft)", lineHeight: "1.8" }}>
+                {caseStudy.testing.findings.items.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+              <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                {caseStudy.testing.findings.outro}
               </p>
             </div>
 
@@ -1574,43 +1599,64 @@ export default function CaseStudy() {
                 Iterations
               </h3>
               <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
-                {caseStudy.testing.iterations.description}
+                In response, we built the <strong>Analytics and AI Insights dashboard</strong>, shown below: topic breakdown, fallback rate, department/role/language splits, and activity over time, logged in a <strong>privacy-safe way</strong> (topic categories and cited documents only, never the raw question). The AI Insights panel goes further, <strong>turning data into a recommendation</strong> ("26% of questions are about Vacation & Time Off, consider an awareness session"), and that <strong>suggested awareness session becomes a calendar invite in one click</strong>, moving from "we can't see what's happening" to "here's what to do about it."
               </p>
+
+              {caseStudy.testing.iterations.polishNote && (
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 32 }}>
+                  {caseStudy.testing.iterations.polishNote}
+                </p>
+              )}
 
               {caseStudy.testing.iterations.images && caseStudy.testing.iterations.images.length > 0 && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                  <span style={versionTagStyle}>V1 · Initial Ship</span>
                   {caseStudy.testing.iterations.images.map((img, idx) => (
                     <img
                       key={idx}
                       src={img}
-                      alt="Sage Analytics and AI Insights Dashboard — V1, initial ship"
+                      alt="Sage Analytics and AI Insights Dashboard"
                       style={{ width: "100%", height: "auto", borderRadius: "8px" }}
                     />
                   ))}
                 </div>
               )}
-
-              {caseStudy.testing.iterations.imagesV2 && caseStudy.testing.iterations.imagesV2.length > 0 && (
-                <>
-                  <div style={updateNoteStyle}>
-                    <p style={updateNoteLabelStyle}>Since Then</p>
-                    <p style={updateNoteTextStyle}>{caseStudy.testing.iterations.updateNote}</p>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                    <span style={versionTagStyle}>V2 · Current</span>
-                    {caseStudy.testing.iterations.imagesV2.map((img, idx) => (
-                      <img
-                        key={idx}
-                        src={img}
-                        alt="Sage Analytics and AI Insights Dashboard — V2, current"
-                        style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
             </div>
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.implementation && (
+        <Reveal delay={0.5}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
+              Implementation
+            </h2>
+
+            {caseStudy.implementation.developmentCollaboration && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Development Collaboration
+                </h3>
+                {caseStudy.implementation.developmentCollaboration.map((paragraph, idx) => (
+                  <p key={idx} style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {caseStudy.implementation.designHandoff && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Design Handoff
+                </h3>
+                {caseStudy.implementation.designHandoff.map((paragraph, idx) => (
+                  <p key={idx} style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: 16 }}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
         </Reveal>
       )}
