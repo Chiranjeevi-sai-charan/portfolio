@@ -314,7 +314,16 @@
   gap: var(--sp-3);
   flex-wrap: wrap;
 }
-.experienceLogo { width: 64px; height: 64px; object-fit: contain; margin-bottom: 12px; display: block; }
+.experienceLogo { width: 64px; height: 64px; object-fit: contain; display: block; }
+.experienceLogoWrap { position: relative; width: 64px; height: 64px; display: block; flex-shrink: 0; }
+.experienceLogoWrap .iconDark { display: none; }
+@media (prefers-color-scheme: dark) {
+  .experienceLogoWrap .iconLight { display: none; }
+  .experienceLogoWrap .iconDark { display: block; }
+}
+.experienceCompanyHead { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.experienceCompanyName { font-weight: 700; color: var(--ink); font-size: var(--fs-body); }
+.experienceRoleBlock { margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--border); }
 .experienceRole { font-weight: 700; color: var(--ink); font-size: var(--fs-body); }
 .experienceCompany { font-size: var(--fs-small); color: var(--ink-soft); margin-top: 2px; }
 .experiencePeriod {
