@@ -17,6 +17,8 @@ import chatgptLogoWhite from "../assets/chatgpt-white-logo.png";
 import framerLogo from "../assets/Framer.png";
 import mothersonLogo from "../assets/Motherson Logo.png";
 import deloitteLogo from "../assets/Deloitte Logo.png";
+import deloitteLogoWhite from "../assets/White Deloitte Logo.png";
+import gitamLogo from "../assets/GITAM Logo.jpg";
 import sageThumbnail from "../assets/User and Chatbot V1.png";
 import styles from "./Home.module.css";
 
@@ -42,24 +44,9 @@ const CASE_STUDIES = [
     blurb: "An intelligent knowledge platform for enterprise HR teams, featuring role-based document access, AI chatbot, and multilingual support.",
     image: sageThumbnail,
   },
-  {
-    slug: "flowops",
-    tag: "Enterprise AI · Workflow automation",
-    title: "FlowOps",
-    blurb: "A node-based canvas for building, testing, and deploying AI-powered enterprise workflows.",
-  },
-  {
-    slug: "sentinel",
-    tag: "Fintech · Fraud & risk",
-    title: "Sentinel",
-    blurb: "An explainable fraud-detection dashboard with role-based workflows for credit-union teams.",
-  },
-  {
-    slug: "myghmc",
-    tag: "Civic tech · Mobile",
-    title: "MyGHMC App Redesign",
-    blurb: "A redesigned civic services app for Hyderabad citizens, blending simplicity with AI assistance.",
-  },
+  // FlowOps, Sentinel, and MyGHMC cards are hidden until those case
+  // studies have real content — data kept in CaseStudy.jsx's
+  // CASE_STUDY_DATA for when they're built out.
 ];
 
 const POSITIONING = [
@@ -105,38 +92,45 @@ const TESTIMONIALS = [
 
 const EXPERIENCE = [
   {
-    role: "UI/UX Design Consultant",
     company: "Motherson Technology Centre",
     logo: mothersonLogo,
-    period: "08/2025 – 08/2026",
-    highlights: [
-      "Led end-to-end UX design for AI-powered enterprise products, from user research and information architecture through wireframes, prototypes, and high-fidelity interfaces.",
-      "Designed AI experiences spanning conversational search, RAG, multimodal interactions, document analysis, AI model selection, and voice input, simplifying complex capabilities into intuitive, production-ready interfaces.",
-      "Built a scalable enterprise design system in Figma with reusable components, design tokens, and variables, and worked closely with engineering to validate feasibility using front-end knowledge in HTML, CSS, and React.",
-      "Converted Figma designs into responsive front-end components using HTML, CSS, JavaScript, React, and Angular, accelerating design-to-engineering handoff and validating interaction feasibility early.",
+    roles: [
+      {
+        role: "UI/UX Design Consultant",
+        period: "08/2025 – 08/2026",
+        highlights: [
+          "Led end-to-end UX design for AI-powered enterprise products, from user research and information architecture through wireframes, prototypes, and high-fidelity interfaces.",
+          "Designed AI experiences spanning conversational search, RAG, multimodal interactions, document analysis, AI model selection, and voice input, simplifying complex capabilities into intuitive, production-ready interfaces.",
+          "Built a scalable enterprise design system in Figma with reusable components, design tokens, and variables, and worked closely with engineering to validate feasibility using front-end knowledge in HTML, CSS, and React.",
+          "Converted Figma designs into responsive front-end components using HTML, CSS, JavaScript, React, and Angular, accelerating design-to-engineering handoff and validating interaction feasibility early.",
+        ],
+      },
     ],
   },
   {
-    role: "UI/UX Designer",
     company: "Deloitte Consulting India Private Limited",
     logo: deloitteLogo,
-    period: "06/2021 – 05/2025",
-    highlights: [
-      "Led usability testing sessions and translated user feedback into actionable design improvements that directly informed product decisions.",
-      "Created wireframes, high-fidelity mockups, and advanced conditional prototypes using variables, and designed immersive XR screens for Apple Vision Pro using Apple's official visionOS UI kit.",
-      "Built and maintained tokenized design systems in Figma for visual consistency and faster design-to-dev cycles, while introducing emerging design tools and AI-based workflows to grow the wider team.",
-      "Developed responsive front-end components from Figma designs using HTML, CSS, JavaScript, React, and Angular, streamlining design-to-dev handoff and functional implementation.",
-    ],
-  },
-  {
-    role: "Front-End Developer",
-    company: "Deloitte Consulting India Private Limited",
-    logo: deloitteLogo,
-    period: "01/2021 – 05/2021",
-    highlights: [
-      "Built responsive, accessible UI components using HTML, CSS, JavaScript, and React.",
-      "Partnered closely with UI/UX designers to bring interfaces to life with pixel-perfect accuracy.",
-      "Ensured a consistent experience across devices and browsers through comprehensive UI and functionality testing.",
+    logoDark: deloitteLogoWhite,
+    roles: [
+      {
+        role: "UI/UX Designer",
+        period: "06/2021 – 05/2025",
+        highlights: [
+          "Led usability testing sessions and translated user feedback into actionable design improvements that directly informed product decisions.",
+          "Created wireframes, high-fidelity mockups, and advanced conditional prototypes using variables, and designed immersive XR screens for Apple Vision Pro using Apple's official visionOS UI kit.",
+          "Built and maintained tokenized design systems in Figma for visual consistency and faster design-to-dev cycles, while introducing emerging design tools and AI-based workflows to grow the wider team.",
+          "Developed responsive front-end components from Figma designs using HTML, CSS, JavaScript, React, and Angular, streamlining design-to-dev handoff and functional implementation.",
+        ],
+      },
+      {
+        role: "Front-End Developer",
+        period: "01/2021 – 05/2021",
+        highlights: [
+          "Built responsive, accessible UI components using HTML, CSS, JavaScript, and React.",
+          "Partnered closely with UI/UX designers to bring interfaces to life with pixel-perfect accuracy.",
+          "Ensured a consistent experience across devices and browsers through comprehensive UI and functionality testing.",
+        ],
+      },
     ],
   },
 ];
@@ -254,20 +248,33 @@ export default function Home() {
         </Reveal>
         <div className={styles.experienceList}>
           {EXPERIENCE.map((job, i) => (
-            <Reveal key={`${job.company}-${job.period}`} delay={i * 0.06} className={styles.experienceRow}>
-              <div className={styles.experienceHead}>
-                <div>
-                  {job.logo && <img src={job.logo} alt={job.company} className={styles.experienceLogo} />}
-                  <div className={styles.experienceRole}>{job.role}</div>
-                  <div className={styles.experienceCompany}>{job.company}</div>
-                </div>
-                <div className={styles.experiencePeriod}>{job.period}</div>
+            <Reveal key={job.company} delay={i * 0.06} className={styles.experienceRow}>
+              <div className={styles.experienceCompanyHead}>
+                {job.logo && (
+                  job.logoDark ? (
+                    <span className={styles.experienceLogoWrap}>
+                      <img src={job.logo} alt={job.company} className={`${styles.experienceLogo} ${styles.iconLight}`} />
+                      <img src={job.logoDark} alt={job.company} className={`${styles.experienceLogo} ${styles.iconDark}`} />
+                    </span>
+                  ) : (
+                    <img src={job.logo} alt={job.company} className={styles.experienceLogo} />
+                  )
+                )}
+                <div className={styles.experienceCompanyName}>{job.company}</div>
               </div>
-              <ul className={styles.experienceHighlights}>
-                {job.highlights.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
+              {job.roles.map((r, ri) => (
+                <div key={r.role} className={ri > 0 ? styles.experienceRoleBlock : undefined}>
+                  <div className={styles.experienceHead}>
+                    <div className={styles.experienceRole}>{r.role}</div>
+                    <div className={styles.experiencePeriod}>{r.period}</div>
+                  </div>
+                  <ul className={styles.experienceHighlights}>
+                    {r.highlights.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </Reveal>
           ))}
         </div>
@@ -281,9 +288,12 @@ export default function Home() {
         <div className={styles.experienceList}>
           <Reveal className={styles.experienceRow}>
             <div className={styles.experienceHead}>
-              <div>
-                <div className={styles.experienceRole}>Information Technology</div>
-                <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
+              <div className={styles.experienceCompanyHead} style={{ marginBottom: 0 }}>
+                <img src={gitamLogo} alt="GITAM Deemed to be University" className={styles.experienceLogo} />
+                <div>
+                  <div className={styles.experienceRole}>Information Technology</div>
+                  <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
+                </div>
               </div>
               <div className={styles.experiencePeriod}>2016 – 2020</div>
             </div>

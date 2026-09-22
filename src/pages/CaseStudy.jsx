@@ -25,6 +25,10 @@ import analyticsDashboardTopV2 from "../assets/analytics-dashboard-top-v2.png";
 import analyticsDashboardInsightsV2 from "../assets/analytics-dashboard-insights-v2.png";
 import sidebarCollapsedLogoV2 from "../assets/sidebar-collapsed-logo-v2.png";
 import sidebarExpandedLogoV2 from "../assets/sidebar-expanded-logo-v2.png";
+import mockupEmployeeChat from "../assets/Employee Chat Mock up.png";
+import mockupAdminDocuments from "../assets/Admin Documents Mock up.png";
+import mockupUserManagement from "../assets/System Admin User Management Mock up.png";
+import mockupAnalyticsDashboard from "../assets/Analytics Dashboard Mock up.png";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -392,6 +396,11 @@ export default function CaseStudy() {
             display: block !important;
           }
         }
+        @media (max-width: 640px) {
+          .sage-mockup-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
       `}</style>
 
       {slug === "sage" && (
@@ -563,6 +572,37 @@ export default function CaseStudy() {
                   Explore Sage →
                 </Link>
               </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <h2 style={{ fontSize: "2rem", marginTop: 56, marginBottom: 24, fontWeight: 700, color: "var(--ink)" }}>
+              A Look at Sage
+            </h2>
+            <div className="sage-mockup-grid" style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: 16,
+            }}>
+              {[
+                { src: mockupEmployeeChat, alt: "Sage Employee Chat mockup" },
+                { src: mockupAdminDocuments, alt: "Sage Admin Documents mockup" },
+                { src: mockupUserManagement, alt: "Sage System Admin User Management mockup" },
+                { src: mockupAnalyticsDashboard, alt: "Sage Analytics Dashboard mockup" },
+              ].map((m) => (
+                <img
+                  key={m.alt}
+                  src={m.src}
+                  alt={m.alt}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: 10,
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+                    display: "block",
+                  }}
+                />
+              ))}
             </div>
           </Reveal>
 
