@@ -40,6 +40,8 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const containerStyles: React.CSSProperties = {
     padding: spacing.lg,
     backgroundColor: 'transparent',
+    height: '100%',
+    overflowY: 'auto',
   };
 
   const titleStyles: React.CSSProperties = {
