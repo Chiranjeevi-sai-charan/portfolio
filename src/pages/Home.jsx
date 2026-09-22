@@ -18,6 +18,7 @@ import framerLogo from "../assets/Framer.png";
 import mothersonLogo from "../assets/Motherson Logo.png";
 import deloitteLogo from "../assets/Deloitte Logo.png";
 import deloitteLogoWhite from "../assets/White Deloitte Logo.png";
+import gitamLogo from "../assets/GITAM Logo.jpg";
 import sageThumbnail from "../assets/User and Chatbot V1.png";
 import styles from "./Home.module.css";
 
@@ -43,24 +44,9 @@ const CASE_STUDIES = [
     blurb: "An intelligent knowledge platform for enterprise HR teams, featuring role-based document access, AI chatbot, and multilingual support.",
     image: sageThumbnail,
   },
-  {
-    slug: "flowops",
-    tag: "Enterprise AI · Workflow automation",
-    title: "FlowOps",
-    blurb: "A node-based canvas for building, testing, and deploying AI-powered enterprise workflows.",
-  },
-  {
-    slug: "sentinel",
-    tag: "Fintech · Fraud & risk",
-    title: "Sentinel",
-    blurb: "An explainable fraud-detection dashboard with role-based workflows for credit-union teams.",
-  },
-  {
-    slug: "myghmc",
-    tag: "Civic tech · Mobile",
-    title: "MyGHMC App Redesign",
-    blurb: "A redesigned civic services app for Hyderabad citizens, blending simplicity with AI assistance.",
-  },
+  // FlowOps, Sentinel, and MyGHMC cards are hidden until those case
+  // studies have real content — data kept in CaseStudy.jsx's
+  // CASE_STUDY_DATA for when they're built out.
 ];
 
 const POSITIONING = [
@@ -302,9 +288,12 @@ export default function Home() {
         <div className={styles.experienceList}>
           <Reveal className={styles.experienceRow}>
             <div className={styles.experienceHead}>
-              <div>
-                <div className={styles.experienceRole}>Information Technology</div>
-                <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
+              <div className={styles.experienceCompanyHead} style={{ marginBottom: 0 }}>
+                <img src={gitamLogo} alt="GITAM Deemed to be University" className={styles.experienceLogo} />
+                <div>
+                  <div className={styles.experienceRole}>Information Technology</div>
+                  <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
+                </div>
               </div>
               <div className={styles.experiencePeriod}>2016 – 2020</div>
             </div>
