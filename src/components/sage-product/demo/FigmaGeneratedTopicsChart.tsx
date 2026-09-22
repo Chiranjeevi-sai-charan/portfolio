@@ -2,10 +2,10 @@ import React from 'react';
 import { colors, spacing, borderRadius, typography, chartPalette } from '../../../styles/sage/tokens';
 
 /**
- * Generated from the "Most Asked Topics" frame in the Sage Figma file via
- * Figma's MCP (get_design_context), then adapted from the raw React+Tailwind
- * reference output to this project's actual convention: inline style objects
- * sourced from tokens.ts instead of Tailwind classes.
+ * Generated from the "Panel — Most Asked Topics" frame in the Sage Figma
+ * file via Figma's MCP (get_design_context), then adapted from the raw
+ * React+Tailwind reference output to this project's actual convention:
+ * inline style objects sourced from tokens.ts instead of Tailwind classes.
  */
 
 interface Topic {
@@ -15,11 +15,14 @@ interface Topic {
 }
 
 const TOPICS: Topic[] = [
-  { name: 'Vacation & Time Off', value: 29, color: chartPalette.blue },
-  { name: 'Health Insurance', value: 21, color: chartPalette.green },
-  { name: 'Sick Leave', value: 18, color: chartPalette.amber },
-  { name: 'Remote Work', value: 12, color: chartPalette.cyan },
-  { name: 'Benefits', value: 10, color: chartPalette.purple },
+  { name: 'Vacation & Time Off', value: 25, color: chartPalette.blue },
+  { name: 'Health Insurance', value: 19, color: chartPalette.green },
+  { name: 'Sick Leave', value: 17, color: chartPalette.amber },
+  { name: 'Remote Work', value: 14, color: chartPalette.cyan },
+  { name: 'Employee Handbook', value: 6, color: chartPalette.purple },
+  { name: 'Benefits', value: 6, color: chartPalette.pink },
+  { name: 'Other / Uncategorized', value: 4, color: chartPalette.teal },
+  { name: 'Salary & Compensation', value: 4, color: colors['neutral-300'] },
 ];
 
 export const FigmaGeneratedTopicsChart: React.FC = () => {
@@ -29,18 +32,19 @@ export const FigmaGeneratedTopicsChart: React.FC = () => {
     <div
       style={{
         backgroundColor: colors['neutral-white'],
-        border: `1px solid ${colors['neutral-200']}`,
+        border: `0.8px solid rgba(26, 117, 219, 0.06)`,
         borderRadius: borderRadius.lg,
-        padding: `${spacing.lg} ${spacing.xl}`,
+        padding: spacing.lg,
         display: 'flex',
         flexDirection: 'column',
-        gap: spacing.lg,
+        gap: spacing.md,
+        boxShadow: '0px 1px 3px 0px rgba(16,24,40,0.04)',
       }}
     >
       <p
         style={{
           fontSize: typography.fontSize['h4'],
-          fontWeight: typography.fontWeight.bold,
+          fontWeight: typography.fontWeight.semibold,
           color: colors['neutral-900'],
           margin: 0,
         }}
@@ -51,12 +55,12 @@ export const FigmaGeneratedTopicsChart: React.FC = () => {
       {TOPICS.map((topic) => (
         <div
           key={topic.name}
-          style={{ display: 'flex', alignItems: 'center', gap: spacing.md }}
+          style={{ display: 'flex', alignItems: 'center', gap: spacing.sm }}
         >
           <span
             style={{
               width: 140,
-              fontSize: typography.fontSize['body-sm'],
+              fontSize: typography.fontSize['body-xs'],
               color: colors['neutral-700'],
             }}
           >
@@ -64,7 +68,7 @@ export const FigmaGeneratedTopicsChart: React.FC = () => {
           </span>
           <div
             style={{
-              width: 280,
+              flex: 1,
               height: 12,
               borderRadius: borderRadius.sm,
               backgroundColor: colors['neutral-100'],
@@ -82,8 +86,11 @@ export const FigmaGeneratedTopicsChart: React.FC = () => {
           </div>
           <span
             style={{
-              fontSize: typography.fontSize['body-sm'],
-              color: colors['neutral-700'],
+              width: 28,
+              textAlign: 'right',
+              fontSize: typography.fontSize['body-xs'],
+              fontWeight: typography.fontWeight.semibold,
+              color: colors['neutral-900'],
             }}
           >
             {topic.value}
