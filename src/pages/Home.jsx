@@ -137,6 +137,12 @@ const EXPERIENCE = [
 
 const CERTIFICATIONS = [
   {
+    title: "Build a Standout UX/UI Portfolio: Land Your Dream Job",
+    issuer: "Interaction Design Foundation",
+    url: "https://ixdf.org/members/kondaka-chiranjeevi-sai-charan/certificate/course/69414a9a-8e71-42e9-bb9a-e3b120a7c9ba",
+    image: "https://ixdf.org/certificates/course/69414a9a-8e71-42e9-bb9a-e3b120a7c9ba/extraLarge",
+  },
+  {
     title: "Design for the 21st Century with Don Norman",
     issuer: "Interaction Design Foundation",
     url: "https://ixdf.org/members/kondaka-chiranjeevi-sai-charan/certificate/course/98a16628-d5f8-423e-8667-786e62971343",
@@ -401,15 +407,17 @@ export default function Home() {
         <Reveal className={styles.sectionHead}>
           <div className={styles.kicker}>Certifications</div>
           <h2>Courses I've completed</h2>
+          <p>{CERTIFICATIONS.length} certificate{CERTIFICATIONS.length !== 1 ? "s" : ""} earned so far.</p>
         </Reveal>
-        <div className={styles.certGrid}>
-          {CERTIFICATIONS.map((cert, i) => (
-            <Reveal key={cert.title} delay={i * 0.06}>
+        <Reveal>
+          <div className={styles.certStrip}>
+            {CERTIFICATIONS.map((cert) => (
               <a
+                key={cert.title}
                 href={cert.url}
                 target="_blank"
                 rel="noreferrer"
-                className={styles.certCard}
+                className={`${styles.certCard} ${styles.certCardCompact}`}
                 data-cursor-label="View certificate"
               >
                 <div className={styles.certThumb}>
@@ -423,9 +431,9 @@ export default function Home() {
                   <span className={styles.certArrow} aria-hidden="true">→</span>
                 </div>
               </a>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       <footer className={styles.footer}>

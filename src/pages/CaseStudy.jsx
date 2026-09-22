@@ -425,11 +425,11 @@ export default function CaseStudy() {
             transition: "background-color 0.2s ease-in-out, padding 0.2s ease-in-out",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#2E7D32";
+            e.currentTarget.style.filter = "brightness(0.85)";
             e.currentTarget.style.padding = "18px 14px";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "var(--accent)";
+            e.currentTarget.style.filter = "none";
             e.currentTarget.style.padding = "18px 10px";
           }}
         >
@@ -561,11 +561,11 @@ export default function CaseStudy() {
                     transition: "all 0.2s ease-in-out",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#2E7D32";
+                    e.currentTarget.style.filter = "brightness(0.85)";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--accent)";
+                    e.currentTarget.style.filter = "none";
                     e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
@@ -1837,11 +1837,11 @@ export default function CaseStudy() {
                 };
                 const handlers = {
                   onMouseEnter: (e) => {
-                    e.currentTarget.style.backgroundColor = "#2E7D32";
+                    e.currentTarget.style.filter = "brightness(0.85)";
                     e.currentTarget.style.transform = "translateY(-2px)";
                   },
                   onMouseLeave: (e) => {
-                    e.currentTarget.style.backgroundColor = "var(--accent)";
+                    e.currentTarget.style.filter = "none";
                     e.currentTarget.style.transform = "translateY(0)";
                   },
                 };

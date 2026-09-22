@@ -346,12 +346,14 @@
   max-width: 68ch;
 }
 
-.certGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-4);
+.certStrip {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: var(--sp-2);
 }
-@media (max-width: 780px) { .certGrid { grid-template-columns: 1fr; } }
+.certStrip::-webkit-scrollbar { height: 6px; }
+.certStrip::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--r-lg); }
 .certCard {
   display: block;
   background: var(--surface);
@@ -360,6 +362,12 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.certCardCompact {
+  width: 260px;
+  flex-shrink: 0;
+  margin-right: var(--sp-4);
+  scroll-snap-align: start;
 }
 .certCard:hover {
   border-color: var(--accent);
