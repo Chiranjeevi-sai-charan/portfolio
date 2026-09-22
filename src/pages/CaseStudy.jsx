@@ -280,8 +280,24 @@ const CASE_STUDY_DATA = {
       designHandoff: [
         "Handoff ran through Figma dev-mode specs, a documented component library with states and tokens, and short walkthroughs for the trickier interactions, so engineers never had to guess intent.",
         "For Sage, I tightened that same loop with a modern pipeline: connecting Figma directly to Claude Code through the Figma MCP, so screens hand off as structured context an AI agent can read and translate into React components itself."
-      ]
+      ],
+      figmaToCode: {
+        intro: "Sage's screens live in Figma as fully componentized designs, bound to real color, spacing, and typography variables rather than hardcoded values. To prove the pipeline out, I ran Figma MCP and Claude Code end to end on two of those frames, the Most Asked Topics panel and the Documents table, and had them read straight into working React components: structure, bound tokens, and copy carried over, no hand-authored markup in between."
+      }
     },
+    results: {
+      outcomes: "My Support Bot, the real product this case study recreates as Sage, shipped to actual employees at Yachiyo, not just a design handoff. Once live, it became the default first stop for HR questions across departments, replacing the email-and-wait pattern the original research flagged as the core problem.",
+      impact: "The clearest change was speed: what used to be a multi-day email round-trip with HR became an instant, source-verified answer employees could act on immediately, directly closing the gap the initial research identified in Aditya's journey.",
+      userFeedback: "The System Admin and HR Admin walkthroughs covered in Testing surfaced the strongest signal: once the Analytics and AI Insights dashboard shipped, admins confirmed it closed the visibility gap they'd flagged, turning \"we can't see what's happening\" into \"here's what to do about it.\""
+    },
+    reflection: {
+      lessonsLearned: "The biggest gap in Sage wasn't in the employee experience, it was in what admins couldn't see until testing surfaced it. I'd designed thoroughly for the primary user (the employee asking a question) but the secondary user (the admin managing the system) only revealed their real blind spot once real people walked through the live product. It reinforced that user research doesn't end at ship, the people running a system day to day will find gaps that upfront design assumptions never will.",
+      futureImprovements: "Right now Sage is scoped to HR queries, but the same pattern, source-verified answers pulled from a document library, applies well beyond HR. A natural next step is opening Sage up to internal project knowledge: each project gets its own space for documents (specs, Confluence-style pages, decisions) organized by department or team, browsable directly or queried through the same chatbot. A new joiner ramping up on a project could skim the documents themselves or just ask Sage what they need to know, the same instant, cited-answer experience, pointed at project knowledge instead of HR policy."
+    },
+    linksAndReferences: [
+      { label: "Explore Sage →", href: "/sage", internal: true },
+      { label: "View Figma File →", href: "https://www.figma.com/design/lipc22bPyvjogpr4AtoEeg/SAGE?node-id=29-2&t=zfU6CROZRYJ9E1ls-1", internal: false }
+    ],
     tools: [
       { name: "Figma", category: "Design & Prototyping", description: "Created comprehensive design system with components, patterns, and comprehensive documentation for Sage." },
       { name: "React", category: "Frontend Framework", description: "Built interactive UI components with state management for seamless user experience." },
@@ -664,7 +680,7 @@ export default function CaseStudy() {
                 gap: 24
               }}>
                 {/* Column 1: User Problem Header + Sticker */}
-                <div>
+                <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                   <div style={{
                     fontSize: 14,
                     fontWeight: 700,
@@ -685,7 +701,8 @@ export default function CaseStudy() {
                     backgroundColor: "rgba(255, 255, 255, 0.02)",
                     borderRadius: "12px",
                     border: "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                    flex: 1
                   }}>
                     <img
                       src={problemUserSticker}
@@ -717,7 +734,7 @@ export default function CaseStudy() {
                 </div>
 
                 {/* Column 2: Business Impact Header + Sticker */}
-                <div>
+                <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                   <div style={{
                     fontSize: 14,
                     fontWeight: 700,
@@ -738,7 +755,8 @@ export default function CaseStudy() {
                     backgroundColor: "rgba(255, 255, 255, 0.02)",
                     borderRadius: "12px",
                     border: "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                    flex: 1
                   }}>
                     <img
                       src={problemBusinessSticker}
@@ -764,13 +782,13 @@ export default function CaseStudy() {
                       lineHeight: 1.5,
                       margin: 0
                     }}>
-                      HR staff receive questions employees couldn't find answers to, fielding 12-15 clarification requests per day. This wastes 60% of HR time on repetitive questions that should be self-service, creating burnout and preventing strategic work.
+                      HR staff receive questions employees couldn't find answers to, fielding 12-15 clarification requests per day. This wastes a lot of HR time on repetitive questions that should be self-service, creating burnout and preventing strategic work.
                     </p>
                   </div>
                 </div>
 
                 {/* Column 3: Goal Header + Sticker */}
-                <div>
+                <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                   <div style={{
                     fontSize: 14,
                     fontWeight: 700,
@@ -791,7 +809,8 @@ export default function CaseStudy() {
                     backgroundColor: "rgba(255, 255, 255, 0.02)",
                     borderRadius: "12px",
                     border: "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                    flex: 1
                   }}>
                     <img
                       src={problemGoalSticker}
@@ -894,11 +913,14 @@ export default function CaseStudy() {
               {/* PERSONAS GRID */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+                gridTemplateColumns: "1fr",
                 gap: 40
               }}>
                 {/* PERSONA 1: ADITYA */}
                 <div style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
                   padding: 24,
                   backgroundColor: "rgba(255, 255, 255, 0.02)",
                   borderRadius: 12,
@@ -908,14 +930,15 @@ export default function CaseStudy() {
                     src={personaAdityaSticker}
                     alt="Persona: Aditya - Operations Supervisor"
                     style={{
-                      width: "60%",
-                      maxWidth: 200,
+                      width: "40%",
+                      maxWidth: 320,
                       height: "auto",
+                      flexShrink: 0,
                       display: "block",
-                      margin: "0 auto 24px",
                       borderRadius: 8
                     }}
                   />
+                  <div style={{ flex: 1 }}>
                   <div style={{ marginBottom: 20 }}>
                     <h3 style={{
                       fontSize: 20,
@@ -999,10 +1022,14 @@ export default function CaseStudy() {
                   }}>
                     "I ask HR at 7 PM and expect answers by next day"
                   </p>
+                  </div>
                 </div>
 
                 {/* PERSONA 2: PRIYA */}
                 <div style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
                   padding: 24,
                   backgroundColor: "rgba(255, 255, 255, 0.02)",
                   borderRadius: 12,
@@ -1012,14 +1039,15 @@ export default function CaseStudy() {
                     src={personaPriyaSticker}
                     alt="Persona: Priya - HR Manager"
                     style={{
-                      width: "60%",
-                      maxWidth: 200,
+                      width: "40%",
+                      maxWidth: 320,
                       height: "auto",
+                      flexShrink: 0,
                       display: "block",
-                      margin: "0 auto 24px",
                       borderRadius: 8
                     }}
                   />
+                  <div style={{ flex: 1 }}>
                   <div style={{ marginBottom: 20 }}>
                     <h3 style={{
                       fontSize: 20,
@@ -1103,6 +1131,7 @@ export default function CaseStudy() {
                   }}>
                     "If employees could just find answers themselves, I could actually do strategic work"
                   </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1657,6 +1686,136 @@ export default function CaseStudy() {
                 ))}
               </div>
             )}
+
+            {caseStudy.implementation.figmaToCode && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Figma → Code Workflow
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                  {caseStudy.implementation.figmaToCode.intro}
+                </p>
+              </div>
+            )}
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.results && (
+        <Reveal delay={0.55}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
+              Results
+            </h2>
+
+            {caseStudy.results.outcomes && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Outcomes
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                  {caseStudy.results.outcomes}
+                </p>
+              </div>
+            )}
+
+            {caseStudy.results.impact && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Impact
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                  {caseStudy.results.impact}
+                </p>
+              </div>
+            )}
+
+            {caseStudy.results.userFeedback && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  User Feedback
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                  {caseStudy.results.userFeedback}
+                </p>
+              </div>
+            )}
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.reflection && (
+        <Reveal delay={0.6}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
+              Reflection
+            </h2>
+
+            {caseStudy.reflection.lessonsLearned && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Lessons Learned
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                  {caseStudy.reflection.lessonsLearned}
+                </p>
+              </div>
+            )}
+
+            {caseStudy.reflection.futureImprovements && (
+              <div style={{ marginBottom: 48 }}>
+                <h3 style={{ fontSize: "var(--fs-h4)", marginBottom: 16, fontWeight: 700 }}>
+                  Future Improvements
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: "1.7", color: "var(--ink-soft)" }}>
+                  {caseStudy.reflection.futureImprovements}
+                </p>
+              </div>
+            )}
+          </div>
+        </Reveal>
+      )}
+
+      {caseStudy.linksAndReferences && (
+        <Reveal delay={0.65}>
+          <div style={{ marginTop: 96 }}>
+            <h2 style={{ fontSize: "2rem", marginBottom: 32, fontWeight: 700, color: "var(--ink)" }}>
+              Links & References
+            </h2>
+            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+              {caseStudy.linksAndReferences.map((link, idx) => {
+                const buttonStyle = {
+                  display: "inline-block",
+                  padding: "12px 32px",
+                  backgroundColor: "var(--accent)",
+                  color: "white",
+                  textDecoration: "none",
+                  borderRadius: "8px",
+                  fontWeight: 600,
+                  fontSize: 15,
+                  transition: "all 0.2s ease-in-out",
+                };
+                const handlers = {
+                  onMouseEnter: (e) => {
+                    e.currentTarget.style.backgroundColor = "#2E7D32";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  },
+                  onMouseLeave: (e) => {
+                    e.currentTarget.style.backgroundColor = "var(--accent)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  },
+                };
+                return link.internal ? (
+                  <Link key={idx} to={link.href} style={buttonStyle} {...handlers}>
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a key={idx} href={link.href} target="_blank" rel="noreferrer" style={buttonStyle} {...handlers}>
+                    {link.label}
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </Reveal>
       )}
