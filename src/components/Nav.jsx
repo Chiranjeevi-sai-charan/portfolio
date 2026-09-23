@@ -1,44 +1,72 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-// import signature from "../assets/Sign V3.png";
+import { Link, useLocation } from "react-router-dom";
 import linkedinLogo from "../assets/LinkedIn Logo.png";
+import useTimeOfDay from "../hooks/useTimeOfDay";
 import styles from "./Nav.module.css";
+
+// Scenes dark enough to need white text; morning/afternoon get dark
+// text instead. Same period value TimeBackground itself uses, so the
+// two always stay in sync without any prop-drilling between them.
+const DARK_PERIODS = new Set(["evening", "night", "midnight"]);
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const period = useTimeOfDay();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    // On Home, stay in hero mode until the hero section has fully
+    // scrolled behind the nav — not just a few px, the whole fold —
+    // so the transition doesn't fire the instant you nudge the wheel.
+    const onScroll = () => {
+      const hero = document.getElementById("top");
+      if (hero) {
+        setScrolled(hero.getBoundingClientRect().bottom <= 0);
+      } else {
+        setScrolled(window.scrollY > 8);
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
 
-  const closeMobileMenu = () => setMobileMenuOpen(false);
+  const closeMenu = () => setMenuOpen(false);
 
-  const scrollToTop = (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // Escape and click-outside are standard expected behavior for
+  // dropdown menus, even though the menu is already fully reachable
+  // and closeable without them (re-click the button, or tab through).
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    const onClickOutside = (e) => {
+      if (!e.target.closest(`.${styles.menu}`) && !e.target.closest(`.${styles.menuBtn}`)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("mousedown", onClickOutside);
+    };
+  }, [menuOpen]);
+
+  // The wallpaper only exists behind the nav on Home's hero, before
+  // scrolling past it — everywhere else (other routes, or scrolled
+  // past the hero) there's just the plain page body underneath, so
+  // forcing white text there would make it unreadable.
+  const heroMode = location.pathname === "/" && !scrolled;
+  const heroDark = heroMode && DARK_PERIODS.has(period);
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""} ${heroMode ? styles.heroMode : ""} ${heroMode ? (heroDark ? styles.heroDark : styles.heroLight) : ""}`}>
       <Link to="/" className={styles.brand} data-cursor-label="Home">
-        <div className={styles.brandContent}>
-          {/* <img src={signature} alt="" className={styles.signature} /> */}
-          <span className={styles.brandName}>K. Chiranjeevi</span>
-        </div>
+        <span className={styles.brandName}>K. Chiranjeevi</span>
       </Link>
-      <div className={styles.links}>
-        <Link to="/" data-cursor-label="Home">Home</Link>
-        <a href="/#about" data-cursor-label="About">About</a>
-        <a href="/#experience" className={styles.tier3} data-cursor-label="Experience">Experience</a>
-        <a href="/#achievements" data-cursor-label="Recognition">Recognition</a>
-        <a href="/#work" data-cursor-label="Work">Work</a>
-        <a href="/#stack" data-cursor-label="Toolkit">Toolkit</a>
-        <a href="/#testimonials" className={styles.tier2} data-cursor-label="Recommendations">Recommendations</a>
-        <a href="/#certifications" className={styles.tier1} data-cursor-label="Certifications">Certifications</a>
+
+      <div className={styles.actions}>
         <a
           href="https://flowcv.com/resume/avbobjk3o6"
           target="_blank"
@@ -55,7 +83,7 @@ export default function Nav() {
           href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
           target="_blank"
           rel="noreferrer"
-          className={styles.iconLink}
+          className={styles.iconBtn}
           aria-label="Message on LinkedIn"
           data-cursor-label="LinkedIn"
         >
@@ -63,7 +91,7 @@ export default function Nav() {
         </a>
         <a
           href="tel:+8500518015"
-          className={styles.iconLink}
+          className={styles.iconBtn}
           title="+8500518015"
           aria-label="Call me"
           data-cursor-label="Call"
@@ -78,38 +106,50 @@ export default function Nav() {
         >
           Say hello
         </a>
+
+        <button
+          className={styles.menuBtn}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+          aria-expanded={menuOpen}
+          aria-controls="nav-menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
 
-      <button
-        className={styles.mobileMenuBtn}
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        aria-label="Menu"
-        aria-expanded={mobileMenuOpen}
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      {mobileMenuOpen && (
-        <div className={styles.mobileMenu}>
-          <Link to="/" onClick={closeMobileMenu}>Home</Link>
-          <a href="/#about" onClick={closeMobileMenu}>About</a>
-          <a href="/#experience" onClick={closeMobileMenu}>Experience</a>
-          <a href="/#achievements" onClick={closeMobileMenu}>Recognition</a>
-          <a href="/#work" onClick={closeMobileMenu}>Work</a>
-          <a href="/#stack" onClick={closeMobileMenu}>Toolkit</a>
-          <a href="/#testimonials" onClick={closeMobileMenu}>Recommendations</a>
-          <a href="/#certifications" onClick={closeMobileMenu}>Certifications</a>
-          <a href="https://flowcv.com/resume/avbobjk3o6" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuResume}>
+      {menuOpen && (
+        <div id="nav-menu" className={styles.menu}>
+          <Link to="/" onClick={closeMenu}>Home</Link>
+          <a href="/#about" onClick={closeMenu}>About</a>
+          <a href="/#experience" onClick={closeMenu}>Experience</a>
+          <a href="/#achievements" onClick={closeMenu}>Recognition</a>
+          <a href="/#work" onClick={closeMenu}>Work</a>
+          <a href="/#stack" onClick={closeMenu}>Toolkit</a>
+          <a href="/#testimonials" onClick={closeMenu}>Recommendations</a>
+          <a href="/#certifications" onClick={closeMenu}>Certifications</a>
+          <a
+            href="https://flowcv.com/resume/avbobjk3o6"
+            target="_blank"
+            rel="noreferrer"
+            onClick={closeMenu}
+            className={styles.menuExtra}
+          >
             Resume
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M10 2h4v4M14 2L8 8M6 2H2v12h12V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
           </a>
-          <a href="https://www.linkedin.com/in/chiranjeevi-charan-k/" target="_blank" rel="noreferrer" onClick={closeMobileMenu} className={styles.mobileMenuLinkedin}>
-            <img src={linkedinLogo} alt="LinkedIn" />
+          <a
+            href="https://www.linkedin.com/in/chiranjeevi-charan-k/"
+            target="_blank"
+            rel="noreferrer"
+            onClick={closeMenu}
+            className={styles.menuExtra}
+          >
             LinkedIn
+          </a>
+          <a href="tel:+8500518015" onClick={closeMenu} className={styles.menuExtra}>
+            Call
           </a>
         </div>
       )}
