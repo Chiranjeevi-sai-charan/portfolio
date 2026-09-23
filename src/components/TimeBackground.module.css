@@ -24,7 +24,7 @@
   transition: opacity 3s ease;
   /* Softens hard silhouette edges (skyline, sun/moon disc) so they
      don't compete with body text sitting directly on top. */
-  /* filter: blur(10px); */
+  /* filter: blur(5px); */
 }
 
 .active {
