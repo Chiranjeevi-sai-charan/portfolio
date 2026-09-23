@@ -400,6 +400,13 @@ export default function CaseStudy() {
           .sage-mockup-grid {
             grid-template-columns: 1fr !important;
           }
+          .persona-card {
+            flex-direction: column !important;
+          }
+          .persona-card img {
+            width: 100% !important;
+            max-width: none !important;
+          }
         }
       `}</style>
 
@@ -957,7 +964,7 @@ export default function CaseStudy() {
                 gap: 40
               }}>
                 {/* PERSONA 1: ADITYA */}
-                <div style={{
+                <div className="persona-card" style={{
                   display: "flex",
                   gap: 32,
                   alignItems: "flex-start",
@@ -1066,7 +1073,7 @@ export default function CaseStudy() {
                 </div>
 
                 {/* PERSONA 2: PRIYA */}
-                <div style={{
+                <div className="persona-card" style={{
                   display: "flex",
                   gap: 32,
                   alignItems: "flex-start",
