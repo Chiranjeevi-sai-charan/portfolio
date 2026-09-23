@@ -1,4 +1,5 @@
 import useTimeOfDay from "../hooks/useTimeOfDay";
+// import FlyingSilhouettes from "./FlyingSilhouettes";
 import morningImg from "../assets/dynamic-bg-morning.png";
 import afternoonImg from "../assets/dynamic-bg-afternoon.png";
 import eveningImg from "../assets/dynamic-bg-evening.png";
@@ -14,11 +15,11 @@ const IMAGES = {
   midnight: midnightImg,
 };
 
-// Apple Dynamic Desktop-style wallpaper: one fixed illustrated scene,
+// Apple Dynamic Desktop-style wallpaper: one illustrated scene,
 // re-rendered per time-of-day and crossfaded by local clock (see
-// useTimeOfDay). A var(--bg)-tinted scrim sits on top so foreground
-// text (which sits directly on this background in several sections)
-// keeps its usual contrast regardless of which image or theme is active.
+// useTimeOfDay). Lives only in Home's hero section, filling its
+// positioned parent (absolute inset:0). A scrim sits on top so the
+// hero's white text keeps consistent contrast across all 5 scenes.
 export default function TimeBackground() {
   const period = useTimeOfDay();
 
@@ -33,6 +34,7 @@ export default function TimeBackground() {
         />
       ))}
       <div className={styles.scrim} />
+      {/* <FlyingSilhouettes period={period} /> */}
     </div>
   );
 }

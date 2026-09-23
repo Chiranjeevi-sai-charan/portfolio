@@ -10,8 +10,6 @@ html {
   /* Lenis drives the actual scroll interpolation; native smooth-scroll
      stays as a safety fallback for anchor jumps before Lenis mounts. */
   scroll-behavior: smooth;
-  /* FOUC-safe fallback: shows before TimeBackground mounts, and on the
-     /sage route where TimeBackground is deliberately not rendered. */
   background: var(--bg);
 }
 html, body, #root { height: 100%; }
@@ -21,9 +19,7 @@ body {
   font-size: var(--fs-body);
   line-height: 1.6;
   color: var(--ink);
-  /* Transparent so TimeBackground's fixed gradient layer shows through;
-     html's background above is the fallback/sage-route base color. */
-  background: transparent;
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

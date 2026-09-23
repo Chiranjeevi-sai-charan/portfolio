@@ -1,4 +1,6 @@
 .hero {
+  position: relative;
+  overflow: hidden;
   min-height: 100vh;
   display: grid;
   grid-template-columns: minmax(320px, 44%) 1fr;
@@ -11,10 +13,17 @@
   color: var(--accent-text);
   margin-bottom: var(--sp-1);
 }
+/* The hero has its own photographic TimeBackground behind it, so its
+   text can't rely on theme tokens the way the rest of the page does —
+   forced white + shadow instead, same treatment as the nav banner. */
 .heroTextCol .kicker {
   margin-bottom: var(--sp-3);
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
 }
 .heroPhotoCol {
+  position: relative;
+  z-index: 1;
   align-self: stretch;
   height: 100vh;
   padding-top: 80px;
@@ -35,6 +44,8 @@
   object-position: left bottom;
 }
 .heroTextCol {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   padding: 96px var(--sp-6) var(--sp-6) var(--sp-5);
   display: flex;
@@ -74,7 +85,8 @@
   font-size: 34px;
   max-width: 70ch;
   line-height: 1.5;
-  color: var(--ink);
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
   font-weight: 400;
 }
 .productDesigner {
@@ -82,10 +94,10 @@
   display: inline-block;
   font-size: 44px;
   font-weight: 700;
-  color: var(--ink);
+  color: #fff;
 }
 .accentNumber {
-  color: var(--accent-text);
+  color: #7fdcff;
   font-weight: 700;
 }
 .underlineWord {
@@ -103,7 +115,8 @@
 .heroSub {
   margin-top: var(--sp-2);
   font-size: clamp(16px, 2.5vw, 20px);
-  color: var(--ink-soft);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   max-width: 56ch;
   line-height: 1.6;
 }
@@ -165,7 +178,7 @@
 .positioningLabel {
   font-size: 13px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-text);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-top: 6px;
@@ -457,7 +470,7 @@
 }
 
 .linkedinLink:hover {
-  color: var(--accent);
+  color: var(--accent-text);
   transform: translateX(2px);
 }
 
