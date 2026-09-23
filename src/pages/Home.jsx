@@ -11,6 +11,7 @@ import TestimonialCarousel from "../components/TestimonialCarousel";
 // import DogWorld from "../components/DogWorld/DogWorld";
 import profilePic from "../assets/Profile Pic No Bg.png";
 import achievementPic from "../assets/Achievement.jpg";
+import comingSoonImage from "../assets/Coming soon.png";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
 import chatgptLogoWhite from "../assets/chatgpt-white-logo.png";
@@ -44,9 +45,9 @@ const CASE_STUDIES = [
     blurb: "An intelligent knowledge platform for enterprise HR teams, featuring role-based document access, AI chatbot, and multilingual support.",
     image: sageThumbnail,
   },
-  // FlowOps, Sentinel, and MyGHMC cards are hidden until those case
-  // studies have real content — data kept in CaseStudy.jsx's
-  // CASE_STUDY_DATA for when they're built out.
+  // FlowOps, Sentinel, and MyGHMC aren't named publicly yet — a single
+  // generic "More Coming Soon" card stands in for all of them below.
+  // Their data stays here for when they're built out and re-added.
 ];
 
 const POSITIONING = [
@@ -349,6 +350,18 @@ export default function Home() {
               </Link>
             </Reveal>
           ))}
+          <Reveal delay={CASE_STUDIES.length * 0.08}>
+            <div className={`${styles.card} ${styles.cardComingSoon}`}>
+              <div className={styles.cardMedia}>
+                <img src={comingSoonImage} alt="More case studies coming soon" />
+              </div>
+              <div className={styles.cardBody}>
+                <div className={styles.cardTag}>In progress</div>
+                <h3>More Coming Soon</h3>
+                <p>A few more case studies are in the works.</p>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
