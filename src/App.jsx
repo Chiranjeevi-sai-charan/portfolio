@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import "./styles/sage/index.css";
 import SmoothScroll from "./lib/SmoothScroll";
 // import CustomCursor from "./components/CustomCursor";
@@ -72,6 +73,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AppContent />
+      <Analytics />
     </BrowserRouter>
   );
 }
