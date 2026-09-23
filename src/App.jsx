@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useEffect } from "react";
 import "./styles/sage/index.css";
 import SmoothScroll from "./lib/SmoothScroll";
@@ -72,6 +74,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <AppContent />
+      <Analytics />
+      <SpeedInsights />
     </BrowserRouter>
   );
 }
