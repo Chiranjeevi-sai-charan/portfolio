@@ -21,6 +21,10 @@
   --accent-hover: #007db2;
   --accent-ink: #0a0a0a;
   --accent-soft: #d0eef9;
+  /* Static fallback for rgba(var(--accent-rgb), alpha) usages;
+     ColorThemeSelector overrides this at runtime if a custom accent
+     color is picked, but nothing should render broken without it. */
+  --accent-rgb: 0, 156, 222;
   /* Darker blue for text on white, --accent itself is 2.4:1 and
      fails WCAG AA; this variant holds 5.4:1 for links/labels. */
   --accent-text: #007db2;

@@ -4,9 +4,15 @@
 * { margin: 0; }
 
 html {
+  /* Lets native UI (scrollbar, form controls) follow the same
+     light/dark state as the page, instead of just the raw OS setting. */
+  color-scheme: light dark;
   /* Lenis drives the actual scroll interpolation; native smooth-scroll
      stays as a safety fallback for anchor jumps before Lenis mounts. */
   scroll-behavior: smooth;
+  /* FOUC-safe fallback: shows before TimeBackground mounts, and on the
+     /sage route where TimeBackground is deliberately not rendered. */
+  background: var(--bg);
 }
 html, body, #root { height: 100%; }
 
@@ -15,7 +21,9 @@ body {
   font-size: var(--fs-body);
   line-height: 1.6;
   color: var(--ink);
-  background: var(--bg);
+  /* Transparent so TimeBackground's fixed gradient layer shows through;
+     html's background above is the fallback/sage-route base color. */
+  background: transparent;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

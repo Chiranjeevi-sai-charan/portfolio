@@ -9,7 +9,7 @@ import TestimonialCarousel from "../components/TestimonialCarousel";
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
 // import DogWorld from "../components/DogWorld/DogWorld";
-import profilePic from "../assets/Profile Pic.jpg";
+import profilePic from "../assets/Profile Pic No Bg.png";
 import achievementPic from "../assets/Achievement.jpg";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";

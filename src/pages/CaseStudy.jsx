@@ -470,7 +470,7 @@ export default function CaseStudy() {
                   fontWeight: 400,
                   fontStyle: "italic"
                 }}>
-                  Imagine needing an answer but waiting three days for an email response.
+                  Imagine digging through 50+ HR documents, still not finding your answer, then waiting three days for an email reply.
                 </h3>
                 <img
                   src={skeletonSticker}
@@ -1388,7 +1388,7 @@ export default function CaseStudy() {
               </div>
 
               {/* SELECTED CONCEPT */}
-              <div style={{ marginTop: 32, padding: 32, backgroundColor: "linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.04) 100%)", borderRadius: "12px", border: "1px solid rgba(76, 175, 80, 0.15)" }}>
+              <div style={{ marginTop: 32, padding: 32, background: "linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.04) 100%)", borderRadius: "12px", border: "1px solid rgba(76, 175, 80, 0.15)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                   <span style={{ fontSize: 24 }}>✓</span>
                   <h4 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: "var(--accent)" }}>
@@ -1596,7 +1596,7 @@ export default function CaseStudy() {
                             <img
                               src={caseStudy.design.visualDesign.collapsedLogoImage}
                               alt="Sidebar brand mark — collapsed state"
-                              style={{ width: "100%", height: "auto", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
+                              style={{ width: "100%", height: 360, objectFit: "contain", objectPosition: "top", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
                             />
                             <p style={{ fontSize: 11, textAlign: "center", color: "var(--ink-soft)", marginTop: 4 }}>Collapsed</p>
                           </div>
@@ -1606,7 +1606,7 @@ export default function CaseStudy() {
                             <img
                               src={caseStudy.design.visualDesign.expandedLogoImage}
                               alt="Sidebar brand mark — expanded state"
-                              style={{ width: "100%", height: "auto", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
+                              style={{ width: "100%", height: 360, objectFit: "contain", objectPosition: "top", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
                             />
                             <p style={{ fontSize: 11, textAlign: "center", color: "var(--ink-soft)", marginTop: 4 }}>Expanded</p>
                           </div>

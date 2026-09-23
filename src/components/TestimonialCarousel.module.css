@@ -19,7 +19,8 @@
 .testimonialCard {
   padding: 2rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, transparent 100%);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -29,7 +30,7 @@
 .testimonialQuote {
   font-size: 1rem;
   line-height: 1.8;
-  color: var(--text-secondary);
+  color: var(--ink-soft);
   margin: 0;
   font-style: italic;
 }
@@ -63,7 +64,7 @@
 .testimonialName {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .testimonialRole {
@@ -73,7 +74,7 @@
 
 .testimonialContext {
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--ink-soft);
 }
 
 .controls {
@@ -165,7 +166,7 @@
   padding: 0.5rem 1.25rem;
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--text-secondary);
+  color: var(--ink-soft);
   border-radius: 24px;
   cursor: pointer;
   font-size: 0.85rem;
