@@ -69,7 +69,7 @@
 
 .testimonialRole {
   font-size: 0.85rem;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .testimonialContext {
@@ -90,7 +90,7 @@
   border-radius: 50%;
   border: 2px solid var(--accent);
   background: transparent;
-  color: var(--accent);
+  color: var(--accent-text);
   cursor: pointer;
   font-size: 1.25rem;
   display: flex;

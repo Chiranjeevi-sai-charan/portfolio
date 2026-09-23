@@ -94,7 +94,7 @@
 }
 
 .colorOption.selected .colorName {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .feedback {
