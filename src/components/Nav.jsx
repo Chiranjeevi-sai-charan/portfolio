@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import signature from "../assets/Sign V3.png";
+// import signature from "../assets/Sign V3.png";
 import linkedinLogo from "../assets/LinkedIn Logo.png";
 import styles from "./Nav.module.css";
 
@@ -26,7 +26,7 @@ export default function Nav() {
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
       <Link to="/" className={styles.brand} data-cursor-label="Home">
         <div className={styles.brandContent}>
-          <img src={signature} alt="" className={styles.signature} />
+          {/* <img src={signature} alt="" className={styles.signature} /> */}
           <span className={styles.brandName}>K. Chiranjeevi</span>
         </div>
       </Link>
