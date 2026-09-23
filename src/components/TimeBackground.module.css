@@ -1,54 +1,33 @@
 .wrap {
-  position: fixed;
-  top: 0;
-  left: 0;
-  /* 100vw (unlike inset:0 on a fixed element) reaches the true window
-     edge, including the space the OS reserves for the scrollbar —
-     inset:0 stopped short of it, leaving a bare html-background strip
-     that read as a hard black bar against the wallpaper. */
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
 .layer {
   position: absolute;
-  /* Overscan so the blur below doesn't reveal transparent edges. */
-  inset: -20px;
-  width: calc(100% + 40px);
-  height: calc(100% + 40px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   opacity: 0;
   transition: opacity 3s ease;
-  /* Softens hard silhouette edges (skyline, sun/moon disc) so they
-     don't compete with body text sitting directly on top. */
-  /* filter: blur(5px); */
 }
 
 .active {
   opacity: 1;
 }
 
-/* Tinted to the page's own surface color so it darkens/lightens with
-   the OS theme automatically, keeping foreground text contrast intact
-   regardless of which scene is showing underneath. */
+/* Flat dark tint, not theme-driven — the hero's text is forced white
+   regardless of light/dark mode (see Home.module.css), so the scrim
+   needs to consistently darken every scene rather than following
+   --bg, which would go white in light mode and fight the white text. */
 .scrim {
   position: absolute;
   inset: 0;
-  background: var(--bg);
-  /* Light-mode scenes (sunrise/day) run bright and busy behind
-     near-black text, so they need a heavier wash than the naturally
-     darker night/midnight scenes do in dark mode. */
-  opacity: 0.9;
-}
-
-@media (prefers-color-scheme: dark) {
-  /* Heavier than light mode's baseline — dark scenes still have
-     skyline/moon silhouettes with enough local contrast to compete
-     with light-colored body text without the extra margin. */
-  .scrim { opacity: 0.85; }
+  background: rgba(0, 0, 0, 0.60);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -11,6 +11,8 @@ import TestimonialCarousel from "../components/TestimonialCarousel";
 // import DogWorld from "../components/DogWorld/DogWorld";
 import profilePic from "../assets/Profile Pic No Bg.png";
 import achievementPic from "../assets/Achievement.jpg";
+import TimeBackground from "../components/TimeBackground";
+import useDocumentHead from "../hooks/useDocumentHead";
 import comingSoonImage from "../assets/Coming soon.png";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
@@ -158,9 +160,12 @@ const CERTIFICATIONS = [
 ];
 
 export default function Home() {
+  useDocumentHead({ path: "/" });
+
   return (
     <>
       <section className={styles.hero} id="top">
+        <TimeBackground />
         <div className={styles.heroPhotoCol}>
           <motion.img
             src={profilePic}

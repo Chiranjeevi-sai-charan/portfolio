@@ -12,34 +12,46 @@
   transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 .nav.scrolled { border-color: var(--border); }
+
+/* Home only, before scrolling past the hero: no background, no blur —
+   the wallpaper image itself is the header's background. Text color
+   flips between white/dark based on which scene is showing (see
+   .heroDark/.heroLight below), with a matching shadow so it still
+   holds up against the photo's own local detail, not just its
+   average brightness. */
+.nav.heroMode {
+  background: transparent;
+  backdrop-filter: none;
+}
+.nav.heroDark .brandName,
+.nav.heroDark .resumeCta {
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+.nav.heroDark .resumeCta { border-color: rgba(255, 255, 255, 0.4); }
+.nav.heroDark .iconBtn { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.nav.heroDark .menuBtn span { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.55); }
+
+.nav.heroLight .brandName,
+.nav.heroLight .resumeCta {
+  color: #0a0a0a;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6);
+}
+.nav.heroLight .resumeCta { border-color: rgba(0, 0, 0, 0.3); }
+.nav.heroLight .iconBtn { color: #0a0a0a; border-color: rgba(0, 0, 0, 0.3); }
+.nav.heroLight .menuBtn span { background: #0a0a0a; box-shadow: 0 1px 3px rgba(255, 255, 255, 0.6); }
+
 .brand {
   display: flex;
   align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
   transition: opacity var(--dur-fast) ease;
 }
-.brand:hover {
-  opacity: 0.8;
-}
-.brandContent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-}
-.signature {
-  display: block;
-  height: 30px;
-  width: auto;
-}
+.brand:hover { opacity: 0.8; }
 .brandName {
   font-family: var(--font-accent);
   font-size: 20px;
   font-weight: 600;
+  line-height: 1;
   letter-spacing: 0.5px;
   color: var(--ink-soft);
   transition: color var(--dur-fast) ease;
@@ -47,22 +59,13 @@
 .brand:hover .brandName {
   color: var(--accent-text);
 }
-@media (prefers-color-scheme: dark) {
-  .signature { filter: invert(1); }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
 }
-.links { display: flex; gap: var(--sp-3); align-items: center; }
-.links a:not(.cta) {
-  font-size: var(--fs-small);
-  font-weight: 700;
-  color: var(--ink);
-  padding: 4px 0;
-  border-bottom: 2px solid transparent;
-  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
-}
-.links a:not(.cta):hover {
-  color: var(--ink);
-  border-color: var(--accent);
-}
+
 .cta {
   background: var(--ink);
   color: var(--bg);
@@ -70,37 +73,31 @@
   border-radius: 999px;
   font-size: var(--fs-small);
   font-weight: 700;
+  transition: opacity var(--dur-fast) ease;
 }
-.links a.resumeCta {
+.cta:hover { opacity: 0.85; }
+
+.resumeCta {
   display: flex;
   align-items: center;
   gap: 6px;
   background: transparent;
   color: var(--ink);
   border: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
   padding: 8px 17px;
   border-radius: 999px;
   font-size: var(--fs-small);
   font-weight: 700;
   transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.links a.resumeCta:hover {
+.resumeCta:hover {
   border-color: var(--accent);
-  color: var(--ink);
+  color: var(--accent-text);
 }
-.externalLinkIcon {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-}
-.callIcon {
-  width: 20px;
-  height: 20px;
-  display: block;
-  flex-shrink: 0;
-}
-.links a.iconLink {
+.externalLinkIcon { width: 13px; height: 13px; flex-shrink: 0; }
+.callIcon { width: 20px; height: 20px; display: block; flex-shrink: 0; }
+
+.iconBtn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,33 +109,14 @@
   color: var(--ink);
   transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.links a.iconLink .linkedinIcon {
-  width: 22px;
-  height: 22px;
-  border-radius: 5px;
-  display: block;
-}
-.links a.iconLink .callIcon {
-  width: 20px;
-  height: 20px;
-  display: block;
-  flex-shrink: 0;
-}
-.links a.iconLink:hover {
+.iconBtn:hover {
   border-color: var(--accent);
-  color: var(--ink);
+  color: var(--accent-text);
 }
-@media (max-width: 1280px) {
-  .links a.tier1 { display: none; }
-}
-@media (max-width: 1150px) {
-  .links a.tier2 { display: none; }
-}
-@media (max-width: 1020px) {
-  .links a.tier3 { display: none; }
-}
-.mobileMenuBtn {
-  display: none;
+.iconBtn .linkedinIcon { width: 22px; height: 22px; border-radius: 5px; display: block; }
+
+.menuBtn {
+  display: flex;
   flex-direction: column;
   gap: 5px;
   background: none;
@@ -150,71 +128,57 @@
   align-items: center;
   justify-content: center;
 }
-.mobileMenuBtn span {
-  width: 24px;
+.menuBtn span {
+  width: 22px;
   height: 2px;
   background: var(--ink);
   border-radius: 1px;
-  transition: all var(--dur-fast) ease;
 }
 
-.mobileMenu {
-  display: none;
+/* Compact floating panel under the hamburger button, not a full-width
+   strip — this is a desktop-capable dropdown now (the button is
+   always visible, not mobile-only), so it needs to look like one. */
+.menu {
   position: fixed;
-  top: 70px;
-  left: 0;
-  right: 0;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
+  top: 64px;
+  right: var(--sp-4);
+  width: 220px;
+  background: var(--nav-glass);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  display: flex;
   flex-direction: column;
-  gap: 0;
-  padding: 0;
-  z-index: 40;
-  max-height: calc(100vh - 70px);
+  z-index: 45;
+  max-height: calc(100vh - 80px);
   overflow-y: auto;
+  padding: var(--sp-1);
 }
-.mobileMenu a {
-  padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--border);
+.menu a {
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
   color: var(--ink);
-  font-size: var(--fs-body);
+  font-size: var(--fs-small);
   font-weight: 600;
   transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
 }
-.mobileMenu a:last-child { border-bottom: none; }
-.mobileMenu a:hover {
+.menu a:hover {
   color: var(--accent-text);
   background: var(--bg-alt);
 }
-.mobileMenuResume,
-.mobileMenuLinkedin,
-.mobileMenuCall {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.mobileMenuResume svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.mobileMenuLinkedin img {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-.mobileMenuCall img {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
+/* Resume/LinkedIn/Call already show as buttons in the header on wider
+   screens — only surface them in the dropdown once they've been
+   hidden from the header at the mobile breakpoint below. */
+.menuExtra { display: none; }
 
 @media (max-width: 640px) {
-  .links a:not(.cta) { display: none; }
-  .mobileMenuBtn { display: flex; }
-  .mobileMenu { display: flex; }
-  .brand { flex: 1; }
-  .nav {
-    padding: var(--sp-2) var(--sp-3);
-  }
+  .nav { padding: var(--sp-2) var(--sp-3); }
+  .menuExtra { display: block; }
+  /* Only the primary CTA and the menu button stay in the header —
+     Resume/LinkedIn/Call move into the dropdown instead, since all
+     five didn't fit in one row at this width. */
+  .resumeCta, .iconBtn { display: none; }
+  .actions { gap: var(--sp-1); }
 }

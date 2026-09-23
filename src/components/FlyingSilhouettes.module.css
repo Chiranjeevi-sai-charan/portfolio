@@ -1,0 +1,32 @@
+.wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.flyer {
+  position: absolute;
+  left: -8%;
+  width: 24px;
+  height: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  animation-name: fly-across;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.silhouette {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes fly-across {
+  from { left: -8%; }
+  to { left: 108%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flyer { animation: none; display: none; }
+}

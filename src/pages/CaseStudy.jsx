@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
+import useDocumentHead from "../hooks/useDocumentHead";
 import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
 import sageLogo from "../assets/Sage Logo.png";
 import sageSolvesSticker from "../assets/Sage solves this.png";
@@ -367,11 +368,17 @@ export default function CaseStudy() {
   const { slug } = useParams();
   const caseStudy = CASE_STUDY_DATA[slug];
 
+  useDocumentHead({
+    title: caseStudy?.title,
+    description: caseStudy?.overview?.objective,
+    path: `/case-studies/${slug}`,
+  });
+
   if (!caseStudy) {
     return (
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "160px 24px 96px" }}>
         <Reveal>
-          <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)" }}>
+          <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent-text)" }}>
             ← Back home
           </Link>
           <h1 style={{ fontSize: "var(--fs-h1)", marginTop: 16 }}>Case study not found</h1>
@@ -446,7 +453,7 @@ export default function CaseStudy() {
 
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
       <Reveal>
-        <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent)", display: "inline-block", marginTop: -30 }}>
+        <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent-text)", display: "inline-block", marginTop: -30 }}>
           ← Back home
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 32, marginBottom: 16 }}>
@@ -468,17 +475,17 @@ export default function CaseStudy() {
             }}>
               {/* HOOK QUESTION */}
               <div style={{ textAlign: "center", marginBottom: 20, position: "relative" }}>
-                <h3 style={{
+                <h2 style={{
                   fontSize: 24,
                   lineHeight: "1.5",
-                  color: "var(--accent)",
+                  color: "var(--accent-text)",
                   margin: 0,
                   fontFamily: "Georgia, serif",
                   fontWeight: 400,
                   fontStyle: "italic"
                 }}>
                   Imagine digging through 50+ HR documents, still not finding your answer, then waiting three days for an email reply.
-                </h3>
+                </h2>
                 <img
                   src={skeletonSticker}
                   alt="SW Engineer Skeleton Waiting"
@@ -731,7 +738,7 @@ export default function CaseStudy() {
                   <div style={{
                     fontSize: 14,
                     fontWeight: 700,
-                    color: "var(--accent)",
+                    color: "var(--accent-text)",
                     textTransform: "uppercase",
                     letterSpacing: "0.6px",
                     textAlign: "center",
@@ -785,7 +792,7 @@ export default function CaseStudy() {
                   <div style={{
                     fontSize: 14,
                     fontWeight: 700,
-                    color: "var(--accent)",
+                    color: "var(--accent-text)",
                     textTransform: "uppercase",
                     letterSpacing: "0.6px",
                     textAlign: "center",
@@ -839,7 +846,7 @@ export default function CaseStudy() {
                   <div style={{
                     fontSize: 14,
                     fontWeight: 700,
-                    color: "var(--accent)",
+                    color: "var(--accent-text)",
                     textTransform: "uppercase",
                     letterSpacing: "0.6px",
                     textAlign: "center",
@@ -1063,7 +1070,7 @@ export default function CaseStudy() {
                   <p style={{
                     fontSize: 16,
                     fontStyle: "italic",
-                    color: "var(--accent)",
+                    color: "var(--accent-text)",
                     margin: 0,
                     lineHeight: 1.5
                   }}>
@@ -1172,7 +1179,7 @@ export default function CaseStudy() {
                   <p style={{
                     fontSize: 16,
                     fontStyle: "italic",
-                    color: "var(--accent)",
+                    color: "var(--accent-text)",
                     margin: 0,
                     lineHeight: 1.5
                   }}>
@@ -1398,7 +1405,7 @@ export default function CaseStudy() {
               <div style={{ marginTop: 32, padding: 32, background: "linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.04) 100%)", borderRadius: "12px", border: "1px solid rgba(76, 175, 80, 0.15)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                   <span style={{ fontSize: 24 }}>✓</span>
-                  <h4 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: "var(--accent)" }}>
+                  <h4 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: "var(--accent-text)" }}>
                     SELECTED: {caseStudy.ideation.conceptDevelopment.selectedConcept.name}
                   </h4>
                 </div>

@@ -7,7 +7,6 @@ import "./styles/sage/index.css";
 import SmoothScroll from "./lib/SmoothScroll";
 // import CustomCursor from "./components/CustomCursor";
 import Nav from "./components/Nav";
-import TimeBackground from "./components/TimeBackground";
 import Home from "./pages/Home";
 import CaseStudy from "./pages/CaseStudy";
 import SageApp from "./pages/sage/SageApp";
@@ -59,14 +58,11 @@ function AppContent() {
   }
 
   return (
-    <>
-      <TimeBackground />
-      <SmoothScroll>
-        {/* <CustomCursor /> */}
-        <Nav />
-        <AnimatedRoutes />
-      </SmoothScroll>
-    </>
+    <SmoothScroll>
+      {/* <CustomCursor /> */}
+      <Nav />
+      <AnimatedRoutes />
+    </SmoothScroll>
   );
 }
 
