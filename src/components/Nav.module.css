@@ -27,18 +27,19 @@
 }
 .brandContent {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
 }
 .signature {
   display: block;
-  height: 50px;
+  height: 30px;
   width: auto;
 }
 .brandName {
-  font-size: 11px;
-  font-weight: 700;
+  font-family: var(--font-accent);
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: 0.5px;
   color: var(--ink-soft);
   transition: color var(--dur-fast) ease;
