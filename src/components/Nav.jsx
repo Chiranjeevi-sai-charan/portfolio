@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import linkedinLogo from "../assets/LinkedIn Logo.png";
-import useTimeOfDay from "../hooks/useTimeOfDay";
 import styles from "./Nav.module.css";
-
-// Scenes dark enough to need white text; morning/afternoon get dark
-// text instead. Same period value TimeBackground itself uses, so the
-// two always stay in sync without any prop-drilling between them.
-const DARK_PERIODS = new Set(["evening", "night", "midnight"]);
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const period = useTimeOfDay();
 
   useEffect(() => {
     // On Home, stay in hero mode until the hero section has fully
@@ -56,12 +49,14 @@ export default function Nav() {
   // The wallpaper only exists behind the nav on Home's hero, before
   // scrolling past it — everywhere else (other routes, or scrolled
   // past the hero) there's just the plain page body underneath, so
-  // forcing white text there would make it unreadable.
+  // forcing white text there would make it unreadable. The hero photo
+  // always sits under a scrim (see TimeBackground), so text stays
+  // white regardless of which time-of-day scene is showing — once
+  // scrolled past, text falls back to the theme's own ink tokens.
   const heroMode = location.pathname === "/" && !scrolled;
-  const heroDark = heroMode && DARK_PERIODS.has(period);
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""} ${heroMode ? styles.heroMode : ""} ${heroMode ? (heroDark ? styles.heroDark : styles.heroLight) : ""}`}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""} ${heroMode ? styles.heroMode : ""}`}>
       <Link to="/" className={styles.brand} data-cursor-label="Home">
         <span className={styles.brandName}>K. Chiranjeevi</span>
       </Link>

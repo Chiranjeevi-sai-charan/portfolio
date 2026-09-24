@@ -14,32 +14,25 @@
 .nav.scrolled { border-color: var(--border); }
 
 /* Home only, before scrolling past the hero: no background, no blur —
-   the wallpaper image itself is the header's background. Text color
-   flips between white/dark based on which scene is showing (see
-   .heroDark/.heroLight below), with a matching shadow so it still
-   holds up against the photo's own local detail, not just its
-   average brightness. */
+   the wallpaper image itself is the header's background. The photo
+   always sits under a scrim (see TimeBackground), so text stays white
+   regardless of time-of-day scene, with a shadow so it still holds up
+   against the photo's own local detail, not just its average
+   brightness. Once scrolled past, these rules drop off and text falls
+   back to the theme's own --ink tokens (light/dark mode both handled
+   there already). */
 .nav.heroMode {
   background: transparent;
   backdrop-filter: none;
 }
-.nav.heroDark .brandName,
-.nav.heroDark .resumeCta {
+.nav.heroMode .brandName,
+.nav.heroMode .resumeCta {
   color: #fff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
 }
-.nav.heroDark .resumeCta { border-color: rgba(255, 255, 255, 0.4); }
-.nav.heroDark .iconBtn { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
-.nav.heroDark .menuBtn span { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.55); }
-
-.nav.heroLight .brandName,
-.nav.heroLight .resumeCta {
-  color: #0a0a0a;
-  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6);
-}
-.nav.heroLight .resumeCta { border-color: rgba(0, 0, 0, 0.3); }
-.nav.heroLight .iconBtn { color: #0a0a0a; border-color: rgba(0, 0, 0, 0.3); }
-.nav.heroLight .menuBtn span { background: #0a0a0a; box-shadow: 0 1px 3px rgba(255, 255, 255, 0.6); }
+.nav.heroMode .resumeCta { border-color: rgba(255, 255, 255, 0.4); }
+.nav.heroMode .iconBtn { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.nav.heroMode .menuBtn span { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.55); }
 
 .brand {
   display: flex;
