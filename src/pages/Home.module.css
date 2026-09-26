@@ -66,6 +66,12 @@
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
+    /* .hero has min-height:100vh with no align-content set, so the grid's
+       default stretch behavior was inflating both auto rows to jointly
+       fill the full viewport height — that's what pushed the greeting
+       text so far below the photo, not padding. start keeps each row at
+       its natural content size; leftover space just shows background. */
+    align-content: start;
   }
   /* Small circular portrait instead of a full-width banner — object-fit
      stays "contain" so the whole photo is still visible, just scaled
@@ -92,7 +98,12 @@
     justify-content: center;
   }
   .heroPortrait { width: 100%; height: 100%; max-height: none; object-fit: contain; object-position: center; }
-  .heroTextCol { padding: var(--sp-4) var(--sp-4) var(--sp-6); }
+  /* heroTextCol's grid row stretches to fill the rest of .hero's
+     100vh, and justify-content:center (desktop's vertical-centering
+     rule) was centering the greeting/heading inside that whole tall
+     box — the real source of the big gap under the photo, not padding.
+     flex-start makes the content hug the top instead. */
+  .heroTextCol { padding: var(--sp-2) var(--sp-4) var(--sp-6); justify-content: flex-start; }
   .heroActions { justify-content: center; flex-wrap: wrap; }
   .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
 }
