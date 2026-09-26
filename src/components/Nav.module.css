@@ -132,7 +132,13 @@
    strip — this is a desktop-capable dropdown now (the button is
    always visible, not mobile-only), so it needs to look like one. */
 .menu {
-  position: fixed;
+  /* absolute, not fixed: .nav (the containing block, already
+     position:fixed at the viewport's top-left) keeps this pinned in
+     place on scroll just the same, but some Android Chrome builds
+     fail to apply backdrop-filter's blur on a *fixed*-position element
+     specifically — a known compositor quirk, not a missing prefix
+     (both are already set below). absolute sidesteps it. */
+  position: absolute;
   top: 64px;
   right: var(--sp-4);
   width: 220px;
