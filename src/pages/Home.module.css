@@ -135,7 +135,7 @@
      specificity override up there loses the source-order tie-break to
      the base rule below it even when the media query matches. This is
      what silently kept the mobile heading at its full desktop size. */
-  .heroTitle { font-size: 17px; line-height: 1.4; }
+  .heroTitle { font-size: 17px; line-height: 1.65; }
   .productDesigner { font-size: 24px; }
 }
 .underlineWord {
