@@ -72,6 +72,10 @@
      down into the circle rather than cropped to fill it. */
   .heroPhotoCol {
     height: auto;
+    /* .hero has align-items:stretch (unchanged on mobile) which was
+       stretching this grid item to fill its row's height, fighting the
+       aspect-ratio below and squashing the circle into an oval. */
+    align-self: center;
     width: 25vw;
     max-width: 130px;
     aspect-ratio: 1 / 1;
@@ -91,10 +95,6 @@
   .heroTextCol { padding: var(--sp-4) var(--sp-4) var(--sp-6); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
   .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
-  /* Was 24px/36px — at that size "Product Designer" alone filled a
-     whole line; this fits several words per line like the reference. */
-  .heroTitle { font-size: 17px; line-height: 1.4; }
-  .productDesigner { font-size: 24px; }
 }
 .heroTitle {
   position: relative;
@@ -116,6 +116,16 @@
 .accentNumber {
   color: #7fdcff;
   font-weight: 700;
+}
+@media (max-width: 860px) {
+  /* Placed after the base rules above, not with the other hero mobile
+     overrides near the top of this file — those rules sit BEFORE
+     .heroTitle/.productDesigner's own base declarations, so a same-
+     specificity override up there loses the source-order tie-break to
+     the base rule below it even when the media query matches. This is
+     what silently kept the mobile heading at its full desktop size. */
+  .heroTitle { font-size: 17px; line-height: 1.4; }
+  .productDesigner { font-size: 24px; }
 }
 .underlineWord {
   position: relative;
