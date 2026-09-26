@@ -67,17 +67,34 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
-  /* No fixed height: letting the box follow the image's own aspect
-     ratio (below) means contain fills the full width with zero
-     horizontal letterbox — a fixed vh height was mismatched from the
-     photo's ratio, which is what caused the empty side gap. */
-  .heroPhotoCol { height: auto; order: -1; }
-  .heroPortrait { width: 100%; height: auto; max-height: none; object-fit: contain; object-position: top center; }
-  .heroTextCol { padding: var(--sp-5) var(--sp-4) var(--sp-6); }
+  /* Small circular portrait instead of a full-width banner — object-fit
+     stays "contain" so the whole photo is still visible, just scaled
+     down into the circle rather than cropped to fill it. */
+  .heroPhotoCol {
+    height: auto;
+    width: 25vw;
+    max-width: 130px;
+    aspect-ratio: 1 / 1;
+    /* 80px clears the fixed nav — same offset the desktop rule above
+       uses for the same reason. */
+    margin: 80px auto 0;
+    order: -1;
+    padding-top: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 35%, var(--accent-soft), var(--surface));
+    box-shadow: var(--shadow-md);
+    align-items: center;
+    justify-content: center;
+  }
+  .heroPortrait { width: 100%; height: 100%; max-height: none; object-fit: contain; object-position: center; }
+  .heroTextCol { padding: var(--sp-4) var(--sp-4) var(--sp-6); }
   .heroActions { justify-content: center; flex-wrap: wrap; }
   .dogWorldSlot { grid-column: 1; grid-row: auto; height: clamp(120px, 24vw, 180px); }
-  .heroTitle { font-size: 24px; }
-  .productDesigner { font-size: 36px; }
+  /* Was 24px/36px — at that size "Product Designer" alone filled a
+     whole line; this fits several words per line like the reference. */
+  .heroTitle { font-size: 17px; line-height: 1.4; }
+  .productDesigner { font-size: 24px; }
 }
 .heroTitle {
   position: relative;
