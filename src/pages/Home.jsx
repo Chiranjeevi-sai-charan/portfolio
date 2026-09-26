@@ -166,15 +166,21 @@ export default function Home() {
     <>
       <section className={styles.hero} id="top">
         <TimeBackground />
-        <div className={styles.heroPhotoCol}>
-          <motion.img
-            src={profilePic}
-            alt="Chiranjeevi Sai Charan Kondaka"
-            className={styles.heroPortrait}
-            initial={{ opacity: 0, x: -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          />
+        <div className={styles.heroPhotoWrap}>
+          <div className={styles.heroPhotoCol}>
+            <motion.img
+              src={profilePic}
+              alt="Chiranjeevi Sai Charan Kondaka"
+              className={styles.heroPortrait}
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </div>
+          {/* Mobile-only: shown beside the shrunk photo instead of the big
+              stacked banner. Desktop keeps the single kicker inside
+              heroTextCol below, unchanged (this one is display:none there). */}
+          <div className={styles.heroMobileGreeting} aria-hidden="true">Hey! I'm Chiranjeevi</div>
         </div>
         <motion.div
           className={styles.heroTextCol}
