@@ -68,7 +68,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     size="sm"
     language={language}
     actions={[
-      { label: cancelLabel, variant: 'secondary', onClick: onCancel },
+      { label: cancelLabel, variant: 'outline', onClick: onCancel },
       { label: confirmLabel, variant: destructive ? 'destructive' : 'primary', onClick: onConfirm },
     ]}
   >

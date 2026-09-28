@@ -24,7 +24,7 @@ import { Button } from './Button';
 
 export interface ModalAction {
   label: string;
-  variant?: 'primary' | 'secondary' | 'destructive';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   onClick: () => void;
   disabled?: boolean;
 }
@@ -186,16 +186,15 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   const headerStyles: React.CSSProperties = {
-    padding: spacing.lg,
-    borderBottom: `1px solid ${colors['neutral-100']}`,
+    padding: `${spacing.lg} ${spacing.lg} 0`,
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   };
 
   const titleStyles: React.CSSProperties = {
     fontSize: typography.fontSize['h4'],
-    fontWeight: typography.fontWeight.semibold,
+    fontWeight: typography.fontWeight.bold,
     color: colors['neutral-900'],
     margin: 0,
   };
@@ -225,8 +224,7 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   const footerStyles: React.CSSProperties = {
-    padding: spacing.lg,
-    borderTop: `1px solid ${colors['neutral-100']}`,
+    padding: `0 ${spacing.lg} ${spacing.lg}`,
     display: 'flex',
     gap: spacing.md,
     justifyContent: 'flex-end',

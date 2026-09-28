@@ -22,7 +22,7 @@ import { spacing, colors, shadows, borderRadius } from '../../styles/sage/tokens
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual variant of the button */
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'outline';
 
   /** Size of the button */
   size?: 'sm' | 'md' | 'lg';
@@ -127,6 +127,11 @@ export const Button: React.FC<ButtonProps> = ({
       color: colors['neutral-white'],
       boxShadow: shadows.sm,
     },
+    outline: {
+      backgroundColor: colors['neutral-white'],
+      color: colors['neutral-900'],
+      border: `1px solid ${colors['neutral-300']}`,
+    },
   };
 
   // Hover states
@@ -145,6 +150,10 @@ export const Button: React.FC<ButtonProps> = ({
     destructive: {
       backgroundColor: colors['error-red-dark'],
       boxShadow: shadows.md,
+    },
+    outline: {
+      backgroundColor: colors['neutral-50'],
+      border: `1px solid ${colors['neutral-400']}`,
     },
   };
 
