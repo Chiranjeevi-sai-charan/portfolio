@@ -27,9 +27,9 @@ export const sageStrings = {
     noDeletedDocuments: 'No deleted documents.',
     restore: 'Restore',
     delete: 'Delete',
-    permanentlyDeleteTitle: 'Permanently Delete Document',
-    permanentlyDeleteMsg: (name?: string) => `Permanently delete "${name}"? This cannot be undone.`,
-    deletePermanently: 'Delete Permanently',
+    permanentlyDeleteTitle: 'Delete document permanently?',
+    permanentlyDeleteMsg: (name?: string) => `This will permanently delete **"${name}"**. This action cannot be undone.`,
+    deletePermanently: 'Delete permanently',
 
     // DocumentList
     documentsCount: (n: number) => `Documents (${n})`,
@@ -51,11 +51,14 @@ export const sageStrings = {
     showingRange: (from: number, to: number, total: number) => `Showing ${from}–${to} of ${total}`,
     noDocumentsFound: 'No documents found matching your search.',
     noDocumentsUploaded: 'No documents uploaded yet.',
-    deleteDocumentTitle: 'Delete Document',
-    deleteDocumentMsg: (name?: string) => `Delete "${name}"? It will be moved to Deleted Documents, where it can be restored.`,
-    deleteDocumentsTitle: 'Delete Documents',
+    deleteDocumentTitle: 'Delete document?',
+    deleteDocumentMsg: (name?: string) =>
+      `This will move **"${name}"** to Deleted Documents, where it can be restored.`,
+    deleteDocumentConfirm: 'Delete document',
+    deleteDocumentsTitle: 'Delete documents?',
     deleteDocumentsMsg: (n: number) =>
-      `Delete ${n} selected document${n === 1 ? '' : 's'}? They will be moved to Deleted Documents, where they can be restored.`,
+      `This will move **${n} selected document${n === 1 ? '' : 's'}** to Deleted Documents, where ${n === 1 ? 'it can' : 'they can'} be restored.`,
+    deleteDocumentsConfirm: 'Delete documents',
 
     // UserManagementTable
     userColumn: 'User',
@@ -69,10 +72,14 @@ export const sageStrings = {
     systemAdmin: 'System Admin',
     noUsersFound: 'No users found matching your search.',
     noUsersFoundEmpty: 'No users found.',
-    deleteUserTitle: 'Delete User',
-    deleteUserMsg: (name?: string) => `Delete user "${name}"? This cannot be undone.`,
-    deleteUsersTitle: 'Delete Users',
-    deleteUsersMsg: (n: number) => `Delete ${n} selected user${n === 1 ? '' : 's'}? This cannot be undone.`,
+    deleteUserTitle: 'Remove user?',
+    deleteUserMsg: (name?: string) =>
+      `This will remove **${name}** from your workspace. This action cannot be undone.`,
+    removeUserConfirm: 'Remove user',
+    deleteUsersTitle: 'Remove users?',
+    deleteUsersMsg: (n: number) =>
+      `This will remove **${n} selected user${n === 1 ? '' : 's'}** from your workspace. This action cannot be undone.`,
+    removeUsersConfirm: 'Remove users',
 
     // DocumentUpload
     uploadDocumentTitle: 'Upload Document',
@@ -129,8 +136,8 @@ export const sageStrings = {
     noDeletedDocuments: '削除されたドキュメントはありません。',
     restore: '復元',
     delete: '削除',
-    permanentlyDeleteTitle: 'ドキュメントを完全に削除',
-    permanentlyDeleteMsg: (name?: string) => `「${name}」を完全に削除しますか？この操作は取り消せません。`,
+    permanentlyDeleteTitle: 'ドキュメントを完全に削除しますか？',
+    permanentlyDeleteMsg: (name?: string) => `**「${name}」**を完全に削除します。この操作は取り消せません。`,
     deletePermanently: '完全に削除',
 
     documentsCount: (n: number) => `ドキュメント (${n})`,
@@ -152,10 +159,14 @@ export const sageStrings = {
     showingRange: (from: number, to: number, total: number) => `${total}件中 ${from}–${to}件を表示`,
     noDocumentsFound: '検索条件に一致するドキュメントが見つかりません。',
     noDocumentsUploaded: 'まだドキュメントがアップロードされていません。',
-    deleteDocumentTitle: 'ドキュメントを削除',
-    deleteDocumentMsg: (name?: string) => `「${name}」を削除しますか？削除済みドキュメントに移動され、後で復元できます。`,
-    deleteDocumentsTitle: 'ドキュメントを削除',
-    deleteDocumentsMsg: (n: number) => `選択した${n}件のドキュメントを削除しますか？削除済みドキュメントに移動され、後で復元できます。`,
+    deleteDocumentTitle: 'ドキュメントを削除しますか？',
+    deleteDocumentMsg: (name?: string) =>
+      `**「${name}」**を削除済みドキュメントに移動します。後で復元できます。`,
+    deleteDocumentConfirm: 'ドキュメントを削除',
+    deleteDocumentsTitle: 'ドキュメントを削除しますか？',
+    deleteDocumentsMsg: (n: number) =>
+      `選択した**${n}件のドキュメント**を削除済みドキュメントに移動します。後で復元できます。`,
+    deleteDocumentsConfirm: 'ドキュメントを削除',
 
     userColumn: 'ユーザー',
     roleColumn: '役割',
@@ -168,10 +179,14 @@ export const sageStrings = {
     systemAdmin: 'システム管理者',
     noUsersFound: '検索条件に一致するユーザーが見つかりません。',
     noUsersFoundEmpty: 'ユーザーが見つかりません。',
-    deleteUserTitle: 'ユーザーを削除',
-    deleteUserMsg: (name?: string) => `ユーザー「${name}」を削除しますか？この操作は取り消せません。`,
-    deleteUsersTitle: 'ユーザーを削除',
-    deleteUsersMsg: (n: number) => `選択した${n}人のユーザーを削除しますか？この操作は取り消せません。`,
+    deleteUserTitle: 'ユーザーを削除しますか？',
+    deleteUserMsg: (name?: string) =>
+      `**${name}**をワークスペースから削除します。この操作は取り消せません。`,
+    removeUserConfirm: 'ユーザーを削除',
+    deleteUsersTitle: 'ユーザーを削除しますか？',
+    deleteUsersMsg: (n: number) =>
+      `選択した**${n}人のユーザー**をワークスペースから削除します。この操作は取り消せません。`,
+    removeUsersConfirm: 'ユーザーを削除',
 
     uploadDocumentTitle: 'ドキュメントをアップロード',
     uploadDocumentDesc: 'AIによる分析とインサイトのためにドキュメントをアップロードしてください。',

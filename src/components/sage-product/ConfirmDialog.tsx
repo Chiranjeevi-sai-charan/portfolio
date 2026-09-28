@@ -13,13 +13,22 @@ import { Modal } from './Modal';
  * @example
  * <ConfirmDialog
  *   isOpen={!!pendingDelete}
- *   title="Delete User"
- *   message={`Delete user "${pendingDelete?.name}"? This cannot be undone.`}
- *   confirmLabel="Delete"
+ *   title="Remove user?"
+ *   message={`This will remove **${pendingDelete?.name}** from your workspace. This action cannot be undone.`}
+ *   confirmLabel="Remove user"
  *   onConfirm={handleConfirmDelete}
  *   onCancel={() => setPendingDelete(null)}
  * />
  */
+
+/** Turns "**bold**" markers in a plain-string message into <strong> — mirrors the
+ * "[[n]]" citation-marker parsing ChatBubble already uses for the same reason:
+ * i18n strings stay plain strings, formatting is applied only at render time. */
+function renderMessage(message: React.ReactNode): React.ReactNode {
+  if (typeof message !== 'string') return message;
+  const parts = message.split(/\*\*(.+?)\*\*/g);
+  return parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part));
+}
 
 interface ConfirmDialogProps {
   /** Dialog visibility */
@@ -72,7 +81,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       { label: confirmLabel, variant: destructive ? 'destructive' : 'primary', onClick: onConfirm },
     ]}
   >
-    {message}
+    {renderMessage(message)}
   </Modal>
 );
 

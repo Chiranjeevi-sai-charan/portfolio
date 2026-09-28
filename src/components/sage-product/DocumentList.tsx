@@ -546,7 +546,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
         isOpen={!!pendingDeleteDoc}
         title={t(language, 'deleteDocumentTitle')}
         message={t(language, 'deleteDocumentMsg')(pendingDeleteDoc?.name)}
-        confirmLabel={t(language, 'delete')}
+        confirmLabel={t(language, 'deleteDocumentConfirm')}
         onConfirm={() => {
           if (pendingDeleteDoc) onDocumentDelete?.(pendingDeleteDoc.id);
           setPendingDeleteDoc(null);
@@ -560,7 +560,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
         isOpen={bulkDeleteConfirm}
         title={t(language, 'deleteDocumentsTitle')}
         message={t(language, 'deleteDocumentsMsg')(selectedIds.size)}
-        confirmLabel={t(language, 'delete')}
+        confirmLabel={t(language, 'deleteDocumentsConfirm')}
         onConfirm={() => {
           selectedDocs.forEach((doc) => onDocumentDelete?.(doc.id));
           setSelectedIds(new Set());

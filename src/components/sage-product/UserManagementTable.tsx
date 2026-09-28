@@ -500,7 +500,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
         isOpen={!!pendingDeleteUser}
         title={t(language, 'deleteUserTitle')}
         message={t(language, 'deleteUserMsg')(pendingDeleteUser?.name)}
-        confirmLabel={t(language, 'delete')}
+        confirmLabel={t(language, 'removeUserConfirm')}
         onConfirm={() => {
           if (pendingDeleteUser) onUserDelete?.(pendingDeleteUser.id);
           setPendingDeleteUser(null);
@@ -514,7 +514,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
         isOpen={bulkDeleteConfirm}
         title={t(language, 'deleteUsersTitle')}
         message={t(language, 'deleteUsersMsg')(selectedIds.size)}
-        confirmLabel={t(language, 'delete')}
+        confirmLabel={t(language, 'removeUsersConfirm')}
         onConfirm={() => {
           selectedUsers.forEach((user) => onUserDelete?.(user.id));
           setSelectedIds(new Set());
