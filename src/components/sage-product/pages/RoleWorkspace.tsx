@@ -420,19 +420,19 @@ export const RoleWorkspace: React.FC<RoleWorkspaceProps> = ({ role, userName, us
                 <table style={{ width: '100%', borderCollapse: 'collapse' as const }}>
                   <thead style={{ backgroundColor: colors['neutral-100'], borderBottom: `2px solid ${colors['neutral-200']}` }}>
                     <tr>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>{t(language, 'documentColumn')}</th>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>{t(language, 'departmentColumn')}</th>
-                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600 }}>{t(language, 'actionsColumn')}</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600, color: colors['neutral-700'] }}>{t(language, 'documentColumn')}</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600, color: colors['neutral-700'] }}>{t(language, 'departmentColumn')}</th>
+                      <th style={{ padding: spacing.md, textAlign: 'left', fontWeight: 600, color: colors['neutral-700'] }}>{t(language, 'actionsColumn')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {deletedDocuments.map((doc) => (
                       <tr key={doc.id} style={{ borderBottom: `1px solid ${colors['neutral-200']}` }}>
-                        <td style={{ padding: spacing.md }}>
+                        <td style={{ padding: spacing.md, color: colors['neutral-900'] }}>
                           <MaterialIcon name="description" size={16} style={{ verticalAlign: 'middle', marginRight: spacing.sm }} />
                           {doc.name}
                         </td>
-                        <td style={{ padding: spacing.md }}>{doc.department}</td>
+                        <td style={{ padding: spacing.md, color: colors['neutral-700'] }}>{doc.department}</td>
                         <td style={{ padding: spacing.md }}>
                           <button
                             onClick={() => handleDocumentRestore(doc.id)}
