@@ -234,6 +234,7 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <div
       style={backdropStyles}
+      role="presentation"
       onClick={(e) => {
         if (closeOnBackdropClick && e.target === e.currentTarget) {
           onClose();

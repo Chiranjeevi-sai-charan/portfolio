@@ -403,6 +403,7 @@ export const Select: React.FC<SelectProps> = ({
                   key={opt.value}
                   id={getOptionId(index)}
                   role="option"
+                  tabIndex={-1}
                   aria-selected={String(opt.value) === String(value)}
                   style={optionStyles(opt, index)}
                   onMouseEnter={() => setHighlightedIndex(index)}
