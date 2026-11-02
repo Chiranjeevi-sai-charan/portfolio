@@ -1,8 +1,8 @@
 import React from 'react';
 import { colors, spacing, typography, componentSizes, shadows, borderRadius, interactionTints } from '../../styles/sage/tokens';
 import { MaterialIcon } from './MaterialIcon';
-import sageLogoMark from '../../assets/SAGE Chatbot Solo.png';
-import sageLogoWordmark from '../../assets/SAGE Wordmark Only.png';
+import sageLogoMark from '../../assets/SAGE Chatbot Solo.webp';
+import sageLogoWordmark from '../../assets/SAGE Wordmark Only.webp';
 
 /**
  * Sidebar Component

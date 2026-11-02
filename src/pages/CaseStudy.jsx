@@ -1,35 +1,35 @@
 import { useParams, Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import useDocumentHead from "../hooks/useDocumentHead";
-import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.png";
-import sageLogo from "../assets/Sage Logo.png";
-import sageSolvesSticker from "../assets/Sage solves this.png";
-import projectOverviewImage from "../assets/Project Overview.png";
-import problemUserSticker from "../assets/problem-user-cant-find-answers.png";
-import problemBusinessSticker from "../assets/problem-hr-burnout.png";
-import problemGoalSticker from "../assets/problem-instant-answers.png";
-import personaAdityaSticker from "../assets/persona-aditya.png";
-import personaPriyaSticker from "../assets/persona-priya.png";
-import adityaStage1 from "../assets/persona-aditya-stage1.png";
-import adityaStage2 from "../assets/persona-aditya-stage2.png";
-import adityaStage3 from "../assets/persona-aditya-stage3.png";
-import adityaStage4 from "../assets/persona-aditya-stage4.png";
-import priyaStage1 from "../assets/persona-priya-stage1.png";
-import priyaStage2 from "../assets/persona-priya-stage2.png";
-import priyaStage3 from "../assets/persona-priya-stage3.png";
-import priyaStage4 from "../assets/persona-priya-stage4.png";
-import wireframeBasicV1 from "../assets/wireframe-basic-v1.jpg";
+import skeletonSticker from "../assets/SW Engineer Skeleton Waiting.webp";
+import sageLogo from "../assets/Sage Logo.webp";
+import sageSolvesSticker from "../assets/Sage solves this.webp";
+import projectOverviewImage from "../assets/Project Overview.webp";
+import problemUserSticker from "../assets/problem-user-cant-find-answers.webp";
+import problemBusinessSticker from "../assets/problem-hr-burnout.webp";
+import problemGoalSticker from "../assets/problem-instant-answers.webp";
+import personaAdityaSticker from "../assets/persona-aditya.webp";
+import personaPriyaSticker from "../assets/persona-priya.webp";
+import adityaStage1 from "../assets/persona-aditya-stage1.webp";
+import adityaStage2 from "../assets/persona-aditya-stage2.webp";
+import adityaStage3 from "../assets/persona-aditya-stage3.webp";
+import adityaStage4 from "../assets/persona-aditya-stage4.webp";
+import priyaStage1 from "../assets/persona-priya-stage1.webp";
+import priyaStage2 from "../assets/persona-priya-stage2.webp";
+import priyaStage3 from "../assets/persona-priya-stage3.webp";
+import priyaStage4 from "../assets/persona-priya-stage4.webp";
+import wireframeBasicV1 from "../assets/wireframe-basic-v1.webp";
 import wireframeLoFiV1 from "../assets/wireframe-lofi-v1.png";
 import designHiFiFinal from "../assets/design-hifi-final-live-ui-v1.png";
-import designHiFiAdminUIV2 from "../assets/design-hifi-admin-ui-v2.png";
-import analyticsDashboardTopV2 from "../assets/analytics-dashboard-top-v2.png";
-import analyticsDashboardInsightsV2 from "../assets/analytics-dashboard-insights-v2.png";
+import designHiFiAdminUIV2 from "../assets/design-hifi-admin-ui-v2.webp";
+import analyticsDashboardTopV2 from "../assets/analytics-dashboard-top-v2.webp";
+import analyticsDashboardInsightsV2 from "../assets/analytics-dashboard-insights-v2.webp";
 import sidebarCollapsedLogoV2 from "../assets/sidebar-collapsed-logo-v2.png";
 import sidebarExpandedLogoV2 from "../assets/sidebar-expanded-logo-v2.png";
-import mockupEmployeeChat from "../assets/Employee Chat Mock up.png";
-import mockupAdminDocuments from "../assets/Admin Documents Mock up.png";
-import mockupUserManagement from "../assets/System Admin User Management Mock up.png";
-import mockupAnalyticsDashboard from "../assets/Analytics Dashboard Mock up.png";
+import mockupEmployeeChat from "../assets/Employee Chat Mock up.webp";
+import mockupAdminDocuments from "../assets/Admin Documents Mock up.webp";
+import mockupUserManagement from "../assets/System Admin User Management Mock up.webp";
+import mockupAnalyticsDashboard from "../assets/Analytics Dashboard Mock up.webp";
 // import impactBurnoutSticker from "../assets/impact-hr-burnout.png";
 
 const CASE_STUDY_DATA = {
@@ -426,7 +426,7 @@ export default function CaseStudy() {
             right: 0,
             transform: "translateY(-50%) rotate(180deg)",
             writingMode: "vertical-rl",
-            backgroundColor: "var(--accent)",
+            backgroundColor: "var(--accent-strong)",
             color: "white",
             textDecoration: "none",
             fontWeight: 600,
@@ -452,12 +452,12 @@ export default function CaseStudy() {
       )}
 
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "160px 24px 96px" }}>
-      <Reveal>
+      <Reveal initial={false}>
         <Link to="/" style={{ fontSize: 14, fontWeight: 700, color: "var(--accent-text)", display: "inline-block", marginTop: -30 }}>
           ← Back home
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 32, marginBottom: 16 }}>
-          {/* <img src={sageLogo} alt="Sage Logo" style={{ height: 60, width: "auto" }} /> */}
+          {/* <img loading="lazy" decoding="async" src={sageLogo} alt="Sage Logo" style={{ height: 60, width: "auto" }} /> */}
           <h1 style={{ fontSize: "var(--fs-h1)", margin: 0 }}>
             {caseStudy.title.replace(" - ", ": ")}
           </h1>
@@ -466,7 +466,7 @@ export default function CaseStudy() {
 
       {caseStudy.overview && (
         <>
-          <Reveal delay={0.05}>
+          <Reveal delay={0.05} initial={false}>
             <div style={{
               marginTop: 48,
               marginBottom: 64,
@@ -486,7 +486,7 @@ export default function CaseStudy() {
                 }}>
                   Imagine digging through 50+ HR documents, still not finding your answer, then waiting three days for an email reply.
                 </h2>
-                <img
+                <img loading="lazy" decoding="async"
                   src={skeletonSticker}
                   alt="SW Engineer Skeleton Waiting"
                   className="skeleton-sticker"
@@ -530,7 +530,7 @@ export default function CaseStudy() {
                 textAlign: "center",
                 position: "relative"
               }}>
-                <img
+                <img loading="lazy" decoding="async"
                   src={sageSolvesSticker}
                   alt="Sage solves this"
                   style={{
@@ -566,7 +566,7 @@ export default function CaseStudy() {
                     display: "inline-block",
                     marginTop: 24,
                     padding: "12px 32px",
-                    backgroundColor: "var(--accent)",
+                    backgroundColor: "var(--accent-strong)",
                     color: "white",
                     textDecoration: "none",
                     borderRadius: "8px",
@@ -604,7 +604,7 @@ export default function CaseStudy() {
                 { src: mockupUserManagement, alt: "Sage System Admin User Management mockup" },
                 { src: mockupAnalyticsDashboard, alt: "Sage Analytics Dashboard mockup" },
               ].map((m) => (
-                <img
+                <img loading="lazy" decoding="async"
                   key={m.alt}
                   src={m.src}
                   alt={m.alt}
@@ -701,7 +701,7 @@ export default function CaseStudy() {
           </div>
 
           <div style={{ marginTop: 64, marginBottom: 96 }}>
-            <img
+            <img loading="lazy" decoding="async"
               src={projectOverviewImage}
               alt="Project Overview"
               style={{ width: "100%", height: "auto", display: "block" }}
@@ -758,7 +758,7 @@ export default function CaseStudy() {
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                     flex: 1
                   }}>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={problemUserSticker}
                       alt="Employees Can't Find HR Answers illustration"
                       style={{
@@ -812,7 +812,7 @@ export default function CaseStudy() {
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                     flex: 1
                   }}>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={problemBusinessSticker}
                       alt="HR Team Burnout illustration"
                       style={{
@@ -866,7 +866,7 @@ export default function CaseStudy() {
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                     flex: 1
                   }}>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={problemGoalSticker}
                       alt="Instant, Verified HR Answers illustration"
                       style={{
@@ -980,7 +980,7 @@ export default function CaseStudy() {
                   borderRadius: 12,
                   border: "1px solid rgba(255, 255, 255, 0.08)"
                 }}>
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={personaAdityaSticker}
                     alt="Persona: Aditya - Operations Supervisor"
                     style={{
@@ -1089,7 +1089,7 @@ export default function CaseStudy() {
                   borderRadius: 12,
                   border: "1px solid rgba(255, 255, 255, 0.08)"
                 }}>
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={personaPriyaSticker}
                     alt="Persona: Priya - HR Manager"
                     style={{
@@ -1231,21 +1231,21 @@ export default function CaseStudy() {
                     {/* Stage 1 */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Need Arises</p>
-                      <img src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={adityaStage1} alt="Stage 1 - Aditya: Need arises" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Doesn't know which HR policy document to check</p>
                     </div>
 
                     {/* Stage 2 */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Search & Frustration</p>
-                      <img src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={adityaStage2} alt="Stage 2 - Aditya: Search and frustration" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Jumps between 50+ documents, loses 20 minutes</p>
                     </div>
 
                     {/* Stage 3 */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Give Up & Email</p>
-                      <img src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={adityaStage3} alt="Stage 3 - Aditya: Give up and email" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Sends email, waits overnight for reply</p>
                     </div>
 
@@ -1253,7 +1253,7 @@ export default function CaseStudy() {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
                       <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#0078d4" }}>✓</div>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Gets Answer</p>
-                      <img src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={adityaStage4} alt="Stage 4 - Aditya: Gets instant answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Instant verified answer in 30 seconds</p>
                     </div>
                   </div>
@@ -1286,21 +1286,21 @@ export default function CaseStudy() {
                     {/* Stage 1 */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>01 Email Arrives</p>
-                      <img src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={priyaStage1} alt="Stage 1 - Priya: Email arrives" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Receives the 15th question of the day</p>
                     </div>
 
                     {/* Stage 2 */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>02 Context Switch</p>
-                      <img src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={priyaStage2} alt="Stage 2 - Priya: Context switch" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Stops strategic work to answer repetitive question</p>
                     </div>
 
                     {/* Stage 3 */}
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>03 Finds Answer (Unsure)</p>
-                      <img src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={priyaStage3} alt="Stage 3 - Priya: Finds answer" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Worried the question is affecting her productivity</p>
                     </div>
 
@@ -1308,7 +1308,7 @@ export default function CaseStudy() {
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
                       <div style={{ position: "absolute", top: 0, right: 0, fontSize: 20, color: "#10b981" }}>✓</div>
                       <p style={{ fontSize: 12, fontWeight: 700, color: "#999", textTransform: "uppercase", marginBottom: 12 }}>04 Focus on Strategy</p>
-                      <img src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
+                      <img loading="lazy" decoding="async" src={priyaStage4} alt="Stage 4 - Priya: Focus on strategy" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 12 }} />
                       <p style={{ fontSize: 12, color: "#333", lineHeight: 1.4, margin: 0, textAlign: "center" }}>Chatbot handles 80% of questions; focuses on strategy</p>
                     </div>
                   </div>
@@ -1440,7 +1440,7 @@ export default function CaseStudy() {
 
               {caseStudy.ideation.wireframes.image && (
                 <div style={{ marginTop: 24 }}>
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={caseStudy.ideation.wireframes.image}
                     alt="Sage Wireframe - Admin Document Upload Sketch"
                     style={{ width: "100%", height: "auto", borderRadius: "8px" }}
@@ -1481,7 +1481,7 @@ export default function CaseStudy() {
 
               {caseStudy.design.lowFidelity.image && (
                 <div style={{ marginTop: 24 }}>
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={caseStudy.design.lowFidelity.image}
                     alt="Sage HR Chatbot Low-Fidelity Design"
                     style={{ width: "100%", height: "auto", borderRadius: "8px" }}
@@ -1542,7 +1542,7 @@ export default function CaseStudy() {
 
               {caseStudy.design.highFidelity.image && (
                 <div style={{ marginTop: 24 }}>
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={caseStudy.design.highFidelity.image}
                     alt="Sage HR Chatbot High-Fidelity Design"
                     style={{ width: "100%", height: "auto", borderRadius: "8px" }}
@@ -1590,7 +1590,7 @@ export default function CaseStudy() {
 
                 {caseStudy.design.visualDesign.image && (
                   <div style={{ marginTop: 24 }}>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={caseStudy.design.visualDesign.image}
                       alt="Sage Admin Document Management UI, full screen"
                       style={{ width: "100%", height: "auto", borderRadius: "8px" }}
@@ -1607,7 +1607,7 @@ export default function CaseStudy() {
                       <div style={{ display: "flex", gap: 16 }}>
                         {caseStudy.design.visualDesign.collapsedLogoImage && (
                           <div style={{ flex: 1 }}>
-                            <img
+                            <img loading="lazy" decoding="async"
                               src={caseStudy.design.visualDesign.collapsedLogoImage}
                               alt="Sidebar brand mark — collapsed state"
                               style={{ width: "100%", height: 360, objectFit: "contain", objectPosition: "top", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
@@ -1617,7 +1617,7 @@ export default function CaseStudy() {
                         )}
                         {caseStudy.design.visualDesign.expandedLogoImage && (
                           <div style={{ flex: 1 }}>
-                            <img
+                            <img loading="lazy" decoding="async"
                               src={caseStudy.design.visualDesign.expandedLogoImage}
                               alt="Sidebar brand mark — expanded state"
                               style={{ width: "100%", height: 360, objectFit: "contain", objectPosition: "top", borderRadius: "6px", border: "1px solid rgba(0,0,0,0.08)" }}
@@ -1694,7 +1694,7 @@ export default function CaseStudy() {
               {caseStudy.testing.iterations.images && caseStudy.testing.iterations.images.length > 0 && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {caseStudy.testing.iterations.images.map((img, idx) => (
-                    <img
+                    <img loading="lazy" decoding="async"
                       key={idx}
                       src={img}
                       alt="Sage Analytics and AI Insights Dashboard"

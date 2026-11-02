@@ -2,14 +2,17 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import "./styles/sage/index.css";
 import SmoothScroll from "./lib/SmoothScroll";
 // import CustomCursor from "./components/CustomCursor";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import CaseStudy from "./pages/CaseStudy";
-import SageApp from "./pages/sage/SageApp";
+
+// Route-level code splitting: the case study (1.9k lines) and the Sage app
+// (a full product UI) are only downloaded when a visitor navigates to them.
+const CaseStudy = lazy(() => import("./pages/CaseStudy"));
+const SageApp = lazy(() => import("./pages/sage/SageApp"));
 
 function PageTransition({ children }) {
   return (
@@ -34,11 +37,13 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-        <Route path="/case-studies/:slug" element={<PageTransition><CaseStudy /></PageTransition>} />
-        <Route path="/sage" element={<SageApp />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+          <Route path="/case-studies/:slug" element={<PageTransition><CaseStudy /></PageTransition>} />
+          <Route path="/sage" element={<SageApp />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 }
@@ -60,8 +65,11 @@ function AppContent() {
   return (
     <SmoothScroll>
       {/* <CustomCursor /> */}
+      <a href="#main" className="skip-link">Skip to content</a>
       <Nav />
-      <AnimatedRoutes />
+      <main id="main" tabIndex={-1}>
+        <AnimatedRoutes />
+      </main>
     </SmoothScroll>
   );
 }

@@ -88,7 +88,7 @@ export default function SageApp() {
               style={{
                 padding: '8px 16px',
                 backgroundColor: activeRole === role.id ? 'rgba(26, 117, 219, 0.08)' : '#ffffff',
-                color: activeRole === role.id ? '#1A75DB' : '#374151',
+                color: activeRole === role.id ? '#1560BD' : '#374151',
                 border: `1px solid ${activeRole === role.id ? '#1A75DB' : '#d1d5db'}`,
                 borderRadius: '999px',
                 cursor: 'pointer',
