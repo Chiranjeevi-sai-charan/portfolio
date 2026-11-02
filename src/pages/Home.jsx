@@ -9,11 +9,11 @@ import TestimonialCarousel from "../components/TestimonialCarousel";
 // see src/components/DogWorld/. Re-enable by uncommenting this import
 // and its mount point below in the hero section.
 // import DogWorld from "../components/DogWorld/DogWorld";
-import profilePic from "../assets/Profile Pic No Bg.png";
+import profilePic from "../assets/Profile Pic No Bg.webp";
 import achievementPic from "../assets/Achievement.jpg";
 import TimeBackground from "../components/TimeBackground";
 import useDocumentHead from "../hooks/useDocumentHead";
-import comingSoonImage from "../assets/Coming soon.png";
+import comingSoonImage from "../assets/Coming soon.webp";
 import figmaLogo from "../assets/Figma Logo.png";
 import chatgptLogo from "../assets/ChatGPT Logo.png";
 import chatgptLogoWhite from "../assets/chatgpt-white-logo.png";
@@ -22,7 +22,7 @@ import mothersonLogo from "../assets/Motherson Logo.png";
 import deloitteLogo from "../assets/Deloitte Logo.png";
 import deloitteLogoWhite from "../assets/White Deloitte Logo.png";
 import gitamLogo from "../assets/GITAM Logo.jpg";
-import sageThumbnail from "../assets/User and Chatbot V1.png";
+import sageThumbnail from "../assets/User and Chatbot V1.webp";
 import styles from "./Home.module.css";
 
 // Custom glyphs for tools with no real brand icon available (a
@@ -170,6 +170,8 @@ export default function Home() {
           <motion.img
             src={profilePic}
             alt="Chiranjeevi Sai Charan Kondaka"
+            fetchPriority="high"
+            decoding="async"
             className={styles.heroPortrait}
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -265,11 +267,11 @@ export default function Home() {
                 {job.logo && (
                   job.logoDark ? (
                     <span className={styles.experienceLogoWrap}>
-                      <img src={job.logo} alt={job.company} className={`${styles.experienceLogo} ${styles.iconLight}`} />
-                      <img src={job.logoDark} alt={job.company} className={`${styles.experienceLogo} ${styles.iconDark}`} />
+                      <img loading="lazy" decoding="async" src={job.logo} alt={job.company} className={`${styles.experienceLogo} ${styles.iconLight}`} />
+                      <img loading="lazy" decoding="async" src={job.logoDark} alt={job.company} className={`${styles.experienceLogo} ${styles.iconDark}`} />
                     </span>
                   ) : (
-                    <img src={job.logo} alt={job.company} className={styles.experienceLogo} />
+                    <img loading="lazy" decoding="async" src={job.logo} alt={job.company} className={styles.experienceLogo} />
                   )
                 )}
                 <div className={styles.experienceCompanyName}>{job.company}</div>
@@ -301,7 +303,7 @@ export default function Home() {
           <Reveal className={styles.experienceRow}>
             <div className={styles.experienceHead}>
               <div className={styles.experienceCompanyHead} style={{ marginBottom: 0 }}>
-                <img src={gitamLogo} alt="GITAM Deemed to be University" className={styles.experienceLogo} />
+                <img loading="lazy" decoding="async" src={gitamLogo} alt="GITAM Deemed to be University" className={styles.experienceLogo} />
                 <div>
                   <div className={styles.experienceRole}>Information Technology</div>
                   <div className={styles.experienceCompany}>GITAM Deemed to be University</div>
@@ -345,7 +347,7 @@ export default function Home() {
                 data-cursor-label="View case study"
               >
                 <div className={styles.cardMedia}>
-                  {c.image ? <img src={c.image} alt={c.title} /> : c.title}
+                  {c.image ? <img loading="lazy" decoding="async" src={c.image} alt={c.title} /> : c.title}
                 </div>
                 <div className={styles.cardBody}>
                   <div className={styles.cardTag}>{c.tag}</div>
@@ -358,7 +360,7 @@ export default function Home() {
           <Reveal delay={CASE_STUDIES.length * 0.08}>
             <div className={`${styles.card} ${styles.cardComingSoon}`}>
               <div className={styles.cardMedia}>
-                <img src={comingSoonImage} alt="More case studies coming soon" />
+                <img loading="lazy" decoding="async" src={comingSoonImage} alt="More case studies coming soon" />
               </div>
               <div className={styles.cardBody}>
                 <div className={styles.cardTag}>In progress</div>
@@ -382,11 +384,11 @@ export default function Home() {
                 {tool.icon ? (
                   tool.iconDark ? (
                     <>
-                      <img src={tool.icon} alt="" className={styles.iconLight} />
-                      <img src={tool.iconDark} alt="" className={styles.iconDark} />
+                      <img loading="lazy" decoding="async" src={tool.icon} alt="" className={styles.iconLight} />
+                      <img loading="lazy" decoding="async" src={tool.iconDark} alt="" className={styles.iconDark} />
                     </>
                   ) : (
-                    <img src={tool.icon} alt="" />
+                    <img loading="lazy" decoding="async" src={tool.icon} alt="" />
                   )
                 ) : (
                   GLYPHS[tool.glyph]
@@ -439,7 +441,7 @@ export default function Home() {
                 data-cursor-label="View certificate"
               >
                 <div className={styles.certThumb}>
-                  <img src={cert.image} alt={`${cert.title} certificate`} loading="lazy" />
+                  <img loading="lazy" decoding="async" src={cert.image} alt={`${cert.title} certificate`} />
                 </div>
                 <div className={styles.certCardBody}>
                   <div>

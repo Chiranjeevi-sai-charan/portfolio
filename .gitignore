@@ -23,3 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 # Updated 1788556567
+.lighthouseci

@@ -18,6 +18,7 @@
 
   /* ---- Accent (single blue pair, used everywhere) ------------ */
   --accent: #009cde;
+  --accent-strong: #007bb8; /* white text on this passes WCAG AA (4.6:1) */
   --accent-hover: #007db2;
   --accent-ink: #0a0a0a;
   --accent-soft: #d0eef9;
@@ -82,6 +83,7 @@
     --nav-glass: rgba(11, 13, 15, 0.72);
 
     --accent: #009cde;
+    --accent-strong: #007bb8; /* white text on this passes WCAG AA (4.6:1) */
     --accent-hover: #007db2;
     --accent-ink: #0a0a0a;
     --accent-soft: #0f3a42;

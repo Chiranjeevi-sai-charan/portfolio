@@ -1,10 +1,10 @@
 import useTimeOfDay from "../hooks/useTimeOfDay";
 // import FlyingSilhouettes from "./FlyingSilhouettes";
-import morningImg from "../assets/dynamic-bg-morning.png";
-import afternoonImg from "../assets/dynamic-bg-afternoon.png";
-import eveningImg from "../assets/dynamic-bg-evening.png";
-import nightImg from "../assets/dynamic-bg-night.png";
-import midnightImg from "../assets/dynamic-bg-midnight.png";
+import morningImg from "../assets/dynamic-bg-morning.webp";
+import afternoonImg from "../assets/dynamic-bg-afternoon.webp";
+import eveningImg from "../assets/dynamic-bg-evening.webp";
+import nightImg from "../assets/dynamic-bg-night.webp";
+import midnightImg from "../assets/dynamic-bg-midnight.webp";
 import styles from "./TimeBackground.module.css";
 
 const IMAGES = {
@@ -26,7 +26,7 @@ export default function TimeBackground() {
   return (
     <div className={styles.wrap} aria-hidden="true">
       {Object.entries(IMAGES).map(([p, src]) => (
-        <img
+        <img decoding="async"
           key={p}
           src={src}
           alt=""

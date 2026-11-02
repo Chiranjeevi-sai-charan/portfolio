@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
+    "lighthouse": "npm run build && lhci autorun && node scripts/lighthouse-summary.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "react-router-dom": "^7.18.3"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.1.0",

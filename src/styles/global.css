@@ -72,3 +72,23 @@ html.lenis, html.lenis body { height: auto; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Skip link: hidden until keyboard-focused, lets keyboard users bypass the nav */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  transform: translateY(-200%);
+  transition: transform 0.15s;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+main:focus {
+  outline: none;
+}

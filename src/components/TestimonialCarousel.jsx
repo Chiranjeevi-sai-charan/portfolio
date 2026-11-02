@@ -87,6 +87,8 @@ export default function TestimonialCarousel({ testimonials }) {
             <motion.button
               key={i}
               onClick={() => handleDotClick(i)}
+              aria-label={`Go to testimonial ${i + 1}`}
+              aria-current={activeIndex === i ? 'true' : undefined}
               className={`${styles.dot} ${activeIndex === i ? styles.active : ''}`}
               whileHover={{ scale: 1.3 }}
               whileTap={{ scale: 0.9 }}
