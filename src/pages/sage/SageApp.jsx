@@ -2,9 +2,16 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { EmployeeChatbot, AdminDashboard, SystemAdminDashboard, MaterialIcon, ToastProvider } from '../../components/sage-product';
 import { resetSageDemoData } from '../../utils/storage';
+import useDocumentHead from '../../hooks/useDocumentHead';
 
 export default function SageApp() {
   const [activeRole, setActiveRole] = useState('employee');
+
+  useDocumentHead({
+    title: 'Sage Interactive Demo',
+    description: 'Try Sage, an AI-powered HR assistant: chat as an employee, manage documents as HR admin, or view analytics as a system admin.',
+    path: '/sage',
+  });
 
   // Public demo: reset users/documents to the known-good baseline on every
   // page load so nothing a visitor uploads or edits outlives the session.
