@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: { port: process.env.PORT ? parseInt(process.env.PORT) : 5174 },
+  server: { port: process.env.PORT ? Number.parseInt(process.env.PORT) : 5174 },
   build: {
     rollupOptions: {
       output: {

@@ -184,7 +184,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
         ref={triggerRef}
         style={triggerStyles}
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+          }
+        }}
         role="button"
+        tabIndex={0}
         aria-haspopup="menu"
         aria-expanded={isOpen}
       >

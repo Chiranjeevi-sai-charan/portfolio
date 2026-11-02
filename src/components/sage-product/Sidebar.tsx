@@ -404,7 +404,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 {item.label}
               </div>
-              {item.badge && expanded && (
+              {!!item.badge && expanded && (
                 <div style={badgeStyles}>{item.badge > 99 ? '99+' : item.badge}</div>
               )}
               {hasChildren && (

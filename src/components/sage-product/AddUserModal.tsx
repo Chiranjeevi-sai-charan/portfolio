@@ -62,7 +62,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
       setError(t(language, 'fillNameEmail'));
       return;
     }
-    if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       setError(t(language, 'invalidEmail'));
       return;
     }

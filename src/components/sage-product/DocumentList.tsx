@@ -41,11 +41,11 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
 
   const departmentOptions = useMemo(
-    () => Array.from(new Set(documents.map((d) => d.department))).sort(),
+    () => Array.from(new Set(documents.map((d) => d.department))).sort((a, b) => a.localeCompare(b)),
     [documents]
   );
   const contentTypeOptions = useMemo(
-    () => Array.from(new Set(documents.map((d) => d.contentType).filter(Boolean))).sort(),
+    () => Array.from(new Set(documents.map((d) => d.contentType).filter(Boolean))).sort((a, b) => a.localeCompare(b)),
     [documents]
   );
 
