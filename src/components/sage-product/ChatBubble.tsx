@@ -241,14 +241,18 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 
   const handleCopy = () => {
     if (message) {
-      navigator.clipboard.writeText(stripCitationMarkers(message));
-      showToast(language === 'ja' ? 'コピーしました' : 'Copied to clipboard', 'success');
+      navigator.clipboard
+        .writeText(stripCitationMarkers(message))
+        .then(() => showToast(language === 'ja' ? 'コピーしました' : 'Copied to clipboard', 'success'))
+        .catch(() => showToast(language === 'ja' ? 'コピーできませんでした' : 'Could not copy to clipboard', 'error'));
     }
   };
 
   const handleShare = () => {
     if (message) {
-      navigator.clipboard.writeText(stripCitationMarkers(message));
+      navigator.clipboard.writeText(stripCitationMarkers(message)).catch(() => {
+        showToast(language === 'ja' ? 'コピーできませんでした' : 'Could not copy to clipboard', 'error');
+      });
     }
     onShare?.();
     showToast(language === 'ja' ? '共有リンクをコピーしました' : 'Share link copied to clipboard', 'success');
@@ -280,7 +284,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
       if (match.index > lastIndex) {
         nodes.push(text.slice(lastIndex, match.index));
       }
-      const citation = citations?.[parseInt(match[1], 10) - 1];
+      const citation = citations?.[Number.parseInt(match[1], 10) - 1];
       if (citation) {
         nodes.push(
           <button

@@ -54,7 +54,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
 
   const departmentOptions = useMemo(
-    () => Array.from(new Set(users.flatMap((u) => u.departments))).sort(),
+    () => Array.from(new Set(users.flatMap((u) => u.departments))).sort((a, b) => a.localeCompare(b)),
     [users]
   );
 
