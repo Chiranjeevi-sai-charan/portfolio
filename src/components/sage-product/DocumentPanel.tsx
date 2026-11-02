@@ -150,7 +150,7 @@ export const DocumentPanel: React.FC<DocumentPanelProps> = ({ citation, onClose,
 
   return (
     <>
-      <div style={overlayStyles} onClick={onClose} />
+      <div style={overlayStyles} role="presentation" onClick={onClose} />
       <div style={panelStyles} role="dialog" aria-label="Source document viewer">
         <div style={headerStyles}>
           <div style={headerTitleStyles}>

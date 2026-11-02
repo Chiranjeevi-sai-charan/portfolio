@@ -416,6 +416,7 @@ export const UserManagementTable: React.FC<UserManagementTableProps> = ({
                 key={user.id}
                 style={{ ...tbodyTrStyles, backgroundColor: colors['neutral-white'] }}
                 role="row"
+                tabIndex={-1}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLDivElement).style.backgroundColor =
                     colors['neutral-50'];

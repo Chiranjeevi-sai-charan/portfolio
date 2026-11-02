@@ -266,6 +266,14 @@ export const Header: React.FC<HeaderProps> = ({
       <div
         style={logoStyles}
         onClick={onLogoClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onLogoClick?.();
+          }
+        }}
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLDivElement).style.color = colors['sage-green-600'];
         }}
@@ -330,7 +338,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* User Profile */}
         {user && (
-          <div style={userProfileStyles} onClick={onUserClick}>
+          <div
+            style={userProfileStyles}
+            onClick={onUserClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onUserClick?.();
+              }
+            }}
+          >
             <div style={avatarStyles}>{getUserInitials(user.name)}</div>
             <div style={userInfoStyles}>
               <div style={userNameStyles}>{user.name}</div>

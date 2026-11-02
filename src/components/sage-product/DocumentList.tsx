@@ -425,6 +425,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                 key={doc.id}
                 style={tbodyTrStyles}
                 role="row"
+                tabIndex={-1}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLDivElement).style.backgroundColor =
                     colors['neutral-50'];

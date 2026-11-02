@@ -215,7 +215,7 @@ export const SearchChatsModal: React.FC<SearchChatsModalProps> = ({
   let lastSection: string | undefined;
 
   return (
-    <div style={backdropStyles} onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div style={backdropStyles} role="presentation" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div style={panelStyles} role="dialog" aria-label="Search chats">
         <div style={inputRowStyles}>
           <MaterialIcon name="search" size={20} color={colors['neutral-500']} />
